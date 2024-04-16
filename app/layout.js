@@ -1,6 +1,4 @@
 import "./globals.css";
-import { ThemeModeScript } from "flowbite-react";
-
 import { ClerkProvider } from "@clerk/nextjs";
 export const metadata = {
   title: "GigMeApp",
