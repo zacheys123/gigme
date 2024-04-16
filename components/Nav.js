@@ -62,8 +62,9 @@ const Nav = () => {
             Up
           </span>
         </span>
-        <span></span>
-        <UserButton afterSignOutUrl="/sign-in" />
+        <span className="hidden md:flex">
+          <UserButton afterSignOutUrl="/sign-in" />
+        </span>
       </nav>{" "}
     </div>
   );
