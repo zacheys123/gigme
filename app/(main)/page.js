@@ -1,25 +1,20 @@
 "use client";
-import { useUser } from "@auth0/nextjs-auth0/client";
 import Image from "next/image";
-import ImageComponent from "@/components/ImageComponent";
 import bgImage from "@/public/assets/bg-cover.jpg";
 import { Card } from "@/components/ui/card";
-import UserAvatar from "@/components/UserAvatar";
-import UserButton from "@/components/UserButton";
-import { useRouter } from "next/navigation";
+
 import { Footer, TextInput } from "flowbite-react";
-import left from "../../public/assets/left-image.jpg";
-import google from "../../public/assets/goggleplay.png";
-import MobileNav from "@/components/MobileNav";
-import { useEffect } from "react";
-import { CircularProgress } from "@mui/material";
-import { useGlobalContext } from "../Context/store";
+import left from "@/public/assets/left-image.jpg";
+import google from "@/public/assets/goggleplay.png";
+// import { useGlobalContext } from "../Context/store";
 import Nav from "@/components/Nav";
+import ImageComponent from "@/components/ImageComponent";
+import UserButton from "@/components/UserButton";
 export default function Home() {
-  const {
-    authstate: {},
-    setAuthState,
-  } = useGlobalContext();
+  // const {
+  //   authstate: {},
+  //   setAuthState,
+  // } = useGlobalContext();
 
   // if (isLoading) {
   //   return (
