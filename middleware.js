@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs";
 import { authMiddleware } from "@clerk/nextjs";
 export default authMiddleware({
+  publicRoutes: ["api/webhook"],
   // const user = request.cookies.get("appSession");
   // if (!user) {
   //   return NextResponse.redirect(new URL("/", request.url));

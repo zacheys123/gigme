@@ -37,7 +37,7 @@ const Nav = () => {
   // }, [user?.sub]);
   if (!isLoaded) {
     return (
-      <div className=" h-screen w-full bg-yellow-200">
+      <div className=" h-screen w-full bg-slate-800">
         <div className="flex justify-center items-center h-screen flex-col">
           <CircularProgress size="100px" />
           <span className="mt-2 text-base text-white font-bold">
