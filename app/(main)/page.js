@@ -34,7 +34,7 @@ export default function Home() {
     );
   }
   return (
-    <main className="min-h-screen xl:container">
+    <main className="min-h-screen xl:container p-0">
       <ImageComponent bgCover={bgImage} />
       <Nav />
       <div className="h-[70vh] w-100 flex justify-center items-center">
