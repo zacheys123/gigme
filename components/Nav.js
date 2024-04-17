@@ -5,19 +5,13 @@ import { CircularProgress } from "@mui/material";
 // import { useGlobalContext } from "@/app/Context/store";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
+import Logo from "./Logo";
 const Nav = async () => {
   const { userId } = auth();
   return (
-    <div className="bg-gray-600 top-0">
+    <div className="bg-gray-300 shadow-lg top-0">
       <nav className="container mx-auto max-w-[100vw] xl:w-[60vw] p-3 bg-cyan-800 flex items-center justify-between">
-        <Link href="/" className="tracking-tighter cursor-pointer">
-          <span className=" bg-pink-100 text-red-500 font-bold p-1 rounded-b-xl shadow-red-500">
-            GigMe
-          </span>
-          <span className=" text-yellow-100 font-bold p-1 shadow-blue-500">
-            Up
-          </span>
-        </Link>
+        <Logo />
         <span className="hidden md:flex">
           {userId ? (
             <UserButton afterSignOutUrl="/" />
