@@ -11,6 +11,7 @@ import Nav from "@/components/Nav";
 import ImageComponent from "@/components/ImageComponent";
 import UserButton from "@/components/UserButton";
 import { CircularProgress } from "@mui/material";
+import { useAuth } from "@clerk/nextjs";
 export default function Home() {
   // const {
   //   authstate: {},
