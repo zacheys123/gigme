@@ -2,6 +2,7 @@ import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { createOrUpdateUser, deleteUser } from "@/lib/actions/user";
+import { NextResponse } from "next/server";
 
 export async function POST(req) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
@@ -21,9 +22,12 @@ export async function POST(req) {
 
   // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new Response("Error occured -- no svix headers", {
-      status: 400,
-    });
+    return NextResponse.json(
+      { message: "Error occured -- no svix headers" },
+      {
+        status: 400,
+      }
+    );
   }
 
   // Get the body
@@ -43,10 +47,12 @@ export async function POST(req) {
       "svix-signature": svix_signature,
     });
   } catch (err) {
-    console.error("Error verifying webhook:", err);
-    return new Response("Error occured", {
-      status: 400,
-    });
+    return NextResponse.json(
+      { message: "Error occured" },
+      {
+        status: 400,
+      }
+    );
   }
 
   //Handle event
@@ -64,7 +70,10 @@ export async function POST(req) {
         email_Addresses,
         username
       );
-      return NextResponse.json("User is created or updated", { status: 200 });
+      return NextResponse.json(
+        { message: "User is created or updated" },
+        { status: 200 }
+      );
     } catch (error) {
       return NextResponse.json(
         { message: error },
@@ -78,7 +87,7 @@ export async function POST(req) {
     try {
       const { id } = evt?.data;
       await deleteUser(id);
-      return NextResponse.json("User is deleted", { status: 200 });
+      return NextResponse.json({ message: "User is deleted" }, { status: 200 });
     } catch (error) {
       console.log(error);
       return NextResponse.json({ message: error }, { status: 500 });
