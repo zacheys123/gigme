@@ -10,24 +10,28 @@ import google from "@/public/assets/goggleplay.png";
 import Nav from "@/components/Nav";
 import ImageComponent from "@/components/ImageComponent";
 import UserButton from "@/components/UserButton";
+import { CircularProgress } from "@mui/material";
 export default function Home() {
   // const {
   //   authstate: {},
   //   setAuthState,
   // } = useGlobalContext();
+  const { isLoaded, userId, sessionId, getToken } = useAuth();
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="h-screen w-full">
-  //       <div className="flex justify-center items-center h-screen flex-col">
-  //         <CircularProgress size="100px" />
-  //         <span className="mt-2 text-2xl font-bold">
-  //           Please wait a moment :)..
-  //         </span>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  const { isSignedIn, user } = useUser();
+
+  if (!isLoaded) {
+    return (
+      <div className="h-screen w-full">
+        <div className="flex justify-center items-center h-screen flex-col">
+          <CircularProgress size="100px" />
+          <span className="mt-2 text-2xl font-bold">
+            Please wait a moment :)..
+          </span>
+        </div>
+      </div>
+    );
+  }
   return (
     <main className="min-h-screen xl:container">
       <ImageComponent bgCover={bgImage} />
