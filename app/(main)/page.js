@@ -9,9 +9,9 @@ import google from "@/public/assets/goggleplay.png";
 // import { useGlobalContext } from "../Context/store";
 import Nav from "@/components/Nav";
 import ImageComponent from "@/components/ImageComponent";
-import UserButton from "@/components/UserButton";
+import UsersButton from "@/components/UsersButton";
 import { CircularProgress } from "@mui/material";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 export default function Home() {
   // const {
   //   authstate: {},
@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <main className="min-h-screen xl:container p-0">
       <ImageComponent bgCover={bgImage} />
-      <Nav />
+
       <div className="h-[70vh] w-100 flex justify-center items-center">
         <div className=" flex-col gap-4 text-2xl xl:text-7xl text-center md:flex-row md:text-6xl">
           <div>
@@ -60,12 +60,12 @@ export default function Home() {
       </div>
       <Card className="container mx-auto max-w-[80vw] h-[230px] p-4 text-center flex flex-col gap-4 xl:w-[60vw]">
         <span className="Ffont-bold tracking-tighter  text-2xl ">
-          For more information on what gigmeApp is,contact us here.Send us ur
+          For more information on what gigmeup is,contact us here.Send us ur
           feedback or concern.
         </span>
         <form>
           <TextInput type="text" placeholder="Give us feedback" />
-          <UserButton
+          <UsersButton
             onClick={() => console.log("Email Button clicked!!!")}
             title="Send FeedBack"
             className="w-[140px]  bg-purple-600 border border-yellow-300 rounded-full py-3  text-white my-3 hover:bg-slate-500"
@@ -81,7 +81,7 @@ export default function Home() {
               and connect easily with your friends ,get this app
             </span>
           </h1>
-          <UserButton
+          <UsersButton
             onClick={() => console.log("Email Button clicked!!!")}
             title="Google Play"
             className="md:w-[20vw] mx-auto flex md:gap-1 bg-white  border border-black rounded-xl  text-white md:my-3  my-2 mb-3 md:-mb-[30px]  px-3   md:px-0 py-1 md:py-2"
