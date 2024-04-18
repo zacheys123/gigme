@@ -19,8 +19,8 @@ const SearchPage = () => {
         </div>
       </form>
 
-      <div className=" bg-gray-100/80 ml-[40px] w-[300px] rounded-xl p-3">
-        <div className="flex gap-2">
+      <div className=" bg-gray-800/80 ml-[40px] text-neutral-400 w-[300px] rounded-xl p-2">
+        <div className="flex gap-4 items-center ">
           {" "}
           <Avatar className="rounded-full" />
           <div>
