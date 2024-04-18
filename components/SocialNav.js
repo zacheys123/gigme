@@ -12,7 +12,7 @@ const SocialNav = () => {
   const { isSignedIn, user } = useUser();
 
   return (
-    <div className="bg-gray-300 shadow-lg  top-0 ">
+    <div className="bg-gray-300 shadow-lg   top-0 ">
       <nav className="hidden md:flex container mx-auto max-w-[90vw] xl:w-[60vw] py-[7px]  px-3  items-center justify-between">
         <div>
           <Logo />

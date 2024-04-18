@@ -1,3 +1,4 @@
+import QueryProvider from "@/components/provider";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 export const metadata = {
@@ -8,9 +9,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className="min-h-screen bg-gray-200 ">{children}</body>
-      </html>
+      <QueryProvider>
+        <html lang="en">
+          <body className="min-h-screen bg-gray-200 ">{children}</body>
+        </html>
+      </QueryProvider>
     </ClerkProvider>
   );
 }

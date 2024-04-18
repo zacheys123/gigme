@@ -20,6 +20,7 @@ const Authenticate = () => {
 
     const data = await res.json();
     console.log(data);
+    window?.localStorage.setItem("user", JSON.stringify(data?.results));
     if (data?.userstatus === false) {
       return router.push("/gigme/social");
     } else {

@@ -25,7 +25,7 @@ export async function POST(req) {
       return NextResponse.json({
         userstatus: false,
         message: "User already exists",
-        results: user,
+        results: existingUser,
       });
     } else {
       const newUser = new User({
