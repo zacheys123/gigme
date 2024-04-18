@@ -9,7 +9,7 @@ const SearchPage = () => {
       <form className="absolute w-[100vw] ">
         <div className=" flex justify-center items-center">
           <Input
-            className="w-[85vw] mx-2 my-10 bg-black text-neutral-300"
+            className="w-[100vw] mx-4 my-10 bg-black text-neutral-300"
             id="search"
             type="text"
             placeholder="Find anyone/username/instrument..."
