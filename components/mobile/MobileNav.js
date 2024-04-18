@@ -15,8 +15,10 @@ const MobileNav = () => {
         <Logo />
       </Box>{" "}
       <div>
-        <span className="font-bold  text-gray-600/50 ">Logged User: </span>
-        <span className="font-bold text-neutral-600/40 font-mono">
+        <span className="font-bold text-[12px] text-gray-600/50 ">
+          Logged User:{" "}
+        </span>
+        <span className="font-bold text-[13px] text-neutral-600/40 font-mono">
           {user?.emailAddresses[0]?.emailAddress}
         </span>
       </div>
