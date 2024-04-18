@@ -25,37 +25,37 @@ const SocialNav = () => {
                 type="text"
                 placeholder="Find anyone/username/instrument..."
               />
-              <Search className=" text-neutral-400" />
+              <Search className=" text-neutral-400 cursor-pointer" />
             </div>
           </form>
         </div>{" "}
         <div className="flex gap-2 items-center justify-evenly">
           <Link
-            className="font-bold  font-mono text-base text-gray-300  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
+            className="font-bold  font-mono text-base text-neutral-600  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
             href="/"
           >
             Dashboard |
           </Link>
           <Link
-            className="font-bold  font-mono text-base text-gray-300  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
+            className="font-bold  font-mono text-base text-neutral-600  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
             href="/"
           >
             Posts |
           </Link>
           <Link
-            className="font-bold  font-mono text-base text-gray-300  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
+            className="font-bold  font-mono text-base text-neutral-600  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
             href="/"
           >
             Chat |
           </Link>
           <Link
-            className="font-bold  font-mono text-base text-gray-300  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
+            className="font-bold  font-mono text-base text-neutral-600  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
             href="/"
           >
             Profile |
           </Link>
           <Link
-            className="font-bold  font-mono text-base text-gray-300  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
+            className="font-bold  font-mono text-base text-neutral-600  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
             href="/"
           >
             Contact |

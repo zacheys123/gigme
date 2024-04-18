@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Sheet,
@@ -8,38 +9,60 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Home, Menu, Music, Search, Settings } from "lucide-react";
-import { Chat } from "@mui/icons-material";
-import { UserButton } from "@clerk/nextjs";
-const MobileSheet = () => {
+import { Chat, Dashboard } from "@mui/icons-material";
+import { UserButton, auth, useAuth } from "@clerk/nextjs";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+const MobileSheet = ({ textColor }) => {
+  const { userId } = useAuth();
+  const pathname = usePathname();
+
   return (
     <Sheet className="w-100 bg-gray-500">
       <SheetTrigger>
-        <Menu className="font-extrabold text-neutral-600" />
+        <Menu className={`font-extrabold  ${textColor} text-neutral-600 `} />
       </SheetTrigger>
       <SheetContent
         side="bottom"
-        className="w-100 flex flex-row gap-2 justify-around items-center"
+        className="w-100 flex flex-row gap-2 justify-evenly items-center"
       >
-        <SheetHeader className="flex flex-col items-center">
+        {pathname === "/gigme/social" ? (
+          ""
+        ) : (
+          <Link
+            href="/gigme/social"
+            className="flex flex-col items-center gap-3 "
+          >
+            <Home />
+            <SheetDescription>Home</SheetDescription>
+          </Link>
+        )}
+        <Link
+          href="/gigme/dashboard"
+          className="flex flex-col items-center gap-3 "
+        >
           {" "}
-          <Home />
+          <Dashboard />
           <SheetDescription>Dashboard</SheetDescription>
-        </SheetHeader>
-        <SheetHeader className="flex flex-col items-center">
+        </Link>
+        <Link
+          href={`/gigme/search`}
+          className="flex flex-col items-center gap-3"
+        >
           <Search /> <SheetDescription>Search</SheetDescription>
-        </SheetHeader>
-        <SheetHeader className="flex flex-col items-center">
+        </Link>
+        <Link
+          href={`/gigme/gigs/${userId}`}
+          className="flex flex-col items-center gap-3"
+        >
           <Music /> <SheetDescription>Gigs</SheetDescription>
-        </SheetHeader>{" "}
-        <SheetHeader className="flex flex-col items-center">
+        </Link>{" "}
+        <Link href="/gigme/chat" className="flex flex-col items-center gap-3">
           <Chat /> <SheetDescription>Chat</SheetDescription>
-        </SheetHeader>{" "}
-        <SheetHeader className="flex flex-col items-center">
+        </Link>{" "}
+        <Link href="/settings" className="flex flex-col items-center gap-3">
           <Settings /> <SheetDescription>Settings</SheetDescription>
-        </SheetHeader>{" "}
-        <SheetHeader>
-          <UserButton afterSignOutUrl="/" className="" />
-        </SheetHeader>{" "}
+        </Link>{" "}
       </SheetContent>
     </Sheet>
   );

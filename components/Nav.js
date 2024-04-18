@@ -6,6 +6,8 @@ import { CircularProgress } from "@mui/material";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import Logo from "./Logo";
+import MobileNav from "./mobile/MobileNav";
+import MobileSheet from "./mobile/MobileSheet";
 const Nav = async () => {
   const { userId } = auth();
   return (
@@ -31,6 +33,7 @@ const Nav = async () => {
             </div>
           )}{" "}
         </span>
+        <MobileSheet textColor="text-white" />
       </nav>{" "}
     </div>
   );
