@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { UserButton, useAuth, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import Logo from "./Logo";
@@ -7,7 +7,7 @@ import MobileNav from "./mobile/MobileNav";
 import { TextInput } from "flowbite-react";
 import { Search } from "lucide-react";
 import UsersButton from "./UsersButton";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useGlobalContext } from "@/app/Context/store";
 import { Avatar } from "@mui/material";
 import { global } from "@/actions";
@@ -18,9 +18,9 @@ const SocialNav = () => {
   } = useGlobalContext();
   const router = useRouter();
   const { isLoaded, userId, sessionId, getToken } = useAuth();
-
+  const pathname = usePathname();
   const { isSignedIn, user } = useUser();
-
+  const [searchquery, setSearchQuery] = useState();
   const SearchUser = (ev) => {
     console.log(ev.target.value.length);
     if (ev.target.value.length > 0) {
@@ -37,12 +37,14 @@ const SocialNav = () => {
           <Logo />
         </div>
         <div>
-          <form>
+          <form className=" hidden md:flex ml-3">
             <div className="flex items-center justify-center gap-1">
               {" "}
               <TextInput
+                value={searchquery}
                 type="text"
                 placeholder="Find anyone/username/instrument..."
+                onChange={(ev) => setSearchQuery(ev.target.value)}
                 onKeyUp={SearchUser}
               />
               <Search className=" text-neutral-400 cursor-pointer" />
@@ -75,7 +77,7 @@ const SocialNav = () => {
             Profile |
           </Link>
           <UsersButton
-            title="Contact"
+            title="Contact Us"
             className="font-mono rounded-xl border-2 px-3 py-1  bg-yellow-500 text-white hover:bg-yellow-500/50 hover:text-gray-100"
             onClick={() => router.push("/gigme/contact")}
           />
@@ -85,6 +87,24 @@ const SocialNav = () => {
         </div>
       </nav>
       <MobileNav />
+      {!pathname === "/search" && (
+        <div className="flex md:hidden ml-3 w-100  mt-3 mb-5 ">
+          <form className=" ">
+            <div className="flex items-center  justify-center gap-1  w-full">
+              {" "}
+              <TextInput
+                value={searchquery}
+                className="w-[450px] "
+                type="text"
+                placeholder="Find anyone/username/instrument..."
+                onChange={(ev) => setSearchQuery(ev.target.value)}
+                onKeyUp={SearchUser}
+              />
+              <Search className=" text-neutral-400 cursor-pointer" />
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 };

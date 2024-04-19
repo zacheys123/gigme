@@ -6,7 +6,7 @@ export async function GET(req, { params }) {
   console.log(params);
   try {
     await connectDb();
-    const user = await User.find({ _id: params?.id });
+    const user = await User.find({ clerkId: params?.id });
     let OnlyUser = user.map((onlyuser) => {
       return onlyuser;
     });

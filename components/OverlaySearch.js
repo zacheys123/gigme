@@ -18,11 +18,11 @@ const OverlaySearch = () => {
     },
   };
   return (
-    <Transition variant={variant} className="absolute">
-      <div className="md:z-50 md:bg-black md:h-screen md:w-screen opacity-100">
+    <Transition variant={variant} className="absolute bg-green-500">
+      <div className="md:flex md:z-50  md:bg-black md:h-screen md:w-screen  ">
         <div
           onClick={() => router.push(`/users/friends/${searchquery}`)}
-          className="absolute bg-gray-600/60  m-[40px] font-mono text-neutral-300/60 w-[700px] rounded-xl p-2 cursor-pointer hover:bg-gray-500/80 transition ease-in-out delay-150 hover:-translate-x-2 hover:scale-20  duration-300"
+          className="absolute bg-gray-600/60  m-[40px] font-mono text-neutral-300/60 w-[300px] md:w-[700px] rounded-xl p-2 cursor-pointer hover:bg-gray-500/80 transition ease-in-out delay-150 hover:-translate-x-2 hover:scale-20  duration-300"
         >
           <div className="flex gap-4 items-center ">
             {" "}
