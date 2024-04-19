@@ -11,6 +11,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { useGlobalContext } from "@/app/Context/store";
 import { Avatar } from "@mui/material";
 import { global } from "@/actions";
+import OverlaySearch from "./OverlaySearch";
+import { useQuery } from "@tanstack/react-query";
 const SocialNav = () => {
   const {
     userState: { toggle },
@@ -30,6 +32,36 @@ const SocialNav = () => {
     }
   };
 
+  const { status, data, error, isFetching } = useQuery({
+    queryKey: ["userdata"],
+    queryFn: async () => {
+      const res = await fetch(`../api/user/getAllusers/${userId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const { currentuser } = await res.json();
+      console.log(currentuser);
+      return currentuser;
+    },
+  });
+  const searchFn = () => {
+    let sortedData = data;
+    if (searchquery) {
+      sortedData = sortedData.filter((user) => {
+        if (
+          user?.firstname?.toLowerCase().includes(searchquery) ||
+          user?.lastname?.toLowerCase().includes(searchquery) ||
+          user?.username?.toLowerCase().includes(searchquery)
+        ) {
+          return sortedData;
+        }
+      });
+    }
+    return sortedData;
+  };
+
   return (
     <div className="bg-gray-300 shadow-lg   top-0 ">
       <nav className="hidden md:flex container mx-auto max-w-[90vw] xl:w-[60vw] py-[7px]  px-3  items-center justify-between">
@@ -46,8 +78,8 @@ const SocialNav = () => {
                 placeholder="Find anyone/username/instrument..."
                 onChange={(ev) => setSearchQuery(ev.target.value)}
                 onKeyUp={SearchUser}
+                onKeyDown={searchFn}
               />
-              <Search className=" text-neutral-400 cursor-pointer" />
             </div>
           </form>
         </div>{" "}
@@ -86,6 +118,7 @@ const SocialNav = () => {
           {isLoaded ? <UserButton afterSignOutUrl="/" /> : <Avatar />}
         </div>
       </nav>
+      {toggle && <OverlaySearch searchfunc={searchFn()} />}
       <MobileNav />
       {!pathname === "/search" && (
         <div className="flex md:hidden ml-3 w-100  mt-3 mb-5 ">

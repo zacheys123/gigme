@@ -29,12 +29,14 @@ const SocialPage = () => {
     },
   });
 
-  if (isFetching) {
+  if (status === "pending") {
     return <div>Loading...</div>;
   }
   return (
     <div>
-      <h1 className="text-3xl">Welcome ,{data[0]?.firstname}</h1>
+      {status === "success" && (
+        <h1 className="text-3xl">Welcome ,{data[0]?.firstname}</h1>
+      )}
     </div>
   );
 };
