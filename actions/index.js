@@ -1,0 +1,4 @@
+export const global = {
+  TOGGLESEARCH: "TOGGLESEARCH",
+  UNTOGGLESEARCH: "UNTOGGLESEARCH",
+};

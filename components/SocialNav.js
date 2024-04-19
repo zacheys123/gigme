@@ -8,11 +8,27 @@ import { TextInput } from "flowbite-react";
 import { Search } from "lucide-react";
 import UsersButton from "./UsersButton";
 import { useRouter } from "next/navigation";
+import { useGlobalContext } from "@/app/Context/store";
+import { Avatar } from "@mui/material";
+import { global } from "@/actions";
 const SocialNav = () => {
+  const {
+    userState: { toggle },
+    setUserState,
+  } = useGlobalContext();
   const router = useRouter();
   const { isLoaded, userId, sessionId, getToken } = useAuth();
 
   const { isSignedIn, user } = useUser();
+
+  const SearchUser = (ev) => {
+    console.log(ev.target.value.length);
+    if (ev.target.value.length > 0) {
+      setUserState({ type: global.TOGGLESEARCH });
+    } else {
+      setUserState({ type: global.UNTOGGLESEARCH });
+    }
+  };
 
   return (
     <div className="bg-gray-300 shadow-lg   top-0 ">
@@ -27,6 +43,7 @@ const SocialNav = () => {
               <TextInput
                 type="text"
                 placeholder="Find anyone/username/instrument..."
+                onKeyUp={SearchUser}
               />
               <Search className=" text-neutral-400 cursor-pointer" />
             </div>
@@ -41,7 +58,7 @@ const SocialNav = () => {
           </Link>
           <Link
             className="font-bold  font-mono text-base text-neutral-600  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
-            href="/gigme/gigs/1234567id"
+            href={`/gigme/gigs/${userId}`}
           >
             Gigs |
           </Link>
@@ -53,17 +70,19 @@ const SocialNav = () => {
           </Link>
           <Link
             className="font-bold  font-mono text-base text-neutral-600  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
-            href="/gigme/profile/vvbvvb12345id"
+            href={`/gigme/profile/${userId}`}
           >
             Profile |
           </Link>
           <UsersButton
             title="Contact"
-            className="font-mono rounded-xl border-2 px-3 py-1 bg-yellow-500 text-white hover:bg-yellow-500/50 hover:text-gray-100"
+            className="font-mono rounded-xl border-2 px-3 py-1  bg-yellow-500 text-white hover:bg-yellow-500/50 hover:text-gray-100"
             onClick={() => router.push("/gigme/contact")}
           />
         </div>
-        <UserButton afterSignOutUrl="/" />
+        <div className="-mr-[50px] ml-[20px]">
+          {isLoaded ? <UserButton afterSignOutUrl="/" /> : <Avatar />}
+        </div>
       </nav>
       <MobileNav />
     </div>
