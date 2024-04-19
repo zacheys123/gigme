@@ -6,9 +6,30 @@ import { Search, SearchIcon } from "lucide-react";
 import { TextInput, Label } from "flowbite-react";
 import { Avatar } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 const SearchPage = () => {
   const [searchquery, setSearchhQuery] = useState("");
   const router = useRouter();
+  // const id = JSON.parse(window?.localStorage.getItem("user"));
+
+  const { status, data, error, isFetching } = useQuery({
+    queryKey: ["userdata"],
+    queryFn: async () => {
+      const res = await fetch(`../api/user/getAllusers`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      console.log(data);
+      return data;
+    },
+  });
+
+  if (isFetching) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="relative bg-slate-700 w-[100vw] h-[100vh]">
       <form className=" w-[100vw] ">

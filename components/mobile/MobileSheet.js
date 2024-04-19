@@ -13,12 +13,15 @@ import { Chat, Dashboard } from "@mui/icons-material";
 import { UserButton, auth, useAuth } from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-const MobileSheet = ({ textColor }) => {
+const MobileSheet = ({ textColor, hidden }) => {
   const { userId } = useAuth();
   const pathname = usePathname();
 
   return (
-    <Sheet className="w-100 bg-gray-500">
+    <Sheet
+      className={`w-100 bg-gray-500 ${hidden} flex
+  `}
+    >
       <SheetTrigger>
         <Menu className={`font-extrabold  ${textColor} text-neutral-600 `} />
       </SheetTrigger>

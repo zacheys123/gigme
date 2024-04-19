@@ -1,9 +1,9 @@
 import UsersButton from "./UsersButton";
 import { UserButton, auth, useAuth } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
+
 import { CircularProgress } from "@mui/material";
 // import { useGlobalContext } from "@/app/Context/store";
-import { useUser } from "@clerk/nextjs";
+
 import Link from "next/link";
 import Logo from "./Logo";
 import MobileNav from "./mobile/MobileNav";
@@ -33,7 +33,6 @@ const Nav = async () => {
             </div>
           )}{" "}
         </span>
-        <MobileSheet textColor="text-white" />
       </nav>{" "}
     </div>
   );

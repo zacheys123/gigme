@@ -6,7 +6,10 @@ import Logo from "./Logo";
 import MobileNav from "./mobile/MobileNav";
 import { TextInput } from "flowbite-react";
 import { Search } from "lucide-react";
+import UsersButton from "./UsersButton";
+import { useRouter } from "next/navigation";
 const SocialNav = () => {
+  const router = useRouter();
   const { isLoaded, userId, sessionId, getToken } = useAuth();
 
   const { isSignedIn, user } = useUser();
@@ -32,34 +35,33 @@ const SocialNav = () => {
         <div className="flex gap-2 items-center justify-evenly">
           <Link
             className="font-bold  font-mono text-base text-neutral-600  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
-            href="/"
+            href="/gigme/dashboard"
           >
             Dashboard |
           </Link>
           <Link
             className="font-bold  font-mono text-base text-neutral-600  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
-            href="/"
+            href="/gigme/gigs/1234567id"
           >
-            Posts |
+            Gigs |
           </Link>
           <Link
             className="font-bold  font-mono text-base text-neutral-600  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
-            href="/"
+            href="/gigme/chat"
           >
             Chat |
           </Link>
           <Link
             className="font-bold  font-mono text-base text-neutral-600  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
-            href="/"
+            href="/gigme/profile/vvbvvb12345id"
           >
             Profile |
           </Link>
-          <Link
-            className="font-bold  font-mono text-base text-neutral-600  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
-            href="/"
-          >
-            Contact |
-          </Link>
+          <UsersButton
+            title="Contact"
+            className="font-mono rounded-xl border-2 px-3 py-1 bg-yellow-500 text-white hover:bg-yellow-500/50 hover:text-gray-100"
+            onClick={() => router.push("/gigme/contact")}
+          />
         </div>
         <UserButton afterSignOutUrl="/" />
       </nav>
