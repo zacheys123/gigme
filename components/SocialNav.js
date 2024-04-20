@@ -110,11 +110,9 @@ const SocialNav = () => {
           </Link>
           <Link
             className={
-              pathname === `/gigme/profile/${userId}`
-                ? activeLink
-                : inactiveLink
+              pathname === `/v1/profile/${userId}` ? activeLink : inactiveLink
             }
-            href={`/gigme/profile/${userId}`}
+            href={`/v1/profile/${userId}`}
           >
             Profile |
           </Link>
