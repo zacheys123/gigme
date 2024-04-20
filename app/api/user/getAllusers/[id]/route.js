@@ -6,7 +6,7 @@ export async function GET(req, { params }) {
   console.log(params);
   try {
     await connectDb();
-    let currentuser = await User.find();
+    let currentuser = await User.find().collation({ locale: "en", strength: 2 }).exec();;
     currentuser = currentuser.filter((user) => {
       if (user?.clerkId.includes(params.id)) {
         return null;

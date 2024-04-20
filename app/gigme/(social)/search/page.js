@@ -17,7 +17,7 @@ const SearchPage = () => {
   // const id = JSON.parse(window?.localStorage.getItem("user"));
   const { userId } = useAuth();
   const { status, data, error, isFetching } = useQuery({
-    queryKey: ["userdata"],
+    queryKey: ["alluserdata"],
     queryFn: async () => {
       const res = await fetch(`../api/user/getAllusers/${userId}`, {
         method: "GET",

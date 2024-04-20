@@ -22,9 +22,8 @@ const SocialNav = () => {
   const { isLoaded, userId, sessionId, getToken } = useAuth();
   const pathname = usePathname();
   const { isSignedIn, user } = useUser();
-  const [searchquery, setSearchQuery] = useState();
+  const [searchquery, setSearchQuery] = useState("");
   const SearchUser = (ev) => {
-    console.log(ev.target.value.length);
     if (ev.target.value.length > 0) {
       setUserState({ type: global.TOGGLESEARCH });
     } else {
@@ -33,7 +32,7 @@ const SocialNav = () => {
   };
 
   const { status, data, error, isFetching } = useQuery({
-    queryKey: ["userdata"],
+    queryKey: ["alluserdata"],
     queryFn: async () => {
       const res = await fetch(`../api/user/getAllusers/${userId}`, {
         method: "GET",
@@ -49,7 +48,7 @@ const SocialNav = () => {
   const searchFn = () => {
     let sortedData = data;
     if (searchquery) {
-      sortedData = sortedData.filter((user) => {
+      sortedData = sortedData?.filter((user) => {
         if (
           user?.firstname?.toLowerCase().includes(searchquery) ||
           user?.lastname?.toLowerCase().includes(searchquery) ||
@@ -62,6 +61,9 @@ const SocialNav = () => {
     return sortedData;
   };
 
+  const inactiveLink =
+    "font-bold  font-mono text-base text-neutral-600  hover:underline decoration-orange-600 underline-offset-8 hover:opacity-55 transition-transform duration-200;  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out hover:underline decoration-orange-600 underline-offset-8 hover:opacity-55 transition-transform duration-200;";
+  const activeLink = inactiveLink + "text-white bg-neutral-100 rounded-b-xl";
   return (
     <div className="bg-gray-300 shadow-lg   top-0 ">
       <nav className="hidden md:flex container mx-auto max-w-[90vw] xl:w-[60vw] py-[7px]  px-3  items-center justify-between">
@@ -85,25 +87,33 @@ const SocialNav = () => {
         </div>{" "}
         <div className="flex gap-2 items-center justify-evenly">
           <Link
-            className="font-bold  font-mono text-base text-neutral-600  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
+            className={
+              pathname === "/gigme/dashboard" ? activeLink : inactiveLink
+            }
             href="/gigme/dashboard"
           >
             Dashboard |
           </Link>
           <Link
-            className="font-bold  font-mono text-base text-neutral-600  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
+            className={
+              pathname === `/gigme/gigs/${userId}` ? activeLink : inactiveLink
+            }
             href={`/gigme/gigs/${userId}`}
           >
             Gigs |
           </Link>
           <Link
-            className="font-bold  font-mono text-base text-neutral-600  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
+            className={pathname === "/gigme/chat" ? activeLink : inactiveLink}
             href="/gigme/chat"
           >
             Chat |
           </Link>
           <Link
-            className="font-bold  font-mono text-base text-neutral-600  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out"
+            className={
+              pathname === `/gigme/profile/${userId}`
+                ? activeLink
+                : inactiveLink
+            }
             href={`/gigme/profile/${userId}`}
           >
             Profile |

@@ -19,13 +19,26 @@ export async function POST(req) {
         { clerkId: userId, email: params?.emailAddresses[0]?.emailAddress },
       ],
     });
-
+    const updateUser = await User.findOneAndUpdate(
+      { clerkId: userId, email: params?.emailAddresses[0]?.emailAddress },
+      {
+        $set: {
+          firstname: params?.firstName,
+          lastname: params?.lastName,
+          picture: params?.imageUrl,
+          email: params?.emailAddresses[0]?.emailAddress,
+          username: params?.username,
+          phone: params?.phoneNumbers[0]?.phoneNumber,
+          verification: params?.emailAddresses[0]?.verification?.status,
+        },
+      }
+    );
     if (userId && existingUser) {
       console.log("user exists");
       return NextResponse.json({
         userstatus: false,
         message: "User already exists",
-        results: existingUser,
+        results: updateUser,
       });
     } else {
       const newUser = new User({

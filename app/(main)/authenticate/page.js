@@ -24,7 +24,7 @@ const Authenticate = () => {
     if (data?.userstatus === false) {
       return router.push("/gigme/social");
     } else {
-      router.push(`/profile/${userId}`);
+      router.push(`/gigme/profile/${userId}`);
     }
   }, [user, router, userId]);
 

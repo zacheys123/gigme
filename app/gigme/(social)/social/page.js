@@ -5,6 +5,7 @@ import React from "react";
 
 const SocialPage = () => {
   const { userId } = useAuth();
+  console.log(userId);
   const id = () => {
     let data = window?.localStorage.getItem("user");
     if (!data) {

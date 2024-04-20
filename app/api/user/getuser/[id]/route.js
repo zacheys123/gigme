@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import connectDb from "@/lib/connectDb";
 export async function GET(req, { params }) {
+  console.log(params);
   try {
     await connectDb();
     const user = await User.find({ clerkId: params?.id });

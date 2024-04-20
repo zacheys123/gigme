@@ -21,12 +21,13 @@ const userSchema = new mongoose.Schema(
       require: true,
       unique: true,
     },
-    city: { type: Schema.Types.ObjectId, ref: "user" },
-    instrument: { type: Schema.Types.ObjectId, ref: "user" },
-    experience: {
-      type: Schema.Types.ObjectId,
-      ref: "user",
-    },
+    city: { type: String, lowercase: true },
+    date: { type: String, lowercase: true },
+    month: { type: String, lowercase: true },
+    year: { type: String, lowercase: true },
+
+    instrument: { type: String, lowercase: true },
+    experience: { type: String, lowercase: true },
     phone: {
       type: { type: String },
     },
