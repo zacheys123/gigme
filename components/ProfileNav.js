@@ -16,11 +16,11 @@ const ProfileNav = () => {
     inactiveLink +
     "bg-slate-600 text-white w-full p-2 pr-0 rounded-l-xl transition-none hover:bg-gray-800 hover:opacity-100";
   return (
-    <aside className="p-3  bg-white w-[360px] h-screen flex flex-col justify-between">
+    <aside className="hidden xl:flex  p-3  bg-white w-[360px] h-screen  flex-col justify-between">
       <div className="flex-grow bg-neutral-200 flex flex-col gap-3 items-center  p-4 mb-4">
         <Logo />
         <Box>
-          <span className="text-black font-bold mb-3 text-center">
+          <span className="text-black font-bold mb-3 text-center text-heading3">
             Update ,view your data
           </span>
           <div className="mt-[7px] p-4 pr-0">
@@ -68,14 +68,7 @@ const ProfileNav = () => {
               <Music />
               Gigs
             </Link>{" "}
-            <Link
-              className={
-                pathname === `/v1/profile/${userId}/user`
-                  ? activeLink
-                  : inactiveLink
-              }
-              href={`/v1/profile/${userId}/user`}
-            >
+            <Link className={inactiveLink} href={`/sign-out`}>
               <Logout />
               Logout
             </Link>

@@ -1,3 +1,4 @@
+import MediumProfileNav from "@/components/MediumProfileNav";
 import Nav from "@/components/Nav";
 import ProfileNav from "@/components/ProfileNav";
 import Transition from "@/components/Transition";
@@ -19,10 +20,11 @@ const MainLayout = ({ children }) => {
       duration: 0.75,
     },
   };
-  let className = "rounded-xl m-3 p-3 w-full bg-gray-500";
+  let className = "rounded-xl m-3 p-3 w-full ";
   return (
-    <div className="flex  bg-black w-100 h-screen">
+    <div className="flex bg-black w-100 h-screen">
       <ProfileNav />
+      <MediumProfileNav />
       <Transition variant={variant} className={className}>
         {children}
       </Transition>

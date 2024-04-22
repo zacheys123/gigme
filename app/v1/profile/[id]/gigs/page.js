@@ -1,7 +1,7 @@
 import React from "react";
 
-const ProfileGigs = () => {
+const ProfileUser = () => {
   return <div>Profile Gigs</div>;
 };
 
-export default ProfileGigs;
+export default ProfileUser;
