@@ -1,9 +1,9 @@
 import Link from "next/link";
 import React from "react";
 
-const Logo = () => {
+const Logo = ({ flex }) => {
   return (
-    <Link href="/" className="tracking-tighter cursor-pointer">
+    <Link href="/" className={`md:${flex} tracking-tighter cursor-pointer`}>
       <span className=" bg-pink-500/50 text-yellow-200 font-bold p-1 rounded-b-xl shadow-red-500">
         GigMe
       </span>

@@ -124,9 +124,13 @@ const UserProfile = () => {
   };
   return (
     <div className="container h-full flex-col md:flex ">
-      <div className="flex justify-between items-center  md:hidden -mb-[30px]">
-        <Logo />
-        <UserButton />
+      <div className="flex justify-between items-center  xl:hidden -mb-[30px]">
+        <Logo flex="hover:cursor-pointer" />
+        <h3 className="text-white font-bold md:hidden"> Add More Info</h3>
+        <div className="md:hidden">
+          {" "}
+          <UserButton />
+        </div>
       </div>{" "}
       <Box className="block w-full md:flex gap-3 h-full">
         {" "}

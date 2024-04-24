@@ -3,8 +3,10 @@ import MobileProfileNav from "@/components/mobile/MobileProfileNav";
 import Nav from "@/components/Nav";
 import ProfileNav from "@/components/ProfileNav";
 import Transition from "@/components/Transition";
+import Footer from "@/components/Footer";
 import { auth } from "@clerk/nextjs";
 import { Box } from "@mui/material";
+
 import React from "react";
 
 const MainLayout = ({ children }) => {
@@ -33,6 +35,7 @@ const MainLayout = ({ children }) => {
           {children}
         </Transition>
         <MobileProfileNav />
+        <Footer />
       </div>
     </Box>
   );

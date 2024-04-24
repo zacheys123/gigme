@@ -53,8 +53,8 @@ const MediumProfileNav = () => {
               variant={variant}
               className={
                 !navStates.profile
-                  ? "text-white font-mono font-bold absolute ml-10"
-                  : "text-white font-mono font-bold absolute ml-9 bg-gray-700 py-2 px-4 rounded-r-full"
+                  ? "text-white font-mono font-bold  z-50"
+                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-700 py-2 px-4 rounded-r-full"
               }
             >
               Profile
@@ -81,8 +81,8 @@ const MediumProfileNav = () => {
               variant={variant}
               className={
                 !navStates.dashboard
-                  ? "text-white font-mono font-bold absolute ml-10"
-                  : "text-white font-mono font-bold absolute ml-9 bg-gray-700 py-2 px-4 rounded-r-full"
+                  ? "text-white font-mono font-bold  z-50"
+                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-700 py-2 px-4 rounded-r-full"
               }
             >
               Dashboard
@@ -109,8 +109,8 @@ const MediumProfileNav = () => {
               variant={variant}
               className={
                 !navStates.posts
-                  ? "text-white font-mono font-bold absolute ml-10"
-                  : "text-white font-mono font-bold absolute ml-9 bg-gray-700 py-2 px-4 rounded-r-full"
+                  ? "text-white font-mono font-bold  z-50"
+                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-700 py-2 px-4 rounded-r-full"
               }
             >
               Posts
@@ -137,8 +137,8 @@ const MediumProfileNav = () => {
               variant={variant}
               className={
                 !navStates.gigs
-                  ? "text-white font-mono font-bold absolute ml-10"
-                  : "text-white font-mono font-bold absolute ml-9 bg-gray-700 py-2 px-4 rounded-r-full"
+                  ? "text-white font-mono font-bold  z-50"
+                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-700 py-2 px-4 rounded-r-full"
               }
             >
               Gigs
@@ -165,8 +165,8 @@ const MediumProfileNav = () => {
               variant={variant}
               className={
                 !navStates.settings
-                  ? "text-white font-mono font-bold absolute ml-10"
-                  : "text-white font-mono font-bold absolute ml-9 bg-gray-700 py-2 px-4 rounded-r-full"
+                  ? "text-white font-mono font-bold  z-50"
+                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-700 py-2 px-4 rounded-r-full"
               }
             >
               Settings
@@ -193,8 +193,8 @@ const MediumProfileNav = () => {
               variant={variant}
               className={
                 !navStates.logout
-                  ? "text-white font-mono font-bold absolute ml-10"
-                  : "text-white font-mono font-bold absolute ml-9 bg-gray-700 py-2 px-4 rounded-r-full"
+                  ? "text-white font-mono font-bold  z-50"
+                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-700 py-2 px-4 rounded-r-full"
               }
             >
               Logout
