@@ -3,8 +3,17 @@ import React from "react";
 import { Button } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
+import { CircularProgress } from "@mui/material";
 
-const UsersButton = ({ onClick, title, className, image, span, link }) => {
+const UsersButton = ({
+  onClick,
+  title,
+  className,
+  image,
+  span,
+  link,
+  loading,
+}) => {
   return (
     <>
       {link ? (
@@ -35,8 +44,12 @@ const UsersButton = ({ onClick, title, className, image, span, link }) => {
               </div>
             </button>
           ) : (
-            <button onClick={onClick} className={className}>
-              {title}
+            <button type="button" onClick={onClick} className={className}>
+              {!loading ? (
+                title
+              ) : (
+                <CircularProgress size="30px" sx={{ color: "white" }} />
+              )}
             </button>
           )}
         </>

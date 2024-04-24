@@ -1,8 +1,10 @@
 import MediumProfileNav from "@/components/MediumProfileNav";
+import MobileProfileNav from "@/components/mobile/MobileProfileNav";
 import Nav from "@/components/Nav";
 import ProfileNav from "@/components/ProfileNav";
 import Transition from "@/components/Transition";
 import { auth } from "@clerk/nextjs";
+import { Box } from "@mui/material";
 import React from "react";
 
 const MainLayout = ({ children }) => {
@@ -22,13 +24,17 @@ const MainLayout = ({ children }) => {
   };
   let className = "rounded-xl m-3 p-3 w-full ";
   return (
-    <div className="flex bg-black w-100 h-screen">
+    <Box className="flex bg-black w-screen h-screen">
       <ProfileNav />
       <MediumProfileNav />
-      <Transition variant={variant} className={className}>
-        {children}
-      </Transition>
-    </div>
+
+      <div className="flex flex-col items-center md:w-full xl:w-full">
+        <Transition variant={variant} className={className}>
+          {children}
+        </Transition>
+        <MobileProfileNav />
+      </div>
+    </Box>
   );
 };
 

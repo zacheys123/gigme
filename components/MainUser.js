@@ -15,7 +15,7 @@ const MainUser = ({ user }) => {
           className="rounded-full"
           alt="profile image"
         />
-        <div>
+        <div className="w-full flex justify-center">
           <div className="flex flex-col gap-2">
             {user?.firstname} {user.lastname}
           </div>

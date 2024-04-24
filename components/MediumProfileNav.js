@@ -1,5 +1,5 @@
 "use client";
-import { useAuth } from "@clerk/nextjs";
+import { UserButton, useAuth } from "@clerk/nextjs";
 import { Dashboard, Logout, PostAdd } from "@mui/icons-material";
 import { Home, Music, Settings, User } from "lucide-react";
 import Image from "next/image";
@@ -27,7 +27,7 @@ const MediumProfileNav = () => {
   };
   return (
     <div
-      className={`flex xl:hidden w-[30px]  flex-col gap-3  justify-center items-center `}
+      className={`hidden md:flex xl:hidden w-[30px]  flex-col gap-3  justify-center items-center `}
     >
       <aside className="bg-gray-700 p-3  flex flex-col justify-center items-center gap-10 text-white ">
         <Link href={`/gigme/social`}>
@@ -201,6 +201,7 @@ const MediumProfileNav = () => {
             </Transition>
           )}
         </Link>
+        <UserButton />
       </aside>
     </div>
   );

@@ -11,7 +11,7 @@ const ProfileNav = () => {
   const { userId } = useAuth();
   const pathname = usePathname();
   let inactiveLink =
-    "flex gap-2 mx-3 my-[20px] text-1xl  font-bold  font-mono    hover:opacity-55 transition-transform duration-200  hover:bg-gray-300/80 p-2 transition-opacity duration-175 ease-out ";
+    "flex gap-2 md:mx-3 md:my-[20px] x:my-[30px] xl:mx-[6] xl:text-[20px] text-1xl  font-bold  font-mono    hover:opacity-55 transition-transform duration-200  hover:bg-gray-300/80 md:p-2 xl:p-5 transition-opacity duration-175 ease-out ";
   let activeLink =
     inactiveLink +
     "bg-slate-600 text-white w-full p-2 pr-0 rounded-l-xl transition-none hover:bg-gray-800 hover:opacity-100";
