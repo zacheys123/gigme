@@ -6,9 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import Transition from "./Transition";
+import { usePathname } from "next/navigation";
 
 const MediumProfileNav = () => {
   const { userId } = useAuth();
+  const pathname = usePathname();
   const [navStates, setNavStates] = useState({
     profile: false,
     dashboard: false,
@@ -25,11 +27,13 @@ const MediumProfileNav = () => {
       duration: 0.25,
     },
   };
+  let inactiveLink = "";
+  let activeLink = "bg-red-500 text-2xl  rounded-xl";
   return (
     <div
       className={`hidden md:flex xl:hidden w-[30px]  flex-col gap-3  justify-center items-center `}
     >
-      <aside className="bg-gray-700 p-3  flex flex-col justify-center items-center gap-10 text-white ">
+      <aside className="bg-gray-400 shadow-xl rounded-md p-3  flex flex-col justify-center items-center gap-10 text-white ">
         <Link href={`/gigme/social`}>
           <Home />
         </Link>
@@ -47,14 +51,20 @@ const MediumProfileNav = () => {
             })
           }
         >
-          <User />
+          <User
+            className={
+              pathname === `/v1/profile/${userId}/user`
+                ? activeLink
+                : inactiveLink
+            }
+          />
           {navStates.profile && (
             <Transition
               variant={variant}
               className={
                 !navStates.profile
                   ? "text-white font-mono font-bold  z-50"
-                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-700 py-2 px-4 rounded-r-full"
+                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-400 py-2 px-4 rounded-r-full"
               }
             >
               Profile
@@ -75,14 +85,20 @@ const MediumProfileNav = () => {
             })
           }
         >
-          <Dashboard />
+          <Dashboard
+            className={
+              pathname === `/v1/profile/${userId}/dashboard`
+                ? activeLink
+                : inactiveLink
+            }
+          />
           {navStates.dashboard && (
             <Transition
               variant={variant}
               className={
                 !navStates.dashboard
                   ? "text-white font-mono font-bold  z-50"
-                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-700 py-2 px-4 rounded-r-full"
+                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-400 py-2 px-4 rounded-r-full"
               }
             >
               Dashboard
@@ -103,14 +119,20 @@ const MediumProfileNav = () => {
           }
           className="flex items-center"
         >
-          <PostAdd />{" "}
+          <PostAdd
+            className={
+              pathname === `/v1/profile/${userId}/posts`
+                ? activeLink
+                : inactiveLink
+            }
+          />{" "}
           {navStates.posts && (
             <Transition
               variant={variant}
               className={
                 !navStates.posts
                   ? "text-white font-mono font-bold  z-50"
-                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-700 py-2 px-4 rounded-r-full"
+                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-400 py-2 px-4 rounded-r-full"
               }
             >
               Posts
@@ -131,14 +153,20 @@ const MediumProfileNav = () => {
             })
           }
         >
-          <Music />{" "}
+          <Music
+            className={
+              pathname === `/v1/profile/${userId}/gigs`
+                ? activeLink
+                : inactiveLink
+            }
+          />{" "}
           {navStates.gigs && (
             <Transition
               variant={variant}
               className={
                 !navStates.gigs
                   ? "text-white font-mono font-bold  z-50"
-                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-700 py-2 px-4 rounded-r-full"
+                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-400 py-2 px-4 rounded-r-full"
               }
             >
               Gigs
@@ -146,7 +174,7 @@ const MediumProfileNav = () => {
           )}
         </Link>{" "}
         <Link
-          href={`/v1/profile/${userId}/gigs`}
+          href={`/v1/profile/${userId}/settings`}
           className="flex items-center"
           onMouseOver={() =>
             setNavStates((prev) => {
@@ -159,14 +187,20 @@ const MediumProfileNav = () => {
             })
           }
         >
-          <Settings />{" "}
+          <Settings
+            className={
+              pathname === `/v1/profile/${userId}/settings`
+                ? activeLink
+                : inactiveLink
+            }
+          />{" "}
           {navStates.settings && (
             <Transition
               variant={variant}
               className={
                 !navStates.settings
                   ? "text-white font-mono font-bold  z-50"
-                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-700 py-2 px-4 rounded-r-full"
+                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-400 py-2 px-4 rounded-r-full"
               }
             >
               Settings
@@ -194,7 +228,7 @@ const MediumProfileNav = () => {
               className={
                 !navStates.logout
                   ? "text-white font-mono font-bold  z-50"
-                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-700 py-2 px-4 rounded-r-full"
+                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-400 py-2 px-4 rounded-r-full"
               }
             >
               Logout

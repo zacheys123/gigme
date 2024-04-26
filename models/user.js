@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema(
     date: { type: String, lowercase: true },
     month: { type: String, lowercase: true },
     year: { type: String, lowercase: true },
+    address: { type: String, lowercase: true },
 
     instrument: { type: String, lowercase: true },
     experience: { type: String, lowercase: true },

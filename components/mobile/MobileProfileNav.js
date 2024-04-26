@@ -23,7 +23,7 @@ const MobileProfileNav = () => {
     <div
       className={` md:hidden xl:hidden w-full  flex  justify-center items-center `}
     >
-      <bottom className="bg-gray-700 p-3  flex  justify-center items-center gap-10 text-white ">
+      <section className="bg-gray-700 p-3  flex  justify-center items-center gap-10 text-white ">
         <Link href={`/gigme/social`}>
           <Home />
         </Link>
@@ -118,7 +118,7 @@ const MobileProfileNav = () => {
         >
           <Logout />
         </Link>
-      </bottom>
+      </section>
     </div>
   );
 };

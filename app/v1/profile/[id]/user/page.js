@@ -5,26 +5,52 @@ import React, { useEffect, useState } from "react";
 import myimage from "@/public/assets/left-image.jpg";
 import { Input } from "@/components/ui/input";
 import UsersButton from "@/components/UsersButton";
-import { Label, Select } from "flowbite-react";
+import Transition from "@/components/Transition";
+import { Label, Select, TextInput } from "flowbite-react";
 import { instruments, experiences } from "@/data";
 import { UserButton, useAuth } from "@clerk/nextjs";
 import { useQuery } from "@tanstack/react-query";
 import Logo from "@/components/Logo";
 const UserProfile = () => {
   const { userId } = useAuth();
+  // Get current User
+  const { status, data, error, isFetching } = useQuery({
+    queryKey: ["userdata"],
+    queryFn: async () => {
+      const res = await fetch(
+        `/api/user/getuser/${userId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+        {}
+      );
+      const { OnlyUser } = await res.json();
+
+      return OnlyUser;
+    },
+  });
+  //
+
   const [firstname, setFirstname] = useState("");
   const [email, setEmail] = useState("");
   const [lastname, setLastname] = useState("");
   const [phone, setPhone] = useState("");
   const [username, setUsername] = useState("");
+  const [address, setAddress] = useState("");
   const [verification, setVerify] = useState("");
   const [instrument, setInstrument] = useState("Piano");
   const [experience, setExperience] = useState("noexp");
   const [age, setAge] = useState("1");
   const [city, setCity] = useState("");
-  const [month, setMonth] = useState("january");
+  const [month, setMonth] = useState();
   const [year, setYear] = useState("");
-  const [message, setMessage] = useState({ error: "", success: "" });
+  const [message, setMessage] = useState({
+    error: "",
+    success: "",
+  });
 
   const [loading, setLoading] = useState(false);
 
@@ -47,20 +73,7 @@ const UserProfile = () => {
     22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
   ];
 
-  const { status, data, error, isFetching } = useQuery({
-    queryKey: ["userdata"],
-    queryFn: async () => {
-      const res = await fetch(`/api/user/getuser/${userId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const { OnlyUser } = await res.json();
-
-      return OnlyUser;
-    },
-  });
+  const [updateFetch, setFetch] = useState(false);
   useEffect(() => {
     if (status === "success") {
       setFirstname(data[0]?.firstname);
@@ -69,8 +82,15 @@ const UserProfile = () => {
       setUsername(data[0]?.username);
       setVerify(`Email Status: ${data[0]?.verification}`);
       setEmail(data[0]?.email);
+      setCity(data[0]?.city);
+      setExperience(data[0]?.experience);
+      setInstrument(data[0]?.instrument);
+      setYear(data[0]?.year);
+      setMonth(data[0]?.month);
+      setAge(data[0]?.date);
+      setAddress(data[0]?.address);
     }
-  }, [data, status]);
+  }, [data, status, updateFetch]);
   const handleUpdate = async () => {
     let datainfo = {
       city: city,
@@ -79,6 +99,7 @@ const UserProfile = () => {
       age: age,
       month: month,
       year: year,
+      address,
     };
 
     if (status === "success") {
@@ -93,20 +114,25 @@ const UserProfile = () => {
         });
         let resdata = await res.json();
         console.log(resdata);
-        if (resdata.success) {
-          // setMessage((prev) => {
-          //   return { ...prev, success: resdata.message };
-          // });
+        if (resdata.updateStatus === true) {
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
+          setMessage((prev) => {
+            return { ...prev, success: resdata.message };
+          });
+          setFetch(true);
+
           // setCity((prev) => prev===resdata?.userdata?.city);
 
           setLoading(false);
         } else {
           setLoading(false);
-          setTimeout(() => {
-            setMessage((prev) => {
-              return { ...prev, error: "" };
-            });
-          }, 3000);
+
+          setMessage((prev) => {
+            return { ...prev, error: "" };
+          });
+
           setMessage((prev) => {
             return { ...prev, error: resdata.message };
           });
@@ -122,8 +148,29 @@ const UserProfile = () => {
     }
     setLoading(false);
   };
+  let variant2 = {
+    initial: {
+      x: ["-400px", "-300px", "-100px", "0px", "50px", "100px", "140px", "0"],
+      opacity: 0,
+    },
+    animate: { x: 0, opacity: 1 },
+    transition: {
+      duration: 0.5,
+      ease: "easeInOut",
+    },
+  };
+  const removeBtn = () => {
+    return (
+      !city ||
+      (!address && !instrument) ||
+      !experience ||
+      !age ||
+      !month ||
+      !year
+    );
+  };
   return (
-    <div className="container h-full flex-col md:flex ">
+    <div className="container h-full flex-col md:flex overflow-auto">
       <div className="flex justify-between items-center  xl:hidden -mb-[30px]">
         <Logo flex="hover:cursor-pointer" />
         <h3 className="text-white font-bold md:hidden"> Add More Info</h3>
@@ -148,24 +195,65 @@ const UserProfile = () => {
             Add More Info
           </h2>
           <form className="w-full h-full  md:w-[700px]">
-            <Input type="text" className="mt-4" value={firstname} disabled />
-            <Input
-              type="text"
-              className="mt-4"
-              value={lastname}
-              disabled
-            />{" "}
-            <Input type="text" className="mt-4" value={email} disabled />{" "}
-            <Input type="text" className="mt-4" value={username} disabled />{" "}
-            <Input type="text" className="mt-4" value={phone} disabled />
-            <Input type="text" className="mt-4" value={verification} disabled />
-            <Input
-              type="text"
-              className="mt-4"
-              placeholder="City"
-              value={city}
-              onChange={(ev) => setCity(ev.target.value)}
-            />
+            <div className="bg-white h-[165px] mt-3">
+              <div className="flex flex-col -gap-[40px]">
+                <span className="text-black font-bold font-mono m-3">
+                  FullNames
+                </span>
+                <Input type="text" className="" value={firstname} disabled />
+              </div>
+              <Input type="text" className="" value={lastname} disabled />
+            </div>
+            <div className="bg-white h-[165px] mt-3">
+              <div className="flex flex-col -gap-[40px]">
+                <span className="text-black font-bold font-mono m-3">
+                  Authorization Info
+                </span>
+                <Input type="text" className="" value={email} disabled />
+              </div>
+              <Input type="text" className="" value={username} disabled />
+            </div>{" "}
+            <div className="bg-white h-[165px] mt-3">
+              <div className="flex flex-col -gap-[40px]">
+                <span className="text-black font-bold font-mono m-3">
+                  More Info
+                </span>
+                <Input type="text" className="" value={phone} disabled />
+              </div>
+              <Input type="text" className="" value={verification} disabled />
+            </div>{" "}
+            <div className="bg-white h-[200px] mt-3">
+              <div className="flex flex-col -gap-[40px]">
+                <span className="text-black font-bold font-mono m-3">
+                  Personal Info
+                </span>
+                <TextInput
+                  type="text"
+                  className={
+                    message?.error?.split(" ").includes("City") && city === ""
+                      ? "border border-red-500 rounded-md outline-none w-[320px]  mx-auto focus:ring-0 md:w-[650px] xl:w-[670px]"
+                      : "mt-3 border-neutral-300 w-[320px] md:w-[650px] xl:w-[670px] mx-auto focus:ring-0 "
+                  }
+                  placeholder="City"
+                  value={city}
+                  onChange={(ev) => setCity(ev.target.value)}
+                />
+              </div>
+              <TextInput
+                type="text"
+                className="mt-3 border-neutral-300 w-[320px] md:w-[650px] mx-auto focus:ring-0 xl:w-[670px]"
+                placeholder="Addresss 1/P.O BOX"
+                value={address}
+                onChange={(ev) => setAddress(ev.target.value)}
+              />
+              {message?.error?.split(" ").includes("City") && city === "" && (
+                <div className="ml-3 mt-3 w-full ">
+                  <span className="text-red-500 font-bold font-mono">
+                    {message.error}
+                  </span>
+                </div>
+              )}
+            </div>{" "}
             <Select
               value={instrument}
               className="mt-[7px]"
@@ -182,7 +270,7 @@ const UserProfile = () => {
             </Select>
             <Select
               value={experience}
-              className="mt-[7px]"
+              className="mt-[5px]"
               placeholder="Experience"
               onChange={(ev) => setExperience(ev.target.value)}
             >
@@ -194,10 +282,8 @@ const UserProfile = () => {
                 );
               })}
             </Select>
-            <span className="w-full ">
-              <span className="font-bold font-mono  text-white mb-[2rem]">
-                Date
-              </span>
+            <div className="w-full  h-[200px]">
+              <span className="font-bold font-mono  text-white ">Date</span>
               <Select value={age} onChange={(ev) => setAge(ev.target.value)}>
                 {myarray.map((i) => {
                   return (
@@ -207,54 +293,61 @@ const UserProfile = () => {
                   );
                 })}
               </Select>
-            </span>
-            <span className="w-full ">
-              <span className="font-bold font-mono ml-[4px]  text-white">
-                Month
-              </span>
-              <Select
-                value={month}
-                placeholder="Experience"
-                onChange={(ev) => setMonth(ev.target.value)}
-              >
-                {months.map((ex) => {
-                  return (
-                    <option key={ex} value={ex}>
-                      {ex}
-                    </option>
-                  );
-                })}
-              </Select>
-            </span>
-            <span className="w-full  text-white  ">
-              <span className="font-bold font-mono ml-[4px]  text-white">
-                Year
-              </span>
-              <Input
-                value={year}
-                onChange={(ev) => setYear(ev.target.value)}
-                type="text"
-                className=" text-black"
-                placeholder="Year,e.g 1992=>92 or 2024 =>24"
-              />
-            </span>
-            {message.error && (
-              <div className="mt-3 w-full ">
-                <span className="text-red-500">{message.error}</span>
-              </div>
-            )}
-            {message.success && (
-              <div className="mt-3 w-full">
-                <span className="text-green-500 text-center">
-                  {message.success}
+              <span className="w-full ">
+                <span className="font-bold font-mono ml-[4px]  text-white">
+                  Month
                 </span>
-              </div>
-            )}
+                <Select
+                  value={month}
+                  onChange={(ev) => setMonth(ev.target.value)}
+                >
+                  {months.map((ex) => {
+                    return (
+                      <option key={ex} value={ex}>
+                        {ex}
+                      </option>
+                    );
+                  })}
+                </Select>
+              </span>
+              <span className="w-full  text-white  ">
+                <span className="font-bold font-mono ml-[4px]  text-white">
+                  Year
+                </span>
+                <TextInput
+                  value={year}
+                  onChange={(ev) => setYear(ev.target.value)}
+                  type="text"
+                  className={
+                    message?.error?.split(" ").includes("year") && year === ""
+                      ? "border-2 border-red-500 rounded-xl  outline-none focus:ring-0 "
+                      : "mt-3 border-neutral-300    focus:ring-0 "
+                  }
+                  placeholder="Year,e.g 1992=>92 or 2024 =>24"
+                />
+              </span>
+              {message?.error?.split(" ").includes("year") && year === "" && (
+                <div className="ml-3 mb-4 w-full ">
+                  <span className="text-red-500 font-bold font-mono">
+                    {message.error}{" "}
+                  </span>
+                </div>
+              )}
+              {message.success && (
+                <Transition
+                  variant={variant2}
+                  className="text-green-500 mx-[250px] mt-3 text-center"
+                >
+                  {message.success}
+                </Transition>
+              )}
+            </div>
             <div className="w-full flex justify-center m-4">
               <UsersButton
+                disabled={loading}
                 loading={loading}
                 title="Update"
-                className="text-white mt-[20px] bg-blue-600 p-2 w-[240px] font-sans rounded-xl text-center hover:bg-blue-200/70 hover:text-orange-200 font-bold"
+                className="text-white mt-[50px] bg-purple-700 p-2 w-[210px] font-sans rounded-xl text-center hover:bg-blue-200/70 hover:text-orange-200 font-bold"
                 onClick={handleUpdate}
               />
             </div>

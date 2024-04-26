@@ -4,6 +4,7 @@ import React from "react";
 
 const FriendsProfilePage = () => {
   const { search } = useParams();
+  console.log(search);
 
   return <div>A friend is Found Here</div>;
 };

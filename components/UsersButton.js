@@ -13,6 +13,7 @@ const UsersButton = ({
   span,
   link,
   loading,
+  disabled,
 }) => {
   return (
     <>
@@ -44,7 +45,12 @@ const UsersButton = ({
               </div>
             </button>
           ) : (
-            <button type="button" onClick={onClick} className={className}>
+            <button
+              disabled={disabled}
+              type="button"
+              onClick={onClick}
+              className={className}
+            >
               {!loading ? (
                 title
               ) : (

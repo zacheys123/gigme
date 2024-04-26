@@ -64,22 +64,22 @@ export const experiences = () => {
     {
       id: 2,
       val: "1yrs",
-      name: "one",
+      name: "one-year",
     },
     {
       id: 3,
       val: "2-5yrs",
-      name: "two-to-five",
+      name: "two-to-five-years",
     },
     {
       id: 4,
       val: "5-10yrs",
-      name: "five-to-10",
+      name: "five-to-10 yrs",
     },
     {
       id: 5,
       val: "more than 10",
-      name: "more-than-10",
+      name: "more-than-10yrs",
     },
   ];
   return mydata;

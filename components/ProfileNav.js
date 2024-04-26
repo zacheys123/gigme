@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useAuth } from "@clerk/nextjs";
 import { Music, User } from "lucide-react";
 import { Dashboard, Logout, PostAdd } from "@mui/icons-material";
-import { Avatar, Box } from "@mui/material";
+import { Avatar, Box, Divider } from "@mui/material";
 import Logo from "./Logo";
 const ProfileNav = () => {
   const { userId } = useAuth();
@@ -35,6 +35,7 @@ const ProfileNav = () => {
               <User />
               More Info
             </Link>
+            <Divider />
             <Link
               className={
                 pathname === `/v1/profile/${userId}/dashboard`
@@ -45,7 +46,8 @@ const ProfileNav = () => {
             >
               <Dashboard />
               DashBoard
-            </Link>{" "}
+            </Link>
+            <Divider />{" "}
             <Link
               className={
                 pathname === `/v1/profile/${userId}/posts`
@@ -56,7 +58,8 @@ const ProfileNav = () => {
             >
               <PostAdd />
               Posts
-            </Link>{" "}
+            </Link>
+            <Divider />{" "}
             <Link
               className={
                 pathname === `/v1/profile/${userId}/gigs`
@@ -67,11 +70,13 @@ const ProfileNav = () => {
             >
               <Music />
               Gigs
-            </Link>{" "}
+            </Link>
+            <Divider />{" "}
             <Link className={inactiveLink} href={`/sign-out`}>
               <Logout />
               Logout
             </Link>
+            <Divider />
           </div>
         </Box>
       </div>{" "}
