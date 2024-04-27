@@ -4,32 +4,35 @@ import { Box } from "@mui/material";
 import { Footer } from "flowbite-react";
 import Link from "next/link";
 
-const SettingsPage = () => {
+const SkeletonUser = () => {
   return (
     <div className="overflow-auto h-[calc(100vh-20px)] bg-gray-700/70 w-full">
       <div className="bg-gray-300 shadow-lg top-0 sticky">
         <nav className="container mx-auto max-w-[100vw] xl:w-[60vw] shadow-lg p-3 bg-gray-500 flex items-center justify-between">
           <Link
             href="/gigme/social"
-            className={`w-[60px] rounded-full bg-gray-400 h-[20px]`}
-          ></Link>
+            className={` tracking-tighter hover:cursor-pointer`}
+          >
+            <span className=" bg-pink-500/50 text-yellow-200 font-bold p-1 rounded-b-xl shadow-red-500"></span>
+            <span className=" text-green-300 bg-white rounded-r-xl  font-bold p-1 shadow-blue-500"></span>
+          </Link>
           <span className="flex items-center">
             <div className="flex flex-grow gap-5 items-center">
               <Link href="/gigme/social" className="text-white">
-                <div className="bg-gray-400/40 w-[20px] h-[20px] rounded-full"></div>
+                <div className="bg-gray-200 w-[20px] rounded-full"></div>
               </Link>
               <Link href="/gigme/chat" className="text-white">
-                <div className="bg-gray-400/40 w-[20px] h-[20px] rounded-full"></div>
+                <div className="bg-gray-200 w-[20px] rounded-full"></div>
               </Link>
               <div>
                 <Link href="/gigme/notify" className="text-white">
-                  <div className="bg-gray-400/40 w-[20px] h-[20px] rounded-full"></div>
+                  <div className="bg-gray-200 w-[20px] rounded-full"></div>
                 </Link>
               </div>
               <Link href="/gigme/search" className="text-white">
-                <div className="bg-gray-400/40 w-[20px] h-[20px] rounded-full"></div>
+                <div className="bg-gray-200 w-[20px] rounded-full"></div>
               </Link>
-              <div className="bg-gray-400/40 w-[20px] h-[20px] rounded-full"></div>
+              <div className="bg-gray-200 w-[20px] rounded-full"></div>
             </div>
           </span>
         </nav>{" "}
@@ -92,4 +95,4 @@ const SettingsPage = () => {
   );
 };
 
-export default SettingsPage;
+export default SkeletonUser;

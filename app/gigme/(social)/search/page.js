@@ -48,13 +48,13 @@ const SearchPage = () => {
 
   return (
     <div className=" w-[100vw] h-[100vh] ">
-      <div className="relative bg-slate-700 w-[100vw] h-[100vh] md:hidden">
+      <div className="relative bg-slate-800/70 w-[100vw] h-[100vh] md:hidden">
         <form className=" w-[100vw] ">
           <div className=" flex justify-center items-center">
             <Input
               onChange={(ev) => setSearchhQuery(ev.target.value)}
               value={searchquery}
-              className="w-[100vw] mx-4 my-10 bg-black text-neutral-300"
+              className="w-[100vw] mx-4 my-10 bg-black text-neutral-200 placeholder-red-600"
               id="search"
               type="text"
               placeholder="Find anyone/username/instrument..."

@@ -1,5 +1,6 @@
 "use client";
 import MyFooter from "@/components/Footer";
+import SkeletonUser from "@/components/SkeletonUser";
 import UsersButton from "@/components/UsersButton";
 import FriendsMobileNav from "@/components/mobile/FriendsMobileNav";
 import MobileProfileNav from "@/components/mobile/MobileProfileNav";
@@ -35,7 +36,7 @@ const FriendsProfilePage = () => {
     setFollow((prev) => !prev);
   };
   if (status === "pending") {
-    return <div>Loading...</div>;
+    <SkeletonUser />;
   }
 
   return (

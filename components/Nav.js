@@ -13,6 +13,14 @@ import { AiFillMessage } from "react-icons/ai";
 import { IoHome } from "react-icons/io5";
 import { IoSearch } from "react-icons/io5";
 import { FaBell } from "react-icons/fa";
+import { Chat, Pages, QuestionAnswer } from "@mui/icons-material";
+import {
+  Info,
+  MailQuestion,
+  MedalIcon,
+  MessageCircleQuestion,
+  User,
+} from "lucide-react";
 
 const Nav = async () => {
   const { userId } = auth();
@@ -23,24 +31,41 @@ const Nav = async () => {
         <span className="flex items-center">
           {userId ? (
             <div className="flex flex-grow gap-5 items-center">
-              <Link href="/gigme/social" className="text-white">
-                <IoHome size="20px" />
+              <Link
+                href="/gigme/social"
+                className="ml-4 text-white flex flex-col gap-2 items hover:bg-gray-200 hover:text-neutral-800 hover:scale-100 md:p-2 rounded-full  transition-all duration-75"
+              >
+                <span>
+                  Gigme <span className="hidden ml-2 md:inline-flex">|</span>
+                </span>
+                <MedalIcon size="20px" className="md:hidden" />
               </Link>
-              <Link href="/gigme/chat" className="text-white">
-                <Badge badgeContent={4} color="warning">
-                  <AiFillMessage size="20px" />
-                </Badge>
+
+              <Link
+                href="/gigme/about"
+                className="mr-9 text-white flex flex-col gap-2 items hover:bg-gray-200 hover:text-neutral-800 hover:scale-100 p-2 rounded-full  transition-all duration-75"
+              >
+                <span>
+                  {" "}
+                  About<span className="hidden ml-2 md:inline-flex">|</span>
+                </span>
+                <Info size="20px" className="md:hidden" />
               </Link>
-              <div>
-                <Link href="/gigme/notify" className="text-white">
-                  <Badge badgeContent={4} color="warning">
-                    {" "}
-                    <FaBell size="20px" />
-                  </Badge>
-                </Link>
-              </div>
-              <Link href="/gigme/search" className="text-white">
-                <IoSearch size="20px" />
+              <Link
+                href="/gigme/about"
+                className="-ml-12 mr-4 text-white flex flex-col gap-2 items hover:bg-gray-200 hover:text-neutral-800 hover:scale-100 p-2 rounded-full  transition-all duration-75"
+              >
+                <span>
+                  Profile <span className="hidden ml-2 md:inline-flex">|</span>
+                </span>
+                <User size="20px" className="md:hidden" />
+              </Link>
+              <Link
+                href="/gigme/about"
+                className="-ml-6 text-white flex flex-col gap-2 items hover:bg-gray-200 hover:text-neutral-800 hover:scale-100 p-2 rounded-full  transition-all duration-75"
+              >
+                Faq
+                <MessageCircleQuestion size="20px" className="md:hidden" />
               </Link>
               <UserButton afterSignOutUrl="/" />
             </div>
@@ -50,12 +75,12 @@ const Nav = async () => {
               <UsersButton
                 link="/sign-in"
                 title="SignIn"
-                className="text-white font-arial bg-slate-800 py-[6px] hover:bg-slate-600  px-3 w-[80px] border border-yellow-500  rounded-xl "
+                className="mr-6 text-white font-arial bg-slate-800 py-[6px] hover:bg-slate-600  px-3 w-[80px] border border-yellow-500  rounded-xl "
               />{" "}
               <UsersButton
                 link="/sign-up"
                 title="SignUp"
-                className="text-white font-arial bg-white-800 py-[6px] hover:bg-slate-600  px-3 w-[80px] border border-yellow-500  rounded-xl "
+                className="mr-6 text-white font-arial bg-white-800 py-[6px] hover:bg-slate-600  px-3 w-[80px] border border-yellow-500  rounded-xl "
               />{" "}
             </div>
           )}{" "}
