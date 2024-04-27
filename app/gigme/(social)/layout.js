@@ -1,5 +1,5 @@
 "use client";
-import SocialNav from "@/components/SocialNav";
+import SocialNav from "@/components/GigmeNav";
 import { useAuth, useUser } from "@clerk/nextjs";
 import React, { useCallback } from "react";
 import { useEffect } from "react";

@@ -27,7 +27,7 @@ const OverlaySearch = ({ searchfunc }) => {
             return (
               <div
                 key={user?._id}
-                onClick={() => router.push(`/users/friends/${user?.username}`)}
+                onClick={() => router.push(`/friends/${user?.username}`)}
                 className=" bg-gray-600/60  my-[15px] mx-[35px] font-mono text-neutral-300/60 w-[300px] md:w-[700px] rounded-xl p-2 cursor-pointer hover:bg-gray-500/80 transition ease-in-out delay-150 hover:-translate-x-2 hover:scale-20  duration-300"
               >
                 <div className="flex gap-4 items-center ">

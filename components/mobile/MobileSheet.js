@@ -8,7 +8,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Home, Menu, Music, Search, Settings } from "lucide-react";
+import { Home, Menu, Music, Search, Settings, User } from "lucide-react";
 import { Chat, Dashboard } from "@mui/icons-material";
 import { UserButton, auth, useAuth } from "@clerk/nextjs";
 import Link from "next/link";
@@ -19,7 +19,7 @@ const MobileSheet = ({ textColor, hidden }) => {
 
   return (
     <Sheet
-      className={`w-100 bg-gray-500 ${hidden} flex
+      className={`w-100 bg-gray-500 md:hidden ${hidden} flex
   `}
     >
       <SheetTrigger>
@@ -53,6 +53,12 @@ const MobileSheet = ({ textColor, hidden }) => {
           className="flex flex-col items-center gap-3"
         >
           <Search /> <SheetDescription>Search</SheetDescription>
+        </Link>{" "}
+        <Link
+          href={`/v1/profile/${userId}`}
+          className="flex flex-col items-center gap-3"
+        >
+          <User /> <SheetDescription>Profile</SheetDescription>
         </Link>
         <Link
           href={`/gigme/gigs/${userId}`}

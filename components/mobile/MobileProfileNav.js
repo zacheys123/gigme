@@ -1,7 +1,15 @@
 "use client";
 import { UserButton, useAuth } from "@clerk/nextjs";
-import { Dashboard, Logout, PostAdd } from "@mui/icons-material";
-import { Home, Music, Settings, User } from "lucide-react";
+
+import {
+  Home,
+  LayoutDashboard,
+  LogOut,
+  Music,
+  Podcast,
+  Settings,
+  User,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -25,98 +33,28 @@ const MobileProfileNav = () => {
     >
       <section className="bg-gray-700 p-3  flex  justify-center items-center gap-10 text-white ">
         <Link href={`/gigme/social`}>
-          <Home />
+          <Home size="15px" />
         </Link>
-        <Link
-          href={`/v1/profile/${userId}/user`}
-          onMouseOver={() =>
-            setNavStates((prev) => {
-              return { ...prev, profile: true };
-            })
-          }
-          onMouseOut={() =>
-            setNavStates((prev) => {
-              return { ...prev, profile: false };
-            })
-          }
-        >
-          <User />
+        <Link href={`/v1/profile/${userId}/user`}>
+          <User size="15px" />
         </Link>{" "}
-        <Link
-          href={`/v1/profile/${userId}/dashboard`}
-          onMouseOver={() =>
-            setNavStates((prev) => {
-              return { ...prev, dashboard: true };
-            })
-          }
-          onMouseOut={() =>
-            setNavStates((prev) => {
-              return { ...prev, dashboard: false };
-            })
-          }
-        >
-          <Dashboard />
+        <Link href={`/v1/profile/${userId}/dashboard`}>
+          <LayoutDashboard size="15px" />
         </Link>{" "}
         <Link
           href={`/v1/profile/${userId}/posts`}
-          onMouseOver={() =>
-            setNavStates((prev) => {
-              return { ...prev, posts: true };
-            })
-          }
-          onMouseOut={() =>
-            setNavStates((prev) => {
-              return { ...prev, posts: false };
-            })
-          }
           className="flex items-center"
         >
-          <PostAdd />
+          <Podcast size="15px" />
         </Link>{" "}
-        <Link
-          href={`/v1/profile/${userId}/gigs`}
-          onMouseOver={() =>
-            setNavStates((prev) => {
-              return { ...prev, gigs: true };
-            })
-          }
-          onMouseOut={() =>
-            setNavStates((prev) => {
-              return { ...prev, gigs: false };
-            })
-          }
-        >
-          <Music />
+        <Link href={`/v1/profile/${userId}/gigs`}>
+          <Music size="15px" />
         </Link>{" "}
-        <Link
-          href={`/v1/profile/${userId}/gigs`}
-          onMouseOver={() =>
-            setNavStates((prev) => {
-              return { ...prev, settings: true };
-            })
-          }
-          onMouseOut={() =>
-            setNavStates((prev) => {
-              return { ...prev, settings: false };
-            })
-          }
-        >
-          <Settings />
+        <Link href={`/v1/profile/${userId}/gigs`}>
+          <Settings size="15px" />
         </Link>
-        <Link
-          href={`/sign-out`}
-          onMouseOver={() =>
-            setNavStates((prev) => {
-              return { ...prev, logout: true };
-            })
-          }
-          onMouseOut={() =>
-            setNavStates((prev) => {
-              return { ...prev, logout: false };
-            })
-          }
-        >
-          <Logout />
+        <Link href={`/sign-out`}>
+          <LogOut size="15px" />
         </Link>
       </section>
     </div>

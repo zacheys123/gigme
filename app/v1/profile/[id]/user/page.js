@@ -11,6 +11,7 @@ import { instruments, experiences } from "@/data";
 import { UserButton, useAuth } from "@clerk/nextjs";
 import { useQuery } from "@tanstack/react-query";
 import Logo from "@/components/Logo";
+import Link from "next/link";
 const UserProfile = () => {
   const { userId } = useAuth();
   // Get current User
@@ -170,10 +171,26 @@ const UserProfile = () => {
     );
   };
   return (
-    <div className="container h-full flex-col md:flex overflow-auto">
+    <div
+      className="container md:h-full
+    h-[calc(100vh-100px)] flex-col md:flex overflow-auto"
+    >
       <div className="flex justify-between items-center  xl:hidden -mb-[30px]">
-        <Logo flex="hover:cursor-pointer" />
-        <h3 className="text-white font-bold md:hidden"> Add More Info</h3>
+        <Link
+          href="/gigme/social"
+          className="tracking-tighter hover:cursor-pointer "
+        >
+          <span className=" bg-pink-500/50 text-[12px] text-yellow-200 font-bold p-1 rounded-b-xl shadow-red-500">
+            GigMe
+          </span>
+          <span className="text-[12px] text-green-300 bg-white rounded-r-xl  font-bold p-1 shadow-blue-500">
+            Up
+          </span>
+        </Link>
+        <h3 className="text-white font-bold md:hidden text-[12px]">
+          {" "}
+          Add More Info
+        </h3>
         <div className="md:hidden">
           {" "}
           <UserButton />
@@ -191,7 +208,7 @@ const UserProfile = () => {
           />
         </Box>
         <div className="w-full flex-col flex justify-center items-center md:w-50 py-7 h-[800px] ">
-          <h2 className="text-white font-bold text-[15px] hidden md:flex text-center">
+          <h2 className=" text-white font-bold text-[15px] hidden md:flex text-center">
             Add More Info
           </h2>
           <form className="w-full h-full  md:w-[700px]">
@@ -336,7 +353,7 @@ const UserProfile = () => {
               {message.success && (
                 <Transition
                   variant={variant2}
-                  className="text-green-500 mx-[250px] mt-3 text-center"
+                  className="text-green-500 mx-[250px] mt-3 text-center hidden md:flex"
                 >
                   {message.success}
                 </Transition>

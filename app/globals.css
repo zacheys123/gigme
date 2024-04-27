@@ -79,8 +79,16 @@
   justify-content: center;
 }
 
+.h1 {
+  font-size: 1.1rem;
+  font-family: cursive;
+}
+.button {
+  font-size: 0.9rem;
+  font-family: cursive;
+}
 ::-webkit-scrollbar {
-  width: 6px;
+  display: none;
 }
 
 /* Track */

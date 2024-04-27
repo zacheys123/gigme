@@ -62,8 +62,9 @@ const SocialNav = () => {
   };
 
   const inactiveLink =
-    "font-bold  font-mono text-base text-neutral-600  hover:underline decoration-orange-600 underline-offset-8 hover:opacity-55 transition-transform duration-200;  hover:bg-gray-300/80 p-2 transition-opacity hover:opacity-25 duration-175 ease-out hover:underline decoration-orange-600 underline-offset-8 hover:opacity-55 transition-transform duration-200;";
-  const activeLink = inactiveLink + "text-white bg-neutral-100 rounded-b-xl";
+    "font-bold  font-mono text-base text-neutral-600    hover:opacity-55 transition-transform duration-200 hover:opacity-55 transition-transform duration-200;";
+  const activeLink =
+    inactiveLink + "text-white bg-neutral-100 rounded-b-xl px-2 py-1";
   return (
     <div className="bg-gray-300 shadow-lg   top-0 ">
       <nav className="hidden md:flex container mx-auto max-w-[90vw] xl:w-[60vw] py-[7px]  px-3  items-center justify-between">

@@ -25,8 +25,10 @@ const MainLayout = ({ children }) => {
     console.log(data);
     window?.localStorage.setItem("user", JSON.stringify(data?.results));
     if (data?.userstatus === false) {
+      window?.localStorage.setItem("user", JSON.stringify(data?.results));
       return data;
     } else {
+      window?.localStorage.setItem("user", JSON.stringify(data?.results));
       return data;
     }
   }, [user]);
