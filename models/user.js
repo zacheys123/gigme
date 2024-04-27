@@ -42,6 +42,15 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
     },
+    followers: [
+      {
+        follower: { type: String },
+      },
+    ],
+    followings: {
+      type: [{ type: String }],
+      default: [],
+    },
     gigPosts: {
       type: [{ type: Schema.Types.ObjectId, ref: "gigs" }],
       default: [],

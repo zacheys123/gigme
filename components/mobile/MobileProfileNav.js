@@ -29,32 +29,32 @@ const MobileProfileNav = () => {
   const handleUpdate = (ev) => {};
   return (
     <div
-      className={` md:hidden xl:hidden w-full  flex  justify-center items-center `}
+      className={` md:hidden xl:hidden w-[333px]  flex  justify-center items-center mr-3`}
     >
-      <section className="bg-gray-700 p-3  flex  justify-center items-center gap-10 text-white ">
+      <section className="bg-gray-700/50 p-3  flex  justify-center items-center gap-10 text-white w-full">
         <Link href={`/gigme/social`}>
-          <Home size="15px" />
+          <Home size="17px" />
         </Link>
         <Link href={`/v1/profile/${userId}/user`}>
-          <User size="15px" />
+          <User size="17px" />
         </Link>{" "}
         <Link href={`/v1/profile/${userId}/dashboard`}>
-          <LayoutDashboard size="15px" />
+          <LayoutDashboard size="17px" />
         </Link>{" "}
         <Link
           href={`/v1/profile/${userId}/posts`}
           className="flex items-center"
         >
-          <Podcast size="15px" />
+          <Podcast size="17px" />
         </Link>{" "}
         <Link href={`/v1/profile/${userId}/gigs`}>
-          <Music size="15px" />
+          <Music size="17px" />
         </Link>{" "}
         <Link href={`/v1/profile/${userId}/gigs`}>
-          <Settings size="15px" />
+          <Settings size="17px" />
         </Link>
         <Link href={`/sign-out`}>
-          <LogOut size="15px" />
+          <LogOut size="17px" />
         </Link>
       </section>
     </div>

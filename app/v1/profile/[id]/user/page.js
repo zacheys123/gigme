@@ -93,6 +93,7 @@ const UserProfile = () => {
     }
   }, [data, status, updateFetch]);
   const handleUpdate = async () => {
+    console.log("hey");
     let datainfo = {
       city: city,
       instrument: instrument,
@@ -172,8 +173,8 @@ const UserProfile = () => {
   };
   return (
     <div
-      className="container md:h-full
-    h-[calc(100vh-100px)] flex-col md:flex overflow-auto"
+      className="container md:h-[calc(100vh-110px)]
+      h-[calc(100vh-100px)] flex-col md:flex overflow-auto sm:justify-center items-center"
     >
       <div className="flex justify-between items-center  xl:hidden -mb-[30px]">
         <Link
@@ -191,7 +192,7 @@ const UserProfile = () => {
           {" "}
           Add More Info
         </h3>
-        <div className="md:hidden">
+        <div className="mr-8 md:hidden ">
           {" "}
           <UserButton />
         </div>
@@ -211,7 +212,7 @@ const UserProfile = () => {
           <h2 className=" text-white font-bold text-[15px] hidden md:flex text-center">
             Add More Info
           </h2>
-          <form className="w-full h-full  md:w-[700px]">
+          <form className="w-[290px] h-full  md:w-[700px] mx-auto -ml-[4px]">
             <div className="bg-white h-[165px] mt-3">
               <div className="flex flex-col -gap-[40px]">
                 <span className="text-black font-bold font-mono m-3">
@@ -235,7 +236,13 @@ const UserProfile = () => {
                 <span className="text-black font-bold font-mono m-3">
                   More Info
                 </span>
-                <Input type="text" className="" value={phone} disabled />
+                <Input
+                  type="text"
+                  placeholder="Phone No"
+                  className=""
+                  value={phone}
+                  disabled
+                />
               </div>
               <Input type="text" className="" value={verification} disabled />
             </div>{" "}
@@ -248,8 +255,8 @@ const UserProfile = () => {
                   type="text"
                   className={
                     message?.error?.split(" ").includes("City") && city === ""
-                      ? "border border-red-500 rounded-md outline-none w-[320px]  mx-auto focus:ring-0 md:w-[650px] xl:w-[670px]"
-                      : "mt-3 border-neutral-300 w-[320px] md:w-[650px] xl:w-[670px] mx-auto focus:ring-0 "
+                      ? "border border-red-500 rounded-md outline-none w-[120px]  mx-auto focus:ring-0 md:w-[650px] xl:w-[670px]"
+                      : "mt-3 border-neutral-300 w-[280px] mx-auto md:w-[650px] xl:w-[670px]  focus:ring-0 "
                   }
                   placeholder="City"
                   value={city}
@@ -258,7 +265,7 @@ const UserProfile = () => {
               </div>
               <TextInput
                 type="text"
-                className="mt-3 border-neutral-300 w-[320px] md:w-[650px] mx-auto focus:ring-0 xl:w-[670px]"
+                className="mt-3 border-neutral-300 w-[280px] md:w-[650px] mx-auto focus:ring-0 xl:w-[670px]"
                 placeholder="Addresss 1/P.O BOX"
                 value={address}
                 onChange={(ev) => setAddress(ev.target.value)}

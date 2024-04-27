@@ -14,13 +14,13 @@ import { IoHome } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
 import { FaBell } from "react-icons/fa";
 
-const FriendsMobileNav = async () => {
+const FriendsMobileNav = () => {
   return (
-    <div className="bg-gray-300 shadow-lg top-0 sticky">
-      <nav className="container mx-auto max-w-[100vw] xl:w-[60vw] shadow-lg p-3 bg-gray-500 flex items-center justify-between">
+    <div className="bg-gray-300 shadow-lg top-0 sticky ">
+      <nav className="container  mx-auto max-w-[100vw] xl:w-[60vw] shadow-lg p-4 bg-gray-400/60 flex items-center justify-between">
         <Logo />
         <span className="flex items-center">
-          <div className="flex flex-grow gap-5 items-center">
+          <div className="flex flex-grow gap-6 items-center">
             <Link href="/gigme/social" className="text-white">
               <IoHome size="20px" />
             </Link>

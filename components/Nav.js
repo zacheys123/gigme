@@ -52,7 +52,7 @@ const Nav = async () => {
                 <Info size="20px" className="md:hidden" />
               </Link>
               <Link
-                href="/gigme/about"
+                href={`/v1/profile/${userId}`}
                 className="-ml-12 mr-4 text-white flex flex-col gap-2 items hover:bg-gray-200 hover:text-neutral-800 hover:scale-100 p-2 rounded-full  transition-all duration-75"
               >
                 <span>

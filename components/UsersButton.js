@@ -49,7 +49,7 @@ const UsersButton = ({
             <button
               disabled={disabled}
               type="button"
-              onClick={onclick}
+              onClick={onClick}
               className={className}
             >
               {!loading ? (
@@ -57,16 +57,6 @@ const UsersButton = ({
               ) : (
                 <CircularProgress size="30px" sx={{ color: "white" }} />
               )}
-            </button>
-          )}
-          {gigip && (
-            <button
-              disabled={disabled}
-              type="button"
-              onClick={onclick}
-              className={className}
-            >
-              {title}
             </button>
           )}
         </>
