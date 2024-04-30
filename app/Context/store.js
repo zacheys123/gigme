@@ -4,6 +4,7 @@ import { createContext, useContext, useMemo, useReducer } from "react";
 
 export const initialState = {
   toggle: false,
+  loading: false,
 };
 
 const GlobalContext = createContext(initialState);

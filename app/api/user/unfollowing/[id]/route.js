@@ -4,24 +4,17 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 export async function PUT(req, { params }) {
-  const { userId } = auth();
+  const { following } = await req.json();
+
   console.log(params.id);
-  console.log(userId);
+  console.log(following);
 
   try {
     await connectDb();
 
-    const newUser = await User.findById(params.id);
-    await newUser.updateOne(
-      {
-        $push: {
-          followers: {
-            follower: userId,
-          },
-        },
-      },
-      { upsert: true, new: true }
-    );
+    const newUser = await User.findByIdAndUpdate(following, {
+      $pull: { followings: params.id },
+    });
 
     return NextResponse.json({ result: newUser, status: 200 });
   } catch (error) {

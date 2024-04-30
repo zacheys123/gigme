@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { models, Schema } from "mongoose";
+
 const userSchema = new mongoose.Schema(
   {
     clerkId: {
@@ -42,15 +43,8 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
     },
-    followers: [
-      {
-        follower: { type: String },
-      },
-    ],
-    followings: {
-      type: [{ type: String }],
-      default: [],
-    },
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
+    followings: [{ type: Schema.Types.ObjectId, ref: "user" }],
     gigPosts: {
       type: [{ type: Schema.Types.ObjectId, ref: "gigs" }],
       default: [],

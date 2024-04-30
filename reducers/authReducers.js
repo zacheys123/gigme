@@ -13,5 +13,15 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         toggle: false,
       };
+    case global.LOADING:
+      return {
+        ...state,
+        loading: action.payload,
+      };
+    case global.LOADINGTRUE:
+      return {
+        ...state,
+        loading: action.payload,
+      };
   }
 };

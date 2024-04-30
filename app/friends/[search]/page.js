@@ -1,4 +1,5 @@
 "use client";
+import { useGlobalContext } from "@/app/Context/store";
 import MyFooter from "@/components/Footer";
 import SkeletonUser from "@/components/SkeletonUser";
 import UsersButton from "@/components/UsersButton";
@@ -6,17 +7,26 @@ import FriendsMobileNav from "@/components/mobile/FriendsMobileNav";
 import MobileProfileNav from "@/components/mobile/MobileProfileNav";
 import MobileSheet from "@/components/mobile/MobileSheet";
 import { Button } from "@/components/ui/button";
-import { updateFollowers } from "@/features/followerSlice";
+import {
+  unFollower,
+  unFollowing,
+  updateFollowers,
+  updateFollowing,
+} from "@/features/followerSlice";
 import { useAuth } from "@clerk/nextjs";
 import { Add } from "@mui/icons-material";
-import { Box, Divider } from "@mui/material";
+import { Box, CircularProgress, Divider } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { Footer, TextInput } from "flowbite-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { IoCheckmarkDone } from "react-icons/io5";
 const FriendsProfilePage = () => {
+  const {
+    userState: { loading },
+    setUserState,
+  } = useGlobalContext();
   let id = JSON.parse(localStorage.getItem("user"));
   const id_ref = React.useRef(null);
   useEffect(() => {
@@ -39,6 +49,8 @@ const FriendsProfilePage = () => {
     year: "",
   });
   const [follows, setFollow] = useState(false);
+  const [refetch, setRefetch] = useState(false);
+
   const { status, data, error, isFetching } = useQuery({
     queryKey: ["frienddata"],
     queryFn: async () => {
@@ -68,14 +80,47 @@ const FriendsProfilePage = () => {
     },
   });
   console.log(id._id);
+
+  const checkFollow = useCallback(() => {
+    if (data?.user?.followers.includes(id._id)) {
+      setFollow(true);
+    } else {
+      setFollow(false);
+    }
+  }, [data?.user?.followers, id._id]);
+  useEffect(() => {
+    if (id) {
+      checkFollow();
+    }
+  }, [data, id, checkFollow]);
   const follow = (ev) => {
     ev.preventDefault();
-    updateFollowers(data, id?._d, setFollow);
+    if (id) {
+      updateFollowers(data, id?._id, setFollow, setRefetch, setUserState);
+      updateFollowing(data, id?._id, setFollow, setRefetch, setUserState);
+    }
   };
   const unFollow = async (ev) => {
     ev.preventDefault();
-    setFollow((prev) => !prev);
+    unFollower(data, id?._id, setRefetch, setFollow, setUserState);
+    unFollowing(data, id?._id, setRefetch, setFollow, setUserState);
   };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await fetch(`/api/user/friend/${search}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      console.log(data);
+      setRefetch(true);
+      return data;
+    };
+    fetchUser();
+  }, []);
   if (status === "pending" || isFetching) {
     <SkeletonUser />;
   }
@@ -83,6 +128,7 @@ const FriendsProfilePage = () => {
   return (
     <div className="overflow-auto h-[calc(100vh-20px)] bg-gray-400/10 w-full flex flex-col">
       <FriendsMobileNav />
+
       <div className="h-[200px]">
         <Box className="flex items-center justify-around md:justify-self-auto shadow-md bg-inherit h-[200px] w-full md:h-[400px]">
           <Box className="flex gap-2 items-center">
@@ -106,25 +152,35 @@ const FriendsProfilePage = () => {
                   {data?.user?.email}
                 </h3>
               </div>
-              <div className="md:hidden flex items-center justify-center">
-                {!follows ? (
-                  <Button
-                    variant="primary"
-                    onClick={follow}
-                    className=" text-[13px]"
-                  >
-                    GigFollow <Add />
-                  </Button>
-                ) : (
-                  <Button
-                    variant="closed"
-                    onClick={unFollow}
-                    className=" text-[13px] flex items-center"
-                  >
-                    GigUnFollow <IoCheckmarkDone size="20px" />
-                  </Button>
-                )}
-              </div>
+              {!loading ? (
+                <div className="md:hidden flex items-center justify-center">
+                  {loading || !data?.user?.followers.includes(id._id) ? (
+                    <Button
+                      variant="primary"
+                      onClick={follow}
+                      className=" text-[13px]"
+                    >
+                      GigFollow <Add />
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="closed"
+                      onClick={unFollow}
+                      className=" text-[13px] flex items-center"
+                    >
+                      GigUnFollow <IoCheckmarkDone size="20px" />
+                    </Button>
+                  )}
+                </div>
+              ) : (
+                <Button className="bg-gray-700/40">
+                  {" "}
+                  <CircularProgress
+                    className="text-center w-full"
+                    size="18px"
+                  />
+                </Button>
+              )}
             </div>
           </Box>
           <div className="hidden md:flex md:flex-col ">
@@ -138,7 +194,11 @@ const FriendsProfilePage = () => {
                 GigFollow <Add />
               </Button>
             ) : (
-              <Button variant="closed" onClick={follow} className=" text-base">
+              <Button
+                variant="closed"
+                onClick={unFollow}
+                className=" text-base"
+              >
                 GigUnFollow <IoCheckmarkDone size="30px" />
               </Button>
             )}
@@ -146,28 +206,42 @@ const FriendsProfilePage = () => {
         </Box>
       </div>
       {/* Body CodeGoes Here */}
-      <div className="flex items-center justify-between shadow-md">
-        {" "}
-        <h2 className="font-bold text-orange-400/90 m-3 flex flex-col items-center ">
-          Followers{" "}
-          <span>
-            {data?.user?.followers?.length < 1 ||
-            data?.user?.followers?.length === 0 ||
-            !data?.user?.followers?.length
-              ? 0
-              : data?.user?.followers?.length}
-          </span>
-        </h2>
-        <h2 className="font-bold text-green-600/90 m-3 flex flex-col items-center ">
-          Posts <span>20</span>
-        </h2>{" "}
-        <h2 className="font-bold text-purple-600/90 m-3 flex flex-col items-center ">
-          Following <span>30</span>
-        </h2>
-      </div>
+      {!loading ? (
+        <div className="flex items-center justify-between shadow-md">
+          {" "}
+          <h2 className="font-bold text-orange-400/90 m-3 flex flex-col items-center ">
+            Followers{" "}
+            <span>
+              {data?.user?.followers?.length < 1 ||
+              data?.user?.followers?.length === 0 ||
+              !data?.user?.followers?.length
+                ? 0
+                : data?.user?.followers?.length}
+            </span>
+          </h2>
+          <h2 className="font-bold text-green-600/90 m-3 flex flex-col items-center ">
+            Posts <span>20</span>
+          </h2>{" "}
+          <h2 className="font-bold text-purple-600/90 m-3 flex flex-col items-center ">
+            Following{" "}
+            <span>
+              {" "}
+              <span>
+                {data?.user?.followings?.length < 1 ||
+                data?.user?.followings?.length === 0 ||
+                !data?.user?.followings?.length
+                  ? 0
+                  : data?.user?.followings?.length}
+              </span>
+            </span>
+          </h2>
+        </div>
+      ) : (
+        " "
+      )}
       <Divider />
       <div className="mt-5 flex-grow flex flex-col gap-2 bg-gray-300/70">
-        {follow && (
+        {!follows && (
           <div className="cursor-pointer w-[100px] tracking-tighter absolute p-2 z-50 right-0 bottom-44 m-2 rounded-b-lg rounded-tr-xl shadow-xl  rounded-r-xl bg-slate-600/40 hover:bg-gray-300/50">
             <h3 className="flex gap-2 items-center">
               <span className="font-bold text-orange-100 font-mono text-[16px]">

@@ -33,7 +33,7 @@ const SearchPage = () => {
   const searchFn = (ev) => {
     let sortedData = data;
     if (searchquery) {
-      sortedData = sortedData.filter((user) => {
+      sortedData = sortedData?.filter((user) => {
         if (
           user?.firstname?.toLowerCase().includes(searchquery) ||
           user?.lastname?.toLowerCase().includes(searchquery) ||

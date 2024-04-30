@@ -1,5 +1,6 @@
 "use client";
-import { useAuth } from "@clerk/nextjs";
+import { UserButton, useAuth } from "@clerk/nextjs";
+import { Box } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
@@ -36,8 +37,10 @@ const SocialPage = () => {
   return (
     <div>
       {status === "success" && (
-        <h1 className="text-3xl">Welcome ,{data[0]?.firstname}</h1>
-      )}
+        <Box>        <h1 className="text-3xl">Welcome ,{data[0]?.firstname}</h1>
+        <UserButton/>
+        </Box>
+ )}
     </div>
   );
 };
