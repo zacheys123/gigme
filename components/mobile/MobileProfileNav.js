@@ -29,12 +29,12 @@ const MobileProfileNav = () => {
   const handleUpdate = (ev) => {};
   return (
     <div
-      className={` md:hidden xl:hidden w-[333px]  flex  justify-center items-center mr-3`}
+      className={` md:hidden xl:hidden w-[290px]  flex  justify-center items-center self-center mr-5`}
     >
-      <section className="bg-gray-700/50 p-3  flex  justify-center items-center gap-10 text-white w-full">
-        <Link href={`/gigme/social`}>
+      <section className="bg-gray-700/50 p-3  flex  justify-center items-center gap-8 text-white w-full">
+        <Link href={`/v1/gigme/social`}>
           <Home size="17px" />
-        </Link>
+        </Link>{" "}
         <Link href={`/v1/profile/${userId}/user`}>
           <User size="17px" />
         </Link>{" "}
@@ -52,9 +52,6 @@ const MobileProfileNav = () => {
         </Link>{" "}
         <Link href={`/v1/profile/${userId}/gigs`}>
           <Settings size="17px" />
-        </Link>
-        <Link href={`/sign-out`}>
-          <LogOut size="17px" />
         </Link>
       </section>
     </div>

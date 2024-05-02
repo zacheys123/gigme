@@ -209,13 +209,38 @@ const UserProfile = () => {
           />
         </Box>
         <div className="w-full flex-col flex justify-center items-center md:w-50 py-7 h-[800px] ">
-          <h2 className=" text-white font-bold text-[15px] hidden md:flex text-center">
-            Add More Info
-          </h2>
           <form className="w-[290px] h-full  md:w-[700px] mx-auto -ml-[4px]">
+            <div className="w-[290px] md:w-[370px] rounded-xl  bg-neutral-100/80 shadow-md mt-3 py-3 h-[45px] flex gap-3 items-center justify-around mx-auto">
+              <div className="flex flex-col items-center my-3 ">
+                <span className="font-bold font-mono text-orange-600">
+                  Followers
+                </span>
+                <span className="font-bold font-mono">
+                  {data[0]?.followers?.length}
+                </span>
+              </div>
+              <div className="flex flex-col items-center">
+                {" "}
+                <span className="font-bold font-mono text-purple-600">
+                  Posts
+                </span>
+                <span className="font-bold font-mono">
+                  {data[0]?.gigPosts?.length}
+                </span>
+              </div>{" "}
+              <div className="flex flex-col items-center">
+                {" "}
+                <span className="font-bold font-mono text-green-600">
+                  Followings
+                </span>
+                <span className="font-bold font-mono">
+                  {data[0]?.followings?.length}
+                </span>
+              </div>{" "}
+            </div>
             <div className="bg-white h-[165px] mt-3">
-              <div className="flex flex-col -gap-[40px]">
-                <span className="text-black font-bold font-mono m-3">
+              <div className="flex flex-col gap-2">
+                <span className="text-black font-bold font-mono mt-2 mx-2 mb-1">
                   FullNames
                 </span>
                 <Input type="text" className="" value={firstname} disabled />

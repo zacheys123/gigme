@@ -98,29 +98,17 @@ const FriendsProfilePage = () => {
     if (id) {
       updateFollowers(data, id?._id, setFollow, setRefetch, setUserState);
       updateFollowing(data, id?._id, setFollow, setRefetch, setUserState);
+      window.location.reload();
     }
   };
   const unFollow = async (ev) => {
     ev.preventDefault();
     unFollower(data, id?._id, setRefetch, setFollow, setUserState);
     unFollowing(data, id?._id, setRefetch, setFollow, setUserState);
+    window.location.reload();
   };
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const res = await fetch(`/api/user/friend/${search}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await res.json();
-      console.log(data);
-      setRefetch(true);
-      return data;
-    };
-    fetchUser();
-  }, []);
+  const greeting = data?.user?.followers.includes(id._id);
   if (status === "pending" || isFetching) {
     <SkeletonUser />;
   }
@@ -241,7 +229,7 @@ const FriendsProfilePage = () => {
       )}
       <Divider />
       <div className="mt-5 flex-grow flex flex-col gap-2 bg-gray-300/70">
-        {!follows && (
+        {!greeting && (
           <div className="cursor-pointer w-[100px] tracking-tighter absolute p-2 z-50 right-0 bottom-44 m-2 rounded-b-lg rounded-tr-xl shadow-xl  rounded-r-xl bg-slate-600/40 hover:bg-gray-300/50">
             <h3 className="flex gap-2 items-center">
               <span className="font-bold text-orange-100 font-mono text-[16px]">
@@ -305,7 +293,9 @@ const FriendsProfilePage = () => {
           type="text"
           className="w-[330px] mx-auto my-4"
           placeholder="experience"
-          value={`${userdata?.date}/${userdata?.month}/${userdata?.year}`}
+          value={`${userdata?.date || "01"}/${userdata?.month || "01"}/${
+            userdata?.year || "0"
+          }`}
         />
       </div>
       {/* End of Body Code */}
