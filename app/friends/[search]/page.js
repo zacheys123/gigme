@@ -3,8 +3,9 @@ import { useGlobalContext } from "@/app/Context/store";
 import MyFooter from "@/components/Footer";
 import SkeletonUser from "@/components/SkeletonUser";
 import UsersButton from "@/components/UsersButton";
+import FriendInfo from "@/components/medium/friendInfo";
 import FriendsMobileNav from "@/components/mobile/FriendsMobileNav";
-import MobileProfileNav from "@/components/mobile/MobileProfileNav";
+
 import MobileSheet from "@/components/mobile/MobileSheet";
 import { Button } from "@/components/ui/button";
 import {
@@ -114,12 +115,12 @@ const FriendsProfilePage = () => {
   }
 
   return (
-    <div className="overflow-auto h-[calc(100vh-20px)] bg-gray-400/10 w-full flex flex-col">
+    <div className="overflow-auto h-[calc(100vh-20px)] bg-gray-400/10 md:bg-neutral-100 w-full flex flex-col">
       <FriendsMobileNav />
-
-      <div className="h-[200px]">
-        <Box className="flex items-center justify-around md:justify-self-auto shadow-md bg-inherit h-[200px] w-full md:h-[400px]">
-          <Box className="flex gap-2 items-center">
+      <div className="h-[200px] md:hidden">
+        <Box className="flex items-center justify-around shadow-md bg-inherit  h-[200px] w-full md:h-[400px]">
+          <Box className="flex gap-2 items-center md:flex-col">
+            {" "}
             {data?.user?.picture && (
               <div className="h-full mt-5 flex justify-center items-center ">
                 <Image
@@ -140,6 +141,7 @@ const FriendsProfilePage = () => {
                   {data?.user?.email}
                 </h3>
               </div>
+
               {!loading ? (
                 <div className="md:hidden flex items-center justify-center">
                   {loading || !data?.user?.followers.includes(id._id) ? (
@@ -192,10 +194,35 @@ const FriendsProfilePage = () => {
             )}
           </div>
         </Box>
+      </div>{" "}
+      <div className="hidden md:h-[350px] mb-[40px] md:flex items-center  w-full  ">
+        {" "}
+        <div className="flex items-center">
+          {data?.user?.picture && (
+            <div>
+              <Image
+                src={data?.user?.picture}
+                alt="profile pic"
+                width={160}
+                height={160}
+                className="h-40 rounded-full md:h-[210px] md:w-[210px]"
+              />
+            </div>
+          )}
+          <div className="flex flex-col gap-2 h-full ">
+            <h3 className="h1 ml-3 text-slate-700/60 md:text-[28px]">
+              {data?.user?.firstname} {data?.user?.lastname}
+            </h3>{" "}
+            <h3 className="font-mono ml-3 text-slate-700/50 md:text-[18px]">
+              {data?.user?.email}
+            </h3>
+          </div>
+          {/* <FriendInfo data={data} /> */}
+        </div>
       </div>
       {/* Body CodeGoes Here */}
       {!loading ? (
-        <div className="flex items-center justify-between shadow-md">
+        <div className="flex items-center md:bg-neutral-200 justify-around shadow-md md:w-[700px] md:self-center">
           {" "}
           <h2 className="font-bold text-orange-400/90 m-3 flex flex-col items-center ">
             Followers{" "}
