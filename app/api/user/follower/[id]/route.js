@@ -12,10 +12,12 @@ export async function PUT(req, { params }) {
   try {
     await connectDb();
 
-    const newUser = await User.findByIdAndUpdate(params.id, {
-      $push: { followers: follower },
-    });
-
+    let newUser;
+    const friend = await User.findById(params.id);
+    if (friend.followers.includes(follower)) {
+      return NextResponse.json({ result: friend, status: 403 });
+    }
+    newUser = await friend.updateOne({ $push: { followers: follower } });
     return NextResponse.json({ result: newUser, status: 200 });
   } catch (error) {
     console.log(error);

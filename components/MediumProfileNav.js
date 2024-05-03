@@ -7,7 +7,11 @@ import Link from "next/link";
 import React, { useState } from "react";
 import Transition from "./Transition";
 import { usePathname } from "next/navigation";
-
+import { FaUserAlt } from "react-icons/fa";
+import { MdOutlineDashboard } from "react-icons/md";
+import { FaMusic } from "react-icons/fa6";
+import { IoSettingsOutline } from "react-icons/io5";
+import { CiMusicNote1 } from "react-icons/ci";
 const MediumProfileNav = () => {
   const { userId } = useAuth();
   const pathname = usePathname();
@@ -28,12 +32,12 @@ const MediumProfileNav = () => {
     },
   };
   let inactiveLink = "";
-  let activeLink = "bg-red-500 text-2xl  rounded-xl";
+  let activeLink = " text-2xl  rounded-xl";
   return (
     <div
-      className={`hidden md:flex xl:hidden w-[30px]  flex-col gap-3  justify-center items-center `}
+      className={`hidden md:flex xl:hidden w-[30px]  flex-col gap-3  justify-center items-center  `}
     >
-      <aside className="bg-gray-400 shadow-xl rounded-md p-3  flex flex-col justify-center items-center gap-10 text-white ">
+      <aside className="bg-gray-400 shadow-xl rounded-md p-3  flex flex-col justify-center items-center  h-[450px] gap-10 text-white ">
         <Link href={`/gigme/social`}>
           <Home />
         </Link>
@@ -51,13 +55,11 @@ const MediumProfileNav = () => {
             })
           }
         >
-          <User
-            className={
-              pathname === `/v1/profile/${userId}/user`
-                ? activeLink
-                : inactiveLink
-            }
-          />
+          {pathname === `/v1/profile/${userId}/user` ? (
+            <FaUserAlt className={activeLink} />
+          ) : (
+            <User className={activeLink} />
+          )}
           {navStates.profile && (
             <Transition
               variant={variant}
@@ -85,13 +87,11 @@ const MediumProfileNav = () => {
             })
           }
         >
-          <Dashboard
-            className={
-              pathname === `/v1/profile/${userId}/dashboard`
-                ? activeLink
-                : inactiveLink
-            }
-          />
+          {pathname === `/v1/profile/${userId}/dashboard` ? (
+            <Dashboard className={activeLink} />
+          ) : (
+            <MdOutlineDashboard className={activeLink} />
+          )}
           {navStates.dashboard && (
             <Transition
               variant={variant}
@@ -153,13 +153,11 @@ const MediumProfileNav = () => {
             })
           }
         >
-          <Music
-            className={
-              pathname === `/v1/profile/${userId}/gigs`
-                ? activeLink
-                : inactiveLink
-            }
-          />{" "}
+          {pathname === `/v1/profile/${userId}/gigs` ? (
+            <Music className={activeLink} />
+          ) : (
+            <CiMusicNote1 className={activeLink} />
+          )}
           {navStates.gigs && (
             <Transition
               variant={variant}
@@ -187,13 +185,11 @@ const MediumProfileNav = () => {
             })
           }
         >
-          <Settings
-            className={
-              pathname === `/v1/profile/${userId}/settings`
-                ? activeLink
-                : inactiveLink
-            }
-          />{" "}
+          {!pathname === `/v1/profile/${userId}/settings` ? (
+            <Settings className={activeLink} />
+          ) : (
+            <IoSettingsOutline className={activeLink} />
+          )}
           {navStates.settings && (
             <Transition
               variant={variant}
@@ -207,34 +203,6 @@ const MediumProfileNav = () => {
             </Transition>
           )}
         </Link>{" "}
-        <Link
-          href={`/sign-out`}
-          className="flex items-center"
-          onMouseOver={() =>
-            setNavStates((prev) => {
-              return { ...prev, logout: true };
-            })
-          }
-          onMouseOut={() =>
-            setNavStates((prev) => {
-              return { ...prev, logout: false };
-            })
-          }
-        >
-          <Logout />{" "}
-          {navStates.logout && (
-            <Transition
-              variant={variant}
-              className={
-                !navStates.logout
-                  ? "text-white font-mono font-bold  z-50"
-                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-400 py-2 px-4 rounded-r-full"
-              }
-            >
-              Logout
-            </Transition>
-          )}
-        </Link>
         <UserButton />
       </aside>
     </div>

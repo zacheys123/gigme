@@ -18,23 +18,20 @@ const UserProfile = () => {
   const { status, data, error, isFetching } = useQuery({
     queryKey: ["userdata"],
     queryFn: async () => {
-      const res = await fetch(
-        `/api/user/getuser/${userId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+      const res = await fetch(`/api/user/getuser/${userId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
         },
-        {}
-      );
+      });
       const { OnlyUser } = await res.json();
-
+      console.log(OnlyUser);
       return OnlyUser;
     },
   });
+  console.log(error);
   //
-
+  console.log(data);
   const [firstname, setFirstname] = useState("");
   const [email, setEmail] = useState("");
   const [lastname, setLastname] = useState("");
@@ -73,10 +70,10 @@ const UserProfile = () => {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
     22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
   ];
-
+  console.log(data);
   const [updateFetch, setFetch] = useState(false);
   useEffect(() => {
-    if (status === "success") {
+    if (status === "success" && status !== "pending") {
       setFirstname(data[0]?.firstname);
       setLastname(data[0]?.lastname);
       setPhone(data[0]?.phone);
@@ -93,7 +90,6 @@ const UserProfile = () => {
     }
   }, [data, status, updateFetch]);
   const handleUpdate = async () => {
-    console.log("hey");
     let datainfo = {
       city: city,
       instrument: instrument,
@@ -161,16 +157,9 @@ const UserProfile = () => {
       ease: "easeInOut",
     },
   };
-  const removeBtn = () => {
-    return (
-      !city ||
-      (!address && !instrument) ||
-      !experience ||
-      !age ||
-      !month ||
-      !year
-    );
-  };
+  if (status === "pending") {
+    return <div>Loading...</div>;
+  }
   return (
     <div
       className="container md:h-[calc(100vh-110px)]

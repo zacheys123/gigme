@@ -5,7 +5,8 @@ export const updateFollowers = async (
   id,
   setRefetch,
   setFollow,
-  setUserState
+  setUserState,
+  router
 ) => {
   console.log(id);
   setUserState({ type: global.LOADINGTRUE, payload: true });
@@ -20,10 +21,15 @@ export const updateFollowers = async (
     });
 
     const followersData = await res.json();
-    console.log(followersData);
-    setRefetch(true);
-    setFollow(true);
-    setUserState({ type: global.LOADING, payload: false });
+    console.log(res);
+
+    if (res.ok) {
+      window.location.reload();
+
+      setRefetch(true);
+      setFollow(true);
+      setUserState({ type: global.LOADING, payload: false });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -47,9 +53,13 @@ export const updateFollowing = async (
     });
     const followingData = await res.json();
     console.log(followingData);
-    setRefetch(true);
-    setFollow((prev) => !prev);
-    setUserState({ type: global.LOADING, payload: false });
+    if (res.ok) {
+      window.location.reload();
+      router.push(`/friends/${data?.user?.username}`);
+      setRefetch(true);
+      setFollow((prev) => !prev);
+      setUserState({ type: global.LOADING, payload: false });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -75,9 +85,13 @@ export const unFollower = async (
     });
     const followersData = await res.json();
     console.log(followersData);
-    setRefetch(true);
-    setFollow(true);
-    setUserState({ type: global.LOADING, payload: false });
+    if (res.ok) {
+      window.location.reload();
+      router.push(`/friends/${data?.user?.username}`);
+      setRefetch(true);
+      setFollow(true);
+      setUserState({ type: global.LOADING, payload: false });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -101,9 +115,13 @@ export const unFollowing = async (
     });
     const followingData = await res.json();
     console.log(followingData);
-    setRefetch(true);
-    setFollow((prev) => !prev);
-    setUserState({ type: global.LOADING, payload: false });
+    if (res.ok) {
+      window.location.reload();
+      router.push(`/friends/${data?.user?.username}`);
+      setRefetch(true);
+      setFollow((prev) => !prev);
+      setUserState({ type: global.LOADING, payload: false });
+    }
   } catch (error) {
     console.log(error);
   }
