@@ -1,10 +1,12 @@
 "use client";
-import { UserButton, useAuth } from "@clerk/nextjs";
-import { Box } from "@mui/material";
+import SocialNav from "@/components/GigmeNav";
+import LeftBar from "@/components/socials/LeftBar";
+import RightBar from "@/components/socials/RightBar";
+import { useAuth, useUser } from "@clerk/nextjs";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
-
-const SocialPage = () => {
+import React, { useCallback } from "react";
+import { useEffect } from "react";
+const SocialLayout = ({ children }) => {
   const { userId } = useAuth();
   console.log(userId);
   const id = () => {
@@ -35,14 +37,12 @@ const SocialPage = () => {
     return <div>Loading...</div>;
   }
   return (
-    <div>
-      {status === "success" && (
-        <Box>        <h1 className="text-3xl">Welcome ,{data[0]?.firstname}</h1>
-        <UserButton/>
-        </Box>
- )}
+    <div className="flex gap-3 overflow-y-auto h-screen">
+      <LeftBar />
+      {children}
+      <RightBar />
     </div>
   );
 };
 
-export default SocialPage;
+export default SocialLayout;
