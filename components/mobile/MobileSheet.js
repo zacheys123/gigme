@@ -19,7 +19,7 @@ const MobileSheet = ({ textColor, hidden }) => {
 
   return (
     <Sheet
-      className={`w-100 bg-gray-500 md:hidden ${hidden} flex
+      className={`w-100 bg-gray-500 lg:hidden ${hidden} flex
   `}
     >
       <SheetTrigger>

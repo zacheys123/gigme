@@ -40,13 +40,13 @@ const sheetVariants = cva(
       },
     },
     defaultVariants: {
-      side: "bottom",
+      side: "left",
     },
   }
 );
 
 const SheetContent = React.forwardRef(
-  ({ side = "right", className, children, ...props }, ref) => (
+  ({ side = "left", className, children, ...props }, ref) => (
     <SheetPortal>
       <SheetOverlay />
       <SheetPrimitive.Content

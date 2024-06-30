@@ -10,7 +10,7 @@ import { useUser } from "@clerk/nextjs";
 const MobileNav = () => {
   const { user } = useUser();
   return (
-    <div className="flex p-3 bg-gray-300 shadow-lg  items-center justify-between gap-2 md:hidden">
+    <div className="flex p-3 bg-gray-300 shadow-lg  items-center justify-between gap-2 lg:hidden">
       <Box className="flex items-center justify-center gap-3">
         <Logo />
       </Box>{" "}

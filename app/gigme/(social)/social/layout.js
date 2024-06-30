@@ -4,38 +4,56 @@ import LeftBar from "@/components/socials/LeftBar";
 import RightBar from "@/components/socials/RightBar";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
 import { useEffect } from "react";
 const SocialLayout = ({ children }) => {
-  const { userId } = useAuth();
-  console.log(userId);
-  const id = () => {
-    let data = window?.localStorage.getItem("user");
-    if (!data) {
-      return null;
+  const router = useRouter();
+  const { user, isSignedIn } = useUser();
+
+  const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const registerUser = useCallback(async () => {
+    const res = await fetch("/api/user/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+
+    const data = await res.json();
+    console.log(data);
+    window?.localStorage.setItem("user", JSON.stringify(data?.results));
+    if (data?.userstatus === false) {
+      return router.push("/gigme/social");
+    } else {
+      router.push(`/v1/profile/${userId}`);
     }
+  }, [user, router, userId]);
 
-    return JSON.parse(data);
-  };
-
-  const { status, data, error, isFetching } = useQuery({
-    queryKey: ["userdata"],
-    queryFn: async () => {
-      const res = await fetch(`../api/user/getuser/${userId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const { OnlyUser } = await res.json();
-      console.log(OnlyUser);
-      return OnlyUser;
-    },
-  });
-
-  if (status === "pending") {
-    return <div>Loading...</div>;
+  useEffect(() => {
+    if (!user) {
+      console.log("No user data to send to backend");
+    }
+    registerUser();
+  }, [user, registerUser]);
+  if (!isLoaded) {
+    return (
+      <div className="flex h-[100vh] flex-col items-center justify-center">
+        <h3 className="text-red-600 font-bold font-mono">
+          Waiting for user info to load :)...
+        </h3>
+      </div>
+    );
   }
+  if (!userId) {
+    return (
+      <div className="flex h-[100vh] flex-col items-center justify-center">
+        <h3>User signup failed,no User logged in</h3>
+      </div>
+    );
+  }
+
   return (
     <div className="flex gap-3 overflow-y-auto h-screen">
       <LeftBar />

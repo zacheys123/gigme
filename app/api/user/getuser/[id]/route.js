@@ -6,11 +6,10 @@ export async function GET(req, { params }) {
   console.log(params);
   try {
     await connectDb();
-    const user = await User.find({ clerkId: params?.id });
-    let OnlyUser = user.map((onlyuser) => {
-      return onlyuser;
-    });
-    return NextResponse.json({ OnlyUser, status: 200 });
+    const user = await User.findOne({ clerkId: params.id });
+
+    console.log(user);
+    return NextResponse.json({ user, status: 200 });
   } catch (error) {
     return NextResponse.json({ message: error, status: 500 });
   }

@@ -1,7 +1,11 @@
 "use client";
 import SocialNav from "@/components/GigmeNav";
+import MyNav from "@/components/MyNav";
+import LeftBar from "@/components/socials/LeftBar";
+import RightBar from "@/components/socials/RightBar";
 import { useAuth, useUser } from "@clerk/nextjs";
-import React, { useCallback } from "react";
+import { Button } from "flowbite-react";
+import React, { useCallback, useState } from "react";
 import { useEffect } from "react";
 const GigmeLayout = ({ children }) => {
   const { user, isSignedIn } = useUser();
@@ -33,16 +37,22 @@ const GigmeLayout = ({ children }) => {
 
     registerUser();
   });
+  const [shownav, setShowNav] = useState();
   return (
     <>
       {isSignedIn ? (
-        <div>
-          <SocialNav />
-          {children}
+        <div className="flex flex-col gap-2">
+          <SocialNav setShowNav={setShowNav} />
+          <div className="flex ">
+            <LeftBar />
+            {children}
+            <RightBar />
+          </div>
         </div>
       ) : (
         <div className="h-screen w-screen flex justify-center items-center">
           <h1 className="text-bold">Please check your internet connection</h1>
+          <Button color="success" onClick={() => router.push("/")} />
         </div>
       )}
     </>

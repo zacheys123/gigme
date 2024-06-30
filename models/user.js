@@ -43,14 +43,8 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
     },
-    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
-    followings: [{ type: Schema.Types.ObjectId, ref: "user" }],
-    gigPosts: {
-      type: [{ type: Schema.Types.ObjectId, ref: "gigs" }],
-      default: [],
-    },
-
-    isTaken: { type: Schema.Types.ObjectId, ref: "gigs" },
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    followings: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );

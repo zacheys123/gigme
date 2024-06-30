@@ -4,7 +4,7 @@ import { auth } from "@clerk/nextjs";
 import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
-  publicRoutes: ["api/webhook", "/"],
+  publicRoutes: ["/", "/api/user/getuser/:id", "/api/posts/getallPosts"],
 });
 export const config = {
   matcher: [

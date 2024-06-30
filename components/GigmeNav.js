@@ -67,7 +67,7 @@ const SocialNav = () => {
     inactiveLink + "text-white bg-neutral-100 rounded-b-xl px-2 py-1";
   return (
     <div className="bg-gray-300 shadow-lg   top-0 ">
-      <nav className="hidden md:flex container mx-auto max-w-[90vw] xl:w-[60vw] py-[7px]  px-3  items-center justify-between">
+      <nav className="hidden lg:flex container mx-auto max-w-[90vw] xl:w-[60vw] py-[7px]  px-3  items-center justify-between">
         <div>
           <Logo />
         </div>
