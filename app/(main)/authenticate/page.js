@@ -8,7 +8,7 @@ const Authenticate = () => {
   const router = useRouter();
   const { user, isSignedIn } = useUser();
 
-  const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const { isLoaded, userId } = useAuth();
   const registerUser = useCallback(async () => {
     const res = await fetch("/api/user/register", {
       method: "POST",

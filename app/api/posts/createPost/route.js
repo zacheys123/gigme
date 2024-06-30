@@ -4,7 +4,7 @@ import { auth, currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
-  const { title, media, description } = await req.json();
+  const { title, media, description, postedBy } = await req.json();
   const { userId } = auth();
 
   if (!userId) {
@@ -17,7 +17,7 @@ export async function POST(req) {
       title,
       description,
       media,
-      postedBy: userId,
+      postedBy,
     });
     const post = await newPost.save();
 

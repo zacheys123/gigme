@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UserButton, useAuth, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import Logo from "./Logo";
@@ -12,7 +12,6 @@ import { useGlobalContext } from "@/app/Context/store";
 import { Avatar } from "@mui/material";
 import { global } from "@/actions";
 import OverlaySearch from "./OverlaySearch";
-import { useQuery } from "@tanstack/react-query";
 const SocialNav = () => {
   const {
     userState: { toggle },
@@ -21,7 +20,6 @@ const SocialNav = () => {
   const router = useRouter();
   const { isLoaded, userId, sessionId, getToken } = useAuth();
   const pathname = usePathname();
-  const { isSignedIn, user } = useUser();
   const [searchquery, setSearchQuery] = useState("");
   const SearchUser = (ev) => {
     if (ev.target.value.length > 0) {
@@ -31,20 +29,22 @@ const SocialNav = () => {
     }
   };
 
-  const { status, data, error, isFetching } = useQuery({
-    queryKey: ["alluserdata"],
-    queryFn: async () => {
-      const res = await fetch(`../api/user/getAllusers/${userId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const { currentuser } = await res.json();
-      console.log(currentuser);
-      return currentuser;
-    },
-  });
+  const [data, setData] = useState();
+  const getAllUsers = async () => {
+    const res = await fetch(`../api/user/getAllusers/${userId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const { currentuser } = await res.json();
+    console.log(currentuser);
+    setData(currentuser);
+    return currentuser;
+  };
+  useEffect(() => {
+    getAllUsers();
+  }, []);
   const searchFn = () => {
     let sortedData = data;
     if (searchquery) {

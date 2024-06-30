@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 import { Camera } from "@mui/icons-material";
 import Image from "next/image";
 
-const UserPost = () => {
+const UserPost = ({ user, posts }) => {
   const baseUrl = "/api/posts/createPost";
   const [file, setFile] = useState();
   const [fileUrl, setUrl] = useState("");
@@ -14,7 +14,7 @@ const UserPost = () => {
   const [loading, setLoading] = useState();
   const [statusmsg, setStatusMessage] = useState();
   const [showmore, setShowmore] = React.useState(false);
-
+  console.log(posts);
   const [postdata, setPostData] = useState({ post: "", description: "" });
   const handleChange = (e) => {
     const f = e.target.files?.[0];
@@ -38,6 +38,7 @@ const UserPost = () => {
       media: url,
       title: postdata.post,
       description: postdata.description,
+      postedBy: user?.user?._id,
     };
     const res = await fetch(baseUrl, {
       method: "POST",
@@ -151,13 +152,15 @@ const UserPost = () => {
           <div className="h-fit bg-gray-200 mt-7">
             {file?.type?.startsWith("image/") ? (
               <div className="w-full h-[240px] md:h-[360px]">
-                <Image
-                  className="object-cover w-full h-[240px] md:h-[360px]"
-                  src={fileUrl}
-                  alt={file?.name}
-                  width={140}
-                  height={140}
-                />
+                {fileUrl && (
+                  <Image
+                    className="object-cover w-full h-[240px] md:h-[360px]"
+                    src={fileUrl}
+                    alt={file?.name}
+                    width={140}
+                    height={140}
+                  />
+                )}
               </div>
             ) : (
               <div>

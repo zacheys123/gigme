@@ -8,9 +8,8 @@ import { Button } from "flowbite-react";
 import React, { useCallback, useState } from "react";
 import { useEffect } from "react";
 const GigmeLayout = ({ children }) => {
-  const { user, isSignedIn } = useUser();
+  const { user } = useUser();
 
-  const { isLoaded, userId, sessionId, getToken } = useAuth();
   const registerUser = useCallback(async () => {
     const res = await fetch("/api/user/register", {
       method: "POST",
@@ -37,24 +36,17 @@ const GigmeLayout = ({ children }) => {
 
     registerUser();
   });
-  const [shownav, setShowNav] = useState();
+
   return (
     <>
-      {isSignedIn ? (
-        <div className="flex flex-col gap-2">
-          <SocialNav setShowNav={setShowNav} />
-          <div className="flex ">
-            <LeftBar />
-            {children}
-            <RightBar />
-          </div>
+      <div className="flex flex-col gap-2">
+        <SocialNav />
+        <div className="flex ">
+          <LeftBar />
+          {children}
+          <RightBar />
         </div>
-      ) : (
-        <div className="h-screen w-screen flex justify-center items-center">
-          <h1 className="text-bold">Please check your internet connection</h1>
-          <Button color="success" onClick={() => router.push("/")} />
-        </div>
-      )}
+      </div>
     </>
   );
 };

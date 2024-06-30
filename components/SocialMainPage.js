@@ -7,7 +7,7 @@ const SocialMainPage = ({ user, posts }) => {
   return (
     <>
       <div className="w-full">
-        <UserPost />
+        <UserPost user={user} />
         {/*All Posts displayed here */}
         <AllPosts userposts={posts} />
       </div>

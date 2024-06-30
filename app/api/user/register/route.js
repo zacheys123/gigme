@@ -8,10 +8,6 @@ export async function POST(req) {
   const user = await currentUser();
   let params = user;
 
-  if (!userId) {
-    return NextResponse.redirect(new URL("/sign-in", req.url));
-  }
-
   try {
     await connectDb();
     const existingUser = await User.findOne({

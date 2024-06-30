@@ -3,7 +3,6 @@ import SocialNav from "@/components/GigmeNav";
 import LeftBar from "@/components/socials/LeftBar";
 import RightBar from "@/components/socials/RightBar";
 import { useAuth, useUser } from "@clerk/nextjs";
-import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
 import { useEffect } from "react";
@@ -26,10 +25,8 @@ const SocialLayout = ({ children }) => {
     window?.localStorage.setItem("user", JSON.stringify(data?.results));
     if (data?.userstatus === false) {
       return router.push("/gigme/social");
-    } else {
-      router.push(`/v1/profile/${userId}`);
     }
-  }, [user, router, userId]);
+  }, [user, router]);
 
   useEffect(() => {
     if (!user) {

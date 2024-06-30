@@ -1,11 +1,15 @@
 import SocialMainPage from "@/components/SocialMainPage";
 import LeftBar from "@/components/socials/LeftBar";
+import connectDb from "@/lib/connectDb";
+import Post from "@/models/post";
 import User from "@/models/user";
 import { checkEnvironment } from "@/utils";
 import { auth } from "@clerk/nextjs";
 import { Box } from "@mui/material";
+import { NextResponse } from "next/server";
 
 import React from "react";
+
 async function getUser() {
   const { userId } = auth();
   try {
@@ -17,22 +21,27 @@ async function getUser() {
 }
 async function getPosts() {
   try {
-    const res = await fetch(`${checkEnvironment()}/api/posts/getallPosts`);
-    return res.json();
+    const res = await fetch(`${checkEnvironment()}/api/posts/getAllPosts`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const posts = await res.json();
+
+    return posts;
   } catch (error) {
     console.log(error);
   }
 }
 const SocialPage = async () => {
-  const userdata = getUser();
-  const postsdata = getPosts();
-  const [user, posts] = await Promise.all([userdata, postsdata]);
-
+  const user = await getUser();
+  const posts = await getPosts();
   console.log(posts);
   return (
     <div className="w-screen h-screen  bg-gray-600">
       {" "}
-      <SocialMainPage user={user} posts={posts} />{" "}
+      <SocialMainPage user={user} posts={posts} />
     </div>
   );
 };
