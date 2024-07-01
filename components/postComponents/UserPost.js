@@ -5,16 +5,21 @@ import { HiBell } from "react-icons/hi";
 import { Button } from "../ui/button";
 import { Camera } from "@mui/icons-material";
 import Image from "next/image";
+import { useGlobalContext } from "@/app/Context/store";
+import { global } from "@/actions";
 
-const UserPost = ({ user, posts }) => {
+const UserPost = ({ user }) => {
+  const {
+    userState: { showPosts },
+    setUserState,
+  } = useGlobalContext();
   const baseUrl = "/api/posts/createPost";
   const [file, setFile] = useState();
   const [fileUrl, setUrl] = useState("");
   const [url, setFileUrl] = useState();
   const [loading, setLoading] = useState();
   const [statusmsg, setStatusMessage] = useState();
-  const [showmore, setShowmore] = React.useState(false);
-  console.log(posts);
+
   const [postdata, setPostData] = useState({ post: "", description: "" });
   const handleChange = (e) => {
     const f = e.target.files?.[0];
@@ -54,7 +59,7 @@ const UserPost = ({ user, posts }) => {
   };
   return (
     <>
-      {!showmore ? (
+      {!showPosts ? (
         <form
           className="h-[140px] bg-gray-600 shadow-xl w-[90%] mx-auto p-3 mt-8"
           onSubmit={handlePost}
@@ -79,7 +84,9 @@ const UserPost = ({ user, posts }) => {
             <Button
               variant="secondary"
               type="button"
-              onClick={() => setShowmore((prev) => !prev)}
+              onClick={() =>
+                setUserState({ type: global.SHOWPOSTS, payload: !showPosts })
+              }
             >
               Add more+
             </Button>
@@ -107,7 +114,8 @@ const UserPost = ({ user, posts }) => {
             const imageUrl = uploadedImageData.secure_url;
             setUrl(imageUrl);
             console.log(imageUrl);
-            setShowmore((prev) => !prev);
+
+            setUserState({ type: global.SHOWPOSTS, payload: !showPosts });
           }}
           className="h-[90px] bg-gray-600 shadow-full w-[90%] mx-auto p-3 mt-8"
         >

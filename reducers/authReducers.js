@@ -23,5 +23,10 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         loading: action.payload,
       };
+    case global.SHOWPOSTS:
+      return {
+        ...state,
+        showposts: action.payload,
+      };
   }
 };

@@ -21,14 +21,14 @@ async function getUser() {
 }
 async function getPosts() {
   try {
-    const res = await fetch(`${checkEnvironment()}/api/posts/getAllPosts`, {
+    const res = await fetch(`${checkEnvironment()}/api/posts/getPosts`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     });
     const posts = await res.json();
-
+    console.log(posts);
     return posts;
   } catch (error) {
     console.log(error);

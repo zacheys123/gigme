@@ -4,7 +4,7 @@ import { auth } from "@clerk/nextjs";
 import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
-  publicRoutes: ["/", "/api/user/getuser/:id", "/api/posts/getallPosts"],
+  publicRoutes: ["/", "/api/user/getuser/:id", "/api/posts/getPosts"],
 });
 export const config = {
   matcher: [
