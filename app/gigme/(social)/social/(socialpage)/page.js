@@ -28,8 +28,23 @@ async function getPosts() {
       },
     });
     const posts = await res.json();
-    console.log(posts);
+
     return posts;
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function getComments() {
+  try {
+    const res = await fetch(`${checkEnvironment()}/api/comments/getComments`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const comments = await res.json();
+
+    return comments;
   } catch (error) {
     console.log(error);
   }
@@ -37,11 +52,12 @@ async function getPosts() {
 const SocialPage = async () => {
   const user = await getUser();
   const posts = await getPosts();
-  console.log(posts);
+  const comments = await getComments();
+
   return (
-    <div className="w-screen h-screen  bg-gray-600">
+    <div className="w-screen h-screen  bg-gray-900">
       {" "}
-      <SocialMainPage user={user} posts={posts} />
+      <SocialMainPage user={user} posts={posts} comments={comments} />
     </div>
   );
 };

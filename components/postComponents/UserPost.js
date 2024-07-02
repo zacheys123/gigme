@@ -7,7 +7,8 @@ import { Camera } from "@mui/icons-material";
 import Image from "next/image";
 import { useGlobalContext } from "@/app/Context/store";
 import { global } from "@/actions";
-
+import { CircularProgress } from "@mui/material";
+import { toast } from "sonner";
 const UserPost = ({ user }) => {
   const {
     userState: { showPosts },
@@ -15,8 +16,8 @@ const UserPost = ({ user }) => {
   } = useGlobalContext();
   const baseUrl = "/api/posts/createPost";
   const [file, setFile] = useState();
-  const [fileUrl, setUrl] = useState("");
-  const [url, setFileUrl] = useState();
+  const [url, setUrl] = useState("");
+  const [fileUrl, setFileUrl] = useState("");
   const [loading, setLoading] = useState();
   const [statusmsg, setStatusMessage] = useState();
 
@@ -45,17 +46,25 @@ const UserPost = ({ user }) => {
       description: postdata.description,
       postedBy: user?.user?._id,
     };
-    const res = await fetch(baseUrl, {
-      method: "POST",
-      "Content-Type": "application/json",
-      body: JSON.stringify(dataInfo),
-    });
 
-    const data = await res.json();
-    console.log(data);
-    setPostData({ post: "", description: "" });
-    setFileUrl(undefined);
-    setFile(undefined);
+    try {
+      setLoading(true);
+      const res = await fetch(baseUrl, {
+        method: "POST",
+        "Content-Type": "application/json",
+        body: JSON.stringify(dataInfo),
+      });
+
+      const data = await res.json();
+      console.log(data);
+      toast.success(data?.message);
+      setPostData({ post: "", description: "" });
+      setFileUrl(undefined);
+      setFile(undefined);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
@@ -91,7 +100,15 @@ const UserPost = ({ user }) => {
               Add more+
             </Button>
             <Button variant="primary" type="submit" className="w-[90px]">
-              Post
+              {!loading ? (
+                "Post"
+              ) : (
+                <CircularProgress
+                  size="13px"
+                  sx={{ color: "white", fontBold: "500" }}
+                  className="bg-white rounded-tr-full text-[12px]"
+                />
+              )}
             </Button>
           </div>
         </form>
@@ -99,7 +116,6 @@ const UserPost = ({ user }) => {
         <form
           onSubmit={async (ev) => {
             ev.preventDefault();
-
             const data = new FormData();
             data.append("file", file);
             data.append("upload_preset", "gigmeZach");

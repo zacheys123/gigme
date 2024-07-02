@@ -7,6 +7,7 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { Button } from "flowbite-react";
 import React, { useCallback, useState } from "react";
 import { useEffect } from "react";
+import { Toaster } from "sonner";
 const GigmeLayout = ({ children }) => {
   const { user } = useUser();
 
@@ -40,8 +41,9 @@ const GigmeLayout = ({ children }) => {
   return (
     <>
       <div className="flex flex-col gap-2">
+        <Toaster expand={false} richColors position="top" />
         <SocialNav />
-        <div className="flex ">
+        <div className="flex">
           <LeftBar />
           {children}
           <RightBar />

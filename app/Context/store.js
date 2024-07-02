@@ -6,6 +6,7 @@ export const initialState = {
   toggle: false,
   loading: false,
   showPosts: false,
+  showComments: false,
 };
 
 const GlobalContext = createContext(initialState);
