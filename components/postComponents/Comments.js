@@ -26,15 +26,14 @@ const Comments = ({ comment, user, replies }) => {
   const [like, setLike] = useState();
   const [dislike, setdisLike] = useState();
   const [likelength, setLikelength] = useState();
-  const [replyLength, setReplyLength] = useState(newRep);
   const [dislikelength, setdisLikelength] = useState();
-
   const myreplies = newRep?.filter((rep) => {
     return rep?.commentId?._id === comment?._id;
   });
   const [replyarray, setReplyArray] = useState(() =>
     replies?.length < 1 || myreplies === "undefined" ? [] : myreplies
   );
+  const [replyLength, setReplyLength] = useState(myreplies?.length);
   let username = "text-[11px]   ml-2 text-blue-300 font-normal";
   let globe = "text-[8px] ";
   let posted = "text-neutral-400 font-mono text-[11px] md:text-[13px] ml-2";
@@ -59,12 +58,14 @@ const Comments = ({ comment, user, replies }) => {
         body: JSON.stringify(dataInfo),
       });
       const data = await res.json();
-      setReplyArray([...replyarray, data?.results[0]]);
-      console.log(data);
-      router.push(`/gigme/social/replies/${comment?._id}`);
       updateReplyLength();
+      setReplyArray((replyarr) => [...replyarr, data?.results[0]]);
+      console.log(data);
       setText("");
       handleClose();
+      setTimeout(() => {
+        router.push(`/gigme/social/replies/${comment?._id}`);
+      }, 3000);
     } catch (error) {
       console.log(error);
     }
@@ -81,7 +82,7 @@ const Comments = ({ comment, user, replies }) => {
         setText={setText}
       />
 
-      <div className="mt-1  shadow-full p-4 rounded-md h-[85px] my-5  mx-2 flex flex-col">
+      <div className="mt-1  shadow-full p-4 rounded-md h-fit  my-5  mx-2 flex flex-col">
         <div className="flex items-center mt-2">
           {comment?.postedBy?.picture && (
             <Image
@@ -96,7 +97,9 @@ const Comments = ({ comment, user, replies }) => {
           <h5 className={posted}>{differenceInMinutes(comment, new Date())}</h5>
         </div>
         <div className="flex  flex-col ">
-          <h6 className="text-[13px] text-neutral-300 m-2">{comment?.text}</h6>
+          <h6 className="text-[13px] text-neutral-300 m-2 line-clamp-2">
+            {comment?.text}
+          </h6>
 
           {/* likes and dislikes */}
           <Box className="w-full flex  justify-center">

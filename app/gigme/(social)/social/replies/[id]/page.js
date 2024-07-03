@@ -39,7 +39,7 @@ const ReplyPage = async ({ params }) => {
   console.log(replies);
 
   return (
-    <div className="h-screen w-screen  bg-neutral-300">
+    <div className="h-fit w-screen bg-neutral-300 overflow-hidden">
       <ReplyComponent comment={comment} replies={replies} />
     </div>
   );

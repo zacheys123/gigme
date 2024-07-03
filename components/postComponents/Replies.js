@@ -23,7 +23,7 @@ const Replies = ({ replies, username, posted }) => {
   const [dislikelength, setdisLikelength] = useState();
   return (
     <Box className="bg-inherit shadow-xl h-[120px] rounded-sm w-full p-2  mt-2 ml-5 ">
-      <div className="flex items-center mt-2">
+      <div className="flex items-center ">
         {replies?.postedBy?.picture && (
           <Image
             alt={replies && replies?.postedBy?.firstname.split("")[0]}
@@ -37,7 +37,7 @@ const Replies = ({ replies, username, posted }) => {
         <h5 className={posted}>{differenceInMinutes(replies, new Date())}</h5>
       </div>
       <div className="flex  flex-col ">
-        <h6 className="text-[13px] text-neutral-600 m-2">{replies?.text}</h6>
+        <h6 className="text  text-neutral-500 m-2 ">{replies?.text}</h6>
 
         {/* likes and dislikes */}
         <Box className="w-full flex  justify-center">

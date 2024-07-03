@@ -11,7 +11,7 @@ import { Box, CircularProgress } from "@mui/material";
 import { TextInput } from "flowbite-react";
 import { Globe } from "lucide-react";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { AiOutlineLike } from "react-icons/ai";
 import { AiFillLike } from "react-icons/ai";
 import { AiOutlineDislike } from "react-icons/ai";
@@ -69,16 +69,17 @@ const SinglePost = ({ post, user, comments, replies }) => {
       setComentLoad(false);
     }
   };
-
-  function randComment() {
+  // get a random comment after every 30secs
+  const randComment = useCallback(() => {
     let arr = commentsArray;
     return arr[Math.floor(Math.random() * arr.length)];
-  }
+  }, [commentsArray]);
   useEffect(() => {
     setTimeout(() => {
       randComment();
     }, 3000);
-  }, []);
+  }, [randComment]);
+
   let username = "text-[13px]   ml-2 text-blue-300 font-bold";
   let globe = "text-[10px]";
   let posted = "text-neutral-400 font-mono text-[13px] md:text-[15px]";
@@ -140,10 +141,8 @@ const SinglePost = ({ post, user, comments, replies }) => {
           <div className="flex mt-1 items-center mb-3">
             {randComment()?.postedBy?.picture && (
               <Image
-                alt={"user".split("")[0]}
-                src={
-                  randComment()?.postedBy && randComment()?.postedBy?.picture
-                }
+                alt={randComment()?.postedBy?.firstname?.split("")[0]}
+                src={commentsArray && randComment()?.postedBy?.picture}
                 width={20}
                 height={20}
                 className="w-[20px] h-[20px]  rounded-full"
@@ -195,7 +194,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
                 required
                 value={comm}
                 onChange={(ev) => setComm(ev.target.value)}
-                className="w-[98%]  h-[30px] bottom-0 absolute rounded-xl   outline-none mx-auto focus-within:ring-0 bg-inherit font-mono placeholder-sky-500"
+                className="w-[98%] text-[12px]  h-[30px] bottom-0 absolute rounded-xl   outline-none mx-auto focus-within:ring-0 bg-inherit font-mono placeholder-sky-500"
               />
             </form>
           </section>

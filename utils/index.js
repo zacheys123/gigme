@@ -65,11 +65,13 @@ export function getReplys(replarray, replyLength) {
 export const handleRouting = (post, user) => {
   if (post?.postedBy?.clerkId === user) {
     return (
-      <Link href={`/v1/profile${user}/user`}>@{post?.postedBy?.username}</Link>
+      <Link href={`/v1/profile/${user}/user`} className="link">
+        @{post?.postedBy?.username}
+      </Link>
     );
   }
   return (
-    <Link href={`/friends/${post?.postedBy?.username}`}>
+    <Link href={`/friends/${post?.postedBy?.username}`} className="link">
       @{post?.postedBy?.username}
     </Link>
   );

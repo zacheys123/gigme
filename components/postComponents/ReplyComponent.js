@@ -25,21 +25,22 @@ const ReplyComponent = ({ comment, replies }) => {
   const [like, setLike] = useState();
   const [dislike, setdisLike] = useState();
   const [likelength, setLikelength] = useState();
-  const [replyLength, setReplyLength] = useState(newRep);
+  const [replyLength, setReplyLength] = useState(newRep?.length);
   const [dislikelength, setdisLikelength] = useState();
+  //   current comment
   let mycomm = comment?.comment;
+  //   getting the replies a specific comment
   const myreplies = newRep?.filter((rep) => {
     return rep?.commentId?._id === mycomm?._id;
   });
-  const [replyarray, setReplyArray] = useState(myreplies);
   console.log(myreplies);
-  let username = "text-[14px] font-sans   ml-2 text-slate-400 font-normal";
+  let username = "  ml-2 text-slate-400 font-normal";
   let globe = "text-[8px] ";
   let posted = "text-neutral-400 font-mono text-[12px] md:text-[15px] ml-2";
   const router = useRouter();
   return (
-    <>
-      <Box className="bg-neutral-200 shadow-lg rounded-md my-2 h-[120px] mx-auto w-[95%]  p-3 sticky ">
+    <div className="flex flex-col">
+      <Box className="bg-neutral-200 shadow-lg rounded-md my-2 h-[120px] mx-auto w-[95%]  p-3 top-0 ">
         <div className="flex justify-between">
           <FaArrowLeft
             onClick={() => router.back()}
@@ -65,7 +66,9 @@ const ReplyComponent = ({ comment, replies }) => {
           <h5 className={posted}>{differenceInMinutes(mycomm, new Date())}</h5>
         </div>
         <div className="flex  flex-col ">
-          <h6 className="text-[13px] text-neutral-600 m-2">{mycomm?.text}</h6>
+          <h6 className="comtext text-[13px] text-neutral-600 m-2">
+            {mycomm?.text}
+          </h6>
 
           {/* likes and dislikes */}
           <Box className="w-full flex  justify-center">
@@ -83,27 +86,28 @@ const ReplyComponent = ({ comment, replies }) => {
         </div>
       </Box>{" "}
       <Divider />
-      {(!replyarray && replyarray?.length < 1) || replyarray.length === 0 ? (
-        <section className="overflow-hidden flex justify-center items-center h-[calc(100vh-270px)] bg-neutral-300 flex-col container ">
+      {/* <section className="overflow-hidden flex justify-center items-center h-[calc(100vh-270px)] bg-neutral-300 flex-col container ">
           no replies available 😪🧐
         </section>
-      ) : (
-        <section className="overflow-scroll element-with-scroll flex justify-items-end h-screen bg-neutral-300 flex-col container ">
-          {replyarray
-            ?.map((rep) => {
-              return (
-                <Replies
-                  key={rep?._id}
-                  replies={rep}
-                  username={username}
-                  posted={posted}
-                />
-              );
-            })
-            .reverse()}
-        </section>
-      )}
-    </>
+      ) : ( */}
+      <section
+        className="overflow-scroll element-with-scroll flex
+       justify-items-end h-screen bg-neutral-300 flex-col container "
+      >
+        {myreplies
+          ?.map((rep) => {
+            return (
+              <Replies
+                key={rep?._id}
+                replies={rep}
+                username={username}
+                posted={posted}
+              />
+            );
+          })
+          .reverse()}
+      </section>
+    </div>
   );
 };
 
