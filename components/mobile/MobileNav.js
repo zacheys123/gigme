@@ -1,30 +1,54 @@
 import Link from "next/link";
 import React from "react";
 import Logo from "../Logo";
-import { TextInput } from "flowbite-react";
-import { Search } from "lucide-react";
 import { Box } from "@mui/material";
-import MobileSheet from "./MobileSheet";
-import { useUser } from "@clerk/nextjs";
-
+import { Home, Menu, Music, Search, Settings, User } from "lucide-react";
+import { Chat, Dashboard } from "@mui/icons-material";
+import { UserButton, useAuth } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
 const MobileNav = () => {
-  const { user } = useUser();
+  const pathname = usePathname();
+  const { userId } = useAuth();
   return (
     <div className="flex p-3 bg-gray-300 shadow-lg  items-center justify-between gap-2 lg:hidden">
       <Box className="flex items-center justify-center gap-3">
         <Logo />
       </Box>{" "}
-      <div>
-        <span className="font-bold text-[12px] text-gray-600/50 ">
-          Logged User:{" "}
-        </span>
-        <span className="font-bold text-[13px] text-neutral-600/40 font-mono">
-          {user?.emailAddresses[0]?.emailAddress}
-        </span>
+      <div className="w-100 flex flex-row gap-2 justify-between items-center">
+        {pathname === "/gigme/social" ? (
+          ""
+        ) : (
+          <Link
+            href="/gigme/social"
+            className="flex flex-col items-center gap-3 "
+          >
+            <Home />
+          </Link>
+        )}
+        {pathname === "/gigme/search" ? (
+          ""
+        ) : (
+          <Link
+            href={`/gigme/search`}
+            className="flex flex-col items-center gap-3"
+          >
+            <Search />
+          </Link>
+        )}
+        <Link
+          href={`/v1/profile/${userId}`}
+          className="flex flex-col items-center gap-3"
+        >
+          <User />
+        </Link>
+        <Link
+          href={`/gigme/gigs/${userId}`}
+          className="flex flex-col items-center gap-3"
+        >
+          <Music />
+        </Link>{" "}
       </div>
-      <div>
-        <MobileSheet />
-      </div>
+      <UserButton />
     </div>
   );
 };

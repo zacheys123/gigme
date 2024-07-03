@@ -120,7 +120,7 @@
 }
 
 .element-with-scroll::-webkit-scrollbar-thumb {
-  background-color: grey
+  background-color: grey;
   /* Set thumb color for Chrome and Safari */
 }
 
@@ -128,22 +128,25 @@
   background-color: grey !important;
   /* Set track color for Chrome and Safari */
 }
-.title{
+.title {
   font-family: cursive;
 }
 .likes {
-  font-size:12px;
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+  font-size: 12px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
-.link{
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-font-size:12px;
+.link {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 12px;
 }
 
 .comtext {
-  font-family:monospace;
+  font-family: monospace;
   font-size: 13px;
 }
 .text {
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  font-size: 13px;}
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: 13px;
+}
