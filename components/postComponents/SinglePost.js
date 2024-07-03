@@ -19,9 +19,7 @@ import { AiFillDislike } from "react-icons/ai";
 import { FaArrowLeft } from "react-icons/fa";
 import Comments from "./Comments";
 import HeaderDetails from "./HeaderDetails";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@clerk/nextjs";
-const SinglePost = ({ post, user, comments }) => {
+const SinglePost = ({ post, user, comments, replies }) => {
   let newComm = comments?.comments;
   const {
     userState: {},
@@ -36,12 +34,15 @@ const SinglePost = ({ post, user, comments }) => {
   const [dislikelength, setdisLikelength] = useState();
 
   let myComments = newComm.filter((com) => {
-    return com?.postId._id === post?._id;
+    return com?.postId?._id === post?._id;
   });
   console.log(myComments);
   const [commentsArray, setComments] = useState(myComments);
   const [showComments, setShowComments] = useState();
   var today = new Date();
+  function calcComments() {
+    setCommentlength((prev) => prev + 1);
+  }
   const handleComment = async (ev) => {
     ev.preventDefault();
     setComentLoad(true);
@@ -60,7 +61,8 @@ const SinglePost = ({ post, user, comments }) => {
 
       const data = await res.json();
       console.log(data);
-      setComments([...commentsArray, data]);
+      calcComments();
+      setComments((commentsArray) => [...commentsArray, data?.results[0]]);
       setComm("");
       setComentLoad(false);
     } catch (error) {
@@ -103,7 +105,7 @@ const SinglePost = ({ post, user, comments }) => {
               width={130}
               height={130}
               src={post?.media}
-              alt={post?.media}
+              alt="post image"
               className="object-cover h-[260px] w-full mt-3"
             />
           )}
@@ -126,20 +128,22 @@ const SinglePost = ({ post, user, comments }) => {
       {/* comment section */}
       {!showComments ? (
         <div
-          className="flex flex-col h-[170px] bg-slate-800 rounded-xl -mt-2 px-2 py-1 hover:bg-slate-600 cursor-pointer transition-all duration-500"
+          className="flex flex-col h-[170px] bg-slate-800 rounded-xl -mt-1 px-2  hover:bg-slate-600 cursor-pointer transition-all duration-500"
           onClick={() =>
             // setUserState({ type: global.SHOWCOMMENTS, payload: !showComments })
             setShowComments((prev) => !prev)
           }
         >
-          <h6 className="text-neutral-300 text-[13px]">
+          <h6 className="text-neutral-300 text-[13px] my-1">
             {getComments(commentsArray, commentLength)}
           </h6>
-          <div className="flex mt-1 items-center">
+          <div className="flex mt-1 items-center mb-3">
             {randComment()?.postedBy?.picture && (
               <Image
-                alt={randComment()?.postedBy?.firstname.split("")[0]}
-                src={randComment()?.postedBy?.picture}
+                alt={"user".split("")[0]}
+                src={
+                  randComment()?.postedBy && randComment()?.postedBy?.picture
+                }
                 width={20}
                 height={20}
                 className="w-[20px] h-[20px]  rounded-full"
@@ -152,44 +156,49 @@ const SinglePost = ({ post, user, comments }) => {
         </div>
       ) : (
         <>
-          {!commentLoad ? (
-            <section className="w-full h-full overflow-auto -mt-2 bg-neutral-slate-600">
-              <div className="flex justify-between items-center">
-                <FaArrowLeft
-                  onClick={() =>
-                    // setUserState({
-                    //   type: global.SHOWCOMMENTS,
-                    //   payload: !showComments,
-                    // })
-                    setShowComments((prev) => !prev)
-                  }
-                />
-                <h6 className="text-neutral-300 text-[13px]">
-                  {getComments(commentsArray, commentLength)}
-                </h6>
-              </div>
-              <div>
-                {commentsArray?.map((comment) => {
-                  return <Comments key={comment?._id} comment={comment} />;
-                })}
-              </div>
-              <form className="w-full relative h-full" onSubmit={handleComment}>
-                <input
-                  id="post"
-                  type="text"
-                  placeholder="Add a comment...."
-                  required
-                  value={comm}
-                  onChange={(ev) => setComm(ev.target.value)}
-                  className="w-[98%]  h-[30px] bottom-0 absolute rounded-xl   outline-none mx-auto focus-within:ring-0 bg-inherit font-mono placeholder-sky-500"
-                />
-              </form>
-            </section>
-          ) : (
-            <section className="h-full w-full opacity-85 bg-neutral-400 flex justify-center items-center ">
-              <CircularProgress size="16px" />
-            </section>
-          )}
+          <section className="w-full h-full overflow-auto -mt-1 bg-neutral-slate-600">
+            <div className="flex justify-between items-center">
+              <FaArrowLeft
+                onClick={() =>
+                  // setUserState({
+                  //   type: global.SHOWCOMMENTS,
+                  //   payload: !showComments,
+                  // })
+                  setShowComments((prev) => !prev)
+                }
+              />
+              <h6 className="text-neutral-300 text-[13px]">
+                {getComments(commentsArray, commentLength)}
+              </h6>{" "}
+              {!commentLoad ? "" : <CircularProgress size="16px" />}
+            </div>
+            <div>
+              {commentsArray &&
+                commentsArray
+                  ?.map((comment) => {
+                    return (
+                      <Comments
+                        key={comment?._id}
+                        comment={comment}
+                        user={user}
+                        replies={replies}
+                      />
+                    );
+                  })
+                  .reverse()}
+            </div>
+            <form className="w-full relative h-full" onSubmit={handleComment}>
+              <input
+                id="post"
+                type="text"
+                placeholder="Add a comment...."
+                required
+                value={comm}
+                onChange={(ev) => setComm(ev.target.value)}
+                className="w-[98%]  h-[30px] bottom-0 absolute rounded-xl   outline-none mx-auto focus-within:ring-0 bg-inherit font-mono placeholder-sky-500"
+              />
+            </form>
+          </section>
         </>
       )}
     </div>

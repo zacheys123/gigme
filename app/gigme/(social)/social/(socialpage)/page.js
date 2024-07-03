@@ -49,15 +49,36 @@ async function getComments() {
     console.log(error);
   }
 }
+async function getReplies() {
+  try {
+    const res = await fetch(`${checkEnvironment()}/api/reply/getReplies`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const replies = await res.json();
+
+    return replies;
+  } catch (error) {
+    console.log(error);
+  }
+}
 const SocialPage = async () => {
   const user = await getUser();
   const posts = await getPosts();
   const comments = await getComments();
-
+  const replies = await getReplies();
+  console.log(replies);
   return (
     <div className="w-screen h-screen  bg-gray-900">
       {" "}
-      <SocialMainPage user={user} posts={posts} comments={comments} />
+      <SocialMainPage
+        user={user}
+        posts={posts}
+        comments={comments}
+        replies={replies}
+      />
     </div>
   );
 };

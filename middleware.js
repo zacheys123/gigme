@@ -7,8 +7,11 @@ export default authMiddleware({
   publicRoutes: [
     "/",
     "/api/user/getuser/:id",
+    "/api/user/getAllusers/:id",
     "/api/posts/getPosts",
     "/api/comments/getComments",
+    "/api/comments/getComment/:id",
+    "/api/reply/getReplies",
   ],
 });
 export const config = {

@@ -14,6 +14,6 @@ const replySchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-const Reply = models.Comment || mongoose.model("Reply", replySchema);
+const Reply = models.Reply || mongoose.model("Reply", replySchema);
 
 export default Reply;

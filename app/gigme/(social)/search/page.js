@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import OverlaySearch from "@/components/OverlaySearch";
-import MainUser from "@/components/MainUser";
 import { auth } from "@clerk/nextjs";
-import { Skeleton } from "@/components/ui/skeleton";
 import SearchComponent from "@/components/SearchComponent";
 import { checkEnvironment } from "@/utils";
-
 async function search() {
   const { userId } = auth();
   const res = await fetch(

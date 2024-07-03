@@ -3,7 +3,7 @@ import { useGlobalContext } from "@/app/Context/store";
 import React from "react";
 import SinglePost from "./SinglePost";
 
-const AllPosts = ({ userposts, user, comments }) => {
+const AllPosts = ({ userposts, user, comments, replies }) => {
   const {
     userState: { showPosts },
     setUserState,
@@ -21,6 +21,7 @@ const AllPosts = ({ userposts, user, comments }) => {
                   post={post}
                   user={user}
                   comments={comments}
+                  replies={replies}
                 />
               );
             })

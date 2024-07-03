@@ -1,6 +1,7 @@
 import connectDb from "@/lib/connectDb";
 import Reply from "@/models/reply";
 import User from "@/models/user";
+import Comment from "@/models/comments";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
@@ -24,10 +25,12 @@ export async function POST(req, { params }) {
     });
     await newReply.save();
 
-    const rep = await Reply.find().populate({
-      path: "postedBy",
-      model: User,
-    });
+    const rep = await Reply.find({ _id: newReply._id })
+      .populate({
+        path: "postedBy",
+        model: User,
+      })
+      .populate({ path: "commentId", model: Comment });
     return NextResponse.json({
       userstatus: true,
       message: "Reply uploaded successfully",

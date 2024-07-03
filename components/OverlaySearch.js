@@ -1,3 +1,4 @@
+"use client";
 import { Avatar } from "@mui/material";
 import React from "react";
 import Transition from "./Transition";
@@ -22,48 +23,30 @@ const OverlaySearch = ({ searchfunc }) => {
   return (
     <Transition variant={variant} className="absolute bg-green-500">
       <div className="md:flex flex-col  md:z-50  md:bg-black md:h-screen md:w-screen  ">
-        {searchfunc ? (
-          searchfunc?.map((user) => {
-            return (
-              <div
-                key={user?._id}
-                onClick={() => router.push(`/friends/${user?.username}`)}
-                className=" bg-gray-600/60  my-[15px] mx-[35px] font-mono text-neutral-300/60 w-[300px] md:w-[700px] rounded-xl p-2 cursor-pointer hover:bg-gray-500/80 transition ease-in-out delay-150 hover:-translate-x-2 hover:scale-20  duration-300"
-              >
-                <div className="flex gap-4 items-center ">
-                  {" "}
-                  <Avatar
-                    src={user?.picture}
-                    className="rounded-full"
-                    alt="profile"
-                  />
-                  <div>
-                    <div className="flex flex-col gap-2 text-red-200">
-                      {user?.firstname} {user?.lastname}
-                    </div>
-                    <div className="text-purple-100">{user?.email}</div>
+        {searchfunc?.map((user) => {
+          return (
+            <div
+              key={user?._id}
+              onClick={() => router.push(`/friends/${user?.username}`)}
+              className=" bg-gray-600/60  my-[15px] mx-[35px] font-mono text-neutral-300/60 w-[300px] md:w-[700px] rounded-xl p-2 cursor-pointer hover:bg-gray-500/80 transition ease-in-out delay-150 hover:-translate-x-2 hover:scale-20  duration-300"
+            >
+              <div className="flex gap-4 items-center ">
+                {" "}
+                <Avatar
+                  src={user?.picture}
+                  className="rounded-full"
+                  alt="profile"
+                />
+                <div>
+                  <div className="flex flex-col gap-2 text-red-200">
+                    {user?.firstname} {user?.lastname}
                   </div>
-                </div>
-              </div>
-            );
-          })
-        ) : (
-          <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto">
-            <div className="animate-pulse flex space-x-4">
-              <div className="rounded-full bg-slate-200 h-10 w-10"></div>
-              <div className="flex-1 space-y-6 py-1">
-                <div className="h-2 bg-slate-200 rounded"></div>
-                <div className="space-y-3">
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="h-2 bg-slate-200 rounded col-span-2"></div>
-                    <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                  </div>
-                  <div className="h-2 bg-slate-200 rounded"></div>
+                  <div className="text-purple-100">{user?.email}</div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          );
+        })}
       </div>
     </Transition>
   );

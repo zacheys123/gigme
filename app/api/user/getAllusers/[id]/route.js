@@ -15,7 +15,7 @@ export async function GET(req, { params }) {
       }
       return currentuser;
     });
-    console.log(currentuser);
+
     return NextResponse.json({ currentuser });
   } catch (error) {
     return NextResponse.json({ message: error }, { status: 500 });

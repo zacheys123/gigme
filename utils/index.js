@@ -49,6 +49,18 @@ export function getComments(commentsarray, commentLength) {
     return `${commentsarray?.length} comments` || `${commentLength}comments`;
   }
 }
+export function getReplys(replarray, replyLength) {
+  if (replarray?.length >= 1000) {
+    return `${replarray?.length}k replies` || `${replyLength}k replies`;
+  } else if (replarray?.length < 1 || replyLength < 1) {
+    return "no reply";
+  } else if (replarray?.length > 1 || replyLength > 1) {
+    return `${replarray?.length} replies` || `${replyLength}replies`;
+  } else if (replarray?.length === 1 || replyLength === 1) {
+    return `${replarray?.length} reply` || `${replyLength}reply`;
+  }
+  return `${replarray?.length} replies` || `${replyLength}replies`;
+}
 
 export const handleRouting = (post, user) => {
   if (post?.postedBy?.clerkId === user) {

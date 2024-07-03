@@ -24,7 +24,7 @@ export async function POST(req, { params }) {
     });
     await newComment.save();
 
-    const comm = await Comment.find().populate({
+    const comm = await Comment.find({ _id: newComment._id }).populate({
       path: "postedBy",
       model: User,
     });
