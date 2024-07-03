@@ -19,6 +19,12 @@ import { AiFillDislike } from "react-icons/ai";
 import { FaArrowLeft } from "react-icons/fa";
 import Comments from "./Comments";
 import HeaderDetails from "./HeaderDetails";
+import {
+  handleLike,
+  handleUndislike,
+  handleUnlike,
+  handledisLike,
+} from "@/features/likeDislike";
 const SinglePost = ({ post, user, comments, replies }) => {
   let newComm = comments?.comments;
   const {
@@ -73,16 +79,29 @@ const SinglePost = ({ post, user, comments, replies }) => {
   const randComment = useCallback(() => {
     let arr = commentsArray;
     return arr[Math.floor(Math.random() * arr.length)];
-  }, [commentsArray]);
+  }, []);
   useEffect(() => {
     setTimeout(() => {
       randComment();
     }, 3000);
-  }, [randComment]);
+  });
 
   let username = "text-[13px]   ml-2 text-blue-300 font-bold";
   let globe = "text-[10px]";
   let posted = "text-neutral-400 font-mono text-[13px] md:text-[15px]";
+
+  const setPostLike = () => {
+    handleLike(dep, id, current, setLikelength, setLike);
+  };
+  const setPostUnLike = (d) => {
+    handleUnlike(ep, id, current, setLikelength, setLike);
+  };
+  const setPostdisLike = () => {
+    handledisLike(dep, id, current, setdisLikelength, setdisLike);
+  };
+  const setPostUndisLike = () => {
+    handleUndislike(dep, id, current, setdisLikelength, setdisLike);
+  };
 
   return (
     <div
@@ -119,11 +138,19 @@ const SinglePost = ({ post, user, comments, replies }) => {
       <div className="flex gap-2 items-center  -mt-1">
         <div className="flex  items-center likes">
           {getLikes(post, likelength)}
-          {like ? <AiOutlineLike /> : <AiFillLike />}
+          {like ? (
+            <AiOutlineLike onClick={setPostLike} />
+          ) : (
+            <AiFillLike onClick={setPostUnLike} />
+          )}
         </div>
         <div className="flex  items-center likes">
           {getDisLikes(post, dislikelength)}
-          {dislike ? <AiOutlineDislike /> : <AiFillDislike />}
+          {dislike ? (
+            <AiOutlineDislike onClick={setPostdisLike} />
+          ) : (
+            <AiFillDislike onClick={setPostUndisLike} />
+          )}
         </div>
       </div>
       {/* comment section */}

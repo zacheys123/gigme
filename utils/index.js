@@ -35,10 +35,24 @@ export const differenceInMinutes = (post, today) => {
 };
 
 export function getLikes(posts, likeLength) {
-  return "50 ";
+  if (posts?.likes?.length > 1000) {
+    return posts?.likes?.length < 0 ? likeLength : `${posts?.likes?.length}k`;
+  } else if (posts?.likes?.length < 1) {
+    return posts?.likes?.length < 1 ? likeLength : posts?.likes?.length;
+  } else {
+    return "";
+  }
 }
-export function getDisLikes(posts, likeLength) {
-  return "50 ";
+export function getDisLikes(posts, dislikeLength) {
+  if (posts?.dislikes?.length > 1000) {
+    return posts?.dislikes?.length < 0
+      ? dislikeLength
+      : `${posts?.dislikes?.length}k`;
+  } else if (posts?.dislikes?.length < 1) {
+    return posts?.dislikes?.length < 1 ? dislikeLength : posts?.likes?.length;
+  } else {
+    return "";
+  }
 }
 export function getComments(commentsarray, commentLength) {
   if (commentsarray?.length >= 1000) {
