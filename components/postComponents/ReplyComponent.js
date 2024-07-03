@@ -52,6 +52,7 @@ const ReplyComponent = ({ comment, replies }) => {
             {getReplys(myreplies, replyLength)}
           </h6>
         </div>
+        <Divider />{" "}
         <div className="flex items-center mt-2">
           {mycomm?.postedBy?.picture && (
             <Image

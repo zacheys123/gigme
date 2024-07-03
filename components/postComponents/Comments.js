@@ -97,7 +97,10 @@ const Comments = ({ comment, user, replies }) => {
           <h5 className={posted}>{differenceInMinutes(comment, new Date())}</h5>
         </div>
         <div className="flex  flex-col ">
-          <h6 className="text-[13px] text-neutral-300 m-2 line-clamp-2">
+          <h6
+            onClick={() => router.push(`/gigme/social/replies/${comment?._id}`)}
+            className="text-[13px] text-neutral-300 m-2 line-clamp-2 p-2 "
+          >
             {comment?.text}
           </h6>
 

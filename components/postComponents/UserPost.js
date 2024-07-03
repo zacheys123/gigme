@@ -70,7 +70,7 @@ const UserPost = ({ user }) => {
     <>
       {!showPosts ? (
         <form
-          className="h-[140px] bg-gray-600 shadow-xl w-[90%] mx-auto p-3 mt-8"
+          className="h-[140px] bg-gray-600 shadow-xl w-[90%] mx-auto py-5 px-5 mt-4"
           onSubmit={handlePost}
         >
           <div>
@@ -78,6 +78,7 @@ const UserPost = ({ user }) => {
             <TextInput
               id="post"
               type="text"
+              className="mt-2"
               placeholder="Create a post...."
               required
               icon={HiBell}
@@ -89,17 +90,22 @@ const UserPost = ({ user }) => {
               }
             />
           </div>
-          <div className="flex justify-between items-center w-full mx-auto mt-4">
+          <div className="flex h-[80px] justify-between items-center w-full mx-auto -mt-2">
             <Button
               variant="secondary"
               type="button"
+              className="h-[30px] w-[80px] p-3"
               onClick={() =>
                 setUserState({ type: global.SHOWPOSTS, payload: !showPosts })
               }
             >
               Add more+
             </Button>
-            <Button variant="primary" type="submit" className="w-[90px]">
+            <Button
+              variant="primary"
+              type="submit"
+              className="h-[30px] w-[80px] p-2"
+            >
               {!loading ? (
                 "Post"
               ) : (

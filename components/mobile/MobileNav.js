@@ -14,7 +14,7 @@ const MobileNav = () => {
       <Box className="flex items-center justify-center gap-3">
         <Logo />
       </Box>{" "}
-      <div className="w-100 flex flex-row gap-2 justify-between items-center">
+      <div className="w-100 flex flex-row gap-10 justify-between items-center">
         {pathname === "/gigme/social" ? (
           ""
         ) : (
