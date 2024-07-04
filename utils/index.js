@@ -36,24 +36,33 @@ export const differenceInMinutes = (post, today) => {
 
 export function getLikes(posts, likeLength) {
   if (posts?.likes?.length > 1000) {
-    return posts?.likes?.length < 0 ? likeLength : `${posts?.likes?.length}k`;
+    return posts?.likes?.length < 0
+      ? likeLength + "k"
+      : `${posts?.likes?.length}k`;
   } else if (posts?.likes?.length < 1) {
     return posts?.likes?.length < 1 ? likeLength : posts?.likes?.length;
-  } else {
+  } else if (posts?.likes?.length === 0 || likeLength === 0) {
     return "";
+  } else {
+    return likeLength || posts?.likes?.length;
   }
 }
 export function getDisLikes(posts, dislikeLength) {
   if (posts?.dislikes?.length > 1000) {
     return posts?.dislikes?.length < 0
-      ? dislikeLength
-      : `${posts?.dislikes?.length}k`;
+      ? dislikeLength / 1000 + "k"
+      : `${posts?.dislikes?.length / 1000}k`;
   } else if (posts?.dislikes?.length < 1) {
-    return posts?.dislikes?.length < 1 ? dislikeLength : posts?.likes?.length;
-  } else {
+    return posts?.dislikes?.length < 1
+      ? dislikeLength
+      : posts?.dislikes?.length;
+  } else if (posts?.dislikes?.length === 0 || dislikeLength === 0) {
     return "";
+  } else {
+    return dislikeLength || posts?.dislikes?.length;
   }
 }
+
 export function getComments(commentsarray, commentLength) {
   if (commentsarray?.length >= 1000) {
     return `${commentsarray?.length}k comments` || `${commentLength}k comments`;

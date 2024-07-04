@@ -1,5 +1,15 @@
 import ReplyComponent from "@/components/postComponents/ReplyComponent";
 import { checkEnvironment } from "@/utils";
+import { auth } from "@clerk/nextjs";
+async function getUser() {
+  const { userId } = auth();
+  try {
+    const res = await fetch(`${checkEnvironment()}/api/user/getuser/${userId}`);
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
 async function getComments(params) {
   try {
     const res = await fetch(
@@ -36,11 +46,12 @@ async function getReplies() {
 const ReplyPage = async ({ params }) => {
   const comment = await getComments(params);
   const replies = await getReplies();
+  const user = await getUser();
   console.log(replies);
 
   return (
     <div className="h-fit w-screen bg-neutral-300 overflow-hidden">
-      <ReplyComponent comment={comment} replies={replies} />
+      <ReplyComponent comment={comment} replies={replies} user={user} />
     </div>
   );
 };

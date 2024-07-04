@@ -1,5 +1,5 @@
 import connectDb from "@/lib/connectDb";
-import Comment from "@/models/comments";
+import Post from "@/models/post";
 import { NextResponse } from "next/server";
 
 export async function PUT(req, { params }) {
@@ -11,10 +11,10 @@ export async function PUT(req, { params }) {
   try {
     await connectDb();
     let mydislikes;
-    mydislikes = await Comment.findById(params.id);
+    mydislikes = await Post.findById(params.id);
 
     await mydislikes.updateOne({ $pull: { dislikes: userId } });
-    mydislikes = await Comment.findById(params.id);
+    mydislikes = await Post.findById(params.id);
     return NextResponse.json({ mydislikes, status: 200 });
   } catch (error) {
     console.log(error);

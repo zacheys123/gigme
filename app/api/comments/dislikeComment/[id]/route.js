@@ -12,8 +12,10 @@ export async function PUT(req, { params }) {
     await connectDb();
     let mydislikes;
     mydislikes = await Comment.findById(params.id);
-
-    await mydislikes.updateOne({ $pull: { dislikes: userId } });
+    if (mydislikes.dislikes.includes(userId)) {
+      return NextResponse.json({ mydislikes, status: 403 });
+    }
+    await mydislikes.updateOne({ $push: { dislikes: userId } });
     mydislikes = await Comment.findById(params.id);
     return NextResponse.json({ mydislikes, status: 200 });
   } catch (error) {

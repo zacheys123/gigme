@@ -15,12 +15,14 @@ import {
   handleRouting,
 } from "@/utils";
 import { useAuth } from "@clerk/nextjs";
-const Replies = ({ replies, username, posted }) => {
+import LikeDisLikeComponent from "./LikeDisLikeComponent";
+const Replies = ({ replies, username, posted, myuser }) => {
   const { userId } = useAuth();
   const [like, setLike] = useState();
   const [dislike, setdisLike] = useState();
   const [likelength, setLikelength] = useState();
   const [dislikelength, setdisLikelength] = useState();
+
   return (
     <Box className="bg-inherit shadow-xl h-[120px] rounded-sm w-full p-2  mt-2 ml-5 ">
       <div className="flex items-center ">
@@ -41,15 +43,12 @@ const Replies = ({ replies, username, posted }) => {
 
         {/* likes and dislikes */}
         <Box className="w-full flex  justify-center">
-          <div className="flex gap-6 items-center  -mt-1">
-            <div className="flex  items-center gap-2 text-[12px]">
-              {getLikes(replies, likelength)}
-              {like ? <AiOutlineLike /> : <AiFillLike />}
-            </div>
-            <div className="flex  items-center gap-2 text-[12px]">
-              {getDisLikes(replies, dislikelength)}
-              {dislike ? <AiOutlineDislike /> : <AiFillDislike />}
-            </div>
+          <div className="flex gap-6 items-center  ">
+            <LikeDisLikeComponent
+              apiroute={replies}
+              myuser={myuser}
+              mydep="reply"
+            />
           </div>
         </Box>
       </div>

@@ -19,9 +19,12 @@ import {
 import { useAuth } from "@clerk/nextjs";
 import Replies from "./Replies";
 import { useRouter } from "next/navigation";
-const ReplyComponent = ({ comment, replies }) => {
+import LikeDisLikeComponent from "./LikeDisLikeComponent";
+const ReplyComponent = ({ comment, replies, user }) => {
   const { userId } = useAuth();
   const newRep = replies?.replies;
+  const myuser = user?.user;
+
   const [like, setLike] = useState();
   const [dislike, setdisLike] = useState();
   const [likelength, setLikelength] = useState();
@@ -73,16 +76,11 @@ const ReplyComponent = ({ comment, replies }) => {
 
           {/* likes and dislikes */}
           <Box className="w-full flex  justify-center">
-            <div className="flex gap-6 items-center  -mt-1">
-              <div className="flex  items-center gap-2 text-[12px]">
-                {getLikes(mycomm, likelength)}
-                {like ? <AiOutlineLike /> : <AiFillLike />}
-              </div>
-              <div className="flex  items-center gap-2 text-[12px]">
-                {getDisLikes(mycomm, dislikelength)}
-                {dislike ? <AiOutlineDislike /> : <AiFillDislike />}
-              </div>
-            </div>
+            <LikeDisLikeComponent
+              apiroute={mycomm}
+              myuser={myuser}
+              mydep="comments"
+            />
           </Box>
         </div>
       </Box>{" "}
@@ -103,6 +101,7 @@ const ReplyComponent = ({ comment, replies }) => {
                 replies={rep}
                 username={username}
                 posted={posted}
+                myuser={myuser}
               />
             );
           })

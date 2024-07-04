@@ -19,10 +19,12 @@ import { FaRegCommentAlt } from "react-icons/fa";
 import { useAuth } from "@clerk/nextjs";
 import ReplyModal from "./ReplyModal";
 import { useRouter } from "next/navigation";
+import LikeDisLikeComponent from "./LikeDisLikeComponent";
 const Comments = ({ comment, user, replies }) => {
   const { userId } = useAuth();
   const [open, setOpen] = React.useState(false);
   let newRep = replies?.replies;
+  let myuser = user?.user;
   const [like, setLike] = useState();
   const [dislike, setdisLike] = useState();
   const [likelength, setLikelength] = useState();
@@ -106,20 +108,18 @@ const Comments = ({ comment, user, replies }) => {
 
           {/* likes and dislikes */}
           <Box className="w-full flex  justify-center">
-            <div className="flex gap-6 items-center  -mt-1">
-              <div className="flex  items-center gap-2 text-[10px]">
-                {getLikes(post, likelength)}
-                {like ? <AiOutlineLike /> : <AiFillLike />}
-              </div>
-              <div className="flex  items-center gap-2 text-[10px]">
-                {getDisLikes(post, dislikelength)}
-                {dislike ? <AiOutlineDislike /> : <AiFillDislike />}
-              </div>
-              <div className="text-[11px]">
+            <div className="flex gap-6 items-center  ">
+              <LikeDisLikeComponent
+                apiroute={comment}
+                myuser={myuser}
+                mydep="comments"
+              />
+              <div className="text-[11px] -mt-3">
                 <FaRegCommentAlt onClick={() => setOpen(true)} />
               </div>
             </div>
           </Box>
+
           {/* reply section */}
           <div className="my-2">
             <h4

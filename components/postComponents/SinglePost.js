@@ -25,8 +25,11 @@ import {
   handleUnlike,
   handledisLike,
 } from "@/features/likeDislike";
+import LikeDisLikeComponent from "./LikeDisLikeComponent";
 const SinglePost = ({ post, user, comments, replies }) => {
   let newComm = comments?.comments;
+  let myuser = user?.user;
+
   const {
     userState: {},
     setUserState,
@@ -35,14 +38,14 @@ const SinglePost = ({ post, user, comments, replies }) => {
   const [comm, setComm] = useState("");
   const [commentLoad, setComentLoad] = useState();
   const [dislike, setdisLike] = useState();
-  const [likelength, setLikelength] = useState();
-  const [commentLength, setCommentlength] = useState();
-  const [dislikelength, setdisLikelength] = useState();
+  const [likelength, setLikelength] = useState(post?.likes.length);
+  const [dislikelength, setdisLikelength] = useState(post.dislikes.length);
 
   let myComments = newComm.filter((com) => {
     return com?.postId?._id === post?._id;
   });
   console.log(myComments);
+  const [commentLength, setCommentlength] = useState(myComments?.length);
   const [commentsArray, setComments] = useState(myComments);
   const [showComments, setShowComments] = useState();
   var today = new Date();
@@ -90,19 +93,6 @@ const SinglePost = ({ post, user, comments, replies }) => {
   let globe = "text-[10px]";
   let posted = "text-neutral-400 font-mono text-[13px] md:text-[15px]";
 
-  const setPostLike = () => {
-    handleLike(dep, id, current, setLikelength, setLike);
-  };
-  const setPostUnLike = (d) => {
-    handleUnlike(ep, id, current, setLikelength, setLike);
-  };
-  const setPostdisLike = () => {
-    handledisLike(dep, id, current, setdisLikelength, setdisLike);
-  };
-  const setPostUndisLike = () => {
-    handleUndislike(dep, id, current, setdisLikelength, setdisLike);
-  };
-
   return (
     <div
       className="container p-3 shadow-slate-400 w-[90%] my-4 
@@ -135,24 +125,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
         </div>
       </Box>
       {/* likes and dislikes */}
-      <div className="flex gap-2 items-center  -mt-1">
-        <div className="flex  items-center likes">
-          {getLikes(post, likelength)}
-          {like ? (
-            <AiOutlineLike onClick={setPostLike} />
-          ) : (
-            <AiFillLike onClick={setPostUnLike} />
-          )}
-        </div>
-        <div className="flex  items-center likes">
-          {getDisLikes(post, dislikelength)}
-          {dislike ? (
-            <AiOutlineDislike onClick={setPostdisLike} />
-          ) : (
-            <AiFillDislike onClick={setPostUndisLike} />
-          )}
-        </div>
-      </div>
+      <LikeDisLikeComponent apiroute={post} myuser={myuser} mydep="posts" />
       {/* comment section */}
       {!showComments ? (
         <div
