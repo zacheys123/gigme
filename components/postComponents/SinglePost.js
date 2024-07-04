@@ -82,7 +82,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
   const randComment = useCallback(() => {
     let arr = commentsArray;
     return arr[Math.floor(Math.random() * arr.length)];
-  }, []);
+  }, [commentsArray]);
   useEffect(() => {
     setTimeout(() => {
       randComment();
