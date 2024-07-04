@@ -14,7 +14,7 @@ const MobileNav = () => {
       <Box className="flex items-center justify-center gap-3">
         <Logo />
       </Box>{" "}
-      <div className="w-100 flex flex-row gap-10 justify-between items-center">
+      <div className="w-100 flex flex-row gap-8 justify-between items-center">
         {pathname === "/gigme/social" ? (
           ""
         ) : (
@@ -22,7 +22,7 @@ const MobileNav = () => {
             href="/gigme/social"
             className="flex flex-col items-center gap-3 "
           >
-            <Home />
+            <Home size="17px" />
           </Link>
         )}
         {pathname === "/gigme/search" ? (
@@ -32,23 +32,23 @@ const MobileNav = () => {
             href={`/gigme/search`}
             className="flex flex-col items-center gap-3"
           >
-            <Search />
+            <Search size="17px" />
           </Link>
         )}
         <Link
           href={`/v1/profile/${userId}`}
           className="flex flex-col items-center gap-3"
         >
-          <User />
+          <User size="17px" />
         </Link>
         <Link
           href={`/gigme/gigs/${userId}`}
           className="flex flex-col items-center gap-3"
         >
-          <Music />
+          <Music size="17px" />
         </Link>{" "}
       </div>
-      <UserButton />
+      <UserButton size="17px" className="w-[17px] h-[17px]" />
     </div>
   );
 };

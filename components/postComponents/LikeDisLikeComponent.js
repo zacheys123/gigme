@@ -11,22 +11,19 @@ import { AiOutlineLike } from "react-icons/ai";
 import { AiFillLike } from "react-icons/ai";
 import { AiOutlineDislike } from "react-icons/ai";
 import { AiFillDislike } from "react-icons/ai";
-const LikeDisLikeComponent = ({ apiroute, myuser, mydep }) => {
+const LikeDisLikeComponent = ({ apiroute, myuser, mydep, api }) => {
   const [like, setLike] = useState();
   const [dislike, setdisLike] = useState();
-  const [likelength, setLikelength] = useState(apiroute?.likes.length);
-  const [dislikelength, setdisLikelength] = useState(
-    apiroute?.dislikes?.length
+  const [likelength, setLikelength] = useState(
+    apiroute?.likes.length === 0 ? "" : apiroute.likes.length
   );
-
-  let deplike = `/api/
-  ${mydep}/likeComment/${apiroute?._id}`;
-  let depunlike = `/api/
-  ${mydep}/UnlikeComment/${apiroute?._id}`;
-  let depdislike = `/api/
-  ${mydep}/dislikeComment/${apiroute?._id}`;
-  let depundislike = `/api/
-  ${mydep}/undislikeComment/${apiroute?._id}`;
+  const [dislikelength, setdisLikelength] = useState(
+    apiroute?.dislikes.length === 0 ? "" : apiroute.dislikes.length
+  );
+  let deplike = `/api/${mydep}/like${api}/${apiroute?._id}`;
+  let depunlike = `/api/${mydep}/unlike${api}/${apiroute?._id}`;
+  let depdislike = `/api/${mydep}/dislike${api}/${apiroute?._id}`;
+  let depundislike = `/api/${mydep}/undislike${api}/${apiroute?._id}`;
   const setPostLike = () => {
     handleLike(deplike, myuser?._id, setLikelength, setLike);
   };

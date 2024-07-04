@@ -36,7 +36,8 @@ const ReplyComponent = ({ comment, replies, user }) => {
   const myreplies = newRep?.filter((rep) => {
     return rep?.commentId?._id === mycomm?._id;
   });
-  console.log(myreplies);
+
+  console.log(mycomm);
   let username = "  ml-2 text-slate-400 font-normal";
   let globe = "text-[8px] ";
   let posted = "text-neutral-400 font-mono text-[12px] md:text-[15px] ml-2";
@@ -80,6 +81,7 @@ const ReplyComponent = ({ comment, replies, user }) => {
               apiroute={mycomm}
               myuser={myuser}
               mydep="comments"
+              api="Comment"
             />
           </Box>
         </div>

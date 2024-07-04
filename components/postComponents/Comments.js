@@ -113,6 +113,7 @@ const Comments = ({ comment, user, replies }) => {
                 apiroute={comment}
                 myuser={myuser}
                 mydep="comments"
+                api="Comment"
               />
               <div className="text-[11px] -mt-3">
                 <FaRegCommentAlt onClick={() => setOpen(true)} />

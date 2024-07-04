@@ -93,10 +93,17 @@ const SinglePost = ({ post, user, comments, replies }) => {
   let globe = "text-[10px]";
   let posted = "text-neutral-400 font-mono text-[13px] md:text-[15px]";
 
+  function alt() {
+    return (
+      <div className="text-neutral-500 font-mono  bg-gray-200 flex justify-center items-center w-[20px] h-[20px]">
+        {randComment() && randComment()?.postedBy?.firstname?.split("")[0]}
+      </div>
+    );
+  }
   return (
     <div
       className="container p-3 shadow-slate-400 w-[90%] my-4 
-     bg-neutral-600 rounded-md mx-auto h-[540px] flex flex-col gap-2 overflow-y-auto element-with-scroll"
+     bg-neutral-600 rounded-md mx-auto h-[540px] flex flex-col gap-2 overflow-hidden element-with-scroll"
     >
       <HeaderDetails
         posts={post}
@@ -125,7 +132,12 @@ const SinglePost = ({ post, user, comments, replies }) => {
         </div>
       </Box>
       {/* likes and dislikes */}
-      <LikeDisLikeComponent apiroute={post} myuser={myuser} mydep="posts" />
+      <LikeDisLikeComponent
+        apiroute={post}
+        myuser={myuser}
+        mydep="posts"
+        api="Post"
+      />
       {/* comment section */}
       {!showComments ? (
         <div
@@ -141,8 +153,8 @@ const SinglePost = ({ post, user, comments, replies }) => {
           <div className="flex mt-1 items-center mb-3">
             {randComment()?.postedBy?.picture && (
               <Image
-                alt={randComment()?.postedBy?.firstname?.split("")[0]}
-                src={commentsArray && randComment()?.postedBy?.picture}
+                alt={alt()}
+                src={randComment() && randComment()?.postedBy?.picture}
                 width={20}
                 height={20}
                 className="w-[20px] h-[20px]  rounded-full"

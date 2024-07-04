@@ -48,6 +48,7 @@ const Replies = ({ replies, username, posted, myuser }) => {
               apiroute={replies}
               myuser={myuser}
               mydep="reply"
+              api="Reply"
             />
           </div>
         </Box>
