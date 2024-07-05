@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Transition from "../Transition";
 import { ArrowDownCircle, ArrowUpCircle, Info } from "lucide-react";
-import { Box } from "@mui/material";
+import { Box, Divider } from "@mui/material";
 import GigInfo from "./GigInfo";
 import ViewGigs from "./ViewGigs";
 
@@ -29,6 +29,10 @@ const MainPage = () => {
     "h-[40px]  shadow-slate-600 shadow-xl  bg-neutral-300 flex justify-center items-center gap-2 min-w-[120px] whitespace-nowrap";
   return (
     <div className="flex w-screen h-screen lg:hidden bg-neutral-300 flex-col ">
+      <h6 className="font-mono underline text-center mt-2">
+        Choose Gig Actions
+      </h6>
+      <Divider />
       <Box className="flex justify-center items-center shadow-xl   h-[160px] w-[90%] mx-auto">
         {" "}
         <div
