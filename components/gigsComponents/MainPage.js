@@ -37,7 +37,10 @@ const MainPage = () => {
         {" "}
         <div
           className={`${view} ? view   ${custClass} : ${custClass} `}
-          onClick={() => setView((prev) => !prev)}
+          onClick={() => {
+            setView((prev) => !prev);
+            setCreate(false);
+          }}
         >
           <h6>View Gigs</h6>
           {view ? (
@@ -48,7 +51,10 @@ const MainPage = () => {
         </div>
         <div
           className={`${create} ? create  ${custClass} : ${custClass} `}
-          onClick={() => setCreate((prev) => !prev)}
+          onClick={() => {
+            setView(false);
+            setCreate((prev) => !prev);
+          }}
         >
           <h6>Create A Gig</h6>
           {create ? (
