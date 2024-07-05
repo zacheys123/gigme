@@ -2,11 +2,10 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    "./node_modules/flowbite-react/lib/**/*.js",
-    "./pages/**/*.{js,jsx}",
-    "./components/**/*.{js,jsx}",
-    "./app/**/*.{js,jsx}",
-    "./src/**/*.{js,jsx}",
+    './pages/**/*.{js,jsx}',
+    './components/**/*.{js,jsx}',
+    './app/**/*.{js,jsx}',
+    './src/**/*.{js,jsx}',
   ],
   prefix: "",
   theme: {
@@ -74,5 +73,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("flowbite/plugin")],
-};
+  plugins: [require("tailwindcss-animate")],
+}

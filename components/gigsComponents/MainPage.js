@@ -10,7 +10,7 @@ const MainPage = () => {
   const [view, setView] = useState();
   const [create, setCreate] = useState();
   const classname =
-    "mt-2 w-[90%] mx-auto overflow-auto element-with-scroll p-3 bg-neutral-200 h-full ";
+    "mt-2 w-[90%] mx-auto  p-3 shadow-lg bg-neutral-200 h-[calc(100vh-180px)] ";
   let variant = {
     initial: {
       y: ["1500px", "1000px", "600px", "400px", "200px", "0px", ""],
@@ -26,13 +26,13 @@ const MainPage = () => {
     },
   };
   const custClass =
-    "h-[40px] flex justify-center items-center gap-2 min-w-[120px] whitespace-nowrap";
+    "h-[40px]  shadow-slate-600 shadow-xl  bg-neutral-300 flex justify-center items-center gap-2 min-w-[120px] whitespace-nowrap";
   return (
     <div className="flex w-screen h-screen lg:hidden bg-neutral-300 flex-col ">
       <Box className="flex justify-center items-center shadow-xl   h-[160px] w-[90%] mx-auto">
         {" "}
         <div
-          className={`${view} ? view bg-red-400   ${custClass} : ${custClass} bg-blue-400`}
+          className={`${view} ? view   ${custClass} : ${custClass} `}
           onClick={() => setView((prev) => !prev)}
         >
           <h6>View Gigs</h6>
@@ -43,7 +43,7 @@ const MainPage = () => {
           )}
         </div>
         <div
-          className={`${create} ? create  ${custClass} : ${custClass} bg-blue-400`}
+          className={`${create} ? create  ${custClass} : ${custClass} `}
           onClick={() => setCreate((prev) => !prev)}
         >
           <h6>Create A Gig</h6>
@@ -55,7 +55,7 @@ const MainPage = () => {
         </div>
       </Box>
       {!view && !create && (
-        <div className="h-[100%] w-[90%] flex  justify-center items-center">
+        <div className="h-[calc(100vh-180px)] w-[90%] flex  justify-center items-center">
           <div className="flex flex-col items-center gap-3 -mt-6">
             {" "}
             {/* <div className="w-full flex justify-center items-center"></div> */}
