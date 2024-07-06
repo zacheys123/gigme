@@ -53,7 +53,7 @@ const GigInfo = ({ user }) => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    // handleCreateGig(dataInfo, handleClose,setLoading);
+    handleCreateGig(dataInfo, setLoading);
     setInputs({
       title: "",
       description: "",
@@ -66,7 +66,6 @@ const GigInfo = ({ user }) => {
       durationfrom: "am",
       durationto: "pm",
     });
-    console.log(dataInfo);
   };
 
   return (
@@ -178,16 +177,16 @@ const GigInfo = ({ user }) => {
             <DatePicker
               selected={selectedDate}
               onChange={handleDate}
-              dateFormat="DD/MM/YYYY"
+              dateFormat="MM/DD/YYYY"
               minDate={minDate}
               maxDate={maxDate}
               placeholderText="Set Event Date"
-              className="font-mono p-2 w-full"
+              className="font-mono p-2 w-full rounded-lg"
             />
           </div>
         </div>{" "}
         <Button variant="primary" type="submit" className="mt-4 w-full">
-          {loading ? (
+          {!loading ? (
             "Create Gig"
           ) : (
             <CircularProgress size="14px" sx={{ color: "white" }} />

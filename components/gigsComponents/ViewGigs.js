@@ -31,7 +31,7 @@ const ViewGigs = () => {
       <Select
         className="mb-2"
         value={typeOfGig}
-        onOpenChange={(ev) => setTypeOfGig(ev.target.value)}
+        onChange={(ev) => setTypeOfGig(ev.target.value)}
       >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Gig Display Options" />
