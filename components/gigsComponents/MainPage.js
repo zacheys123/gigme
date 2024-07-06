@@ -6,11 +6,11 @@ import { Box, Divider } from "@mui/material";
 import GigInfo from "./GigInfo";
 import ViewGigs from "./ViewGigs";
 
-const MainPage = () => {
+const MainPage = ({ user }) => {
   const [view, setView] = useState();
   const [create, setCreate] = useState();
   const classname =
-    "mt-2 w-[90%] mx-auto  p-3 shadow-lg bg-neutral-200 h-[calc(100vh-180px)] ";
+    "mt-2 w-[90%] mx-auto  p-3 shadow-lg bg-neutral-200 h-[calc(100vh-70px)] ";
   let variant = {
     initial: {
       y: ["1500px", "1000px", "600px", "400px", "200px", "0px", ""],
@@ -76,15 +76,14 @@ const MainPage = () => {
       )}
       {view && (
         <Transition variant={variant} className={classname}>
-          <ViewGigs />
+          <ViewGigs user={user} />
         </Transition>
       )}
       {create && (
         <Transition variant={variant} className={classname}>
-          <GigInfo />
+          <GigInfo user={user} />
         </Transition>
       )}
-      {}
     </div>
   );
 };

@@ -70,7 +70,7 @@ const GigInfo = ({ user }) => {
       !gigInputs?.durationfrom ||
       !gigInputs?.durationto
     ) {
-      alert("weeeh");
+      alert("Data fields are Empty");
       setError((prev) => prev === "Data fields are Empty");
       return setPreview(false);
     }
@@ -202,7 +202,10 @@ const GigInfo = ({ user }) => {
           </div>
         </form>
       ) : (
-        <form onSubmit={createGig} className="bg-neutral-800 p-3">
+        <form
+          onSubmit={createGig}
+          className="bg-neutral-800 rounded-lg shadow-xl p-3"
+        >
           <div className="w-full  gap-4">
             <Input
               type="text"
