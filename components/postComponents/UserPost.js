@@ -81,8 +81,7 @@ const UserPost = ({ user }) => {
               className="mt-2"
               placeholder="Create a post...."
               required
-              icon={HiBell}
-              value={postdata.post}
+              value={postdata?.post}
               onChange={(e) =>
                 setPostData((prev) => {
                   return { ...prev, post: e.target.value };

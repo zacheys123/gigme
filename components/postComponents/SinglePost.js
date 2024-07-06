@@ -102,8 +102,8 @@ const SinglePost = ({ post, user, comments, replies }) => {
   }
   return (
     <div
-      className="container p-3 shadow-slate-400 w-[90%] my-4 
-     bg-neutral-600 rounded-md mx-auto h-[540px] flex flex-col gap-2 overflow-hidden element-with-scroll"
+      className="container p-3 shadow-slate-400 w-[90%] my-2 
+     bg-neutral-600 rounded-md mx-auto h-[560px] flex flex-col gap-2 overflow-hidden element-with-scroll"
     >
       <HeaderDetails
         posts={post}
@@ -141,7 +141,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
       {/* comment section */}
       {!showComments ? (
         <div
-          className="flex flex-col h-[170px] bg-slate-800 rounded-xl -mt-1 px-2  hover:bg-slate-600 cursor-pointer transition-all duration-500"
+          className="flex flex-col h-[170px] bg-slate-800 rounded-xl mb-5 px-2  hover:bg-slate-600 cursor-pointer transition-all duration-500"
           onClick={() =>
             // setUserState({ type: global.SHOWCOMMENTS, payload: !showComments })
             setShowComments((prev) => !prev)
