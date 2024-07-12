@@ -33,7 +33,7 @@ const MainPage = ({ user }) => {
         Choose Gig Actions
       </h6>
       <Divider />
-      <Box className="flex justify-center items-center shadow-xl   h-[160px] w-[90%] mx-auto">
+      <Box className="flex justify-center items-center shadow-xl   h-[100px] w-[90%] mx-auto">
         {" "}
         <div
           className={`${view} ? view   ${custClass} : ${custClass} `}

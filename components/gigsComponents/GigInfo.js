@@ -1,81 +1,224 @@
 "use client";
 import { handleCreateGig } from "@/features/gigs";
 import { Select, Textarea } from "flowbite-react";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useState } from "react";
 import { Input } from "../ui/input";
 
 import { Add, PreviewTwoTone } from "@mui/icons-material";
 import { Button } from "../ui/button";
 import Preview from "./Preview";
 import DatePicker from "react-datepicker";
-
+import Checkbox from "@mui/material/Checkbox";
 import "react-datepicker/dist/react-datepicker.css";
 import { CircularProgress } from "@mui/material";
+import { EyeIcon, EyeOff } from "lucide-react";
+import { toast } from "sonner";
 const GigInfo = ({ user }) => {
   const [loading, setLoading] = useState();
+  const [secretpass, setSecretPass] = useState();
   const [selectedDate, setSelectedDate] = useState(null);
   const minDate = new Date("2020-01-01");
   const maxDate = new Date("2025-01-01");
-  const [gigInputs, setInputs] = useState({
+  const [secretreturn, setSecretReturn] = useState("");
+
+  const [gigInputs, setGigs] = useState({
     title: "",
     description: "",
     phoneNo: "",
     price: "",
-    category: "Piano",
+    category: "",
     location: "",
-    to: "",
-    from: "",
-    durationfrom: "am",
+    secret: "",
+    end: "",
+    start: "",
     durationto: "pm",
+    durationfrom: "am",
+    secret: "",
+    bussinesscat: "personal",
   });
-  const toduration = `${gigInputs?.to}${gigInputs?.durationto} `;
-  const fromduration = `${gigInputs?.from}${gigInputs?.durationfrom} `;
-  let dataInfo = React.useMemo(() => {
-    return {
-      title: gigInputs?.title,
-      description: gigInputs?.description,
-      phoneNo: gigInputs?.phoneNo,
-      price: gigInputs?.price,
-      category: gigInputs?.category,
-      location: gigInputs?.location,
-      date: new Date(selectedDate),
-      to: toduration,
-      from: fromduration,
-      postedBy: user?.user?._id,
-    };
-  }, []);
+  const toduration = `${gigInputs?.end}${gigInputs?.durationto} `;
+  const fromduration = `${gigInputs?.start}${gigInputs?.durationfrom} `;
+  const [userinfo, setUserInfo] = useState({
+    prefferences: [],
+  });
+  let dataInfo = {
+    title: gigInputs?.title,
+    description: gigInputs?.description,
+    phoneNo: gigInputs?.phoneNo,
+    price: gigInputs?.price,
+    cat:
+      userinfo?.prefferences?.length > 0
+        ? userinfo?.prefferences
+        : gigInputs?.category,
+    location: gigInputs?.location,
+    secret: gigInputs?.secret,
+    date: new Date(selectedDate),
+    to: toduration,
+    from: fromduration,
+    postedBy: user?.user?._id,
+    bussinesscat: gigInputs?.bussinesscat,
+  };
   const handleDate = (date) => {
     setSelectedDate(date);
   };
-  const handleInputs = (ev) => {
-    setInputs({ ...gigInputs, [ev.target.name]: ev.target.value });
-  };
 
-  const onSubmit = (event) => {
+  const [other, setOther] = useState(false);
+  console.log(gigInputs);
+  const handleChange = (e) => {
+    const { value, checked } = e.target;
+    const { prefferences } = userinfo;
+
+    // Case 1 : The user checks the box
+    if (checked) {
+      setUserInfo({
+        prefferences: [...prefferences, value],
+      });
+    }
+
+    // Case 2  : The user unchecks the box
+    else {
+      setUserInfo({
+        prefferences: prefferences.filter((e) => e !== value),
+      });
+    }
+  };
+  // submit gig
+  const onSubmit = async (event) => {
     event.preventDefault();
-    handleCreateGig(dataInfo, setLoading);
-    setInputs({
-      title: "",
-      description: "",
-      phoneNo: "",
-      price: "",
-      category: "Piano",
-      location: "",
-      to: "",
-      from: "",
-      durationfrom: "am",
-      durationto: "pm",
-    });
-  };
 
+    // This gig we want cool and calm music. We dont want to focus on one of the audience.So try to make it old school and vybyy too.This gig we want cool and calm music. We dont want
+    // to focus on one of the audience.So try to make it old school and vybyy too.
+    if (
+      !gigInputs.title ||
+      !gigInputs.description ||
+      !gigInputs.phoneNo ||
+      !gigInputs.price ||
+      !gigInputs.location ||
+      !gigInputs.end ||
+      !gigInputs.start ||
+      !gigInputs.durationfrom ||
+      !gigInputs.durationto
+    ) {
+      console.log(dataInfo);
+      alert("Please fill all required fields");
+      return;
+    }
+    if (!gigInputs.category && userinfo.prefferences.length < 0) {
+      alert("Please fill all required fields");
+      return;
+    }
+    if (gigInputs.category && userinfo.prefferences.length > 0) {
+      alert("Cant use individual and other categories at the same time");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const res = await fetch(`/api/gigs/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          dataInfo,
+        }),
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.gigstatus) {
+        setSecretReturn(data?.message);
+      }
+      toast.error(data?.message);
+
+      setSecretReturn("");
+      setGigs({
+        title: "",
+        description: "",
+        phoneNo: "",
+        price: "",
+        category: "",
+        location: "",
+        secret: "",
+        end: "",
+        start: "",
+        durationto: "pm",
+        durationfrom: "am",
+        secret: "",
+        bussinesscat: "personal",
+      });
+      setUserInfo({ prefferences: [] });
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
   return (
     <div className="h-[calc(80vh-170px)] relative">
-      <h6 className="text-center mb-2 font-sans underline">Fill The Details</h6>
+      <h6 className="text-center mb-2 font-mono underline">Fill The Details</h6>
       {/* {!open ? ( */}
       <form onSubmit={onSubmit}>
+        <select
+          onChange={(ev) =>
+            setGigs((prev) => {
+              return { ...prev, bussinesscat: ev.target.value };
+            })
+          }
+          name="durationfrom"
+          value={gigInputs?.bussinesscat}
+          className="mb-2 w-[130px]  bg-neutral-300 h-[30px] rounded-md text-[12px] flex justify-center items-center p-2 font-mono"
+        >
+          <option value="full">Full Band</option>
+          <option value="personal">Individual</option>
+          <option onClick={() => setOther(true)} value="other">
+            other...
+          </option>
+        </select>{" "}
         <div className="w-full  gap-4">
+          <div
+            className={
+              !secretreturn
+                ? `flex flex-col gap-1  `
+                : `flex flex-col gap-1 h-[70px] `
+            }
+          >
+            <div className="flex items-center gap-2">
+              <Input
+                autoComplete="off"
+                onChange={(ev) =>
+                  setGigs((prev) => {
+                    return { ...prev, secret: ev.target.value };
+                  })
+                }
+                name="secret"
+                value={gigInputs?.secret}
+                type={!secretpass ? "password" : "text"}
+                placeholder="Enter secret,  NB://(valid only once)"
+                className="mb-2"
+              />{" "}
+              {secretpass ? (
+                <EyeOff
+                  onClick={() => setSecretPass((prev) => !prev)}
+                  size="18px"
+                />
+              ) : (
+                <EyeIcon
+                  onClick={() => setSecretPass((prev) => !prev)}
+                  size="18px"
+                />
+              )}
+            </div>
+            {secretreturn && (
+              <h6 className="text-red-500 text-[13px] -mt-2">{secretreturn}</h6>
+            )}
+          </div>
           <Input
-            onChange={handleInputs}
+            autoComplete="off"
+            onChange={(ev) =>
+              setGigs((prev) => {
+                return { ...prev, title: ev.target.value };
+              })
+            }
             name="title"
             value={gigInputs?.title}
             type="text"
@@ -83,7 +226,11 @@ const GigInfo = ({ user }) => {
             className="mb-2"
           />{" "}
           <Textarea
-            onChange={handleInputs}
+            onChange={(ev) =>
+              setGigs((prev) => {
+                return { ...prev, description: ev.target.value };
+              })
+            }
             name="description"
             value={gigInputs?.description}
             style={{ resize: "none", height: "fit-content" }}
@@ -91,60 +238,163 @@ const GigInfo = ({ user }) => {
             placeholder=" Enter description e.g what songs or the vybe expected in the event/show"
           />
           <Input
+            autoComplete="off"
             type="text"
             placeholder="Enter phone no: "
             className="mb-2"
-            onChange={handleInputs}
+            onChange={(ev) =>
+              setGigs((prev) => {
+                return { ...prev, phoneNo: ev.target.value };
+              })
+            }
             name="phoneNo"
             value={gigInputs?.phoneNo}
           />{" "}
           <Input
+            autoComplete="off"
             type="text"
             placeholder="Enter price range expected  "
             className="mb-2"
-            onChange={handleInputs}
+            onChange={(ev) =>
+              setGigs((prev) => {
+                return { ...prev, price: ev.target.value };
+              })
+            }
             name="price"
             value={gigInputs?.price}
           />{" "}
           <Input
+            autoComplete="off"
             type="text"
             placeholder="Enter location  "
             className="mb-2"
-            onChange={handleInputs}
+            onChange={(ev) =>
+              setGigs((prev) => {
+                return { ...prev, location: ev.target.value };
+              })
+            }
             name="location"
             value={gigInputs?.location}
           />{" "}
-          <select
-            onChange={handleInputs}
-            name="category"
-            value={gigInputs?.category}
-            className="mb-2 w-full bg-white  h-[40px] rounded-md p-3 text-[15px]  font-mono"
-          >
-            <option value="piano">Piano</option>
-            <option value="guitar">Guitar</option>
-            <option value="bass">Bass Guitar</option>
-            <option value="saxophone">Saxophone</option>
-            <option value="violin">Violin</option>
-            <option value="ukulele">Ukulele</option>{" "}
-            <option value="harp">Harp</option>
-            <option value="xylophone">Xylophone</option>{" "}
-            <option value="cello">Cello</option>
-            <option value="percussion">Percussion</option>{" "}
-          </select>
+          {other ? (
+            <h6 className="choice mb-2">Choose the setUp of the show</h6>
+          ) : (
+            ""
+          )}
+          {!other ? (
+            <select
+              onChange={(ev) =>
+                setGigs((prev) => {
+                  return { ...prev, category: ev.target.value };
+                })
+              }
+              name="category"
+              value={gigInputs?.category}
+              className="mb-2 w-full bg-white  h-[40px] rounded-md p-3 text-[15px]  font-mono"
+            >
+              <option value="piano">Piano</option>
+              <option value="guitar">Guitar</option>
+              <option value="bass">Bass Guitar</option>
+              <option value="saxophone">Saxophone</option>
+              <option value="violin">Violin</option>
+              <option value="ukulele">Ukulele</option>{" "}
+              <option value="harp">Harp</option>
+              <option value="xylophone">Xylophone</option>{" "}
+              <option value="cello">Cello</option>
+              <option value="percussion">Percussion</option>{" "}
+            </select>
+          ) : (
+            <div className="h-[140px] gap-5  bg-gray-100 p-3 choice flex flex-wrap">
+              <div>
+                <input
+                  onChange={handleChange}
+                  type="checkbox"
+                  id="vocalist"
+                  name="vocalist"
+                  value="vocalist"
+                />
+                <label htmlFor="vocalist">vocalist</label>
+              </div>
+              <div>
+                {" "}
+                <input
+                  onChange={handleChange}
+                  type="checkbox"
+                  id="piano"
+                  name="piano"
+                  value="piano"
+                />{" "}
+                <label htmlFor="piano">Piano</label>
+              </div>
+              <div>
+                {" "}
+                <input
+                  onChange={handleChange}
+                  type="checkbox"
+                  id="sax"
+                  name="sax"
+                  value="sax"
+                />{" "}
+                <label htmlFor="sax">Saxophone</label>
+              </div>{" "}
+              <div>
+                {" "}
+                <input
+                  onChange={handleChange}
+                  type="checkbox"
+                  id="guitar"
+                  name="guitar"
+                  value="guitar"
+                />{" "}
+                <label htmlFor="guitar">Guitar</label>
+              </div>{" "}
+              <div>
+                {" "}
+                <input
+                  onChange={handleChange}
+                  type="checkbox"
+                  id="drums"
+                  name="drums"
+                  value="drums"
+                />{" "}
+                <label htmlFor="drums">Drums</label>
+              </div>{" "}
+              <div>
+                {" "}
+                <input
+                  onChange={handleChange}
+                  type="checkbox"
+                  id="bass"
+                  name="bass"
+                  value="bass"
+                />{" "}
+                <label htmlFor="bass">Bass</label>
+              </div>
+            </div>
+          )}
           <div className="flex items-center flex-col gap-2 mt-5">
             <div className="flex items-center gap-3">
               {" "}
               <h6 className="mb-2 w-[50px] bg-neutral-200 font-mono">from:</h6>
               <Input
+                autoComplete="off"
                 type="text"
                 placeholder=" Time e.g 10 means 10:00 "
                 className="mb-2"
-                onChange={handleInputs}
-                name="from"
-                value={gigInputs?.from}
+                onChange={(ev) =>
+                  setGigs((prev) => {
+                    return { ...prev, start: ev.target.value };
+                  })
+                }
+                name="start"
+                value={gigInputs?.start}
               />{" "}
               <select
-                onChange={handleInputs}
+                onChange={(ev) =>
+                  setGigs((prev) => {
+                    return { ...prev, durationfrom: ev.target.value };
+                  })
+                }
                 name="durationfrom"
                 value={gigInputs?.durationfrom}
                 className="mb-2 w-[50px] bg-neutral-300 h-[40px] rounded-full text-[12px] flex justify-center items-center p-2 font-mono"
@@ -156,15 +406,24 @@ const GigInfo = ({ user }) => {
             <div className="flex items-center gap-3">
               <h6 className="mb-2 w-[50px] bg-neutral-200 font-mono">to:</h6>
               <Input
+                autoComplete="off"
                 type="text"
                 placeholder=" Time e.g 10 means 10:00 "
                 className="mb-2"
-                onChange={handleInputs}
-                name="to"
-                value={gigInputs?.to}
+                onChange={(ev) =>
+                  setGigs((prev) => {
+                    return { ...prev, end: ev.target.value };
+                  })
+                }
+                name="end"
+                value={gigInputs?.end}
               />{" "}
               <select
-                onChange={handleInputs}
+                onChange={(ev) =>
+                  setGigs((prev) => {
+                    return { ...prev, durationto: ev.target.value };
+                  })
+                }
                 name="durationto"
                 value={gigInputs?.durationto}
                 className="mb-2 w-[50px] bg-neutral-300 h-[40px] rounded-full text-[12px] flex justify-center items-center p-2 font-mono"

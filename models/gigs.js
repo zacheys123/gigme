@@ -8,6 +8,10 @@ const gigSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    secret: {
+      type: String,
+      required: true,
+    },
     description: {
       type: String,
       lowercase: true,
@@ -15,6 +19,11 @@ const gigSchema = new mongoose.Schema(
     phone: { type: String },
     price: { type: String },
     category: { type: String },
+    bandCategory: [],
+    bussinesscat: {
+      type: String,
+      required: true,
+    },
     location: { type: String },
     date: { type: Date, default: new Date() },
     time: {
