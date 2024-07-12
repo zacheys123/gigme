@@ -127,10 +127,12 @@ const GigInfo = ({ user }) => {
       });
       const data = await res.json();
       console.log(data);
-      if (data.gigstatus) {
+      if (data.gigstatus === "false") {
         setSecretReturn(data?.message);
       }
-      toast.error(data?.message);
+      if (data.gigstatus === "true") {
+        toast.success(data?.message);
+      }
 
       setSecretReturn("");
       setGigs({
@@ -324,7 +326,7 @@ const GigInfo = ({ user }) => {
                   <option value="percussion">Percussion</option>{" "}
                 </select>
               ) : (
-                <div className="h-[140px] gap-5  bg-gray-100 p-3 choice flex flex-wrap">
+                <div className="h-[80px] rounded-lg shadow-xl gap-5  bg-gray-100 p-3 choice flex flex-wrap">
                   <div>
                     <input
                       onChange={handleChange}

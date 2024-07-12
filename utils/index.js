@@ -99,3 +99,31 @@ export const handleRouting = (post, user) => {
     </Link>
   );
 };
+
+export const searchfunc = (
+  data,
+  searchquery,
+  category,
+  time,
+  date,
+  location
+) => {
+  let sortedData = data;
+  if (searchquery) {
+    sortedData = sortedData?.filter((gig) => {
+      if (gig?.category?.toLowerCase().includes(category.toLowerCase())) {
+        return sortedData;
+      } else if (
+        gig?.location?.toLowerCase().includes(searchquery.toLowerCase())
+      ) {
+        return sortedData;
+      } else if (
+        gig?.time?.from?.toLowerCase().includes(searchquery.toLowerCase()) ||
+        gig?.time?.to?.toLowerCase().includes(searchquery.toLowerCase())
+      ) {
+        return sortedData;
+      }
+    });
+  }
+  return sortedData;
+};

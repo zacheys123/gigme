@@ -28,7 +28,7 @@ const MainPage = ({ user }) => {
   const custClass =
     "h-[40px]  shadow-slate-600 shadow-xl  bg-neutral-300 flex justify-center items-center gap-2 min-w-[120px] whitespace-nowrap";
   return (
-    <div className="flex w-screen h-screen lg:hidden bg-neutral-300 flex-col ">
+    <div className="flex w-screen overflow-hidden min-h-screen lg:hidden bg-neutral-300 flex-col ">
       <h6 className="font-mono underline text-center mt-2">
         Choose Gig Actions
       </h6>

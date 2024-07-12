@@ -12,6 +12,7 @@ export default authMiddleware({
     "/api/comments/getComments",
     "/api/comments/getComment/:id",
     "/api/reply/getReplies",
+    "/api/gigs/getpub/:id",
   ],
 });
 export const config = {

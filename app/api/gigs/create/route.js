@@ -19,7 +19,7 @@ export async function POST(req) {
     });
     if (existingSecret) {
       return NextResponse.json({
-        gigstatus: "error",
+        gigstatus: "false",
         message: "Secret is Not Secure or it already exists",
       });
     }
@@ -49,14 +49,14 @@ export async function POST(req) {
       model: User,
     });
     return NextResponse.json({
-      userstatus: true,
+      gigstatus: "true",
       message: "Created Gig successfully",
       results: getGig,
     });
   } catch (error) {
     console.log(error);
     return NextResponse.json({
-      userstatus: "error",
+      errorstatus: "error",
       message: error,
     });
   }
