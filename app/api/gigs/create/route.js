@@ -26,7 +26,7 @@ export async function POST(req) {
     const newGig = await Gigs.create({
       title: data?.dataInfo?.title,
       description: data?.dataInfo?.description,
-      phoneNo: data?.dataInfo?.phoneNo,
+      phone: data?.dataInfo?.phoneNo,
       price: data?.dataInfo?.price,
       category:
         typeof data?.dataInfo?.cat === "String"
