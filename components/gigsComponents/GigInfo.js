@@ -46,10 +46,8 @@ const GigInfo = ({ user }) => {
     description: gigInputs?.description,
     phoneNo: gigInputs?.phoneNo,
     price: gigInputs?.price,
-    cat:
-      userinfo?.prefferences?.length > 0
-        ? userinfo?.prefferences
-        : gigInputs?.category,
+    category: gigInputs?.category,
+    bandCategory: userinfo?.prefferences,
     location: gigInputs?.location,
     secret: gigInputs?.secret,
     date: new Date(selectedDate),
@@ -109,7 +107,7 @@ const GigInfo = ({ user }) => {
       alert("Please fill all required fields");
       return;
     }
-    if (gigInputs.category && userinfo.prefferences.length > 0) {
+    if (gigInputs.category.length > 0 && userinfo.prefferences.length > 0) {
       alert("Cant use individual and other categories at the same time");
       return;
     }
