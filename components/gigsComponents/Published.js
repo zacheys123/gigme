@@ -6,6 +6,7 @@ import { Input } from "../ui/input";
 import { CircularProgress, Divider } from "@mui/material";
 import { searchfunc } from "@/utils";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Published = ({ user }) => {
   const { userId } = useAuth();
@@ -42,6 +43,7 @@ const Published = ({ user }) => {
   useEffect(() => {
     getGigs();
   }, []);
+  const router = useRouter();
   const [readmore, setReadMore] = useState();
   const normalstyling =
     "w-[440px]  p-3 bg-neutral-100  shadow-lg rounded-tl-md rounded-tr-xl rounded-br-xl rounded-bl-xl";
@@ -84,7 +86,11 @@ const Published = ({ user }) => {
             {/* content */}
             {searchfunc(pubGigs, typeOfGig, category).map((gig) => {
               return (
-                <div key={gig.secret} className="p-1 flex w-full mt-3 ">
+                <div
+                  key={gig.secret}
+                  className="p-1 flex w-full mt-3 "
+                  onClick={() => router.push(`/gigme/mygig/${gig._id}/execute`)}
+                >
                   <div className="rounded-full w-[40px] h-[25px] bg-green-800"></div>
                   <div className={readmore ? readmorestyling : normalstyling}>
                     <div className="flex">
@@ -146,7 +152,7 @@ const Published = ({ user }) => {
                         {gig.description}
                       </span>
                     </div>{" "}
-                    {gig?.category && (
+                    {gig?.category && gig.bussinesscat === "personal" && (
                       <div className="flex">
                         <span className="title">Instrument: </span>
 
@@ -155,21 +161,24 @@ const Published = ({ user }) => {
                         )}
                       </div>
                     )}
-                    <div>
-                      {" "}
-                      <h6 className="title text-center underline mt-2">
-                        Band Selection
-                      </h6>
-                      {gig?.bandCategory &&
-                        gig?.bandCategory !== null &&
-                        gig?.bandCategory.map((band, idx) => {
-                          return (
-                            <ul className="flex link" key={idx} type="disc">
-                              <li> {band}</li>
-                            </ul>
-                          );
-                        })}
-                    </div>
+                    {gig?.bandCategory && (
+                      <div>
+                        {" "}
+                        <h6 className="title text-center underline mt-2">
+                          Band Selection
+                        </h6>
+                        {gig?.bandCategory &&
+                          gig.bussinesscat === "other" &&
+                          gig?.bandCategory !== null &&
+                          gig?.bandCategory.map((band, idx) => {
+                            return (
+                              <ul className="flex link" key={idx} type="disc">
+                                <li> {band}</li>
+                              </ul>
+                            );
+                          })}
+                      </div>
+                    )}
                     <Divider />{" "}
                     <div className="flex justify-between items-center mt-2">
                       <div className="flex-1 w-[80%] flex">
