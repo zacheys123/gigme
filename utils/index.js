@@ -127,13 +127,13 @@ export const searchfunc = (data, searchquery, category) => {
 
 export const classing = (gig, readmore) => {
   const normalstyling =
-    "w-[440px]  p-3 bg-neutral-100  shadow-lg rounded-tl-md rounded-tr-xl rounded-br-xl rounded-bl-xl";
+    "w-[440px]  p-3   shadow-lg rounded-tl-md rounded-tr-xl rounded-br-xl rounded-bl-xl";
   // : "w-[440px]  p-3   border-2 blur-3 border-red-400 rounded-tl-md  rounded-tr-xl rounded-br-xl rounded-bl-xl";
   const readmorestyling =
     "w-[440px] h-fit p-3 bg-neutral-100  shadow-lg rounded-tl-md rounded-tr-xl rounded-br-xl rounded-bl-xl";
 
   if (gig?.isPending) {
-    return `${readmore}  ? bg-neutral-200 border-4 border-red-400 ${readmorestyling} :  ${normalstyling}`;
+    return " bg-red-300" + normalstyling;
   }
   return `${readmore}  ?  ${readmorestyling} :  ${normalstyling}`;
 };

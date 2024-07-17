@@ -68,7 +68,7 @@ const Published = ({ user }) => {
       const data = await res.json();
       console.log(data);
       if (data?.gigstatus === "true") {
-        router.push(`/gigme/mygig/${gig._id}/execute`);
+        router.push(`/gigme/mygig/${id}/execute`);
       }
       router.push(`/gigme/gigs/${userId}`);
     } catch (error) {
@@ -111,8 +111,8 @@ const Published = ({ user }) => {
       <Divider />
 
       <div className="bg-neutral-200 w-full h-[100%] overflow-y-scroll element-with-scroll">
-        {pubGigs.length < 0 && <div>No Gigs to display</div>}
-        {!loading && pubGigs.length > 0 ? (
+        {pubGigs?.length < 0 && <div>No Gigs to display</div>}
+        {!loading && pubGigs?.length > 0 ? (
           <>
             {/* content */}
             {searchfunc(pubGigs, typeOfGig, category)
@@ -142,7 +142,7 @@ const Published = ({ user }) => {
                         <span className="title tracking-tighter">
                           Location:
                         </span>
-                        <span className="link text-red-700 font-bold line-clamp-1  ">
+                        <span className="link text-red-700 font-bold line-clamp-2  ">
                           {gig.location}
                         </span>
                       </div>
@@ -197,35 +197,49 @@ const Published = ({ user }) => {
                           )}
                         </div>
                       )}
-                      {gig?.bandCategory && (
-                        <div>
-                          {" "}
-                          <h6 className="title text-center underline mt-2">
-                            Band Selection
-                          </h6>
-                          {gig?.bandCategory &&
-                            gig.bussinesscat === "other" &&
-                            gig?.bandCategory !== null &&
-                            gig?.bandCategory.map((band, idx) => {
-                              return (
-                                <ul className="flex link" key={idx} type="disc">
-                                  <li> {band}</li>
-                                </ul>
-                              );
-                            })}
+                      {!gig?.category && gig.bussinesscat === "full" && (
+                        <div className="flex">
+                          <span className="title text-purple-700 font-bold">
+                            FullBand(vocalist,instrumentalists etc){" "}
+                          </span>
                         </div>
                       )}
-                      {!gig?.isPending && (
-                        <div className="w-full text-right">
-                          <Button
-                            variant="primary"
-                            className="p-1 h-[25px] text-[10px] m-2 "
-                            onClick={() => handleBook(gig?._id)}
-                          >
-                            Book Now!!!
-                          </Button>
-                        </div>
-                      )}
+                      {gig?.bandCategory.length > 0 &&
+                        gig.bussinesscat !== "full" && (
+                          <div>
+                            {" "}
+                            <h6 className="title text-center underline mt-2">
+                              Band Selection
+                            </h6>
+                            {gig?.bandCategory &&
+                              gig.bussinesscat === "other" &&
+                              gig?.bandCategory !== null &&
+                              gig?.bandCategory.map((band, idx) => {
+                                return (
+                                  <ul
+                                    className="flex link"
+                                    key={idx}
+                                    type="disc"
+                                  >
+                                    <li> {band}</li>
+                                  </ul>
+                                );
+                              })}
+                          </div>
+                        )}
+                      {!gig?.postedBy?.clerkId.includes(userId)
+                        ? !gig?.isPending && (
+                            <div className="w-full text-right">
+                              <Button
+                                variant="primary"
+                                className="p-1 h-[25px] text-[10px] m-2 "
+                                onClick={() => handleBook(gig?._id)}
+                              >
+                                Book Now!!!
+                              </Button>
+                            </div>
+                          )
+                        : ""}
                       <Divider />{" "}
                       <div className="flex justify-between items-center mt-2">
                         <div

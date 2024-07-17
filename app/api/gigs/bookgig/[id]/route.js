@@ -8,7 +8,7 @@ export async function PUT(req, { params }) {
   console.log(userid);
   try {
     const existing = await User.findOne({ _id: userid });
-    if (existing) {
+    if (!existing) {
       const newGig = await Gigs.findById({ _id: params.id });
       await newGig.updateOne({
         $set: {

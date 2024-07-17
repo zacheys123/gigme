@@ -9,7 +9,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 
-const Published = ({ user }) => {
+const Created = ({ user }) => {
   const { userId } = useAuth();
   const [typeOfGig, setTypeOfGig] = useState();
   const [category, setCategory] = useState();
@@ -111,8 +111,8 @@ const Published = ({ user }) => {
       <Divider />
 
       <div className="bg-neutral-200 w-full h-[100%] overflow-y-scroll element-with-scroll">
-        {createdGigs.length < 0 && <div>No Gigs to display</div>}
-        {!loading && createdGigs.length > 0 ? (
+        {createdGigs?.length < 0 && <div>No Gigs to display</div>}
+        {!loading && createdGigs?.length > 0 ? (
           <>
             {/* content */}
             {searchfunc(createdGigs, typeOfGig, category)
@@ -142,7 +142,7 @@ const Published = ({ user }) => {
                         <span className="title tracking-tighter">
                           Location:
                         </span>
-                        <span className="link text-red-700 font-bold line-clamp-1  ">
+                        <span className="link text-red-700 font-bold line-clamp-2  ">
                           {gig.location}
                         </span>
                       </div>
@@ -186,18 +186,14 @@ const Published = ({ user }) => {
                           {gig.description}
                         </span>
                       </div>{" "}
-                      {gig?.category && gig.bussinesscat === "personal" && (
+                      {!gig?.category && gig.bussinesscat === "full" && (
                         <div className="flex">
-                          <span className="title">Instrument: </span>
-
-                          {gig?.category && gig?.category !== null && (
-                            <h6 className="title text-red-700">
-                              {gig.category}
-                            </h6>
-                          )}
+                          <span className="title text-purple-700 font-bold">
+                            FullBand(vocalist,instrumentalists etc){" "}
+                          </span>
                         </div>
                       )}
-                      {gig?.bandCategory && (
+                      {gig?.bandCategory && gig.bussinesscat !== "full" && (
                         <div>
                           {" "}
                           <h6 className="title text-center underline mt-2">
@@ -315,4 +311,4 @@ const Published = ({ user }) => {
   );
 };
 
-export default Published;
+export default Created;
