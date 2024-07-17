@@ -37,6 +37,7 @@ const gigSchema = new mongoose.Schema(
     },
     isTaken: { type: Boolean, default: false },
     isPending: { type: Boolean, default: false },
+    bookedBy: { type: Schema.Types.ObjectId, ref: "User" },
     recomendedStars: {
       type: Number,
       default: 0,

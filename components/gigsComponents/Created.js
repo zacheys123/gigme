@@ -4,11 +4,12 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { Input } from "../ui/input";
 import { CircularProgress, Divider } from "@mui/material";
-import { searchfunc } from "@/utils";
+import { classing, searchfunc } from "@/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Button } from "../ui/button";
 
-const Created = ({ user }) => {
+const Published = ({ user }) => {
   const { userId } = useAuth();
   const [typeOfGig, setTypeOfGig] = useState();
   const [category, setCategory] = useState();
@@ -45,10 +46,38 @@ const Created = ({ user }) => {
   }, []);
   const router = useRouter();
   const [readmore, setReadMore] = useState();
-  const normalstyling =
-    "w-[440px]  p-3 bg-neutral-100  shadow-lg rounded-tl-md rounded-tr-xl rounded-br-xl rounded-bl-xl";
-  const readmorestyling =
-    "w-[440px] h-fit p-3 bg-neutral-100  shadow-lg rounded-tl-md rounded-tr-xl rounded-br-xl rounded-bl-xl";
+  const [ispend, setIsPending] = useState();
+  const updateLog = {
+    userid: user?.user?._id,
+
+    ispend: ispend ? "true" : "false",
+  };
+  // Booking function it updates the isPending state
+  const handleBook = async (id) => {
+    // update the isPending state
+    try {
+      const res = await fetch(`/api/gigs/bookgig/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userid: user?.user?._id,
+        }),
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data?.gigstatus === "true") {
+        router.push(`/gigme/mygig/${gig._id}/execute`);
+      }
+      router.push(`/gigme/gigs/${userId}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(createdGigs);
+
+  // conditionsl styling
   const normaldescr = "link text-red-700 font-bold line-clamp-1 ";
   const readmoredescr = "link text-red-700 font-bold line-clamp-12 ";
   return (
@@ -73,12 +102,14 @@ const Created = ({ user }) => {
           <option value="piano">piano</option>
           <option value="guitar">guitar</option>
           <option value="bass">bass</option>
-          <option value="sax">sax</option> <option value="other">other</option>
+          <option value="sax">sax</option>
+          <option value="other">other</option>
           <option value="fullband">fullband</option>{" "}
           <option value="personal">personal</option>{" "}
         </select>
       </div>
       <Divider />
+
       <div className="bg-neutral-200 w-full h-[100%] overflow-y-scroll element-with-scroll">
         {createdGigs.length < 0 && <div>No Gigs to display</div>}
         {!loading && createdGigs.length > 0 ? (
@@ -89,7 +120,7 @@ const Created = ({ user }) => {
                 return (
                   <div key={gig.secret} className="p-1 flex w-full mt-3 ">
                     <div className="rounded-full w-[40px] h-[25px] bg-green-800"></div>
-                    <div className={readmore ? readmorestyling : normalstyling}>
+                    <div className={classing(gig, readmore)}>
                       <div className="flex">
                         {" "}
                         <span className="title tracking-tighter">
@@ -131,7 +162,7 @@ const Created = ({ user }) => {
                         {" "}
                         <span className="title tracking-tighter">Contact:</span>
                         <span className="link text-red-700 font-bold line-clamp-1 blur-sm ">
-                          {gig.phoneNo}
+                          {gig.phone}
                         </span>
                       </div>
                       <div className="flex">
@@ -184,24 +215,70 @@ const Created = ({ user }) => {
                             })}
                         </div>
                       )}
+                      {/* you cannot book your own gigs yet */}
+                      {/* {!gig?.isPending && (
+                        <div className="w-full text-right">
+                          <Button
+                            variant="primary"
+                            className="p-1 h-[25px] text-[10px] m-2 "
+                            onClick={() => handleBook(gig?._id)}
+                          >
+                            Book Now!!!
+                          </Button>
+                        </div>
+                      )} */}
+                      {gig?.isPending && (
+                        <div className="w-full text-right">
+                          <Button
+                            variant="primary"
+                            className="p-1 h-[25px] text-[10px] m-2 "
+                            onClick={() => handleBook(gig?._id)}
+                          >
+                            Edit Booked Gig!!!
+                          </Button>
+                        </div>
+                      )}
+                      {!gig?.isPending && (
+                        <div className="w-full text-right">
+                          <Button
+                            variant="primary"
+                            className="p-1 h-[25px] text-[10px] m-2 "
+                            onClick={() => handleBook(gig?._id)}
+                          >
+                            Edit Gig!!!
+                          </Button>
+                        </div>
+                      )}
                       <Divider />{" "}
                       <div className="flex justify-between items-center mt-2">
-                        <div className="flex-1 w-[80%] flex">
+                        <div
+                          className={
+                            gig?.isPending ? " flex " : "flex-1 w-[80%]"
+                          }
+                        >
                           {" "}
-                          <span className="title tracking-tighter">
-                            Status:
-                          </span>
-                          <span className="link text-red-700 font-bold line-clamp-1 ">
-                            {!gig.isTaken ? (
-                              <span className=" track-tighter bg-red-500 p-2 rounded-full text-[11px]  text-white">
-                                Not Taken
-                              </span>
-                            ) : (
-                              <span className=" bg-green-500 p-2 rounded-full text-[11px]  text-white">
-                                Taken
-                              </span>
-                            )}
-                          </span>
+                          <div className=" w-[80%] flex">
+                            <span className="title tracking-tighter">
+                              Status:
+                            </span>
+                            <span className="link text-red-700 font-bold line-clamp-1 ">
+                              {!gig.isTaken ? (
+                                <span className=" track-tighter bg-red-500  p-2 rounded-full text-[11px]  text-white">
+                                  Not Taken
+                                </span>
+                              ) : (
+                                <span className=" bg-green-500 p-2 rounded-full text-[11px]  text-white">
+                                  Taken
+                                </span>
+                              )}
+                            </span>
+                          </div>
+                          {gig.isPending && (
+                            <h6 className="link bg-red-500 h-[24px] text-white rounded-bl-xl p-1 flex">
+                              <span>/</span>
+                              Pending
+                            </h6>
+                          )}
                         </div>
                         <div>
                           {" "}
@@ -238,4 +315,4 @@ const Created = ({ user }) => {
   );
 };
 
-export default Created;
+export default Published;
