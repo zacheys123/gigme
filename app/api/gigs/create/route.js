@@ -17,12 +17,22 @@ export async function POST(req) {
     const existingSecret = await Gigs.findOne({
       secret: data?.gigInputs?.secret,
     });
+    if (
+      data?.dataInfo?.bandCategory.length > 0 &&
+      data?.dataInfo?.category.length > 0
+    ) {
+      return NextResponse.json({
+        gigstatus: "false",
+        message: "Cannot submit both individual and other category,choose one",
+      });
+    }
     if (existingSecret) {
       return NextResponse.json({
         gigstatus: "false",
         message: "Secret is Not Secure or it already exists",
       });
     }
+
     const newGig = await Gigs.create({
       title: data?.dataInfo?.title,
       description: data?.dataInfo?.description,

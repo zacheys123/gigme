@@ -8,7 +8,7 @@ import { searchfunc } from "@/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-const Created = ({ user }) => {
+const AllGigs = ({ user }) => {
   const { userId } = useAuth();
   const [typeOfGig, setTypeOfGig] = useState();
   const [category, setCategory] = useState();
@@ -17,12 +17,12 @@ const Created = ({ user }) => {
   const [time, setTime] = useState();
   const [date, setDate] = useState();
 
-  const [createdGigs, setCreatedGigs] = useState([]);
+  const [allGigs, setAllGigs] = useState([]);
   let currentUser = user?.user?._id;
   const getGigs = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/gigs/getcreated/${userId}`, {
+      const res = await fetch(`/api/gigs/allgigs`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -30,7 +30,7 @@ const Created = ({ user }) => {
       });
       const data = await res.json();
       console.log(data?.gigs);
-      setCreatedGigs(data?.gigs);
+      setAllGigs(data?.gigs);
       setLoading(false);
       return data;
     } catch (error) {
@@ -80,14 +80,20 @@ const Created = ({ user }) => {
       </div>
       <Divider />
       <div className="bg-neutral-200 w-full h-[100%] overflow-y-scroll element-with-scroll">
-        {createdGigs.length < 0 && <div>No Gigs to display</div>}
-        {!loading && createdGigs.length > 0 ? (
+        {allGigs.length < 0 && <div>No Gigs to display</div>}
+        {!loading && allGigs.length > 0 ? (
           <>
             {/* content */}
-            {searchfunc(createdGigs, typeOfGig, category)
+            {searchfunc(allGigs, typeOfGig, category)
               .map((gig) => {
                 return (
-                  <div key={gig.secret} className="p-1 flex w-full mt-3 ">
+                  <div
+                    key={gig.secret}
+                    className="p-1 flex w-full mt-3 "
+                    onClick={() =>
+                      router.push(`/gigme/mygig/${gig._id}/execute`)
+                    }
+                  >
                     <div className="rounded-full w-[40px] h-[25px] bg-green-800"></div>
                     <div className={readmore ? readmorestyling : normalstyling}>
                       <div className="flex">
@@ -157,7 +163,7 @@ const Created = ({ user }) => {
                       </div>{" "}
                       {gig?.category && gig.bussinesscat === "personal" && (
                         <div className="flex">
-                          <span className="title">Instrument: </span>
+                          <span className="title ">Instrument: </span>
 
                           {gig?.category && gig?.category !== null && (
                             <h6 className="title text-red-700">
@@ -238,4 +244,4 @@ const Created = ({ user }) => {
   );
 };
 
-export default Created;
+export default AllGigs;

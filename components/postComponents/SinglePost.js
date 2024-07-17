@@ -44,7 +44,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
   let myComments = newComm.filter((com) => {
     return com?.postId?._id === post?._id;
   });
-  console.log(myComments);
+  console.log(post);
   const [commentLength, setCommentlength] = useState(myComments?.length);
   const [commentsArray, setComments] = useState(myComments);
   const [showComments, setShowComments] = useState();

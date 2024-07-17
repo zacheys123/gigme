@@ -45,8 +45,9 @@ const Published = ({ user }) => {
   }, []);
   const router = useRouter();
   const [readmore, setReadMore] = useState();
-  const normalstyling =
-    "w-[440px]  p-3 bg-neutral-100  shadow-lg rounded-tl-md rounded-tr-xl rounded-br-xl rounded-bl-xl";
+  const normalstyling = pubGigs?.isPending
+    ? "w-[440px]  p-3 bg-neutral-100  shadow-lg rounded-tl-md rounded-tr-xl rounded-br-xl rounded-bl-xl"
+    : "w-[440px]  p-3   border-2 blur-3 border-red-400 rounded-tl-md  rounded-tr-xl rounded-br-xl rounded-bl-xl";
   const readmorestyling =
     "w-[440px] h-fit p-3 bg-neutral-100  shadow-lg rounded-tl-md rounded-tr-xl rounded-br-xl rounded-bl-xl";
   const normaldescr = "link text-red-700 font-bold line-clamp-1 ";
@@ -79,142 +80,170 @@ const Published = ({ user }) => {
         </select>
       </div>
       <Divider />
+
       <div className="bg-neutral-200 w-full h-[100%] overflow-y-scroll element-with-scroll">
         {pubGigs.length < 0 && <div>No Gigs to display</div>}
         {!loading && pubGigs.length > 0 ? (
           <>
             {/* content */}
-            {searchfunc(pubGigs, typeOfGig, category).map((gig) => {
-              return (
-                <div
-                  key={gig.secret}
-                  className="p-1 flex w-full mt-3 "
-                  onClick={() => router.push(`/gigme/mygig/${gig._id}/execute`)}
-                >
-                  <div className="rounded-full w-[40px] h-[25px] bg-green-800"></div>
-                  <div className={readmore ? readmorestyling : normalstyling}>
-                    <div className="flex">
-                      {" "}
-                      <span className="title tracking-tighter">Gig Type:</span>
-                      <span className="link text-red-700 font-bold line-clamp-1  ">
-                        {gig.bussinesscat}
-                      </span>
-                    </div>
-                    <div className="flex ">
-                      {" "}
-                      <span className="title">Gig title:</span>
-                      <span className="link text-red-700 font-bold">
-                        {gig.title}
-                      </span>
-                    </div>
-                    <div className="flex">
-                      {" "}
-                      <span className="title tracking-tighter">Location:</span>
-                      <span className="link text-red-700 font-bold line-clamp-1  ">
-                        {gig.location}
-                      </span>
-                    </div>
-                    <div className="flex">
-                      {" "}
-                      <span className="title tracking-tighter">Time:</span>
-                      <span className="link text-red-700 font-bold line-clamp-1  ">
-                        {gig.time.from}
-                      </span>
-                      &nbsp;
-                      <span className="title">to</span> &nbsp;
-                      <span className="link text-red-700 font-bold line-clamp-1  ">
-                        {gig.time.to}
-                      </span>
-                    </div>
-                    <div className="flex">
-                      {" "}
-                      <span className="title tracking-tighter">Contact:</span>
-                      <span className="link text-red-700 font-bold line-clamp-1 blur-sm ">
-                        {gig.phoneNo}
-                      </span>
-                    </div>
-                    <div className="flex">
-                      {" "}
-                      <span className="title tracking-tighter">Passuwaad:</span>
-                      <span className="link text-red-700 font-bold line-clamp-1  ">
-                        {gig.price}
-                      </span>
-                    </div>
-                    <div className="flex">
-                      {" "}
-                      <span className="title tracking-tighter">
-                        Description:
-                      </span>
-                      <span
-                        className={!readmore ? normaldescr : readmoredescr}
-                        onClick={() => setReadMore((prev) => !prev)}
-                      >
-                        {gig.description}
-                      </span>
-                    </div>{" "}
-                    {gig?.category && gig.bussinesscat === "personal" && (
+            {searchfunc(pubGigs, typeOfGig, category)
+              .map((gig) => {
+                return (
+                  <div
+                    key={gig.secret}
+                    className="p-1 flex w-full mt-3 "
+                    onClick={() => {
+                      if (pubGigs?.isPending)
+                        router.push(`/gigme/mygig/${gig._id}/execute`);
+                    }}
+                  >
+                    <div className="rounded-full w-[40px] h-[25px] bg-green-800"></div>
+                    <div className={readmore ? readmorestyling : normalstyling}>
                       <div className="flex">
-                        <span className="title">Instrument: </span>
+                        {" "}
+                        <span className="title tracking-tighter">
+                          Gig Type:
+                        </span>
+                        <span className="link text-red-700 font-bold line-clamp-1  ">
+                          {gig.bussinesscat}
+                        </span>
+                      </div>
+                      <div className="flex ">
+                        {" "}
+                        <span className="title">Gig title:</span>
+                        <span className="link text-red-700 font-bold">
+                          {gig.title}
+                        </span>
+                      </div>
+                      <div className="flex">
+                        {" "}
+                        <span className="title tracking-tighter">
+                          Location:
+                        </span>
+                        <span className="link text-red-700 font-bold line-clamp-1  ">
+                          {gig.location}
+                        </span>
+                      </div>
+                      <div className="flex">
+                        {" "}
+                        <span className="title tracking-tighter">Time:</span>
+                        <span className="link text-red-700 font-bold line-clamp-1  ">
+                          {gig.time.from}
+                        </span>
+                        &nbsp;
+                        <span className="title">to</span> &nbsp;
+                        <span className="link text-red-700 font-bold line-clamp-1  ">
+                          {gig.time.to}
+                        </span>
+                      </div>
+                      <div className="flex">
+                        {" "}
+                        <span className="title tracking-tighter">Contact:</span>
+                        <span className="link text-red-700 font-bold line-clamp-1 blur-sm ">
+                          {gig.phoneNo}
+                        </span>
+                      </div>
+                      <div className="flex">
+                        {" "}
+                        <span className="title tracking-tighter">
+                          Passuwaad:
+                        </span>
+                        <span className="link text-red-700 font-bold line-clamp-1  ">
+                          {gig.price}
+                        </span>
+                      </div>
+                      <div className="flex">
+                        {" "}
+                        <span className="title tracking-tighter">
+                          Description:
+                        </span>
+                        <span
+                          className={!readmore ? normaldescr : readmoredescr}
+                          onClick={() => setReadMore((prev) => !prev)}
+                        >
+                          {gig.description}
+                        </span>
+                      </div>{" "}
+                      {gig?.category && gig.bussinesscat === "personal" && (
+                        <div className="flex">
+                          <span className="title">Instrument: </span>
 
-                        {gig?.category && gig?.category !== null && (
-                          <h6 className="title">{gig.category}</h6>
-                        )}
-                      </div>
-                    )}
-                    {gig?.bandCategory && (
-                      <div>
-                        {" "}
-                        <h6 className="title text-center underline mt-2">
-                          Band Selection
-                        </h6>
-                        {gig?.bandCategory &&
-                          gig.bussinesscat === "other" &&
-                          gig?.bandCategory !== null &&
-                          gig?.bandCategory.map((band, idx) => {
-                            return (
-                              <ul className="flex link" key={idx} type="disc">
-                                <li> {band}</li>
-                              </ul>
-                            );
-                          })}
-                      </div>
-                    )}
-                    <Divider />{" "}
-                    <div className="flex justify-between items-center mt-2">
-                      <div className="flex-1 w-[80%] flex">
-                        {" "}
-                        <span className="title tracking-tighter">Status:</span>
-                        <span className="link text-red-700 font-bold line-clamp-1 ">
-                          {!gig.isTaken ? (
-                            <span className=" track-tighter bg-red-500 p-2 rounded-full text-[11px]  text-white">
-                              Not Taken
-                            </span>
-                          ) : (
-                            <span className=" bg-green-500 p-2 rounded-full text-[11px]  text-white">
-                              Taken
-                            </span>
+                          {gig?.category && gig?.category !== null && (
+                            <h6 className="title text-red-700">
+                              {gig.category}
+                            </h6>
                           )}
-                        </span>
-                      </div>
-                      <div>
-                        {" "}
-                        <span className="link text-red-700 font-bold line-clamp-1 ">
-                          {gig.postedBy.picture && (
-                            <Image
-                              src={gig.postedBy.picture}
-                              alt="p"
-                              width={25}
-                              height={25}
-                              className="w-[25px] h-[25px] rounded-full"
-                            />
+                        </div>
+                      )}
+                      {gig?.bandCategory && (
+                        <div>
+                          {" "}
+                          <h6 className="title text-center underline mt-2">
+                            Band Selection
+                          </h6>
+                          {gig?.bandCategory &&
+                            gig.bussinesscat === "other" &&
+                            gig?.bandCategory !== null &&
+                            gig?.bandCategory.map((band, idx) => {
+                              return (
+                                <ul className="flex link" key={idx} type="disc">
+                                  <li> {band}</li>
+                                </ul>
+                              );
+                            })}
+                        </div>
+                      )}
+                      <Divider />{" "}
+                      <div className="flex justify-between items-center mt-2">
+                        <div
+                          className={
+                            pubGigs?.isPending ? " flex " : "flex-1 w-[80%]"
+                          }
+                        >
+                          {" "}
+                          <div className=" w-[80%] flex">
+                            <span className="title tracking-tighter">
+                              Status:
+                            </span>
+                            <span className="link text-red-700 font-bold line-clamp-1 ">
+                              {!gig.isTaken ? (
+                                <span className=" track-tighter bg-red-500  p-2 rounded-full text-[11px]  text-white">
+                                  Not Taken
+                                </span>
+                              ) : (
+                                <span className=" bg-green-500 p-2 rounded-full text-[11px]  text-white">
+                                  Taken
+                                </span>
+                              )}
+                            </span>
+                          </div>
+                          {gig.isPending && (
+                            <h6 className="link bg-red-500 h-[24px] text-white rounded-bl-xl p-1 flex">
+                              <span>/</span>
+                              Pending
+                            </h6>
                           )}
-                        </span>
+                        </div>
+                        <div>
+                          {" "}
+                          <span className="link text-red-700 font-bold line-clamp-1 ">
+                            {gig.postedBy.picture && (
+                              <Image
+                                src={gig.postedBy.picture}
+                                alt="p"
+                                width={25}
+                                height={25}
+                                className="w-[25px] h-[25px] rounded-full"
+                              />
+                            )}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+              .reverse()}
           </>
         ) : (
           <div className="h-[calc(75vh-150px)] w-full flex justify-center items-center">

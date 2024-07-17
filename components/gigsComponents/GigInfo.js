@@ -170,27 +170,9 @@ const GigInfo = ({ user }) => {
           value={gigInputs?.bussinesscat}
           className="mb-2 w-[130px]  bg-neutral-300 h-[30px] rounded-md text-[12px] flex justify-center items-center p-2 font-mono"
         >
-          <option value="full" onClick={() => setFull((prev) => !prev)}>
-            Full Band
-          </option>
-          <option
-            value="personal"
-            onClick={() => {
-              setOther(false);
-              setFull(false);
-            }}
-          >
-            Individual
-          </option>
-          <option
-            onClick={() => {
-              setOther(true);
-              setFull(false);
-            }}
-            value="other"
-          >
-            other...
-          </option>
+          <option value="full">Full Band</option>
+          <option value="personal">Individual</option>
+          <option value="other">other...</option>
         </select>{" "}
         <div className="w-full  gap-4">
           <div
@@ -294,108 +276,105 @@ const GigInfo = ({ user }) => {
             name="location"
             value={gigInputs?.location}
           />{" "}
-          {!full ? (
-            <>
-              {other ? (
-                <h6 className="choice mb-2">Choose the setUp of the show</h6>
-              ) : (
-                ""
-              )}
-              {!other ? (
-                <select
-                  onChange={(ev) =>
-                    setGigs((prev) => {
-                      return { ...prev, category: ev.target.value };
-                    })
-                  }
-                  name="category"
-                  value={gigInputs?.category}
-                  className="mb-2 w-full bg-white  h-[40px] rounded-md p-3 text-[15px]  font-mono"
-                >
-                  <option value="piano">Piano</option>
-                  <option value="guitar">Guitar</option>
-                  <option value="bass">Bass Guitar</option>
-                  <option value="saxophone">Saxophone</option>
-                  <option value="violin">Violin</option>
-                  <option value="ukulele">Ukulele</option>{" "}
-                  <option value="harp">Harp</option>
-                  <option value="xylophone">Xylophone</option>{" "}
-                  <option value="cello">Cello</option>
-                  <option value="percussion">Percussion</option>{" "}
-                </select>
-              ) : (
-                <div className="h-[80px] rounded-lg shadow-xl gap-5  bg-gray-100 p-3 choice flex flex-wrap">
-                  <div>
-                    <input
-                      onChange={handleChange}
-                      type="checkbox"
-                      id="vocalist"
-                      name="vocalist"
-                      value="vocalist"
-                    />
-                    <label htmlFor="vocalist">vocalist</label>
-                  </div>
-                  <div>
-                    {" "}
-                    <input
-                      onChange={handleChange}
-                      type="checkbox"
-                      id="piano"
-                      name="piano"
-                      value="piano"
-                    />{" "}
-                    <label htmlFor="piano">Piano</label>
-                  </div>
-                  <div>
-                    {" "}
-                    <input
-                      onChange={handleChange}
-                      type="checkbox"
-                      id="sax"
-                      name="sax"
-                      value="sax"
-                    />{" "}
-                    <label htmlFor="sax">Saxophone</label>
-                  </div>{" "}
-                  <div>
-                    {" "}
-                    <input
-                      onChange={handleChange}
-                      type="checkbox"
-                      id="guitar"
-                      name="guitar"
-                      value="guitar"
-                    />{" "}
-                    <label htmlFor="guitar">Guitar</label>
-                  </div>{" "}
-                  <div>
-                    {" "}
-                    <input
-                      onChange={handleChange}
-                      type="checkbox"
-                      id="drums"
-                      name="drums"
-                      value="drums"
-                    />{" "}
-                    <label htmlFor="drums">Drums</label>
-                  </div>{" "}
-                  <div>
-                    {" "}
-                    <input
-                      onChange={handleChange}
-                      type="checkbox"
-                      id="bass"
-                      name="bass"
-                      value="bass"
-                    />{" "}
-                    <label htmlFor="bass">Bass</label>
-                  </div>
+          <>
+            {gigInputs?.bussinesscat === "other" ? (
+              <h6 className="choice mb-2">Choose the setUp of the show</h6>
+            ) : (
+              ""
+            )}
+            {gigInputs?.bussinesscat === "personal" && (
+              <select
+                onChange={(ev) =>
+                  setGigs((prev) => {
+                    return { ...prev, category: ev.target.value };
+                  })
+                }
+                name="category"
+                value={gigInputs?.category}
+                className="mb-2 w-full bg-white  h-[40px] rounded-md p-3 text-[15px]  font-mono"
+              >
+                <option value="piano">Piano</option>
+                <option value="guitar">Guitar</option>
+                <option value="bass">Bass Guitar</option>
+                <option value="saxophone">Saxophone</option>
+                <option value="violin">Violin</option>
+                <option value="ukulele">Ukulele</option>{" "}
+                <option value="harp">Harp</option>
+                <option value="xylophone">Xylophone</option>{" "}
+                <option value="cello">Cello</option>
+                <option value="percussion">Percussion</option>{" "}
+              </select>
+            )}
+            {gigInputs?.bussinesscat === "other" && (
+              <div className="h-[80px] rounded-lg shadow-xl gap-5  bg-gray-100 p-3 choice flex flex-wrap">
+                <div>
+                  <input
+                    onChange={handleChange}
+                    type="checkbox"
+                    id="vocalist"
+                    name="vocalist"
+                    value="vocalist"
+                  />
+                  <label htmlFor="vocalist">vocalist</label>
                 </div>
-              )}
-            </>
-          ) : (
-            ""
-          )}
+                <div>
+                  {" "}
+                  <input
+                    onChange={handleChange}
+                    type="checkbox"
+                    id="piano"
+                    name="piano"
+                    value="piano"
+                  />{" "}
+                  <label htmlFor="piano">Piano</label>
+                </div>
+                <div>
+                  {" "}
+                  <input
+                    onChange={handleChange}
+                    type="checkbox"
+                    id="sax"
+                    name="sax"
+                    value="sax"
+                  />{" "}
+                  <label htmlFor="sax">Saxophone</label>
+                </div>{" "}
+                <div>
+                  {" "}
+                  <input
+                    onChange={handleChange}
+                    type="checkbox"
+                    id="guitar"
+                    name="guitar"
+                    value="guitar"
+                  />{" "}
+                  <label htmlFor="guitar">Guitar</label>
+                </div>{" "}
+                <div>
+                  {" "}
+                  <input
+                    onChange={handleChange}
+                    type="checkbox"
+                    id="drums"
+                    name="drums"
+                    value="drums"
+                  />{" "}
+                  <label htmlFor="drums">Drums</label>
+                </div>{" "}
+                <div>
+                  {" "}
+                  <input
+                    onChange={handleChange}
+                    type="checkbox"
+                    id="bass"
+                    name="bass"
+                    value="bass"
+                  />{" "}
+                  <label htmlFor="bass">Bass</label>
+                </div>
+              </div>
+            )}
+          </>
           <div className="flex items-center flex-col gap-2 mt-5">
             <div className="flex items-center gap-3">
               {" "}

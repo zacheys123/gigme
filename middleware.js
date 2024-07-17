@@ -13,6 +13,8 @@ export default authMiddleware({
     "/api/comments/getComment/:id",
     "/api/reply/getReplies",
     "/api/gigs/getpub/:id",
+    "/api/gigs/getcreated/:id",
+    "/api/gigs/allgigs",
   ],
 });
 export const config = {
