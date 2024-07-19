@@ -127,13 +127,14 @@ export const searchfunc = (data, searchquery, category) => {
 
 export const classing = (gig, readmore) => {
   const normalstyling =
-    "w-[440px]  p-3   shadow-lg rounded-tl-md rounded-tr-xl rounded-br-xl rounded-bl-xl";
+    "w-[300px]  p-3  bg-neutral-100  shadow-lg rounded-tl-md rounded-tr-xl rounded-br-xl rounded-bl-xl";
   // : "w-[440px]  p-3   border-2 blur-3 border-red-400 rounded-tl-md  rounded-tr-xl rounded-br-xl rounded-bl-xl";
   const readmorestyling =
-    "w-[440px] h-fit p-3 bg-neutral-100  shadow-lg rounded-tl-md rounded-tr-xl rounded-br-xl rounded-bl-xl";
-
+    "w-[300px] h-fit p-3 bg-neutral-100  shadow-lg rounded-tl-md rounded-tr-xl rounded-br-xl rounded-bl-xl";
+  const pending =
+    "border-4 border-red-300 w-[300px] bg-neutral-400 rounded-xl h- shadow-md shadow-red-500 p-3";
   if (gig?.isPending) {
-    return " bg-red-300" + normalstyling;
+    return pending;
   }
   return `${readmore}  ?  ${readmorestyling} :  ${normalstyling}`;
 };

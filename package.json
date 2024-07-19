@@ -31,6 +31,7 @@
     "flowbite-react": "^0.7.5",
     "framer-motion": "^11.1.5",
     "lucide-react": "^0.363.0",
+    "mongodb": "4.1",
     "mongoose": "^8.2.3",
     "next": "14.1.4",
     "next-cloudinary": "^6.6.2",

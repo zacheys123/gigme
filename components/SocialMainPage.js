@@ -2,8 +2,24 @@ import React from "react";
 import UserPost from "./postComponents/UserPost";
 import AllPosts from "./postComponents/AllPosts";
 import { checkEnvironment } from "@/utils";
+async function getPosts() {
+  try {
+    const res = await fetch(`${checkEnvironment()}/api/posts/getPosts`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const posts = await res.json();
 
-const SocialMainPage = ({ user, posts, comments, replies }) => {
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
+}
+const SocialMainPage = async ({ user, posts, comments, replies }) => {
+  // Fetching data for all posts
+  const allPosts = await getPosts();
   return (
     <div
       className="element-with-scroll w-full h-full overflow-y-scroll"
@@ -12,7 +28,7 @@ const SocialMainPage = ({ user, posts, comments, replies }) => {
       <UserPost user={user} userposts={posts} />
       {/*All Posts displayed here */}
       <AllPosts
-        userposts={posts}
+        userposts={allPosts}
         user={user}
         comments={comments}
         replies={replies}

@@ -53,27 +53,8 @@ const Created = ({ user }) => {
     ispend: ispend ? "true" : "false",
   };
   // Booking function it updates the isPending state
-  const handleBook = async (id) => {
-    // update the isPending state
-    try {
-      const res = await fetch(`/api/gigs/bookgig/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userid: user?.user?._id,
-        }),
-      });
-      const data = await res.json();
-      console.log(data);
-      if (data?.gigstatus === "true") {
-        router.push(`/gigme/mygig/${gig._id}/execute`);
-      }
-      router.push(`/gigme/gigs/${userId}`);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleEditBooked = async (id) => {
+    router.push(`/gigme/mygig/${id}/execute`);
   };
   console.log(createdGigs);
 
@@ -116,9 +97,12 @@ const Created = ({ user }) => {
           <>
             {/* content */}
             {searchfunc(createdGigs, typeOfGig, category)
+              ?.filter((pub) => {
+                return pub.isTaken === false;
+              })
               .map((gig) => {
                 return (
-                  <div key={gig.secret} className="p-1 flex w-full mt-3 ">
+                  <div key={gig?.secret} className="p-1 flex w-full mt-3 ">
                     <div className="rounded-full w-[40px] h-[25px] bg-green-800"></div>
                     <div className={classing(gig, readmore)}>
                       <div className="flex">
@@ -127,14 +111,14 @@ const Created = ({ user }) => {
                           Gig Type:
                         </span>
                         <span className="link text-red-700 font-bold line-clamp-1  ">
-                          {gig.bussinesscat}
+                          {gig?.bussinesscat}
                         </span>
                       </div>
                       <div className="flex ">
                         {" "}
                         <span className="title">Gig title:</span>
                         <span className="link text-red-700 font-bold">
-                          {gig.title}
+                          {gig?.title}
                         </span>
                       </div>
                       <div className="flex">
@@ -143,26 +127,26 @@ const Created = ({ user }) => {
                           Location:
                         </span>
                         <span className="link text-red-700 font-bold line-clamp-2  ">
-                          {gig.location}
+                          {gig?.location}
                         </span>
                       </div>
                       <div className="flex">
                         {" "}
                         <span className="title tracking-tighter">Time:</span>
                         <span className="link text-red-700 font-bold line-clamp-1  ">
-                          {gig.time.from}
+                          {gig?.time.from}
                         </span>
                         &nbsp;
                         <span className="title">to</span> &nbsp;
                         <span className="link text-red-700 font-bold line-clamp-1  ">
-                          {gig.time.to}
+                          {gig?.time.to}
                         </span>
                       </div>
                       <div className="flex">
                         {" "}
                         <span className="title tracking-tighter">Contact:</span>
                         <span className="link text-red-700 font-bold line-clamp-1 blur-sm ">
-                          {gig.phone}
+                          {gig?.phone}
                         </span>
                       </div>
                       <div className="flex">
@@ -171,7 +155,7 @@ const Created = ({ user }) => {
                           Passuwaad:
                         </span>
                         <span className="link text-red-700 font-bold line-clamp-1  ">
-                          {gig.price}
+                          {gig?.price}
                         </span>
                       </div>
                       <div className="flex">
@@ -183,34 +167,50 @@ const Created = ({ user }) => {
                           className={!readmore ? normaldescr : readmoredescr}
                           onClick={() => setReadMore((prev) => !prev)}
                         >
-                          {gig.description}
+                          {gig?.description}
                         </span>
                       </div>{" "}
-                      {!gig?.category && gig.bussinesscat === "full" && (
+                      {gig?.category && gig?.bussinesscat === "personal" && (
+                        <div className="flex">
+                          <span className="title">Instrument: </span>
+
+                          {gig?.category && gig?.category !== null && (
+                            <h6 className="title text-red-700">
+                              {gig?.category}
+                            </h6>
+                          )}
+                        </div>
+                      )}
+                      {!gig?.category && gig?.bussinesscat === "full" && (
                         <div className="flex">
                           <span className="title text-purple-700 font-bold">
                             FullBand(vocalist,instrumentalists etc){" "}
                           </span>
                         </div>
                       )}
-                      {gig?.bandCategory && gig.bussinesscat !== "full" && (
-                        <div>
-                          {" "}
-                          <h6 className="title text-center underline mt-2">
-                            Band Selection
-                          </h6>
-                          {gig?.bandCategory &&
-                            gig.bussinesscat === "other" &&
-                            gig?.bandCategory !== null &&
-                            gig?.bandCategory.map((band, idx) => {
-                              return (
-                                <ul className="flex link" key={idx} type="disc">
-                                  <li> {band}</li>
-                                </ul>
-                              );
-                            })}
-                        </div>
-                      )}
+                      {gig?.bandCategory?.length > 0 &&
+                        gig?.bussinesscat !== "full" && (
+                          <div>
+                            {" "}
+                            <h6 className="title text-center underline mt-2">
+                              Band Selection
+                            </h6>
+                            {gig?.bandCategory &&
+                              gig?.bussinesscat === "other" &&
+                              gig?.bandCategory !== null &&
+                              gig?.bandCategory.map((band, idx) => {
+                                return (
+                                  <ul
+                                    className="flex link"
+                                    key={idx}
+                                    type="disc"
+                                  >
+                                    <li> {band}</li>
+                                  </ul>
+                                );
+                              })}
+                          </div>
+                        )}
                       {/* you cannot book your own gigs yet */}
                       {/* {!gig?.isPending && (
                         <div className="w-full text-right">
@@ -228,7 +228,7 @@ const Created = ({ user }) => {
                           <Button
                             variant="primary"
                             className="p-1 h-[25px] text-[10px] m-2 "
-                            onClick={() => handleBook(gig?._id)}
+                            onClick={() => handleEditBooked(gig?._id)}
                           >
                             Edit Booked Gig!!!
                           </Button>
@@ -258,7 +258,7 @@ const Created = ({ user }) => {
                               Status:
                             </span>
                             <span className="link text-red-700 font-bold line-clamp-1 ">
-                              {!gig.isTaken ? (
+                              {!gig?.isTaken ? (
                                 <span className=" track-tighter bg-red-500  p-2 rounded-full text-[11px]  text-white">
                                   Not Taken
                                 </span>
@@ -269,7 +269,7 @@ const Created = ({ user }) => {
                               )}
                             </span>
                           </div>
-                          {gig.isPending && (
+                          {gig?.isPending && (
                             <h6 className="link bg-red-500 h-[24px] text-white rounded-bl-xl p-1 flex">
                               <span>/</span>
                               Pending
@@ -279,9 +279,9 @@ const Created = ({ user }) => {
                         <div>
                           {" "}
                           <span className="link text-red-700 font-bold line-clamp-1 ">
-                            {gig.postedBy.picture && (
+                            {gig?.postedBy.picture && (
                               <Image
-                                src={gig.postedBy.picture}
+                                src={gig?.postedBy.picture}
                                 alt="p"
                                 width={25}
                                 height={25}

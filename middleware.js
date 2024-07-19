@@ -15,6 +15,7 @@ export default authMiddleware({
     "/api/gigs/getpub/:id",
     "/api/gigs/getcreated/:id",
     "/api/gigs/allgigs",
+    "/api/gigs/getgig/:id",
   ],
 });
 export const config = {

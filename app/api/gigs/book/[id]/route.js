@@ -4,21 +4,21 @@ import User from "@/models/user";
 import { NextResponse } from "next/server";
 
 export async function PUT(req, { params }) {
-  const { userid, currentId } = await req.json();
-  console.log(userid);
+  const { rating } = await req.json();
   try {
-    const newGig = await Gigs.findById({ _id: params.id });
+    const newGig = await Gigs.findById(params.id);
     await newGig.updateOne(
       {
         $set: {
-          isPending: true,
-          bookedBy: userid,
+          isTaken: true,
+          isPending: false,
+          gigRating: rating,
         },
       },
       { new: true }
     );
-    const currentgig = await Gigs.findById({ _id: newGig._id }).populate({
-      path: "bookedBy",
+    const currentgig = await Gigs.findById(newGig._id).populate({
+      path: "postedBy",
       model: User,
     });
     return NextResponse.json({

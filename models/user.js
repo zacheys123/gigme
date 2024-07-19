@@ -45,6 +45,11 @@ const userSchema = new mongoose.Schema(
     },
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     followings: [{ type: Schema.Types.ObjectId, ref: "User" }],
+
+    recomendedStars: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

@@ -39,9 +39,7 @@ export async function POST(req) {
       phone: data?.dataInfo?.phoneNo,
       price: data?.dataInfo?.price,
       category:
-        data?.dataInfo?.bandCategory.length > 0
-          ? null
-          : data?.dataInfo?.category,
+        data?.dataInfo?.bandCategory.length > 0 ? "" : data?.dataInfo?.category,
       location: data?.dataInfo?.location,
       date: data?.dataInfo?.date,
       time: {
@@ -52,9 +50,7 @@ export async function POST(req) {
       postedBy: data?.dataInfo?.postedBy,
       bussinesscat: data?.dataInfo?.bussinesscat,
       bandCategory:
-        data?.dataInfo?.category.length > 0
-          ? null
-          : data?.dataInfo?.bandCategory,
+        data?.dataInfo?.category.length > 0 ? "" : data?.dataInfo?.bandCategory,
     });
     const getGig = await Gigs.find({ postedBy: newGig.postedBy }).populate({
       path: "postedBy",

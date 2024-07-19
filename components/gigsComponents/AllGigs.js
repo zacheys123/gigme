@@ -63,14 +63,13 @@ const Published = ({ user }) => {
         },
         body: JSON.stringify({
           userid: user?.user?._id,
+          currentId: currentUser,
         }),
       });
       const data = await res.json();
       console.log(data);
-      if (data?.gigstatus === "true") {
-        router.push(`/gigme/mygig/${id}/execute`);
-      }
-      router.push(`/gigme/gigs/${userId}`);
+
+      router.push(`/gigme/mygig/${id}/execute`);
     } catch (error) {
       console.log(error);
     }
@@ -116,14 +115,17 @@ const Published = ({ user }) => {
           <>
             {/* content */}
             {searchfunc(allGigs, typeOfGig, category)
+              ?.filter((pub) => {
+                return pub.isTaken === false;
+              })
               .map((gig) => {
                 return (
                   <div
-                    key={gig.secret}
+                    key={gig?.secret}
                     className="p-1 flex w-full mt-3 "
                     onClick={() => {
-                      if (gig?.postedBy?.clerkId === userId) {
-                        router.push(`/gigme/mygig/${gig._id}/execute`);
+                      if (gig?.bookedBy?.clerkId === userId) {
+                        router.push(`/gigme/mygig/${gig?._id}/execute`);
                       }
                     }}
                   >
@@ -135,14 +137,14 @@ const Published = ({ user }) => {
                           Gig Type:
                         </span>
                         <span className="link text-red-700 font-bold line-clamp-1  ">
-                          {gig.bussinesscat}
+                          {gig?.bussinesscat}
                         </span>
                       </div>
                       <div className="flex ">
                         {" "}
                         <span className="title">Gig title:</span>
                         <span className="link text-red-700 font-bold">
-                          {gig.title}
+                          {gig?.title}
                         </span>
                       </div>
                       <div className="flex">
@@ -151,26 +153,26 @@ const Published = ({ user }) => {
                           Location:
                         </span>
                         <span className="link text-red-700 font-bold line-clamp-2  ">
-                          {gig.location}
+                          {gig?.location}
                         </span>
                       </div>
                       <div className="flex">
                         {" "}
                         <span className="title tracking-tighter">Time:</span>
                         <span className="link text-red-700 font-bold line-clamp-1  ">
-                          {gig.time.from}
+                          {gig?.time.from}
                         </span>
                         &nbsp;
                         <span className="title">to</span> &nbsp;
                         <span className="link text-red-700 font-bold line-clamp-1  ">
-                          {gig.time.to}
+                          {gig?.time.to}
                         </span>
                       </div>
                       <div className="flex">
                         {" "}
                         <span className="title tracking-tighter">Contact:</span>
                         <span className="link text-red-700 font-bold line-clamp-1 blur-sm ">
-                          {gig.phone}
+                          {gig?.phone}
                         </span>
                       </div>
                       <div className="flex">
@@ -179,7 +181,7 @@ const Published = ({ user }) => {
                           Passuwaad:
                         </span>
                         <span className="link text-red-700 font-bold line-clamp-1  ">
-                          {gig.price}
+                          {gig?.price}
                         </span>
                       </div>
                       <div className="flex">
@@ -191,45 +193,50 @@ const Published = ({ user }) => {
                           className={!readmore ? normaldescr : readmoredescr}
                           onClick={() => setReadMore((prev) => !prev)}
                         >
-                          {gig.description}
+                          {gig?.description}
                         </span>
                       </div>{" "}
-                      {gig?.category && gig.bussinesscat === "personal" && (
+                      {gig?.category && gig?.bussinesscat === "personal" && (
                         <div className="flex">
                           <span className="title">Instrument: </span>
 
                           {gig?.category && gig?.category !== null && (
                             <h6 className="title text-red-700">
-                              {gig.category}
+                              {gig?.category}
                             </h6>
                           )}
                         </div>
                       )}
-                      {!gig?.category && gig.bussinesscat === "full" && (
+                      {!gig?.category && gig?.bussinesscat === "full" && (
                         <div className="flex">
                           <span className="title text-purple-700 font-bold">
                             FullBand(vocalist,instrumentalists etc){" "}
                           </span>
                         </div>
                       )}
-                      {gig?.bandCategory && gig.bussinesscat !== "full" && (
-                        <div>
-                          {" "}
-                          <h6 className="title text-center underline mt-2">
-                            Band Selection
-                          </h6>
-                          {gig?.bandCategory &&
-                            gig.bussinesscat === "other" &&
-                            gig?.bandCategory !== null &&
-                            gig?.bandCategory.map((band, idx) => {
-                              return (
-                                <ul className="flex link" key={idx} type="disc">
-                                  <li> {band}</li>
-                                </ul>
-                              );
-                            })}
-                        </div>
-                      )}
+                      {gig?.bandCategory?.length > 0 &&
+                        gig?.bussinesscat !== "full" && (
+                          <div>
+                            {" "}
+                            <h6 className="title text-center underline mt-2">
+                              Band Selection
+                            </h6>
+                            {gig?.bandCategory &&
+                              gig?.bussinesscat === "other" &&
+                              gig?.bandCategory !== null &&
+                              gig?.bandCategory.map((band, idx) => {
+                                return (
+                                  <ul
+                                    className="flex link"
+                                    key={idx}
+                                    type="disc"
+                                  >
+                                    <li> {band}</li>
+                                  </ul>
+                                );
+                              })}
+                          </div>
+                        )}
                       {!gig?.postedBy?.clerkId.includes(userId)
                         ? !gig?.isPending && (
                             <div className="w-full text-right">
@@ -256,7 +263,7 @@ const Published = ({ user }) => {
                               Status:
                             </span>
                             <span className="link text-red-700 font-bold line-clamp-1 ">
-                              {!gig.isTaken ? (
+                              {!gig?.isTaken ? (
                                 <span className=" track-tighter bg-red-500  p-2 rounded-full text-[11px]  text-white">
                                   Not Taken
                                 </span>
@@ -267,7 +274,7 @@ const Published = ({ user }) => {
                               )}
                             </span>
                           </div>
-                          {gig.isPending && (
+                          {gig?.isPending && (
                             <h6 className="link bg-red-500 h-[24px] text-white rounded-bl-xl p-1 flex">
                               <span>/</span>
                               Pending
@@ -277,9 +284,9 @@ const Published = ({ user }) => {
                         <div>
                           {" "}
                           <span className="link text-red-700 font-bold line-clamp-1 ">
-                            {gig.postedBy.picture && (
+                            {gig?.postedBy.picture && (
                               <Image
-                                src={gig.postedBy.picture}
+                                src={gig?.postedBy.picture}
                                 alt="p"
                                 width={25}
                                 height={25}

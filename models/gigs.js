@@ -4,6 +4,7 @@ import { models, Schema } from "mongoose";
 const gigSchema = new mongoose.Schema(
   {
     postedBy: { type: Schema.Types.ObjectId, ref: "User" },
+    bookedBy: { type: Schema.Types.ObjectId, ref: "User" },
     title: {
       type: String,
       required: true,
@@ -37,8 +38,8 @@ const gigSchema = new mongoose.Schema(
     },
     isTaken: { type: Boolean, default: false },
     isPending: { type: Boolean, default: false },
-    bookedBy: { type: Schema.Types.ObjectId, ref: "User" },
-    recomendedStars: {
+
+    gigRating: {
       type: Number,
       default: 0,
     },
