@@ -38,7 +38,7 @@ const FriendsProfilePage = () => {
     }
   }, [id]);
   const { search } = useParams();
-  const { userId } = useAuth();
+  const { isLoaded, userId } = useAuth();
   const [userdata, setUserdata] = useState({
     firstname: "",
     lastname: "",
@@ -130,6 +130,18 @@ const FriendsProfilePage = () => {
     <SkeletonUser />;
   }
 
+  if (!isLoaded && !userId) {
+    return (
+      <div className="h-screen w-full">
+        <div className="flex justify-center items-center h-screen flex-col">
+          <CircularProgress size="100px" />
+          <span className="mt-2 text-2xl font-bold">
+            Please wait a moment :)..
+          </span>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="overflow-auto h-[calc(100vh-20px)] bg-gray-400/10 md:bg-neutral-100 w-full flex flex-col">
       <FriendsMobileNav />

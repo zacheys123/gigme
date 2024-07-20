@@ -4,14 +4,14 @@ import User from "@/models/user";
 import { NextResponse } from "next/server";
 
 export async function PUT(req, { params }) {
-  const { userid, currentId } = await req.json();
+  const { userid } = await req.json();
   console.log(userid);
   try {
     const newGig = await Gigs.findById(params.id);
     await newGig.updateOne(
       {
         $set: {
-          isPending: true,
+          isPending: false,
           bookedBy: userid,
         },
       },

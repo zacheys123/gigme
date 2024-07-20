@@ -2,8 +2,8 @@ import { SignUp } from "@clerk/nextjs";
 
 export default function Page() {
   return (
-    <div className=" h-[100vh] bg-gray-200">
-      <div className="flex justify-center items-center h-full">
+    <div className=" h-[calc(100vh-60px)] bg-black w-full overflow-hidden">
+      <div className="flex justify-center items-center  h-full w-full shadow-slate-700 shadow-xl">
         {" "}
         <SignUp />;
       </div>

@@ -3,10 +3,12 @@
 import { Textarea, TextInput } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { Input } from "../ui/input";
-import { Divider } from "@mui/material";
+import { CircularProgress, Divider } from "@mui/material";
 import { Button } from "../ui/button";
+import { useAuth } from "@clerk/nextjs";
 
 const Creator = ({ myGig }) => {
+  const { userId } = useAuth();
   const [creatorData, setCreatorData] = useState({
     firstname: myGig?.gigs?.postedBy?.firstname,
     lastname: myGig?.gigs?.postedBy?.lastname,
@@ -50,6 +52,34 @@ const Creator = ({ myGig }) => {
       };
     });
   }, []);
+  const [loading, setLoading] = useState();
+  const forgetBooking = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`/api/gigs/cancelgig/${myGig?.gigs?._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to cancel the gig");
+      }
+      const data = await response.json();
+      if (data.gigstatus === "true") {
+        alert("Cancel the gig successfully");
+        console.log(data);
+        route.push(`/gigme/gigs/${userId}`);
+        setLoading(false);
+      } else {
+        alert(data.message);
+        setLoading(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("Error canceling the gig:", error.message);
+    }
+  };
   return (
     <div className="container bg-neutral-600 shadow-xl h-full overflow-hidden w-full p-2">
       <div className="card m-4">
@@ -211,8 +241,9 @@ const Creator = ({ myGig }) => {
         <Button
           className="h-[45px] w-[120px] text-[13px]  -p-3 mr-6 "
           variant="primary"
+          onClick={forgetBooking}
         >
-          Forget Booking
+          {loading ? <CircularProgress /> : "Forget Booking"}
         </Button>
       </div>
       <Button className="absolute top-[550px] right-10 rounded-tl-xl roundebr-full rounde-bl-xl">

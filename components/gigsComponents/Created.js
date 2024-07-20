@@ -188,29 +188,24 @@ const Created = ({ user }) => {
                           </span>
                         </div>
                       )}
-                      {gig?.bandCategory?.length > 0 &&
-                        gig?.bussinesscat !== "full" && (
-                          <div>
-                            {" "}
-                            <h6 className="title text-center underline mt-2">
-                              Band Selection
-                            </h6>
-                            {gig?.bandCategory &&
-                              gig?.bussinesscat === "other" &&
-                              gig?.bandCategory !== null &&
-                              gig?.bandCategory.map((band, idx) => {
-                                return (
-                                  <ul
-                                    className="flex link"
-                                    key={idx}
-                                    type="disc"
-                                  >
-                                    <li> {band}</li>
-                                  </ul>
-                                );
-                              })}
-                          </div>
-                        )}
+                      {gig?.bussinesscat === "other" && (
+                        <div>
+                          {" "}
+                          <h6 className="title text-center underline mt-2">
+                            Band Selection
+                          </h6>
+                          {gig?.bandCategory &&
+                            gig?.bussinesscat === "other" &&
+                            gig?.bandCategory !== null &&
+                            gig?.bandCategory.map((band, idx) => {
+                              return (
+                                <ul className="flex link" key={idx} type="disc">
+                                  <li> {band}</li>
+                                </ul>
+                              );
+                            })}
+                        </div>
+                      )}
                       {/* you cannot book your own gigs yet */}
                       {/* {!gig?.isPending && (
                         <div className="w-full text-right">

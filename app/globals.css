@@ -184,3 +184,47 @@ input[type="radio"] {
 .star {
   cursor: pointer;
 }
+.cl-socialButtonsBlockButton,
+.cl-socialButtonsBlockButton__google {
+  background-color: #b71d89;
+}
+.cl-socialButtonsBlockButton,
+.cl-socialButtonsBlockButton__facebook {
+  background-color: #49247a;
+}
+.cl-card .cl-card,
+.cl-signIn-start,
+.cl-signUp-start {
+  width: 19rem;
+  height: 30rem;
+}
+.cl-card .cl-card,
+.cl-signUp-start {
+  width: 20rem;
+  height: 48rem;
+}
+.cl-headerTitle {
+  font-family: "Poppins", sans-serif;
+  font-size: 30px;
+  text-align: center;
+}
+.cl-headerSubtitle {
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+  text-align: center;
+}
+.cl-socialButtonsBlockButtonArrow,
+.cl-socialButtonsBlockButtonArrow__facebook {
+  color: white;
+}
+#identifier-field,
+#firstName-field,
+#lastName-field,
+#username-field,
+#emailAddress-field,
+#password-field {
+  background-color: rgb(126, 125, 125);
+}
+.cl-formButtonPrimary:hover {
+  background-color: #49247a;
+}

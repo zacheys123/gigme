@@ -1,20 +1,16 @@
 import QueryProvider from "@/components/provider";
 import "./globals.css";
-import { ClerkLoaded, ClerkProvider } from "@clerk/nextjs";
+import { auth, ClerkLoaded } from "@clerk/nextjs";
 import { GlobalProvider } from "./Context/store";
+import { Providers } from "./Providers/provider";
 export const metadata = {
   title: "GigMeApp",
   description: "Connect to Musicians",
 };
 
 export default function RootLayout({ children }) {
-  const handleTokenRefreshError = (error) => {
-    if (error.message === "Failed to load Clerk") {
-      console.error("Token refresh failed");
-    }
-  };
   return (
-    <ClerkProvider>
+    <Providers>
       <QueryProvider>
         <GlobalProvider>
           <html lang="en">
@@ -25,6 +21,6 @@ export default function RootLayout({ children }) {
           </html>
         </GlobalProvider>
       </QueryProvider>
-    </ClerkProvider>
+    </Providers>
   );
 }

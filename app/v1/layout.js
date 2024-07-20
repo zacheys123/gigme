@@ -5,8 +5,8 @@ import Nav from "@/components/Nav";
 import ProfileNav from "@/components/ProfileNav";
 import Transition from "@/components/Transition";
 import Footer from "@/components/Footer";
-import { auth, useUser } from "@clerk/nextjs";
-import { Box } from "@mui/material";
+import { auth, useAuth, useUser } from "@clerk/nextjs";
+import { Box, CircularProgress } from "@mui/material";
 
 import React, { useCallback, useEffect } from "react";
 
@@ -55,6 +55,20 @@ const MainLayout = ({ children }) => {
     },
   };
   let className = "rounded-xl m-3 p-3 w-full ";
+  const { isLoaded, userId } = useAuth();
+
+  if (!isLoaded || !userId) {
+    return (
+      <div className="h-screen w-full">
+        <div className="flex justify-center items-center h-screen flex-col">
+          <CircularProgress size="100px" />
+          <span className="mt-2 text-2xl font-bold">
+            Please wait a moment :)..
+          </span>
+        </div>
+      </div>
+    );
+  }
   return (
     <Box className="flex bg-black w-[100vw] min-h-[100vh]">
       <ProfileNav />

@@ -21,7 +21,7 @@ export default function Home() {
 
   const { isSignedIn, user } = useUser();
 
-  if (!isLoaded) {
+  if (!isLoaded && !userId) {
     return (
       <div className="h-screen w-full">
         <div className="flex justify-center items-center h-screen flex-col">

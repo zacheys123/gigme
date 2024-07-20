@@ -214,8 +214,9 @@ const Published = ({ user }) => {
                           </span>
                         </div>
                       )}
-                      {gig?.bandCategory?.length > 0 &&
-                        gig?.bussinesscat !== "full" && (
+                      {gig?.bandCategory?.length > 0 ||
+                        gig?.bussinesscat !== "full" ||
+                        (gig?.bussinesscat !== "personal" && (
                           <div>
                             {" "}
                             <h6 className="title text-center underline mt-2">
@@ -236,7 +237,7 @@ const Published = ({ user }) => {
                                 );
                               })}
                           </div>
-                        )}
+                        ))}
                       {!gig?.postedBy?.clerkId.includes(userId)
                         ? !gig?.isPending && (
                             <div className="w-full text-right">

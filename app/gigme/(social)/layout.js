@@ -4,13 +4,14 @@ import MyNav from "@/components/MyNav";
 import LeftBar from "@/components/socials/LeftBar";
 import RightBar from "@/components/socials/RightBar";
 import { useAuth, useUser } from "@clerk/nextjs";
+import { CircularProgress } from "@mui/material";
 import { Button } from "flowbite-react";
 import React, { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { Toaster } from "sonner";
 const GigmeLayout = ({ children }) => {
   const { user } = useUser();
-
+  const { isLoaded, userId } = useAuth();
   const registerUser = useCallback(async () => {
     const res = await fetch("/api/user/register", {
       method: "POST",
@@ -37,7 +38,18 @@ const GigmeLayout = ({ children }) => {
 
     registerUser();
   });
-
+  if (!isLoaded || !userId) {
+    return (
+      <div className="h-screen w-full">
+        <div className="flex justify-center items-center h-screen flex-col">
+          <CircularProgress size="100px" />
+          <span className="mt-2 text-2xl font-bold">
+            Please wait a moment :)..
+          </span>
+        </div>
+      </div>
+    );
+  }
   return (
     <>
       <div className="flex flex-col gap-2">
