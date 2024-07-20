@@ -32,7 +32,7 @@ const ViewGigs = ({ user }) => {
       <select
         value={typeOfGig}
         onChange={handleVal}
-        className="mb-2 w-[130px] bg-white  h-[40px] rounded-md p-3 text-[11px]  font-mono"
+        className="mb-2 w-[170px] bg-neutral-600 shadow-md p-3 title shadow-red-700 text-white  h-[40px] rounded-md  text-[11px]  font-mono"
       >
         <option
           // onClick={() => {

@@ -73,6 +73,10 @@
     @apply bg-background text-foreground;
   }
 }
+* {
+  scrollbar-color: transparent;
+  scrollbar-width: thin;
+}
 
 .nav {
   display: flex;
@@ -93,13 +97,13 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: gainsboro;
+  background: rgb(64, 64, 64);
   border-radius: 5px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: black;
+  background: rgb(64, 64, 64);
   border-radius: 5px;
 }
 
@@ -110,22 +114,23 @@
 
 /* Styling the scrollbar in Firefox  */
 .element-with-scroll {
-  scrollbar-color: trnsparent;
-  scrollbar-width: thin;
+  scrollbar-color: rgb(64, 64, 64);
+
+  scrollbar-width: 1px;
 }
 
 /* Styling the scrollbar in Chrome and Safari */
 .element-with-scroll::-webkit-scrollbar {
-  width: 5px;
+  width: 1px;
 }
 
 .element-with-scroll::-webkit-scrollbar-thumb {
-  background-color: grey;
+  background-color: rgb(64, 64, 64);
   /* Set thumb color for Chrome and Safari */
 }
 
 .element-with-scroll::-webkit-scrollbar-track {
-  background-color: grey !important;
+  background-color: transparent;
   /* Set track color for Chrome and Safari */
 }
 .title {
@@ -151,8 +156,8 @@
   font-size: 13px;
 }
 .view {
-  background-color: beige;
-  color: black;
+  background-color: rgb(160, 124, 112);
+  color: white;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-size: 13px;
   border-radius: 5px;
@@ -160,13 +165,30 @@
   margin: 2rem;
 }
 .create {
-  background-color: beige;
-  color: black;
+  background-color: rgb(160, 124, 112);
+  color: white;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-size: 13px;
   border-radius: 5px;
   padding: 14px;
   margin: 2rem;
+}
+.createforget {
+  background-color: beige;
+  color: black;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 13px;
+  border-radius: 5px;
+  padding: 5px;
+}
+.gigspage {
+  background-color: rgb(63, 20, 5);
+}
+.gigsdisplay {
+  background-color: rgb(20, 13, 10);
+}
+.headergig {
+  background-color: rgb(94, 72, 63);
 }
 .choice {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",

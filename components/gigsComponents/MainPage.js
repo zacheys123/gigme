@@ -10,7 +10,7 @@ const MainPage = ({ user }) => {
   const [view, setView] = useState();
   const [create, setCreate] = useState();
   const classname =
-    "mt-2 w-[90%] mx-auto  p-3 shadow-lg bg-neutral-200 h-[calc(100vh-70px)] ";
+    "mt-2 w-[90%] mx-auto  p-3 shadow-lg  h-[calc(100vh-70px)] ";
   let variant = {
     initial: {
       y: ["1500px", "1000px", "600px", "400px", "200px", "0px", ""],
@@ -28,12 +28,12 @@ const MainPage = ({ user }) => {
   const custClass =
     "h-[40px]  shadow-slate-600 shadow-xl  bg-neutral-300 flex justify-center items-center gap-2 min-w-[120px] whitespace-nowrap";
   return (
-    <div className="flex w-screen overflow-hidden min-h-screen lg:hidden bg-neutral-300 flex-col ">
-      <h6 className="font-mono underline text-center mt-2">
+    <div className="flex w-screen shadow-xl  overflow-hidden min-h-screen  lg:hidden gigspage flex-col ">
+      <h6 className="font-mono underline text-center mt-2 text-white">
         Choose Gig Actions
       </h6>
       <Divider />
-      <Box className="flex justify-center items-center shadow-xl   h-[100px] w-[90%] mx-auto">
+      <Box className="flex justify-center items-center mt-3 shadow-xl shadow-cyan-700 h-[100px] w-[90%] mx-auto">
         {" "}
         <div
           className={`${view} ? view   ${custClass} : ${custClass} `}
@@ -69,8 +69,11 @@ const MainPage = ({ user }) => {
           <div className="flex flex-col items-center gap-3 -mt-6">
             {" "}
             {/* <div className="w-full flex justify-center items-center"></div> */}
-            <Info size="30px" />{" "}
-            <h6 className="font-mono "> More Info will displayed here</h6>
+            <Info size="30px" color="white" />{" "}
+            <h6 className="font-mono text-neutral-300">
+              {" "}
+              More Info will displayed here
+            </h6>
           </div>
         </div>
       )}

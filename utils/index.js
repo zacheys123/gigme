@@ -105,7 +105,8 @@ export const searchfunc = (data, searchquery, category) => {
   if (searchquery) {
     sortedData = sortedData?.filter((gig) => {
       if (
-        gig?.category?.toLowerCase().includes(category.toLowerCase()) ||
+        (gig?.category &&
+          gig?.category?.toLowerCase() === category.toLowerCase()) ||
         gig?.bandCategory?.toLowerCase().includes(category.toLowerCase())
       ) {
         return sortedData;

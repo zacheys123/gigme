@@ -8,6 +8,8 @@ import { Button } from "../ui/button";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { Router } from "lucide-react";
+import { ArrowBack } from "@mui/icons-material";
 
 const Creator = ({ myGig }) => {
   const { userId } = useAuth();
@@ -207,7 +209,6 @@ const Creator = ({ myGig }) => {
               <span className="title text-[13px] text-neutral-400">
                 Instrument:{" "}
               </span>
-
               {creatorData?.personal && creatorData?.personal !== null && (
                 <h6 className="title text-yellow-300 font-bold text-[14px]">
                   {creatorData?.personal}
@@ -222,19 +223,19 @@ const Creator = ({ myGig }) => {
               </span>
             </div>
           )}
-          {creatorData?.band?.length > 1 &&
-            creatorData?.category !== "full" && (
-              <div>
+          {myGig?.gigs?.bandCategory?.length > 1 &&
+            myGig?.gigs?.bussinesscat === "other" && (
+              <div className="shadow-purple-600 shadow-md  create rounded-xl">
                 {" "}
-                <h6 className="title text-center underline mt-2">
+                <h6 className="title text-center underline  text-gray-300 ">
                   Band Selection
                 </h6>
-                {creatorData?.band &&
-                  creatorData?.bussinesscat === "other" &&
+                {myGig?.gigs?.bandCategory &&
+                  myGig?.gigs?.bussinesscat === "other" &&
                   creatorData?.band !== null &&
-                  creatorData?.band.map((band, idx) => {
+                  myGig?.gigs?.bandCategory.map((band, idx) => {
                     return (
-                      <ul className="flex link" key={idx} type="disc">
+                      <ul className="flex link" key={idx}>
                         <li> {band}</li>
                       </ul>
                     );
@@ -243,16 +244,26 @@ const Creator = ({ myGig }) => {
             )}
         </h6>
       </div>
-      <div className="w-full text-right">
+      <div className="w-[80%] mx-auto flex justify-between items-center gap-1">
         <Button
-          className="h-[45px] w-[120px] text-[13px]  -p-3 mr-6 "
-          variant="primary"
+          variant="secondary"
+          onClick={() => route.back()}
+          className="h-[32px]  w-[90px] link"
+        >
+          {" "}
+          <ArrowBack size="21px" sx={{ fontSize: "20px" }} />
+          Go back
+        </Button>
+        <Button
+          className="h-[32px] w-[190px] text-[13px]  -p-2 mr-6 "
+          variant="secondary"
           onClick={forgetBooking}
+          disabled={loading}
         >
           {loading ? (
             <CircularProgress size={"16px"} sx={{ color: "white" }} />
           ) : (
-            "Forget Booking"
+            "Undo Booking/Don't Book?"
           )}
         </Button>
       </div>

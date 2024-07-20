@@ -81,7 +81,7 @@ const Published = ({ user }) => {
   const readmoredescr = "link text-red-700 font-bold line-clamp-12 ";
   return (
     <div className="w-full h-[calc(100vh-260px)] p-2 shadow-sm mt-3">
-      <div className="mb-3 flex items-center gap-3">
+      <div className="flex justify-between ">
         <Input
           placeholder="filterBy:location,time,"
           className="h-[40px] w-[200px]"
@@ -107,9 +107,10 @@ const Published = ({ user }) => {
           <option value="personal">personal</option>{" "}
         </select>
       </div>
-      <Divider />
+      <Divider sx={{ backgroundColor: "gray" }} />
 
-      <div className="bg-neutral-200 w-full h-[100%] overflow-y-scroll element-with-scroll">
+      <br />
+      <div className="gigdisplay shadow-lg shadow-green-700 w-full h-[100%] overflow-y-scroll element-with-scroll">
         {allGigs?.length < 0 && <div>No Gigs to display</div>}
         {!loading && allGigs?.length > 0 ? (
           <>
@@ -129,7 +130,7 @@ const Published = ({ user }) => {
                       }
                     }}
                   >
-                    <div className="rounded-full w-[40px] h-[25px] bg-green-800"></div>
+                    <div className="rounded-full w-[30px] h-[30px] bg-green-800"></div>
                     <div className={classing(gig, readmore)}>
                       <div className="flex">
                         {" "}
@@ -307,8 +308,8 @@ const Published = ({ user }) => {
           <div className="h-[calc(75vh-150px)] w-full flex justify-center items-center">
             <div className="flex flex-col items-center gap-2">
               {" "}
-              <h6 className="title">loading gigs...</h6>
-              <CircularProgress size="15px" sxx={{ color: "white" }} />
+              <h6 className="title text-white">loading gigs...</h6>
+              <CircularProgress size="15px" sx={{ color: "white" }} />
             </div>
           </div>
         )}

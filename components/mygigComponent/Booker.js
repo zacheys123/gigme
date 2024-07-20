@@ -9,6 +9,7 @@ import { Star } from "lucide-react";
 import Image from "next/image";
 import Rating from "./Rating";
 import GigRating from "./GigRating";
+import { ArrowBack } from "@mui/icons-material";
 
 const Booker = ({ myGig }) => {
   const [rating, setRating] = useState(0);
@@ -184,15 +185,24 @@ const Booker = ({ myGig }) => {
         </div>
       </div>
       {!myGig?.gigs?.isTaken && (
-        <div className="w-full text-right mb-10">
+        <div className="w-[80%] mx-auto flex justify-between items-center gap-1">
           <Button
-            className="h-[35px] w-[110px] text-[13px]  -p-3 mr-6 "
+            variant="secondary"
+            onClick={() => router.back()}
+            className="h-[34px]  w-[90px] link"
+          >
+            {" "}
+            <ArrowBack size="21px" sx={{ fontSize: "20px" }} />
+            Go back
+          </Button>
+          <Button
+            className="h-[35px] w-[190px] text-[13px]  -p-3 mr-6 "
             variant="secondary"
             onClick={bookgig}
             disabled={loading}
           >
             {!loading ? (
-              "Book Gig!!"
+              "Book Gig!!/Choose Musician"
             ) : (
               <CircularProgress size="13px" sx={{ color: "red" }} />
             )}
