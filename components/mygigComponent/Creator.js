@@ -6,6 +6,8 @@ import { Input } from "../ui/input";
 import { CircularProgress, Divider } from "@mui/material";
 import { Button } from "../ui/button";
 import { useAuth } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const Creator = ({ myGig }) => {
   const { userId } = useAuth();
@@ -52,6 +54,7 @@ const Creator = ({ myGig }) => {
       };
     });
   }, []);
+  const route = useRouter();
   const [loading, setLoading] = useState();
   const forgetBooking = async () => {
     try {
@@ -61,18 +64,21 @@ const Creator = ({ myGig }) => {
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          userId,
+        }),
       });
       if (!response.ok) {
         throw new Error("Failed to cancel the gig");
       }
       const data = await response.json();
       if (data.gigstatus === "true") {
-        alert("Cancel the gig successfully");
+        toast.success("Cancelled the gig successfully");
         console.log(data);
         route.push(`/gigme/gigs/${userId}`);
         setLoading(false);
       } else {
-        alert(data.message);
+        toast.error(data.message);
         setLoading(false);
       }
     } catch (error) {
@@ -243,7 +249,11 @@ const Creator = ({ myGig }) => {
           variant="primary"
           onClick={forgetBooking}
         >
-          {loading ? <CircularProgress /> : "Forget Booking"}
+          {loading ? (
+            <CircularProgress size={"16px"} sx={{ color: "white" }} />
+          ) : (
+            "Forget Booking"
+          )}
         </Button>
       </div>
       <Button className="absolute top-[550px] right-10 rounded-tl-xl roundebr-full rounde-bl-xl">

@@ -9,7 +9,7 @@ import { Button } from "flowbite-react";
 import React, { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { Toaster } from "sonner";
-const GigmeLayout = ({ children }) => {
+const GigmeLayout = ({ children, modal }) => {
   const { user } = useUser();
   const { isLoaded, userId } = useAuth();
   const registerUser = useCallback(async () => {
@@ -57,6 +57,7 @@ const GigmeLayout = ({ children }) => {
         <SocialNav />
         <div className="flex">
           <LeftBar />
+          {modal}
           {children}
           <RightBar />
         </div>

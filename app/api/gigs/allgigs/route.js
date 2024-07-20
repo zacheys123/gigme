@@ -12,6 +12,10 @@ export async function GET(req, { params }) {
         path: "postedBy",
         model: User,
       })
+      .populate({
+        path: "bookedBy",
+        model: User,
+      })
       .collation({ locale: "en", strength: 2 })
       .exec();
 

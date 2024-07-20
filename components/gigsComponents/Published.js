@@ -8,6 +8,7 @@ import { classing, searchfunc } from "@/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
+import { toast } from "sonner";
 
 const Published = ({ user }) => {
   const { userId } = useAuth();
@@ -56,10 +57,11 @@ const Published = ({ user }) => {
   };
 
   // Booking function it updates the isPending state
-  const handleBook = async (id) => {
+  const handleBook = async (gig) => {
     // update the isPending state
+
     try {
-      const res = await fetch(`/api/gigs/bookgig/${id}`, {
+      const res = await fetch(`/api/gigs/bookgig/${gig?._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -71,8 +73,16 @@ const Published = ({ user }) => {
       });
       const data = await res.json();
       console.log(data);
-
-      router.push(`/gigme/mygig/${id}/execute`);
+      if (data.gigstatus === "true") {
+        toast.success("Booked the gig successfully");
+        console.log(data);
+        router.push(`/gigme/mygig/${gig?._id}/execute`);
+        setLoading(false);
+      } else {
+        toast.error(data.message);
+        router.push(`/gigme/gigs/${userId}`);
+        setLoading(false);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -118,9 +128,7 @@ const Published = ({ user }) => {
           <>
             {/* content */}
             {searchfunc(pubGigs, typeOfGig, category)
-              ?.filter((pub) => {
-                return pub.isTaken === false;
-              })
+              ?.filter((pub) => pub.isTaken === false)
               .map((gig) => {
                 return (
                   <div key={gig?.secret} className="p-1 flex w-full mt-3 ">
@@ -238,26 +246,28 @@ const Published = ({ user }) => {
                               <Button
                                 variant="primary"
                                 className="p-1 h-[25px] text-[10px] m-2 "
-                                onClick={() => handleBook(gig?._id)}
+                                onClick={() => handleBook(gig)}
                               >
                                 Book Now!!!
                               </Button>
                             </div>
                           )
                         : ""}
-                      {gig?.isPending && (
-                        <div className="w-full text-right">
-                          <Button
-                            variant="primary"
-                            className="p-2 h-[25px] text-[10px] m-2 "
-                            onClick={() =>
-                              router.push(`/gigme/mygig/${gig?._id}/execute`)
-                            }
-                          >
-                            View Gig!!
-                          </Button>
-                        </div>
-                      )}
+                      {gig?.isPending === true &&
+                        gig?.bookedBy?.clerkId.includes(userId) &&
+                        gig?.bookedBy?.firstname === user?.user?.firstname && (
+                          <div className="w-full text-right">
+                            <Button
+                              variant="primary"
+                              className="p-2 h-[25px] text-[10px] m-2 "
+                              onClick={() =>
+                                router.push(`/gigme/mygig/${gig?._id}/execute`)
+                              }
+                            >
+                              View Gig!!
+                            </Button>
+                          </div>
+                        )}
                       <Divider />{" "}
                       <div className="flex justify-between items-center mt-2">
                         <div

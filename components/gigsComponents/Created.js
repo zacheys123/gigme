@@ -56,6 +56,9 @@ const Created = ({ user }) => {
   const handleEditBooked = async (id) => {
     router.push(`/gigme/mygig/${id}/execute`);
   };
+  const handleEdit = async (id) => {
+    router.push(`/gigme/editpage/${id}/edit`);
+  };
   console.log(createdGigs);
 
   // conditionsl styling
@@ -234,7 +237,7 @@ const Created = ({ user }) => {
                           <Button
                             variant="primary"
                             className="p-1 h-[25px] text-[10px] m-2 "
-                            onClick={() => handleBook(gig?._id)}
+                            onClick={() => handleEdit(gig?._id)}
                           >
                             Edit Gig!!!
                           </Button>
