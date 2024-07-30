@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Router } from "lucide-react";
 import { ArrowBack } from "@mui/icons-material";
+import Transition from "../Transition";
 
 const Creator = ({ myGig }) => {
   const { userId } = useAuth();
@@ -88,8 +89,29 @@ const Creator = ({ myGig }) => {
       console.error("Error canceling the gig:", error.message);
     }
   };
+  let variant = {
+    initial: {
+      x: ["-100px", "-50px", "-20px", "0px", "20px", "40px", "0px"],
+      opacity: [-10, -7, 0],
+    },
+    animate: {
+      x: 0,
+      opacity: [-10, -7, -5, -3, 1],
+    },
+    transition: {
+      ease: "easeInOut",
+      duration: 5,
+    },
+  };
+  let className = "";
+  const [hello, setHello] = useState();
+  useEffect(() => {
+    setTimeout(() => {
+      setHello(true);
+    }, 4000);
+  }, []);
   return (
-    <div className="container bg-neutral-600 shadow-xl h-full overflow-hidden w-full p-2">
+    <div className="container bg-neutral-600 shadow-xl h-fit overflow-hidden w-full p-4">
       <div className="card m-4">
         <h6 className="title text-gray-200">Personal info</h6>
         <div className="flex gap-3">
@@ -267,9 +289,13 @@ const Creator = ({ myGig }) => {
           )}
         </Button>
       </div>
-      <Button className="absolute top-[550px] right-10 rounded-tl-xl roundebr-full rounde-bl-xl">
-        Say Hello👋😁
-      </Button>
+      {hello && (
+        <Transition variant={variant} className={className}>
+          <Button className="absolute top-[550px] right-10 rounded-tl-xl roundebr-full rounde-bl-xl">
+            Say Hello👋😁
+          </Button>
+        </Transition>
+      )}
     </div>
   );
 };

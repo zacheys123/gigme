@@ -11,7 +11,7 @@ async function getMyGig(gigId) {
 const MyGigPage = async ({ params }) => {
   const { userId } = auth();
   const myGig = await getMyGig(params.id);
-  console.log(myGig.gigs);
+
   return (
     <div className="h-screen w-screen bg-black ">
       {myGig?.gigs?.bookedBy?.clerkId.includes(userId) && (

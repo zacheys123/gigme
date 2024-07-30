@@ -73,6 +73,7 @@
     @apply bg-background text-foreground;
   }
 }
+
 * {
   scrollbar-color: transparent;
   scrollbar-width: thin;
@@ -199,6 +200,18 @@
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   font-size: 13px;
+}
+.myinput {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid gray;
+  outline: 0;
+  font-size: 1.3rem;
+  color: white;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
 }
 input[type="radio"] {
   display: none;

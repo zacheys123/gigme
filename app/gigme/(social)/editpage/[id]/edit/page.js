@@ -72,7 +72,6 @@ const EditPage = () => {
     });
   }, []);
 
-  console.log(gigInputs);
   const [loading, setLoading] = useState();
   const [secretpass, setSecretPass] = useState();
   const [selectedDate, setSelectedDate] = useState(null);
@@ -94,6 +93,8 @@ const EditPage = () => {
     durationfrom: userposts?.gigs?.durationfrom,
     bussinesscat: userposts?.gigs?.bussinesscat,
   });
+
+  console.log(gigInputs);
   const toduration = `${gigInputs?.end}${gigInputs?.durationto} `;
   const fromduration = `${gigInputs?.start}${gigInputs?.durationfrom} `;
   const [userinfo, setUserInfo] = useState({

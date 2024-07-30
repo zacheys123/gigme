@@ -10,8 +10,10 @@ import Image from "next/image";
 import Rating from "./Rating";
 import GigRating from "./GigRating";
 import { ArrowBack } from "@mui/icons-material";
-
+import { useRouter } from "next/navigation";
+import Transition from "../Transition";
 const Booker = ({ myGig }) => {
+  const router = useRouter();
   const [rating, setRating] = useState(0);
   const [loading, setLoading] = useState(0);
   const [creatorData, setCreatorData] = useState({
@@ -86,6 +88,27 @@ const Booker = ({ myGig }) => {
       console.error("Error booking the gig:", error.message);
     }
   };
+  let variant = {
+    initial: {
+      x: ["-100px", "-50px", "-20px", "0px", "20px", "40px", "0px"],
+      opacity: [-10, -7, 0],
+    },
+    animate: {
+      x: 0,
+      opacity: [-10, -7, -5, -3, 1],
+    },
+    transition: {
+      ease: "easeInOut",
+      duration: 5,
+    },
+  };
+  let className = "";
+  const [hello, setHello] = useState();
+  useEffect(() => {
+    setTimeout(() => {
+      setHello(true);
+    }, 4000);
+  }, []);
   return (
     <div className="container bg-neutral-600 shadow-xl h-full overflow-hidden w-full p-2">
       <div className="card m-4">
@@ -209,9 +232,13 @@ const Booker = ({ myGig }) => {
           </Button>
         </div>
       )}
-      <Button className="absolute top-[640px] right-10 rounded-tl-xl roundebr-full rounde-bl-xl">
-        Say Hello👋😁
-      </Button>
+      {hello && (
+        <Transition variant={variant} className={className}>
+          <Button className="absolute top-[550px] right-10 rounded-tl-xl roundebr-full rounde-bl-xl">
+            Say Hello👋😁
+          </Button>
+        </Transition>
+      )}
     </div>
   );
 };

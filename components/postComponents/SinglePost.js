@@ -11,7 +11,7 @@ import { Box, CircularProgress } from "@mui/material";
 import { TextInput } from "flowbite-react";
 import { Globe } from "lucide-react";
 import Image from "next/image";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useOptimistic } from "react";
 import { AiOutlineLike } from "react-icons/ai";
 import { AiFillLike } from "react-icons/ai";
 import { AiOutlineDislike } from "react-icons/ai";
@@ -29,6 +29,8 @@ import LikeDisLikeComponent from "./LikeDisLikeComponent";
 const SinglePost = ({ post, user, comments, replies }) => {
   let newComm = comments?.comments;
   let myuser = user?.user;
+  const [optimisticePosts, setOptimisticePosts] = useOptimistic(post);
+  const [optimisticeComments, setOptimisticeComments] = useOptimistic(newComm);
 
   const {
     userState: {},
@@ -44,6 +46,9 @@ const SinglePost = ({ post, user, comments, replies }) => {
   let myComments = newComm.filter((com) => {
     return com?.postId?._id === post?._id;
   });
+  // const [optimisticeComments, setOptimisticeComments] =
+  //   useOptimistic(newComm);
+
   console.log(post);
   const [commentLength, setCommentlength] = useState(myComments?.length);
   const [commentsArray, setComments] = useState(myComments);

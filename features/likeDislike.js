@@ -17,6 +17,7 @@ export const handleLike = async (dep, id, setLikeLength, setLike) => {
 export const handleUnlike = async (dep, id, setLikeLength, setLike) => {
   const res = await fetch(`${dep}`, {
     method: "PUT",
+    cache: "no-cache",
     headers: {
       "Content-Type": "application/json",
     },

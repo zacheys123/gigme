@@ -6,14 +6,14 @@ import {
   handledisLike,
 } from "@/features/likeDislike";
 import { getDisLikes, getLikes } from "@/utils";
-import React, { useState } from "react";
+import React, { useState, useOptimistic } from "react";
 import { AiOutlineLike } from "react-icons/ai";
 import { AiFillLike } from "react-icons/ai";
 import { AiOutlineDislike } from "react-icons/ai";
 import { AiFillDislike } from "react-icons/ai";
 const LikeDisLikeComponent = ({ apiroute, myuser, mydep, api }) => {
-  const [like, setLike] = useState();
-  const [dislike, setdisLike] = useState();
+  const [like, setLike] = useState(false);
+  const [dislike, setdisLike] = useState(false);
   const [likelength, setLikelength] = useState(
     apiroute?.likes.length === 0 ? "" : apiroute.likes.length
   );

@@ -164,12 +164,12 @@ const Published = ({ user }) => {
                         {" "}
                         <span className="title tracking-tighter">Time:</span>
                         <span className="link text-red-700 font-bold line-clamp-1  ">
-                          {gig?.time.from}
+                          {gig?.time?.from}
                         </span>
                         &nbsp;
                         <span className="title">to</span> &nbsp;
                         <span className="link text-red-700 font-bold line-clamp-1  ">
-                          {gig?.time.to}
+                          {gig?.time?.to}
                         </span>
                       </div>
                       <div className="flex">
@@ -303,9 +303,9 @@ const Published = ({ user }) => {
                         <div>
                           {" "}
                           <span className="link text-red-700 font-bold line-clamp-1 ">
-                            {gig?.postedBy.picture && (
+                            {gig?.postedBy?.picture && (
                               <Image
-                                src={gig?.postedBy.picture}
+                                src={gig?.postedBy?.picture}
                                 alt="p"
                                 width={25}
                                 height={25}

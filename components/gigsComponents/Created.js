@@ -101,9 +101,6 @@ const Created = ({ user }) => {
           <>
             {/* content */}
             {searchfunc(createdGigs, typeOfGig, category)
-              ?.filter((pub) => {
-                return pub.isTaken === false;
-              })
               .map((gig) => {
                 return (
                   <div key={gig?.secret} className="p-1 flex w-full mt-3 ">
