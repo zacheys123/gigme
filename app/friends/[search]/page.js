@@ -16,9 +16,9 @@ import {
 } from "@/features/followerSlice";
 import { useAuth } from "@clerk/nextjs";
 import { Add } from "@mui/icons-material";
-import { Box, CircularProgress, Divider } from "@mui/material";
+import { Box, CircularProgress, Divider, Input } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { Footer, TextInput } from "flowbite-react";
+import { Footer } from "flowbite-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -143,7 +143,7 @@ const FriendsProfilePage = () => {
     );
   }
   return (
-    <div className="overflow-auto h-[calc(100vh-20px)] bg-gray-400/10 md:bg-neutral-100 w-full flex flex-col">
+    <div className="overflow-x-hidden h-[100vh] bg-gray-800 md:bg-neutral-700 w-full flex flex-col">
       <FriendsMobileNav />
       <div className="h-[200px] md:hidden">
         <Box className="flex items-center justify-around shadow-md bg-inherit  h-[200px] w-full md:h-[400px]">
@@ -162,10 +162,10 @@ const FriendsProfilePage = () => {
             )}{" "}
             <div className="flex flex-col gap-4 h-full ">
               <div>
-                <h3 className="h1 ml-3 text-slate-700/60">
+                <h3 className="h1 ml-3 text-white">
                   {data?.user?.firstname} {data?.user?.lastname}
                 </h3>{" "}
-                <h3 className="font-mono ml-3 text-slate-700/50">
+                <h3 className="font-mono ml-3 text-slate-300">
                   {data?.user?.email}
                 </h3>
               </div>
@@ -177,7 +177,7 @@ const FriendsProfilePage = () => {
                       disabled={loading}
                       variant="primary"
                       onClick={follow}
-                      className="text-[13px]"
+                      className="text-[13px] text-[lightgray] title"
                     >
                       GigFollow <Add />
                     </Button>
@@ -186,7 +186,7 @@ const FriendsProfilePage = () => {
                       disabled={loading}
                       variant="closed"
                       onClick={unFollow}
-                      className=" text-[13px] flex items-center"
+                      className=" text-[13px] flex items-center  text-[lightgray] title"
                     >
                       GigUnFollow <IoCheckmarkDone size="20px" />
                     </Button>
@@ -257,7 +257,7 @@ const FriendsProfilePage = () => {
                 type="button"
                 variant="primary"
                 onClick={follow}
-                className=" md:text-base xl:text-2xl"
+                className=" md:text-base xl:text-2xl text-[lightgray] title"
               >
                 GigFollow <Add />
               </Button>
@@ -265,7 +265,7 @@ const FriendsProfilePage = () => {
               <Button
                 variant="closed"
                 onClick={unFollow}
-                className=" md:text-base xl:text-2xl"
+                className=" md:text-base xl:text-2xl text-[lightgray] title"
               >
                 GigUnFollow <IoCheckmarkDone size="30px" />
               </Button>
@@ -285,9 +285,9 @@ const FriendsProfilePage = () => {
       </div>
       {/* Body CodeGoes Here */}
       {!loading ? (
-        <div className="flex items-center md:bg-neutral-200 justify-around shadow-md md:w-[700px] md:self-center">
+        <div className="flex items-center md:bg-inherit justify-around shadow-md shadow-gray-300 md:w-[700px] md:self-center">
           {" "}
-          <h2 className="font-bold md:font-extrabold md:text-[15px] xl:text-[19px] text-orange-400/90 m-3 flex flex-col items-center ">
+          <h2 className="font-bold md:font-extrabold md:text-[15px] link xl:text-[19px] text-orange-400/90 m-3 flex flex-col items-center ">
             Followers{" "}
             <span>
               {data?.user?.followers?.length < 1 ||
@@ -297,7 +297,7 @@ const FriendsProfilePage = () => {
                 : data?.user?.followers?.length}
             </span>
           </h2>
-          <h2 className="font-bold md:font-extrabold md:text-[15px] xl:text-[19px] text-green-600/90 m-3 flex flex-col items-center ">
+          <h2 className="font-bold md:font-extrabold md:text-[15px] link xl:text-[19px] text-green-600/90 m-3 flex flex-col items-center ">
             Posts{" "}
             <span>
               {" "}
@@ -310,7 +310,7 @@ const FriendsProfilePage = () => {
               </span>
             </span>
           </h2>{" "}
-          <h2 className="font-bold md:font-extrabold md:text-[15px] xl:text-[19px] text-purple-600/90 m-3 flex flex-col items-center ">
+          <h2 className="font-bold md:font-extrabold md:text-[15px] link xl:text-[19px] text-purple-600/90 m-3 flex flex-col items-center ">
             Following{" "}
             <span>
               {" "}
@@ -328,7 +328,7 @@ const FriendsProfilePage = () => {
         " "
       )}
       <Divider />
-      <div className="mt-5 flex-grow flex flex-col gap-2 bg-gray-300/70">
+      <div className="mt-5 flex-grow flex flex-col gap-2 bg-gray-300 p-2">
         {!greeting && (
           <div className="cursor-pointer w-[100px] md:w-[180px] xl:w-[230px] tracking-tighter absolute p-2 z-50 right-0 bottom-44 m-2 rounded-b-lg rounded-tr-xl shadow-xl  rounded-r-xl bg-slate-600/40 hover:bg-gray-300/50">
             <h3 className="flex gap-2  items-center">
@@ -341,56 +341,58 @@ const FriendsProfilePage = () => {
             </h3>
           </div>
         )}
-        <TextInput
+        <Input
           disabled
           type="text"
-          className="w-[330px] mx-auto mt-4 md:w-[500px] xl:w-[630px] text-base md:text-[25px] xl:text-[] font-bold "
+          className="w-[330px] mx-auto 
+           font-mono mt-4 md:w-[500px] xl:w-[630px] text-base
+            md:text-[25px] xl:text-[27px] font-bold "
           placeholder="firstname"
           value={userdata?.firstname}
         />
-        <TextInput
+        <Input
           disabled
           type="text"
           className="w-[330px] mx-auto mt-4 md:w-[500px] xl:w-[630px] text-base md:text-[25px] xl:text-[] font-bold "
           placeholder="lastname"
           value={userdata?.lastname}
         />
-        <TextInput
+        <Input
           disabled
           type="text"
           className="w-[330px] mx-auto mt-4 md:w-[500px] xl:w-[630px] text-base md:text-[25px] xl:text-[] font-bold "
           placeholder="Email address"
           value={userdata?.email}
         />
-        <TextInput
+        <Input
           disabled
           type="text"
           className="w-[330px] mx-auto mt-4 md:w-[500px] xl:w-[630px] text-base md:text-[25px] xl:text-[] font-bold "
           placeholder="username"
           value={userdata?.username}
         />{" "}
-        <TextInput
+        <Input
           disabled
           type="text"
           className="w-[330px] mx-auto mt-4 md:w-[500px] xl:w-[630px] text-base md:text-[25px] xl:text-[] font-bold "
           placeholder="City"
           value={userdata?.city}
         />
-        <TextInput
+        <Input
           disabled
           type="text"
           className="w-[330px] mx-auto mt-4 md:w-[500px] xl:w-[630px] text-base md:text-[25px] xl:text-[] font-bold "
           placeholder="instrument"
           value={userdata?.instrument}
         />{" "}
-        <TextInput
+        <Input
           disabled
           type="text"
           className="w-[330px] mx-auto mt-4 md:w-[500px] xl:w-[630px] text-base md:text-[25px] xl:text-[] font-bold "
           placeholder="experience"
           value={userdata?.experience}
         />
-        <TextInput
+        <Input
           disabled
           type="text"
           className="w-[330px] mx-auto my-4 md:w-[500px] xl:w-[630px] text-base md:text-[25px] xl:text-[33px] font-bold "
@@ -401,13 +403,21 @@ const FriendsProfilePage = () => {
         />
       </div>
       {/* End of Body Code */}
-      <Footer container className="hidden md:flex b-0">
+      <Footer container className="hidden md:flex bottom-0 absolute">
         <Footer.Copyright href="/gigme/social" by="GigMeup™" year={2022} />
-        <Footer.LinkGroup>
-          <Footer.Link href="/gigme/about">About</Footer.Link>
-          <Footer.Link href="/gigme/privacy">Privacy Policy</Footer.Link>
-          <Footer.Link href="/gigme/licencing">Licensing</Footer.Link>
-          <Footer.Link href="/gigme/contact">Contact</Footer.Link>
+        <Footer.LinkGroup className="flex justify-evenly">
+          <Footer.Link className="mx-2" href="/gigme/about">
+            About
+          </Footer.Link>
+          <Footer.Link className="mx-2" href="/gigme/privacy">
+            Privacy Policy
+          </Footer.Link>
+          <Footer.Link className="mx-2" href="/gigme/licencing">
+            Licensing
+          </Footer.Link>
+          <Footer.Link className="mx-2" href="/gigme/contact">
+            Contact
+          </Footer.Link>
         </Footer.LinkGroup>
       </Footer>
     </div>

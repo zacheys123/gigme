@@ -7,6 +7,7 @@ export default function Transition({
   variant,
   className,
   navStates,
+  onClick,
 }) {
   return (
     <>
@@ -28,6 +29,7 @@ export default function Transition({
           animate={variant.animate}
           transition={variant.transition}
           className={className}
+          onClick={onClick}
         >
           {children}
         </motion.div>

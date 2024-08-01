@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { Router } from "lucide-react";
 import { ArrowBack } from "@mui/icons-material";
 import Transition from "../Transition";
+import { motion } from "framer-motion";
 
 const Creator = ({ myGig }) => {
   const { userId } = useAuth();
@@ -104,12 +105,16 @@ const Creator = ({ myGig }) => {
     },
   };
   let className = "";
+  const router = useRouter();
   const [hello, setHello] = useState();
   useEffect(() => {
     setTimeout(() => {
       setHello(true);
     }, 4000);
   }, []);
+  const onClick = (gig) => {
+    router.push(`/gigme/chat/${gig}`);
+  };
   return (
     <div className="container bg-neutral-600 shadow-xl h-fit overflow-hidden w-full p-4">
       <div className="card m-4">
@@ -227,7 +232,7 @@ const Creator = ({ myGig }) => {
         <h6>
           {/* <span>{creatorData?.category}</span> */}
           {creatorData?.personal && creatorData?.category === "personal" && (
-            <div className="flex">
+            <span className="flex">
               <span className="title text-[13px] text-neutral-400">
                 Instrument:{" "}
               </span>
@@ -236,22 +241,22 @@ const Creator = ({ myGig }) => {
                   {creatorData?.personal}
                 </h6>
               )}
-            </div>
+            </span>
           )}
           {!creatorData?.fullband && creatorData?.category === "full" && (
-            <div className="flex">
+            <span className="flex">
               <span className="title text-purple-700 font-bold">
                 FullBand(vocalist,instrumentalists etc){" "}
               </span>
-            </div>
+            </span>
           )}
           {myGig?.gigs?.bandCategory?.length > 1 &&
             myGig?.gigs?.bussinesscat === "other" && (
-              <div className="shadow-purple-600 shadow-md  create rounded-xl">
+              <span className="shadow-purple-600 shadow-md  create rounded-xl">
                 {" "}
-                <h6 className="title text-center underline  text-gray-300 ">
+                <span className="title text-center underline  text-gray-300 ">
                   Band Selection
-                </h6>
+                </span>
                 {myGig?.gigs?.bandCategory &&
                   myGig?.gigs?.bussinesscat === "other" &&
                   creatorData?.band !== null &&
@@ -262,9 +267,20 @@ const Creator = ({ myGig }) => {
                       </ul>
                     );
                   })}
-              </div>
+              </span>
             )}
         </h6>
+        {hello && (
+          <motion.div
+            variant={variant}
+            className={className}
+            onClick={() => onClick(myGig?.gigs?._id)}
+          >
+            <Button className="absolute top-[550px] right-10 rounded-tl-xl roundebr-full rounded-bl-xl">
+              Say Hello👋😁
+            </Button>
+          </motion.div>
+        )}
       </div>
       <div className="w-[80%] mx-auto flex justify-between items-center gap-1">
         <Button
@@ -283,19 +299,12 @@ const Creator = ({ myGig }) => {
           disabled={loading}
         >
           {loading ? (
-            <CircularProgress size={"16px"} sx={{ color: "white" }} />
+            <CircularProgress size={"16px"} sx={{ color: "blue" }} />
           ) : (
             "Undo Booking/Don't Book?"
           )}
         </Button>
       </div>
-      {hello && (
-        <Transition variant={variant} className={className}>
-          <Button className="absolute top-[550px] right-10 rounded-tl-xl roundebr-full rounde-bl-xl">
-            Say Hello👋😁
-          </Button>
-        </Transition>
-      )}
     </div>
   );
 };

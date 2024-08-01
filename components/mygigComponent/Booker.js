@@ -12,6 +12,7 @@ import GigRating from "./GigRating";
 import { ArrowBack } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import Transition from "../Transition";
+import { motion } from "framer-motion";
 const Booker = ({ myGig }) => {
   const router = useRouter();
   const [rating, setRating] = useState(0);
@@ -109,6 +110,9 @@ const Booker = ({ myGig }) => {
       setHello(true);
     }, 4000);
   }, []);
+  const onClick = (gig) => {
+    router.push(`/gigme/chat/${gig}`);
+  };
   return (
     <div className="container bg-neutral-600 shadow-xl h-full overflow-hidden w-full p-2">
       <div className="card m-4">
@@ -233,11 +237,15 @@ const Booker = ({ myGig }) => {
         </div>
       )}
       {hello && (
-        <Transition variant={variant} className={className}>
-          <Button className="absolute top-[550px] right-10 rounded-tl-xl roundebr-full rounde-bl-xl">
+        <motion.div
+          variant={variant}
+          className={className}
+          onClick={() => onClick(myGig?.gigs?._id)}
+        >
+          <Button className="absolute top-[550px] right-10 rounded-tl-xl roundebr-full rounded-bl-xl">
             Say Hello👋😁
           </Button>
-        </Transition>
+        </motion.div>
       )}
     </div>
   );

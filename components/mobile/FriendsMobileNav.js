@@ -16,7 +16,7 @@ import { FaBell } from "react-icons/fa";
 
 const FriendsMobileNav = () => {
   return (
-    <div className="bg-gray-300 shadow-lg top-0 sticky ">
+    <div className="shadow-sm shadow-black top-0 sticky min-w-[90%] mx-auto">
       <nav className="container  mx-auto max-w-[100vw] xl:w-[60vw] shadow-lg p-4 bg-gray-400/60 flex items-center justify-between">
         <Logo />
         <span className="flex items-center">

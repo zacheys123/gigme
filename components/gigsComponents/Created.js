@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 
 import { useAuth } from "@clerk/nextjs";
 import { Input } from "../ui/input";
-import { CircularProgress, Divider } from "@mui/material";
+import { Box, CircularProgress, Divider } from "@mui/material";
 import { classing, searchfunc } from "@/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
+import { ArrowRight } from "lucide-react";
 
 const Created = ({ user }) => {
   const { userId } = useAuth();
@@ -47,6 +48,7 @@ const Created = ({ user }) => {
   const router = useRouter();
   const [readmore, setReadMore] = useState();
   const [ispend, setIsPending] = useState();
+  const [arrow, setArrow] = useState();
   const updateLog = {
     userid: user?.user?._id,
 
@@ -65,7 +67,7 @@ const Created = ({ user }) => {
   const normaldescr = "link text-red-700 font-bold line-clamp-1 ";
   const readmoredescr = "link text-red-700 font-bold line-clamp-12 ";
   return (
-    <div className=" w-full h-[calc(100vh-260px)] p-2  mt-3">
+    <div className=" w-full h-[calc(100vh-260px)] p-2  mt-3 ">
       <div className="flex justify-between ">
         <Input
           placeholder="filterBy:location,time,"
@@ -96,7 +98,11 @@ const Created = ({ user }) => {
 
       <br />
       <div className="gigdisplay shadow-lg shadow-cyan-600 w-full h-[100%] overflow-y-scroll element-with-scroll">
-        {createdGigs?.length < 0 && <div>No Gigs to display</div>}
+        {createdGigs?.length < 0 && (
+          <div className="w-full h-full flex justify-center items-center -mt-[50px]">
+            <h6> No Gigs to display</h6>
+          </div>
+        )}
         {!loading && createdGigs?.length > 0 ? (
           <>
             {/* content */}
@@ -146,7 +152,7 @@ const Created = ({ user }) => {
                       <div className="flex">
                         {" "}
                         <span className="title tracking-tighter">Contact:</span>
-                        <span className="link text-red-700 font-bold line-clamp-1 blur-sm ">
+                        <span className="link text-red-700 font-bold line-clamp-1  ">
                           {gig?.phone}
                         </span>
                       </div>
@@ -230,7 +236,7 @@ const Created = ({ user }) => {
                           </Button>
                         </div>
                       )}
-                      {!gig?.isPending && (
+                      {!gig?.isPending && !gig?.isTaken && (
                         <div className="w-full text-right">
                           <Button
                             variant="primary"
@@ -255,7 +261,10 @@ const Created = ({ user }) => {
                             </span>
                             <span className="link text-red-700 font-bold line-clamp-1 ">
                               {!gig?.isTaken ? (
-                                <span className=" track-tighter bg-red-500  p-2 rounded-full text-[11px]  text-white">
+                                <span
+                                  className=" track-tighter bg-red-500  p-2 rounded-full text-[11px] 
+                                 text-white"
+                                >
                                   Not Taken
                                 </span>
                               ) : (
@@ -287,6 +296,37 @@ const Created = ({ user }) => {
                           </span>
                         </div>
                       </div>
+                      {gig?.isPending === false && gig?.isTaken === true && (
+                        <Box
+                          className="flex item-center  bg-red-300 p-2 max-w-[80%] rounded-xl mt-2 gap-3
+                         whitespace-nowrap md:hover:cursor-pointer  duration-400 md:hover:max-w-[80%] hover:justify-between transition-transform hover:scale-90"
+                          onClick={() => {
+                            router.push(`/friends/${gig?.bookedBy?.username}`);
+                          }}
+                          // onMouseOver={() => setArrow(true)}
+                          // onMouseLeave={() => setArrow(false)}
+                        >
+                          <div className="flex gap-2">
+                            <h6 className="font-mono text-[12px]">
+                              Who Booked?!!{" "}
+                            </h6>
+                            <span className="link font-bold text-blue-500">
+                              {gig?.bookedBy?.firstname}
+                            </span>
+                          </div>
+
+                          <div className="">
+                            <ArrowRight
+                              sx={{
+                                fontSize: "14px",
+                                opacity: 0.5,
+                              }}
+                              color="grey"
+                              size="17px"
+                            />
+                          </div>
+                        </Box>
+                      )}
                     </div>
                   </div>
                 );
