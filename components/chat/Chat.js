@@ -7,9 +7,9 @@ import ChatHeader from "./ChatHeader";
 import ChatPage from "./ChatPage";
 import ChatInput from "./ChatInput";
 
-const Chat = ({ myGig }) => {
+const Chat = ({ myChat, myUser }) => {
   const router = useRouter();
-  console.log(myGig);
+  console.log(myUser);
 
   return (
     <Dialog
@@ -27,11 +27,12 @@ const Chat = ({ myGig }) => {
           </DialogTitle>
         </DialogHeader>
         <div className=" w-full flex flex-col gap-1 h-[470px]">
-          {/* header */} <ChatHeader myGig={myGig} />
+          {/* header */}
+          <ChatHeader myChat={myChat} myUser={myUser} />
           {/*  messages*/}
-          <ChatPage myGig={myGig} />
+          <ChatPage myChat={myChat} myUser={myUser} />
           {/* input */}
-          <ChatInput myGig={myGig} />
+          <ChatInput />
         </div>
         <small className="text-center text-muted-foreground">
           Powered By:gigMeUp
@@ -43,5 +44,6 @@ const Chat = ({ myGig }) => {
 export default Chat;
 
 Chat.propTypes = {
-  myGig: PropTypes.object,
+  myChat: PropTypes.object,
+  myUser: PropTypes.object,
 };

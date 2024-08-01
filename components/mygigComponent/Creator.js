@@ -112,8 +112,33 @@ const Creator = ({ myGig }) => {
       setHello(true);
     }, 4000);
   }, []);
+  const [chatId, setChatId] = useState();
+  const createChatRoom = async (gig) => {
+    let reciever = gig?.postedBy?._id;
+    let sender = gig?.bookedBy?._id;
+    let gigChat = gig?._id;
+    try {
+      const res = await fetch(`/api/chat/createchatroom`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          reciever,
+          sender,
+          gigChat,
+        }),
+      });
+      const data = await res.json();
+      console.log(data.results[0]);
+      setChatId(data.results[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const onClick = (gig) => {
-    router.push(`/gigme/chat/${gig}`);
+    createChatRoom(gig);
+    router.push(`/gigme/chat/${gig?.postedBy?.clerkId}/${chatId?._id}`);
   };
   return (
     <div className="container bg-neutral-600 shadow-xl h-fit overflow-hidden w-full p-4">
@@ -274,7 +299,7 @@ const Creator = ({ myGig }) => {
           <motion.div
             variant={variant}
             className={className}
-            onClick={() => onClick(myGig?.gigs?._id)}
+            onClick={() => onClick(myGig?.gigs)}
           >
             <Button className="absolute top-[550px] right-10 rounded-tl-xl roundebr-full rounded-bl-xl">
               Say Hello👋😁

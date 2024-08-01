@@ -5,6 +5,7 @@ const messageSchema = new mongoose.Schema(
   {
     postedBy: { type: Schema.Types.ObjectId, ref: "User" },
     bookedBy: { type: Schema.Types.ObjectId, ref: "User" },
+    chatId: { type: Schema.Types.ObjectId, ref: "Chat" },
     text: {
       type: String,
       required: true,
