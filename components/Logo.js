@@ -3,14 +3,11 @@ import React from "react";
 
 const Logo = ({ flex }) => {
   return (
-    <Link
-      href="/gigme/social"
-      className={` tracking-tighter hover:cursor-pointer`}
-    >
-      <span className=" bg-pink-500/60 text-yellow-200 font-bold p-2 rounded-b-xl title text-pretty md:text-[14px]">
-        GigMe
+    <Link href="/gigme/social" className={` flex  hover:cursor-pointer`}>
+      <span className=" text-purple-700 font-bold p-2 rounded-b-xl title text-[25px]  md:text-[14px]">
+        G
       </span>
-      <span className=" text-green-300 bg-white rounded-r-xl  font-bold p-2 link  shadow-blue-500 shadow-xl md:text-[14px]">
+      <span className=" text-blue-700  rounded-r-xl  font-bold p-2 link   md:text-[14px]">
         Up
       </span>
     </Link>

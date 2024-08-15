@@ -9,6 +9,7 @@ import { useGlobalContext } from "@/app/Context/store";
 import { global } from "@/actions";
 import { CircularProgress } from "@mui/material";
 import { toast } from "sonner";
+import { Input } from "../ui/input";
 const UserPost = ({ user }) => {
   const {
     userState: { showPosts },
@@ -75,7 +76,7 @@ const UserPost = ({ user }) => {
         >
           <div>
             {" "}
-            <TextInput
+            <Input
               id="post"
               type="text"
               className="mt-2"

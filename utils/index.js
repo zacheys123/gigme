@@ -139,3 +139,14 @@ export const classing = (gig, readmore) => {
   }
   return `${readmore}  ?  ${readmorestyling} :  ${normalstyling}`;
 };
+
+export function formattedtime(datestring) {
+  const date = new Date(datestring);
+  const hours = padZero(date.getHours());
+  const minutes = padZero(date.getMinutes());
+  return `${hours}:${minutes}`;
+}
+
+function padZero(number) {
+  return String(number).padStart(2, "0");
+}

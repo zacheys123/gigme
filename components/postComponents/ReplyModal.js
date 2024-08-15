@@ -7,6 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TextInput } from "flowbite-react";
+import { Input } from "../ui/input";
 
 export default function ReplyModal({
   open,
@@ -26,7 +27,7 @@ export default function ReplyModal({
         }}
       >
         <DialogContent>
-          <TextInput
+          <Input
             autoFocus
             margin="dense"
             placeholder="Reply to this comment..."

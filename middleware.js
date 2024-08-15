@@ -16,6 +16,9 @@ export default authMiddleware({
     "/api/gigs/getcreated/:id",
     "/api/gigs/allgigs",
     "/api/gigs/getgig/:id",
+    "/api/chat/createchat",
+    "/api/chat/sendmessage",
+    "/api/chat/fetchchats/:userid/:id",
   ],
 });
 export const config = {

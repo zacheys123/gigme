@@ -3,9 +3,8 @@ import { models, Schema } from "mongoose";
 
 const messageSchema = new mongoose.Schema(
   {
-    postedBy: { type: Schema.Types.ObjectId, ref: "User" },
-    bookedBy: { type: Schema.Types.ObjectId, ref: "User" },
-    chatId: { type: Schema.Types.ObjectId, ref: "Chat" },
+    sender: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    reciever: { type: Schema.Types.ObjectId, ref: "User", required: true },
     text: {
       type: String,
       required: true,

@@ -110,33 +110,34 @@ const Booker = ({ myGig }) => {
       setHello(true);
     }, 4000);
   }, []);
-  const [chatId, setChatId] = useState();
-  const createChatRoom = async (gig) => {
-    let reciever = gig?.bookedBy?._id;
-    let sender = gig?.postedBy?._id;
-    let gigChat = gig?._id;
-    try {
-      const res = await fetch(`/api/chat/createchatroom`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          reciever,
-          sender,
-          gigChat,
-        }),
-      });
-      const data = await res.json();
-      console.log(data.results[0]);
-      setChatId(data.results[0]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const [chatId, setChatId] = useState();
+  // const createChatRoom = async (gig) => {
+  //   let reciever = gig?.bookedBy?._id;
+  //   let sender = gig?.postedBy?._id;
+  //   let gigChat = gig?._id;
+  //   try {
+  //     const res = await fetch(`/api/chat/createchatroom`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         reciever,
+  //         sender,
+  //         gigChat,
+  //       }),
+  //     });
+  //     const data = await res.json();
+  //     console.log(data.results[0]);
+  //     setChatId(data.results[0]);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   const onClick = (gig) => {
-    createChatRoom(gig);
-    router.push(`/gigme/chat/${gig?.bookedBy?.clerkId}/${chatId?._id}`);
+    // createChatRoom(gig);
+
+    router.push(`/gigme/chat/${gig?.bookedBy?.clerkId}`);
   };
   return (
     <div className="container bg-neutral-600 shadow-xl h-full overflow-hidden w-full p-2">

@@ -9,7 +9,7 @@ import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Router } from "lucide-react";
-import { ArrowBack } from "@mui/icons-material";
+import { ArrowBack, Message } from "@mui/icons-material";
 import Transition from "../Transition";
 import { motion } from "framer-motion";
 
@@ -112,36 +112,35 @@ const Creator = ({ myGig }) => {
       setHello(true);
     }, 4000);
   }, []);
-  const [chatId, setChatId] = useState();
-  const createChatRoom = async (gig) => {
-    let reciever = gig?.postedBy?._id;
-    let sender = gig?.bookedBy?._id;
-    let gigChat = gig?._id;
-    try {
-      const res = await fetch(`/api/chat/createchatroom`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          reciever,
-          sender,
-          gigChat,
-        }),
-      });
-      const data = await res.json();
-      console.log(data.results[0]);
-      setChatId(data.results[0]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const [chatId, setChatId] = useState();
+  // const createChatRoom = async (gig) => {
+  //   let reciever = gig?.postedBy?._id;
+  //   let sender = gig?.bookedBy?._id;
+  //   let gigChat = gig?._id;
+  //   try {
+  //     const res = await fetch(`/api/chat/createchatroom`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         reciever,
+  //         sender,
+  //         gigChat,
+  //       }),
+  //     });
+  //     const data = await res.json();
+  //     console.log(data.results[0]);
+  //     setChatId(data.results[0]);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   const onClick = (gig) => {
-    createChatRoom(gig);
-    router.push(`/gigme/chat/${gig?.postedBy?.clerkId}/${chatId?._id}`);
+    router.push(`/gigme/chat/${gig?.postedBy?.clerkId}`);
   };
   return (
-    <div className="container bg-neutral-600 shadow-xl h-fit overflow-hidden w-full p-4">
+    <div className="container bg-neutral-600 shadow-xl h-[100%] overflow-hidden w-full p-4">
       <div className="card m-4">
         <h6 className="title text-gray-200">Personal info</h6>
         <div className="flex gap-3">
@@ -277,9 +276,9 @@ const Creator = ({ myGig }) => {
           )}
           {myGig?.gigs?.bandCategory?.length > 1 &&
             myGig?.gigs?.bussinesscat === "other" && (
-              <span className="shadow-purple-600 shadow-md  create rounded-xl">
+              <span className="  rounded-xl">
                 {" "}
-                <span className="title text-center underline  text-gray-300 ">
+                <span className="title text-center underline font-bold text-gray-200 ">
                   Band Selection
                 </span>
                 {myGig?.gigs?.bandCategory &&
@@ -287,7 +286,7 @@ const Creator = ({ myGig }) => {
                   creatorData?.band !== null &&
                   myGig?.gigs?.bandCategory.map((band, idx) => {
                     return (
-                      <ul className="flex link" key={idx}>
+                      <ul className="flex link text-neutral-200" key={idx}>
                         <li> {band}</li>
                       </ul>
                     );
@@ -296,16 +295,25 @@ const Creator = ({ myGig }) => {
             )}
         </h6>
         {hello && (
-          <motion.div
-            variant={variant}
-            className={className}
-            onClick={() => onClick(myGig?.gigs)}
-          >
-            <Button className="absolute top-[550px] right-10 rounded-tl-xl roundebr-full rounded-bl-xl">
+          <div variant={variant} onClick={() => onClick(myGig?.gigs)}>
+            <motion.div className="absolute top-20 right-5 md:cursor-pointer">
+              <Message
+                sx={{ color: "lightgray", fontSize: "40px" }}
+                size="40px"
+              />
+            </motion.div>{" "}
+          </div>
+        )}
+        {/* {hello && (
+          <motion.div variant={variant} className={className}>
+            <Button
+              onClick={() => onClick(myGig?.gigs)}
+              className=" top-[350px] right-10 rounded-tl-xl rounded-br-full rounded-bl-xl"
+            >
               Say Hello👋😁
             </Button>
           </motion.div>
-        )}
+        )} */}
       </div>
       <div className="w-[80%] mx-auto flex justify-between items-center gap-1">
         <Button

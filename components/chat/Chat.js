@@ -1,16 +1,32 @@
 "use client";
-import React from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { PropTypes } from "prop-types";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import ChatHeader from "./ChatHeader";
 import ChatPage from "./ChatPage";
 import ChatInput from "./ChatInput";
-
-const Chat = ({ myChat, myUser }) => {
+import { useAuth } from "@clerk/nextjs";
+import { useGlobalContext } from "@/app/Context/store";
+const Chat = ({ other, curr }) => {
+  console.log(other);
+  const sender = useRef();
+  const reciever = useRef();
+  const postedorbookedById = other?.user?._id;
+  const currentId = curr?.user?._id;
   const router = useRouter();
-  console.log(myUser);
-
+  const {
+    userState: { messages },
+    setUserState,
+  } = useGlobalContext();
+  console.log(
+    "currentId" + currentId,
+    "postedorbookedById" + postedorbookedById
+  );
+  useEffect(() => {
+    sender.current = currentId;
+    reciever.current = postedorbookedById;
+  }, [currentId, postedorbookedById]);
   return (
     <Dialog
       open
@@ -28,11 +44,21 @@ const Chat = ({ myChat, myUser }) => {
         </DialogHeader>
         <div className=" w-full flex flex-col gap-1 h-[470px]">
           {/* header */}
-          <ChatHeader myChat={myChat} myUser={myUser} />
+          <ChatHeader myUser={other} />
           {/*  messages*/}
-          <ChatPage myChat={myChat} myUser={myUser} />
+          <ChatPage
+            currentId={currentId}
+            postedorbookedById={postedorbookedById}
+            messages={messages}
+            setMessages={setUserState}
+          />
           {/* input */}
-          <ChatInput />
+          <ChatInput
+            currentId={currentId}
+            postedorbookedById={postedorbookedById}
+            messages={messages}
+            setMessages={setUserState}
+          />
         </div>
         <small className="text-center text-muted-foreground">
           Powered By:gigMeUp
@@ -42,8 +68,3 @@ const Chat = ({ myChat, myUser }) => {
   );
 };
 export default Chat;
-
-Chat.propTypes = {
-  myChat: PropTypes.object,
-  myUser: PropTypes.object,
-};

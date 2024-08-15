@@ -1,111 +1,54 @@
-import React from "react";
+"use client";
+import { useFetchMessages } from "@/hooks/useFetchMessages";
+import { PropTypes } from "prop-types";
+import React, { useCallback, useEffect, useRef } from "react";
+import Message from "./Message";
+import Skeleton from "./Skeleton";
+import { useGlobalContext } from "@/app/Context/store";
 
-const ChatPage = () => {
-  const messages = [
-    {
-      uniqid: "ijfsnfsfshjnfbfbfuffoibiygfus",
-      bookedid: "1",
-      text: "hellow mister mann",
-      time: "12:40pm",
-    },
-    {
-      uniqid: "ijfsnfsfshtyu35oibiygfus",
-      bookedid: "2",
-      text: "hellow mwanake",
-      time: "12:42pm",
-    },
-    {
-      uniqid: "ijfsnsdarety6oibiygfus",
-      bookedid: "1",
-      text: "how have you been?",
-      time: "12:45pm",
-    },
-    {
-      uniqid: "ijfsnfs12jufsbnmbiygfus",
-      bookedid: "1",
-      text: "how have you been?",
-      time: "12:45pm",
-    },
+const ChatPage = ({ currentId, postedorbookedById, messages, setMessages }) => {
+  console.log(currentId, "" + "" + postedorbookedById);
 
-    {
-      uniqid: "ijfs1735mnbmhmibiygfus",
-      bookedid: "2",
-      text: "ive been great",
-      time: "1:40pm",
-    },
-    {
-      uniqid: "ijfsnfs12467bxvbiygfus",
-      bookedid: "1",
-      text: "i want that gig",
-      time: "2:40pm",
-    },
-    {
-      uniqid: "ijf987ffgfgbiygfus",
-      bookedid: "2",
-      text: "okay,i have given you.",
-      time: "3:00pm",
-    },
-    {
-      uniqid: "ijfs121i8987vfgfgbiygfus",
-      bookedid: "2",
-      text: "ive been great",
-      time: "1:40pm",
-    },
-
-    {
-      uniqid: "fgrfsdgrwt4545bxvbiygfus",
-      bookedid: "1",
-      text: "i want that gig",
-      time: "2:40pm",
-    },
-    {
-      uniqid: "fht56sfffiygfus",
-      bookedid: "2",
-      text: "okay,i have given you.",
-      time: "3:00pm",
-    },
-    {
-      uniqid: "i12254dfsfghffjjiygfus",
-      bookedid: "2",
-      text: "ive been great",
-      time: "1:40pm",
-    },
-  ];
+  const { loading } = useFetchMessages(currentId, postedorbookedById);
+  console.log(messages);
+  const lastmsg = useRef();
+  useEffect(() => {
+    setTimeout(() => {
+      lastmsg.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  }, [messages]);
   return (
     <div className="overflow-y-auto shadow-md shadow-zinc-100  border border-input  rounded-md element-with-scroll flex-1  p-2">
-      {messages
-        .map((message) => (
-          <div key={message.uniqid} className="w-full h-[35px]  my-5">
-            {/* {message.postedBy.clerkId.includes(userId)} */}
-            {message.bookedid === "1" && (
-              <div className="flex items-end">
-                <div className="flex flex-col items-start  my-2">
-                  <h6 className=" outgoing-msg     flex flex-col    p-3 rounded-xl text-[11px] md:text-[13px]">
-                    <span>{message.text}</span>
-                    <span className="text-neutral-200 text-[10px] link ">
-                      {message.time}
-                    </span>{" "}
-                  </h6>
-                </div>
-              </div>
-            )}
-            {message.bookedid === "2" && (
-              <div className="flex items-end justify-end">
-                <div className="flex flex-col items-end  my-2">
-                  <h6 className=" flex flex-col recieved-msg   p-3 rounded-xl text-[11px] md:text-[13px]">
-                    <span>{message.text}</span>
-                    <span className="text-neutral-500 text-[10px] link ">
-                      {message.time}
-                    </span>{" "}
-                  </h6>
-                </div>
-              </div>
-            )}
-          </div>
-        ))
-        .reverse()}
+      {!loading &&
+        messages.length > 0 &&
+        messages.map((message) => {
+          return (
+            <div key={message._id} ref={lastmsg}>
+              {" "}
+              <Message
+                myMessages={message}
+                curr={currentId}
+                other={postedorbookedById}
+              />
+            </div>
+          );
+        })}{" "}
+      {loading && (
+        <div>
+          {[...Array(10)].map((_, idx) => {
+            return <Skeleton key={idx} />;
+          })}
+        </div>
+      )}
+      {!loading && messages.length === 0 && (
+        <div>send a message to start a chat</div>
+      )}
     </div>
   );
 };
 
 export default ChatPage;
+ChatPage.propTypes = {
+  currentId: PropTypes.String,
+  postedorbookedById: PropTypes.String,
+};

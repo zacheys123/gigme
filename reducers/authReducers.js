@@ -33,5 +33,15 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         showComments: action.payload,
       };
+    case global.SETMESSAGES:
+      return {
+        ...state,
+        messages: action.payload,
+      };
+    case global.GETMESSAGES:
+      return {
+        ...state,
+        messages: action.payload,
+      };
   }
 };
