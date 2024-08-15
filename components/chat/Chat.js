@@ -35,7 +35,7 @@ const Chat = ({ other, curr }) => {
         if (!isOpen) router.back();
       }}
     >
-      <DialogContent className="sm:max-w-[55%] w-[70%] md:w-[80%] xl:w-[85%]  shadow-sm shadow-gray-300">
+      <DialogContent className="sm:max-w-[55%] w-[80%] md:w-[85%] xl:w-[90%]  shadow-sm shadow-gray-300">
         <DialogHeader className=" h-[30px]">
           <DialogTitle className="text-[13px]">
             <span className="text-purple-400 font-bold title">Chat</span>

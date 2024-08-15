@@ -2,6 +2,7 @@
 import { useGetUsers } from "@/hooks/useGetUsers";
 import { differenceInMinutes, formattedtime } from "@/utils";
 import { Box, CircularProgress } from "@mui/material";
+import { Avatar } from "flowbite-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
@@ -12,7 +13,10 @@ const Message = ({ myMessages, other, curr }) => {
   const chatclassName = fromme ? "chat chat-end" : "chat chat-start";
   const profpic = fromme ? sender?.user?.picture : reciever?.user?.picture;
   const name = fromme ? sender?.user?.username : reciever?.user?.username;
-  const background = fromme ? "bg-blue-500" : "";
+  const background = fromme ? "bg-blue-500 " : "";
+  const color = !fromme
+    ? "text-red-200 font-bold"
+    : "text-purple-100 font-bold";
   const { loading } = useGetUsers(setReciever, setSender, other, curr);
   return (
     <div>
@@ -23,21 +27,37 @@ const Message = ({ myMessages, other, curr }) => {
       ) : (
         <Box className={chatclassName}>
           <div className="chat-image avatar">
-            <div className="w-10 rounded-full">
-              <Image
-                width={25}
-                height={25}
-                alt="Tailwind CSS chat bubble component"
-                src={profpic}
-              />
+            <div className=" rounded-full">
+              {sender?.user?.picture || reciever?.user?.picture ? (
+                <Image
+                  width={16}
+                  height={16}
+                  alt="A"
+                  src={profpic && profpic}
+                  className="h-[16px] w-[16px]"
+                />
+              ) : (
+                <Avatar />
+              )}
             </div>
           </div>
-          <div className="chat-header">{name}</div>
-          <div className={`chat-bubble text-white pb-2 ${background}`}>
-            {myMessages?.text}
+
+          <div
+            className={`chat-bubble text-white pb-11  ${background} h-[25px]`}
+          >
+            {" "}
+            <div
+              className={`chat-header font-sans text-[11px] underline ${color}`}
+            >
+              {name}
+            </div>
+            <span className="title">{myMessages?.text}</span>
           </div>
           <div className="chat-footer opacity-50">
-            {formattedtime(myMessages?.createdAt)}
+            sent at{" "}
+            <span className="font-mono text-[12px]">
+              {formattedtime(myMessages?.createdAt)}
+            </span>
           </div>
         </Box>
       )}

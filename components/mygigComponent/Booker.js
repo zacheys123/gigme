@@ -13,10 +13,17 @@ import { ArrowBack } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import Transition from "../Transition";
 import { motion } from "framer-motion";
+import { useForgetBookings } from "@/hooks/useForgetBookings";
+import { useBookGig } from "@/hooks/useBookGig";
+import { useAuth } from "@clerk/nextjs";
 const Booker = ({ myGig }) => {
+  const { userId } = useAuth();
+  const { loading, forgetBookings } = useForgetBookings();
+  const { bookloading, bookgig } = useBookGig();
+
   const router = useRouter();
   const [rating, setRating] = useState(0);
-  const [loading, setLoading] = useState(0);
+
   const [creatorData, setCreatorData] = useState({
     firstname: myGig?.gigs?.bookedBy?.firstname,
     lastname: myGig?.gigs?.bookedBy?.lastname,
@@ -36,7 +43,7 @@ const Booker = ({ myGig }) => {
     fullband: "fullband",
     date: new Date(myGig?.gigs?.date).toLocaleDateString(),
   });
-  console.log(myGig);
+
   useEffect(() => {
     setCreatorData(() => {
       return {
@@ -60,35 +67,7 @@ const Booker = ({ myGig }) => {
       };
     });
   }, []);
-  const bookgig = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`/api/gigs/book/${myGig?.gigs?._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          rating,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to book the gig");
-      }
-      const data = await response.json();
-      if (data.gigstatus === "true") {
-        alert("Booked the gig successfully");
-        console.log(data);
-        setLoading(false);
-      } else {
-        alert(data.message);
-        setLoading(false);
-      }
-    } catch (error) {
-      setLoading(false);
-      console.error("Error booking the gig:", error.message);
-    }
-  };
+
   let variant = {
     initial: {
       x: ["-100px", "-50px", "-20px", "0px", "20px", "40px", "0px"],
@@ -110,35 +89,19 @@ const Booker = ({ myGig }) => {
       setHello(true);
     }, 4000);
   }, []);
-  // const [chatId, setChatId] = useState();
-  // const createChatRoom = async (gig) => {
-  //   let reciever = gig?.bookedBy?._id;
-  //   let sender = gig?.postedBy?._id;
-  //   let gigChat = gig?._id;
-  //   try {
-  //     const res = await fetch(`/api/chat/createchatroom`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         reciever,
-  //         sender,
-  //         gigChat,
-  //       }),
-  //     });
-  //     const data = await res.json();
-  //     console.log(data.results[0]);
-  //     setChatId(data.results[0]);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  const onClick = (gig) => {
-    // createChatRoom(gig);
 
+  const book = () => {
+    bookgig(rating, myGig);
+  };
+  const forget = () => {
+    forgetBookings(userId, myGig);
+  };
+  const onClick = (gig) => {
     router.push(`/gigme/chat/${gig?.bookedBy?.clerkId}`);
   };
+  if (myGig?.gigs?.isPending === false) {
+    router.push(`/gigme/gigs/${userId}`);
+  }
   return (
     <div className="container bg-neutral-600 shadow-xl h-full overflow-hidden w-full p-2">
       <div className="card m-4">
@@ -238,7 +201,7 @@ const Booker = ({ myGig }) => {
         </div>
       </div>
       {!myGig?.gigs?.isTaken && (
-        <div className="w-[80%] mx-auto flex justify-between items-center gap-1">
+        <div className="w-[85%] mx-auto flex justify-between items-center gap-1">
           <Button
             variant="secondary"
             onClick={() => router.back()}
@@ -249,17 +212,31 @@ const Booker = ({ myGig }) => {
             Go back
           </Button>
           <Button
-            className="h-[35px] w-[190px] text-[13px]  -p-3 mr-6 "
+            className="h-[35px] text-[13px]  p-2 mx-4  whitespace-nowrap"
             variant="secondary"
-            onClick={bookgig}
-            disabled={loading}
+            onClick={book}
+            disabled={bookloading}
           >
-            {!loading ? (
+            {!bookloading ? (
               "Book Gig!!/Choose Musician"
             ) : (
               <CircularProgress size="13px" sx={{ color: "red" }} />
             )}
           </Button>
+          <div>
+            <Button
+              className="h-[35px] w-[70px] text-[13px]  -p-3 mr-6 "
+              variant="secondary"
+              onClick={forget}
+              disabled={loading}
+            >
+              {!loading ? (
+                "Cancel Gig"
+              ) : (
+                <CircularProgress size="13px" sx={{ color: "red" }} />
+              )}
+            </Button>
+          </div>
         </div>
       )}
       {hello && (

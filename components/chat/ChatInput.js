@@ -15,6 +15,10 @@ const ChatInput = ({ currentId, postedorbookedById }) => {
   const handleMessage = useCallback((ev) => {
     ev.preventDefault();
     let message = ev.target[0].value;
+    message =
+      messages.length < 1 || messages.length === 0
+        ? "hello 👋"
+        : ev.target[0].value;
     send(
       currentId,
       postedorbookedById,
@@ -30,25 +34,30 @@ const ChatInput = ({ currentId, postedorbookedById }) => {
       <form
         onSubmit={handleMessage}
         className="flex items-center gap-2
-       w-full border-1 border-b-[12px] border-neutral-300 shadow-sm p-2"
+       w-full  p-2"
       >
-        <input
-          type="text"
-          placeholder="Write something...."
-          className=" flex h-9  w-full  border-0  border-netral-100  bg-background px-3 py-1 
+        <div className=" bg-neutral-100 rounded-full px-5 w-full   flex items-center gap-1">
+          <input
+            autoFocus
+            type="text"
+            placeholder="Write something...."
+            className=" flex h-9  w-[100%] -ml-3 flex-1
+            px-3 py-1  bg-inherit
         text-sm  transition-colors 
       placeholder:text-muted-foreground
          focus-visible:outline-none
-         focus-visible:ring-0  disabled:cursor-not-allowed disabled:opacity-50"
-        />
-        {!loading && <span className="hover:cursor-pointer">🙂</span>}
-        <button className="h-[18px]" type="submit">
-          {loading ? (
-            <CircularProgress sx={{ fontSize: "12px" }} size="15px" />
-          ) : (
-            <Send sx={{ fontSize: "12px" }} size="17px" />
-          )}{" "}
-        </button>
+         focus-visible:ring-0  disabled:cursor-not-allowed
+          disabled:opacity-50"
+          />
+          {!loading && <span className="hover:cursor-pointer">🙂</span>}
+          <button className="h-[18px] " type="submit">
+            {loading ? (
+              <CircularProgress sx={{ fontSize: "12px" }} size="15px" />
+            ) : (
+              <Send sx={{ fontSize: "12px" }} size="17px" />
+            )}{" "}
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -7,14 +7,13 @@ import { CircularProgress, Divider } from "@mui/material";
 import { Button } from "../ui/button";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { Router } from "lucide-react";
 import { ArrowBack, Message } from "@mui/icons-material";
-import Transition from "../Transition";
 import { motion } from "framer-motion";
+import { useForgetBookings } from "@/hooks/useForgetBookings";
 
 const Creator = ({ myGig }) => {
   const { userId } = useAuth();
+  const { loading, forgetBookings } = useForgetBookings();
   const [creatorData, setCreatorData] = useState({
     firstname: myGig?.gigs?.postedBy?.firstname,
     lastname: myGig?.gigs?.postedBy?.lastname,
@@ -34,7 +33,10 @@ const Creator = ({ myGig }) => {
     fullband: "fullband",
     date: new Date(myGig?.gigs?.date).toLocaleDateString(),
   });
-  console.log(myGig);
+
+  const forget = () => {
+    forgetBookings(userId, myGig);
+  };
   useEffect(() => {
     setCreatorData(() => {
       return {
@@ -58,38 +60,7 @@ const Creator = ({ myGig }) => {
       };
     });
   }, []);
-  const route = useRouter();
-  const [loading, setLoading] = useState();
-  const forgetBooking = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`/api/gigs/cancelgig/${myGig?.gigs?._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to cancel the gig");
-      }
-      const data = await response.json();
-      if (data.gigstatus === "true") {
-        toast.success("Cancelled the gig successfully");
-        console.log(data);
-        route.push(`/gigme/gigs/${userId}`);
-        setLoading(false);
-      } else {
-        toast.error(data.message);
-        setLoading(false);
-      }
-    } catch (error) {
-      setLoading(false);
-      console.error("Error canceling the gig:", error.message);
-    }
-  };
+
   let variant = {
     initial: {
       x: ["-100px", "-50px", "-20px", "0px", "20px", "40px", "0px"],
@@ -104,7 +75,7 @@ const Creator = ({ myGig }) => {
       duration: 5,
     },
   };
-  let className = "";
+
   const router = useRouter();
   const [hello, setHello] = useState();
   useEffect(() => {
@@ -139,6 +110,9 @@ const Creator = ({ myGig }) => {
   const onClick = (gig) => {
     router.push(`/gigme/chat/${gig?.postedBy?.clerkId}`);
   };
+  if (myGig?.gigs?.isPending === false) {
+    router.push(`/gigme/gigs/${userId}`);
+  }
   return (
     <div className="container bg-neutral-600 shadow-xl h-[100%] overflow-hidden w-full p-4">
       <div className="card m-4">
@@ -318,7 +292,7 @@ const Creator = ({ myGig }) => {
       <div className="w-[80%] mx-auto flex justify-between items-center gap-1">
         <Button
           variant="secondary"
-          onClick={() => route.back()}
+          onClick={() => router.back()}
           className="h-[32px]  w-[90px] link"
         >
           {" "}
@@ -328,7 +302,7 @@ const Creator = ({ myGig }) => {
         <Button
           className="h-[32px] w-[190px] text-[13px]  -p-2 mr-6 "
           variant="secondary"
-          onClick={forgetBooking}
+          onClick={forget}
           disabled={loading}
         >
           {loading ? (
