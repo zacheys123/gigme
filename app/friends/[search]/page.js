@@ -1,4 +1,5 @@
 "use client";
+import ClientOnly from "@/app/ClientOnly";
 import { useGlobalContext } from "@/app/Context/store";
 import MyFooter from "@/components/Footer";
 import SkeletonUser from "@/components/SkeletonUser";
@@ -144,7 +145,9 @@ const FriendsProfilePage = () => {
   }
   return (
     <div className="overflow-x-hidden h-[100vh] bg-gray-800 md:bg-neutral-700 w-full flex flex-col">
-      <FriendsMobileNav />
+      <ClientOnly>
+        <FriendsMobileNav />
+      </ClientOnly>
       <div className="h-[200px] md:hidden">
         <Box className="flex items-center justify-around shadow-md bg-inherit  h-[200px] w-full md:h-[400px]">
           <Box className="flex gap-2 items-center md:flex-col">

@@ -1,3 +1,4 @@
+import ClientOnly from "@/app/ClientOnly";
 import Chat from "@/components/chat/Chat";
 import { checkEnvironment } from "@/utils";
 import { auth } from "@clerk/nextjs";
@@ -28,7 +29,11 @@ const ChatPage = async ({ params }) => {
   const { userId } = auth();
   const otherUser = await getUser(params);
   const currentUser = await getCurrentUser(userId);
-  return <Chat other={otherUser} curr={currentUser} />;
+  return (
+    <ClientOnly>
+      <Chat other={otherUser} curr={currentUser} />;
+    </ClientOnly>
+  );
 };
 
 export default ChatPage;

@@ -1,3 +1,4 @@
+import ClientOnly from "@/app/ClientOnly";
 import Transition from "@/components/Transition";
 import MainPage from "@/components/gigsComponents/MainPage";
 import { checkEnvironment } from "@/utils";
@@ -15,7 +16,11 @@ async function getUser() {
 }
 const GigPage = async () => {
   const user = await getUser();
-  return <MainPage user={user} />;
+  return (
+    <ClientOnly>
+      <MainPage user={user} />;
+    </ClientOnly>
+  );
 };
 
 export default GigPage;

@@ -1,4 +1,5 @@
 "use client";
+import ClientOnly from "@/app/ClientOnly";
 import SocialNav from "@/components/GigmeNav";
 import LeftBar from "@/components/socials/LeftBar";
 import RightBar from "@/components/socials/RightBar";
@@ -53,9 +54,13 @@ const SocialLayout = ({ children }) => {
 
   return (
     <div className="flex gap-3 overflow-y-auto h-screen">
-      <LeftBar />
+      <ClientOnly>
+        <LeftBar />
+      </ClientOnly>
       {children}
-      <RightBar />
+      <ClientOnly>
+        <RightBar />
+      </ClientOnly>
     </div>
   );
 };

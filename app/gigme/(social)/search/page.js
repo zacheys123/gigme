@@ -3,6 +3,7 @@ import OverlaySearch from "@/components/OverlaySearch";
 import { auth } from "@clerk/nextjs";
 import SearchComponent from "@/components/SearchComponent";
 import { checkEnvironment } from "@/utils";
+import ClientOnly from "@/app/ClientOnly";
 async function search() {
   const { userId } = auth();
   const res = await fetch(
@@ -23,8 +24,12 @@ const SearchPage = async () => {
   const users = await search();
   return (
     <div className=" w-[100vw] h-[100vh] ">
-      <SearchComponent data={users} />
-      <OverlaySearch />
+      <ClientOnly>
+        <SearchComponent data={users} />
+      </ClientOnly>
+      <ClientOnly>
+        <OverlaySearch />
+      </ClientOnly>
     </div>
   );
 };

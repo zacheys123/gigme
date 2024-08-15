@@ -1,3 +1,4 @@
+import ClientOnly from "@/app/ClientOnly";
 import Booker from "@/components/mygigComponent/Booker";
 import Creator from "@/components/mygigComponent/Creator";
 import { checkEnvironment } from "@/utils";
@@ -15,10 +16,14 @@ const MyGigPage = async ({ params }) => {
   return (
     <div className="h-screen w-screen bg-black ">
       {myGig?.gigs?.bookedBy?.clerkId.includes(userId) && (
-        <Creator myGig={myGig} />
+        <ClientOnly>
+          <Creator myGig={myGig} />
+        </ClientOnly>
       )}
       {myGig?.gigs?.postedBy?.clerkId.includes(userId) && (
-        <Booker myGig={myGig} />
+        <ClientOnly>
+          <Booker myGig={myGig} />
+        </ClientOnly>
       )}
     </div>
   );

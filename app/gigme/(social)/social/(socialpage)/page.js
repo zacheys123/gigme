@@ -1,3 +1,4 @@
+import ClientOnly from "@/app/ClientOnly";
 import SocialMainPage from "@/components/SocialMainPage";
 import LeftBar from "@/components/socials/LeftBar";
 import connectDb from "@/lib/connectDb";
@@ -73,12 +74,14 @@ const SocialPage = async () => {
   return (
     <div className="w-screen h-screen  bg-gray-900">
       {" "}
-      <SocialMainPage
-        user={user}
-        posts={posts}
-        comments={comments}
-        replies={replies}
-      />
+      <ClientOnly>
+        <SocialMainPage
+          user={user}
+          posts={posts}
+          comments={comments}
+          replies={replies}
+        />
+      </ClientOnly>
     </div>
   );
 };

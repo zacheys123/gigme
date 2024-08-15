@@ -1,3 +1,4 @@
+import ClientOnly from "@/app/ClientOnly";
 import ReplyComponent from "@/components/postComponents/ReplyComponent";
 import { checkEnvironment } from "@/utils";
 import { auth } from "@clerk/nextjs";
@@ -51,7 +52,9 @@ const ReplyPage = async ({ params }) => {
 
   return (
     <div className="h-fit w-screen bg-neutral-300 overflow-hidden">
-      <ReplyComponent comment={comment} replies={replies} user={user} />
+      <ClientOnly>
+        <ReplyComponent comment={comment} replies={replies} user={user} />
+      </ClientOnly>
     </div>
   );
 };
