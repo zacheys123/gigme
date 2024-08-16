@@ -1,7 +1,8 @@
 "use client";
 import { dark } from "@clerk/themes";
 import { ClerkProvider } from "@clerk/nextjs";
-
+import { io } from "socket.io-client";
+import { useEffect, useState } from "react";
 // ...
 export function Providers({ children }) {
   return (

@@ -22,6 +22,7 @@ export default function Home() {
   const { isSignedIn, user } = useUser();
 
   if (!isLoaded && !userId) {
+    localStorage.removeItem("user");
     return (
       <div className="h-screen w-full">
         <div className="flex justify-center items-center h-screen flex-col">

@@ -15,10 +15,7 @@ const ChatInput = ({ currentId, postedorbookedById }) => {
   const handleMessage = useCallback((ev) => {
     ev.preventDefault();
     let message = ev.target[0].value;
-    message =
-      messages.length < 1 || messages.length === 0
-        ? "hello 👋"
-        : ev.target[0].value;
+
     send(
       currentId,
       postedorbookedById,

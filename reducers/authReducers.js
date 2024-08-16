@@ -43,5 +43,10 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         messages: action.payload,
       };
+    case global.GETUSERDATA:
+      return {
+        ...state,
+        loggedUser: action.payload,
+      };
   }
 };

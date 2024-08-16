@@ -11,8 +11,8 @@ import { Button } from "../ui/button";
 
 const Published = ({ user }) => {
   const { userId } = useAuth();
-  const [typeOfGig, setTypeOfGig] = useState();
-  const [category, setCategory] = useState();
+  const [typeOfGig, setTypeOfGig] = useState("");
+  const [category, setCategory] = useState("all");
   const [loading, setLoading] = useState();
   const [location, setLocation] = useState();
   const [time, setTime] = useState();
@@ -74,8 +74,8 @@ const Published = ({ user }) => {
       console.log(error);
     }
   };
-  console.log(allGigs);
-
+  console.log(category);
+  let gigQuery;
   // conditionsl styling
   const normaldescr = "link text-red-700 font-bold line-clamp-1 ";
   const readmoredescr = "link text-red-700 font-bold line-clamp-12 ";
@@ -84,11 +84,12 @@ const Published = ({ user }) => {
       <div className="flex justify-between ">
         <Input
           placeholder="filterBy:location,time,"
-          className="h-[40px] w-[200px]"
+          className="h-[40px] w-[200px] text-white placeholder-white"
           value={typeOfGig}
           onChange={(ev) => {
             setTypeOfGig(ev.target.value);
           }}
+          onKeyDown={gigQuery}
         />
         <select
           className="mb-2 w-[80px] bg-white  h-[40px] rounded-md p-3 text-[11px]  font-mono"
@@ -97,13 +98,14 @@ const Published = ({ user }) => {
             setCategory(ev.target.value);
           }}
         >
-          <option disabled>category:</option>
+          <option value="all">All</option>
           <option value="piano">piano</option>
           <option value="guitar">guitar</option>
           <option value="bass">bass</option>
           <option value="sax">sax</option>
           <option value="other">other</option>
-          <option value="fullband">fullband</option>{" "}
+          <option value="ukulele">ukulele</option>
+          <option value="full">fullband</option>{" "}
           <option value="personal">personal</option>{" "}
         </select>
       </div>
@@ -111,11 +113,11 @@ const Published = ({ user }) => {
 
       <br />
       <div className="gigdisplay shadow-lg shadow-green-700 w-full h-[100%] overflow-y-scroll element-with-scroll">
-        {allGigs?.length < 0 && <div>No Gigs to display</div>}
+        {loading && allGigs?.length === 0 && <div>No Gigs to display</div>}
         {!loading && allGigs?.length > 0 ? (
           <>
             {/* content */}
-            {searchfunc(allGigs, typeOfGig, category)
+            {searchfunc(allGigs, typeOfGig, category, gigQuery)
               ?.filter((pub) => {
                 return pub.isTaken === false;
               })

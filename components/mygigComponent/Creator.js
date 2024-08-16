@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { ArrowBack, Message } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import { useForgetBookings } from "@/hooks/useForgetBookings";
-
+import { FaMessage } from "react-icons/fa6";
 const Creator = ({ myGig }) => {
   const { userId } = useAuth();
   const { loading, forgetBookings } = useForgetBookings();
@@ -83,30 +83,7 @@ const Creator = ({ myGig }) => {
       setHello(true);
     }, 4000);
   }, []);
-  // const [chatId, setChatId] = useState();
-  // const createChatRoom = async (gig) => {
-  //   let reciever = gig?.postedBy?._id;
-  //   let sender = gig?.bookedBy?._id;
-  //   let gigChat = gig?._id;
-  //   try {
-  //     const res = await fetch(`/api/chat/createchatroom`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         reciever,
-  //         sender,
-  //         gigChat,
-  //       }),
-  //     });
-  //     const data = await res.json();
-  //     console.log(data.results[0]);
-  //     setChatId(data.results[0]);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+
   const onClick = (gig) => {
     router.push(`/gigme/chat/${gig?.postedBy?.clerkId}`);
   };
@@ -269,12 +246,13 @@ const Creator = ({ myGig }) => {
             )}
         </h6>
         {hello && (
-          <div variant={variant} onClick={() => onClick(myGig?.gigs)}>
-            <motion.div className="absolute top-20 right-5 md:cursor-pointer">
-              <Message
-                sx={{ color: "lightgray", fontSize: "40px" }}
-                size="40px"
-              />
+          <div
+            variant={variant}
+            onClick={() => onClick(myGig?.gigs)}
+            className="absolute top-24  right-5"
+          >
+            <motion.div className=" text-blue-400   md:cursor-pointer">
+              <FaMessage sx={{ fontSize: "40px" }} size="40px" />
             </motion.div>{" "}
           </div>
         )}

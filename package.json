@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "node":"node server.js"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.5.0",
@@ -40,6 +41,7 @@
     "react": "^18",
     "react-datepicker": "^7.2.0",
     "react-dom": "^18",
+    "socket.io-client": "^4.7.5",
     "sonner": "^1.5.0",
     "svix": "^1.21.0",
     "tailwind-merge": "^2.3.0",

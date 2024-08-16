@@ -42,9 +42,7 @@ const Message = ({ myMessages, other, curr }) => {
             </div>
           </div>
 
-          <div
-            className={`chat-bubble text-white pb-11  ${background} h-[25px]`}
-          >
+          <div className={`chat-bubble text-white  ${background} h-fit`}>
             {" "}
             <div
               className={`chat-header font-sans text-[11px] underline ${color}`}

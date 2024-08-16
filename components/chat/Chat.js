@@ -8,8 +8,11 @@ import ChatPage from "./ChatPage";
 import ChatInput from "./ChatInput";
 import { useAuth } from "@clerk/nextjs";
 import { useGlobalContext } from "@/app/Context/store";
+import { useSocketContext } from "@/app/Context/SocketContext";
 const Chat = ({ other, curr }) => {
-  console.log(other);
+  const { onlineUsers } = useSocketContext();
+
+  console.log(onlineUsers);
   const sender = useRef();
   const reciever = useRef();
   const postedorbookedById = other?.user?._id;
@@ -27,6 +30,12 @@ const Chat = ({ other, curr }) => {
     sender.current = currentId;
     reciever.current = postedorbookedById;
   }, [currentId, postedorbookedById]);
+  const [id, setId] = useState();
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setId(JSON.parse(window.localStorage.getItem("user")));
+    }
+  }, []);
   return (
     <Dialog
       open
@@ -44,7 +53,7 @@ const Chat = ({ other, curr }) => {
         </DialogHeader>
         <div className=" w-full flex flex-col gap-1 h-[470px]">
           {/* header */}
-          <ChatHeader myUser={other} />
+          <ChatHeader myUser={other} onlineUsers={onlineUsers} id={id} />
           {/*  messages*/}
           <ChatPage
             currentId={currentId}

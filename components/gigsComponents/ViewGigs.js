@@ -5,6 +5,7 @@ import { FaSortDown } from "react-icons/fa6";
 import Published from "./Published";
 import Created from "./Created";
 import AllGigs from "./AllGigs";
+import ClientOnly from "@/app/ClientOnly";
 const ViewGigs = ({ user }) => {
   const [typeOfGig, setTypeOfGig] = useState("published");
   const [created, setCreated] = useState();
@@ -65,9 +66,15 @@ const ViewGigs = ({ user }) => {
           All Gigs
         </option>
       </select>
-      {typeOfGig === "published" && <Published user={user} />}{" "}
-      {typeOfGig === "mygigs" && <Created user={user} />}
-      {typeOfGig === "allgigs" && <AllGigs />}
+      <ClientOnly>
+        {" "}
+        {typeOfGig === "published" && <Published user={user} />}{" "}
+      </ClientOnly>
+      <ClientOnly>
+        {" "}
+        {typeOfGig === "mygigs" && <Created user={user} />}
+      </ClientOnly>
+      <ClientOnly>{typeOfGig === "allgigs" && <AllGigs />}</ClientOnly>
     </div>
   );
 };

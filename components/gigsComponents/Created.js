@@ -12,8 +12,8 @@ import { ArrowRight } from "lucide-react";
 
 const Created = ({ user }) => {
   const { userId } = useAuth();
-  const [typeOfGig, setTypeOfGig] = useState();
-  const [category, setCategory] = useState();
+  const [typeOfGig, setTypeOfGig] = useState("");
+  const [category, setCategory] = useState("all");
   const [loading, setLoading] = useState();
   const [location, setLocation] = useState();
   const [time, setTime] = useState();
@@ -62,7 +62,7 @@ const Created = ({ user }) => {
     router.push(`/gigme/editpage/${id}/edit`);
   };
   console.log(createdGigs);
-
+  let gigQuery;
   // conditionsl styling
   const normaldescr = "link text-red-700 font-bold line-clamp-1 ";
   const readmoredescr = "link text-red-700 font-bold line-clamp-12 ";
@@ -71,11 +71,12 @@ const Created = ({ user }) => {
       <div className="flex justify-between ">
         <Input
           placeholder="filterBy:location,time,"
-          className="h-[40px] w-[200px]"
+          className="h-[40px] w-[200px] text-white"
           value={typeOfGig}
           onChange={(ev) => {
             setTypeOfGig(ev.target.value);
           }}
+          onKeyDown={gigQuery}
         />
         <select
           className="mb-2 w-[80px] bg-white  h-[40px] rounded-md p-3 text-[11px]  font-mono"
@@ -84,13 +85,14 @@ const Created = ({ user }) => {
             setCategory(ev.target.value);
           }}
         >
-          <option disabled>category:</option>
+          <option value="all">All</option>
           <option value="piano">piano</option>
           <option value="guitar">guitar</option>
           <option value="bass">bass</option>
           <option value="sax">sax</option>
           <option value="other">other</option>
-          <option value="fullband">fullband</option>{" "}
+          <option value="ukulele">ukulele</option>
+          <option value="full">fullband</option>{" "}
           <option value="personal">personal</option>{" "}
         </select>
       </div>
@@ -98,15 +100,15 @@ const Created = ({ user }) => {
 
       <br />
       <div className="gigdisplay shadow-lg shadow-cyan-600 w-full h-[100%] overflow-y-scroll element-with-scroll">
-        {createdGigs?.length < 0 && (
+        {!loading && createdGigs?.length === 0 && (
           <div className="w-full h-full flex justify-center items-center -mt-[50px]">
-            <h6> No Gigs to display</h6>
+            <h6 className="text-gray-100 font-mono"> No Gigs to display</h6>
           </div>
         )}
         {!loading && createdGigs?.length > 0 ? (
           <>
             {/* content */}
-            {searchfunc(createdGigs, typeOfGig, category)
+            {searchfunc(createdGigs, typeOfGig, category, gigQuery)
               .map((gig) => {
                 return (
                   <div key={gig?.secret} className="p-1 flex w-full mt-3 ">

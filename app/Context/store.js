@@ -8,6 +8,7 @@ export const initialState = {
   showPosts: false,
   showComments: false,
   messages: [],
+  loggedUser: {},
 };
 
 const GlobalContext = createContext(initialState);

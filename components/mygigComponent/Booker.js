@@ -201,19 +201,35 @@ const Booker = ({ myGig }) => {
         </div>
       </div>
       {!myGig?.gigs?.isTaken && (
-        <div className="w-[85%] mx-auto flex justify-between items-center gap-1">
+        <div className="w-[85%] mx-auto flex flex-col justify-between items-center gap-1">
+          <div className="flex ">
+            <Button
+              variant="secondary"
+              onClick={() => router.back()}
+              className="h-[34px]  w-[90px]  sm:text-[8px]  text-[11px] md:text-[13px]"
+            >
+              {" "}
+              <ArrowBack size="21px" sx={{ fontSize: "20px" }} />
+              Go back
+            </Button>{" "}
+            <div>
+              <Button
+                className="h-[35px] w-full  -p-3 mx-6 sm:text-[8px]  text-[11px] md:text-[13px] "
+                variant="secondary"
+                onClick={forget}
+                disabled={loading}
+              >
+                {!loading ? (
+                  "Cancel Gig"
+                ) : (
+                  <CircularProgress size="13px" sx={{ color: "red" }} />
+                )}
+              </Button>
+            </div>
+          </div>{" "}
           <Button
-            variant="secondary"
-            onClick={() => router.back()}
-            className="h-[34px]  w-[90px] link"
-          >
-            {" "}
-            <ArrowBack size="21px" sx={{ fontSize: "20px" }} />
-            Go back
-          </Button>
-          <Button
-            className="h-[35px] text-[13px]  p-2 mx-4  whitespace-nowrap"
-            variant="secondary"
+            className="h-[45px] mt-3  w-[100%] sm:text-[8px]  text-[11px] md:text-[13px]   p-2 mx-4  whitespace-nowrap"
+            variant="default"
             onClick={book}
             disabled={bookloading}
           >
@@ -223,20 +239,6 @@ const Booker = ({ myGig }) => {
               <CircularProgress size="13px" sx={{ color: "red" }} />
             )}
           </Button>
-          <div>
-            <Button
-              className="h-[35px] w-[70px] text-[13px]  -p-3 mr-6 "
-              variant="secondary"
-              onClick={forget}
-              disabled={loading}
-            >
-              {!loading ? (
-                "Cancel Gig"
-              ) : (
-                <CircularProgress size="13px" sx={{ color: "red" }} />
-              )}
-            </Button>
-          </div>
         </div>
       )}
       {hello && (

@@ -20,8 +20,8 @@ const ChatPage = ({ currentId, postedorbookedById, messages, setMessages }) => {
   return (
     <div className="overflow-y-auto shadow-md shadow-zinc-100  border border-input  rounded-md element-with-scroll flex-1  p-2">
       {!loading &&
-        messages.length > 0 &&
-        messages.map((message) => {
+        messages?.length > 0 &&
+        messages?.map((message) => {
           return (
             <div key={message._id} ref={lastmsg}>
               {" "}
@@ -40,8 +40,8 @@ const ChatPage = ({ currentId, postedorbookedById, messages, setMessages }) => {
           })}
         </div>
       )}
-      {!loading && messages.length === 0 && (
-        <div>send a message to start a chat</div>
+      {!loading && messages?.length === 0 && (
+        <h6 className="text-gray-300">send a message to start a chat</h6>
       )}
     </div>
   );

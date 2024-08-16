@@ -100,29 +100,40 @@ export const handleRouting = (post, user) => {
   );
 };
 
-export const searchfunc = (data, searchquery, category) => {
-  let sortedData = data;
-  if (searchquery) {
-    sortedData = sortedData?.filter((gig) => {
-      if (
-        (gig?.category &&
-          gig?.category?.toLowerCase() === category.toLowerCase()) ||
-        gig?.bandCategory?.toLowerCase().includes(category.toLowerCase())
-      ) {
-        return sortedData;
-      } else if (
-        gig?.location?.toLowerCase().includes(searchquery.toLowerCase()) ||
-        gig?.bandCategory?.includes(category.toLowerCase())
-      ) {
-        return sortedData;
-      } else if (
-        gig?.time?.from?.toLowerCase().includes(searchquery.toLowerCase()) ||
-        gig?.time?.to?.toLowerCase().includes(searchquery.toLowerCase())
-      ) {
-        return sortedData;
-      }
-    });
+function gigme(query, data, sorted) {
+  if (data?.location?.toLowerCase().includes(query.toLowerCase())) {
+    return sorted;
+  } else if (
+    data?.time?.from?.toLowerCase().includes(query.toLowerCase()) ||
+    data?.time?.to?.toLowerCase().includes(query.toLowerCase())
+  ) {
+    return sorted;
+  } else if (data?.title?.toLowerCase().includes(query.toLowerCase())) {
+    return sorted;
   }
+}
+export const searchfunc = (data, searchquery, category, gigQuery) => {
+  let sortedData = data;
+
+  sortedData = sortedData?.filter((gig) => {
+    if (
+      gig?.category &&
+      gig?.category?.toLowerCase() === category?.toLowerCase()
+    ) {
+      return sortedData;
+    } else if (gig.bussinesscat?.toLowerCase() === category?.toLowerCase()) {
+      return sortedData;
+    } else if (category.toLowerCase() === "all") {
+      return data;
+    }
+    if (searchquery) {
+      gigQuery = gigme(searchquery, gig, sortedData);
+      return gigQuery;
+    } else {
+      return sortedData;
+    }
+  });
+
   return sortedData;
 };
 

@@ -12,12 +12,9 @@ import { toast } from "sonner";
 
 const Published = ({ user }) => {
   const { userId } = useAuth();
-  const [typeOfGig, setTypeOfGig] = useState();
-  const [category, setCategory] = useState();
+  const [typeOfGig, setTypeOfGig] = useState("");
+  const [category, setCategory] = useState("all");
   const [loading, setLoading] = useState();
-  const [location, setLocation] = useState();
-  const [time, setTime] = useState();
-  const [date, setDate] = useState();
 
   const [pubGigs, setPubGigs] = useState([]);
   let currentUser = user?.user?._id;
@@ -50,13 +47,7 @@ const Published = ({ user }) => {
   const [readmore, setReadMore] = useState();
   const [ispend, setIsPending] = useState();
 
-  const updateLog = {
-    userid: user?.user?._id,
-
-    ispend: ispend ? "true" : "false",
-  };
-
-  // Booking function it updates the isPending state
+  // Booking function it updates the isPending state ,only the logged in user access it
   const handleBook = async (gig) => {
     // update the isPending state
 
@@ -87,8 +78,8 @@ const Published = ({ user }) => {
       console.log(error);
     }
   };
-  console.log(searchfunc(pubGigs, typeOfGig));
-
+  console.log(category);
+  let gigQuery;
   // conditionsl styling
   const normaldescr = "link text-red-700 font-bold line-clamp-1 ";
   const readmoredescr = "link text-red-700 font-bold line-clamp-12 ";
@@ -97,11 +88,12 @@ const Published = ({ user }) => {
       <div className="flex justify-between ">
         <Input
           placeholder="filterBy:location,time,"
-          className="h-[40px] w-[200px]"
+          className="h-[40px] w-[200px] text-white"
           value={typeOfGig}
           onChange={(ev) => {
             setTypeOfGig(ev.target.value);
           }}
+          onKeyDown={gigQuery}
         />
         <select
           className="mb-2 w-[80px] bg-white  h-[40px] rounded-md p-3 text-[11px]  font-mono"
@@ -110,13 +102,14 @@ const Published = ({ user }) => {
             setCategory(ev.target.value);
           }}
         >
-          <option disabled>category:</option>
+          <option value="all">All</option>
           <option value="piano">piano</option>
           <option value="guitar">guitar</option>
           <option value="bass">bass</option>
           <option value="sax">sax</option>
           <option value="other">other</option>
-          <option value="fullband">fullband</option>{" "}
+          <option value="ukulele">ukulele</option>
+          <option value="full">fullband</option>{" "}
           <option value="personal">personal</option>{" "}
         </select>
       </div>
@@ -124,11 +117,11 @@ const Published = ({ user }) => {
 
       <br />
       <div className="gigdisplay shadow-lg shadow-yellow-600 w-full h-[100%] overflow-y-scroll element-with-scroll">
-        {pubGigs?.length < 0 && <div>No Gigs to display</div>}
+        {!loading && pubGigs?.length === 0 && <div>No Gigs to display</div>}
         {!loading && pubGigs?.length > 0 ? (
           <>
             {/* content */}
-            {searchfunc(pubGigs, typeOfGig, category)
+            {searchfunc(pubGigs, typeOfGig, category, gigQuery)
               ?.filter((pub) => pub.isTaken === false)
               .map((gig) => {
                 return (

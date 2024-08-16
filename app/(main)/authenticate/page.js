@@ -1,4 +1,6 @@
 "use client";
+import { global } from "@/actions";
+import { useGlobalContext } from "@/app/Context/store";
 import { useAuth, useUser } from "@clerk/nextjs";
 
 import axios from "axios";
@@ -7,7 +9,7 @@ import React, { useCallback, useEffect } from "react";
 const Authenticate = () => {
   const router = useRouter();
   const { user, isSignedIn } = useUser();
-
+  const { _, setUserState } = useGlobalContext();
   const { isLoaded, userId } = useAuth();
   const registerUser = useCallback(async () => {
     const res = await fetch("/api/user/register", {
@@ -21,6 +23,7 @@ const Authenticate = () => {
     const data = await res.json();
     console.log(data);
     window?.localStorage.setItem("user", JSON.stringify(data?.results));
+    setUserState({ type: global.GETUSERDATA, payload: data.results });
     if (data?.userstatus === false) {
       return router.push("/gigme/social");
     } else {
