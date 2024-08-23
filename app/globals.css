@@ -304,3 +304,8 @@ input[type="radio"] {
   padding: 15px 10px 5px 12px;
   width: 100%;
 }
+.titler {
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  text-align: center;
+}

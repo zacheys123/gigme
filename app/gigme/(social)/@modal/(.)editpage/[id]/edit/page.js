@@ -195,8 +195,8 @@ const EditPage = () => {
           bussinesscat: "personal",
         });
         setUserInfo({ prefferences: [] });
-        window.location.reload();
-        router.push(`/gigme/gigs/${userId}`);
+        router.back();
+        // router.push(`/gigme/gigs/${userId}`);
 
         setLoading(true);
       }

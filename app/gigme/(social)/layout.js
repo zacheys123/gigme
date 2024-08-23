@@ -23,7 +23,7 @@ const GigmeLayout = ({ children, modal, chat }) => {
 
     const data = await res.json();
     console.log(data);
-    window?.localStorage.setItem("user", JSON.stringify(data?.results));
+
     if (data?.userstatus === false) {
       return data;
     } else {

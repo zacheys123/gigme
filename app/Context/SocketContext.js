@@ -10,33 +10,25 @@ import {
 export const SocketContext = createContext();
 import { io } from "socket.io-client";
 import { useGlobalContext } from "./store";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useAuth } from "@clerk/nextjs";
 export const SocketContextProvider = ({ children }) => {
+  const { userId } = useAuth();
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnline] = useState([]);
 
-  const [id, setId] = useState({});
+  const { loading, user, setUser } = useCurrentUser(userId);
 
+  console.log(user);
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      let id = localStorage.getItem("user");
-      if (!id) {
-        return;
-      }
-      setId(id);
-      return JSON.parse(id);
-    }
-  }, []);
-  const { userState } = useGlobalContext();
-  console.log(userState);
-  useEffect(() => {
-    if (id) {
+    if (user) {
       const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
         withCredentials: true,
         extraHeaders: {
           "my-custom-header": "abcd",
         },
         query: {
-          userId: id._id,
+          userId: user?.user?._id,
         },
       });
       setSocket(socket);
@@ -45,13 +37,14 @@ export const SocketContextProvider = ({ children }) => {
       });
       return () => socket.close();
     } else {
-      if (socket) {
+      if (socket || user === null) {
         socket.close();
         setSocket(null);
         setOnline([]);
+        setUser({});
       }
     }
-  }, [id]);
+  }, [user?.user?._id]);
   return (
     <SocketContext.Provider value={{ socket, onlineUsers }}>
       {children}

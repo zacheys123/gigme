@@ -156,7 +156,7 @@ const GigInfo = ({ user }) => {
     }
   };
   return (
-    <div className="h-[calc(80vh-170px)] relative">
+    <div className="min-h-full relative">
       <h6 className="text-center mb-2 font-mono underline">Fill The Details</h6>
       {/* {!open ? ( */}
       <form onSubmit={onSubmit}>

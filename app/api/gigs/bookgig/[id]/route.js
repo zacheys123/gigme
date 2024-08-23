@@ -31,7 +31,7 @@ export async function PUT(req, { params }) {
     }
     return NextResponse.json({
       gigstatus: "false",
-      message: "Cannot Book this Gig,try again later ",
+      message: "Cannot Book this Gig,already booked? ",
     });
   } catch (error) {
     console.log(error);

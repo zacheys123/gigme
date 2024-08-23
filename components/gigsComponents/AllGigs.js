@@ -8,6 +8,8 @@ import { classing, searchfunc } from "@/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
+import GigDescription from "./GigDescription";
+import { Fullscreen } from "lucide-react";
 
 const Published = ({ user }) => {
   const { userId } = useAuth();
@@ -46,12 +48,9 @@ const Published = ({ user }) => {
   }, []);
   const router = useRouter();
   const [readmore, setReadMore] = useState();
-  const [ispend, setIsPending] = useState();
-  const updateLog = {
-    userid: user?.user?._id,
-
-    ispend: ispend ? "true" : "false",
-  };
+  const [currentGig, setCurrentGig] = useState({});
+  const [gigdesc, setGigdesc] = useState();
+  const [open, setOpen] = useState();
   // Booking function it updates the isPending state
   const handleBook = async (id) => {
     // update the isPending state
@@ -77,10 +76,27 @@ const Published = ({ user }) => {
   console.log(category);
   let gigQuery;
   // conditionsl styling
-  const normaldescr = "link text-red-700 font-bold line-clamp-1 ";
-  const readmoredescr = "link text-red-700 font-bold line-clamp-12 ";
+  const handleModal = (gig) => {
+    setOpen(true);
+    setGigdesc(true);
+    setCurrentGig(gig);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    console.log("close", gigdesc);
+  };
+  const handleEditBooked = async (id) => {
+    router.push(`/gigme/mygig/${id}/execute`);
+  };
   return (
     <div className="w-full h-[calc(100vh-260px)] p-2 shadow-sm mt-3">
+      {gigdesc && (
+        <GigDescription
+          gig={currentGig}
+          open={open}
+          handleClose={handleClose}
+        />
+      )}
       <div className="flex justify-between ">
         <Input
           placeholder="filterBy:location,time,"
@@ -159,101 +175,43 @@ const Published = ({ user }) => {
                           {gig?.location}
                         </span>
                       </div>
-                      <div className="flex">
+                      <div className="flex items-center justify-between align-start">
                         {" "}
-                        <span className="title tracking-tighter">Time:</span>
-                        <span className="link text-red-700 font-bold line-clamp-1  ">
-                          {gig?.time.from}
-                        </span>
-                        &nbsp;
-                        <span className="title">to</span> &nbsp;
-                        <span className="link text-red-700 font-bold line-clamp-1  ">
-                          {gig?.time.to}
-                        </span>
-                      </div>
-                      <div className="flex">
-                        {" "}
-                        <span className="title tracking-tighter">Contact:</span>
-                        <span className="link text-red-700 font-bold line-clamp-1 blur-sm ">
-                          {gig?.phone}
-                        </span>
-                      </div>
-                      <div className="flex">
-                        {" "}
-                        <span className="title tracking-tighter">
-                          Passuwaad:
-                        </span>
-                        <span className="link text-red-700 font-bold line-clamp-1  ">
-                          {gig?.price}
-                        </span>
-                      </div>
-                      <div className="flex">
-                        {" "}
-                        <span className="title tracking-tighter">
-                          Description:
-                        </span>
-                        <span
-                          className={!readmore ? normaldescr : readmoredescr}
-                          onClick={() => setReadMore((prev) => !prev)}
+                        <div
+                          className="w-full text-right "
+                          onClick={() => handleModal(gig)}
                         >
-                          {gig?.description}
-                        </span>
-                      </div>{" "}
-                      {gig?.category && gig?.bussinesscat === "personal" && (
-                        <div className="flex">
-                          <span className="title">Instrument: </span>
-
-                          {gig?.category && gig?.category !== null && (
-                            <h6 className="title text-red-700">
-                              {gig?.category}
-                            </h6>
-                          )}
+                          <Fullscreen />
                         </div>
-                      )}
-                      {!gig?.category && gig?.bussinesscat === "full" && (
-                        <div className="flex">
-                          <span className="title text-purple-700 font-bold">
-                            FullBand(vocalist,instrumentalists etc){" "}
-                          </span>
-                        </div>
-                      )}
-                      {gig?.bandCategory?.length > 0 ||
-                        gig?.bussinesscat !== "full" ||
-                        (gig?.bussinesscat !== "personal" && (
-                          <div>
-                            {" "}
-                            <h6 className="title text-center underline mt-2">
-                              Band Selection
-                            </h6>
-                            {gig?.bandCategory &&
-                              gig?.bussinesscat === "other" &&
-                              gig?.bandCategory !== null &&
-                              gig?.bandCategory.map((band, idx) => {
-                                return (
-                                  <ul
-                                    className="flex link"
-                                    key={idx}
-                                    type="disc"
+                        <>
+                          {!gig?.postedBy?.clerkId.includes(userId)
+                            ? !gig?.isPending && (
+                                <div className="w-full text-right">
+                                  <Button
+                                    variant="primary"
+                                    className="p-1 h-[25px] text-[10px] m-2 "
+                                    onClick={() => handleBook(gig?._id)}
                                   >
-                                    <li> {band}</li>
-                                  </ul>
-                                );
-                              })}
-                          </div>
-                        ))}
-                      {!gig?.postedBy?.clerkId.includes(userId)
-                        ? !gig?.isPending && (
-                            <div className="w-full text-right">
-                              <Button
-                                variant="primary"
-                                className="p-1 h-[25px] text-[10px] m-2 "
-                                onClick={() => handleBook(gig?._id)}
-                              >
-                                Book Now!!!
-                              </Button>
-                            </div>
-                          )
-                        : ""}
+                                    Book Now!!!
+                                  </Button>
+                                </div>
+                              )
+                            : ""}
+                          {gig?.postedBy?.clerkId.includes(userId)
+                            ? gig?.isPending && (
+                                <div className="w-full text-right">
+                                  <Button
+                                    variant="primary"
+                                    className="p-1 h-[25px] text-[10px] m-2 "
+                                    onClick={() => handleEditBooked(gig?._id)}
+                                  >
+                                    View Booked Gig!!!
+                                  </Button>
+                                </div>
+                              )
+                            : ""}
+                        </>
+                      </div>
                       <Divider />{" "}
                       <div className="flex justify-between items-center mt-2">
                         <div

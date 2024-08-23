@@ -9,19 +9,20 @@ import ChatInput from "./ChatInput";
 import { useAuth } from "@clerk/nextjs";
 import { useGlobalContext } from "@/app/Context/store";
 import { useSocketContext } from "@/app/Context/SocketContext";
-const Chat = ({ other, curr }) => {
+import ClientOnly from "@/app/ClientOnly";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+const Chat = ({ other, curr, getGig }) => {
+  const { userId } = useAuth();
   const { onlineUsers } = useSocketContext();
 
-  console.log(onlineUsers);
   const sender = useRef();
   const reciever = useRef();
   const postedorbookedById = other?.user?._id;
   const currentId = curr?.user?._id;
+  const gigId = getGig?.gigs?._id;
+  console.log(gigId);
   const router = useRouter();
-  const {
-    userState: { messages },
-    setUserState,
-  } = useGlobalContext();
+
   console.log(
     "currentId" + currentId,
     "postedorbookedById" + postedorbookedById
@@ -30,12 +31,25 @@ const Chat = ({ other, curr }) => {
     sender.current = currentId;
     reciever.current = postedorbookedById;
   }, [currentId, postedorbookedById]);
-  const [id, setId] = useState();
+  const { loading, user } = useCurrentUser(userId);
+  const [postedOther, setOther] = useState({});
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setId(JSON.parse(window.localStorage.getItem("user")));
-    }
-  }, []);
+    const getReciever = async () => {
+      try {
+        const res = await fetch(`/api/chat/getuserchat/${postedorbookedById}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const gigs = await res.json();
+        setOther(gigs);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getReciever();
+  }, [other, setOther, postedorbookedById]);
   return (
     <Dialog
       open
@@ -53,20 +67,25 @@ const Chat = ({ other, curr }) => {
         </DialogHeader>
         <div className=" w-full flex flex-col gap-1 h-[470px]">
           {/* header */}
-          <ChatHeader myUser={other} onlineUsers={onlineUsers} id={id} />
-          {/*  messages*/}
-          <ChatPage
-            currentId={currentId}
-            postedorbookedById={postedorbookedById}
-            messages={messages}
-            setMessages={setUserState}
+          <ChatHeader
+            myUser={other}
+            onlineUsers={onlineUsers}
+            id={user?.user?._id}
+            otherUser={postedOther}
           />
+          {/*  messages*/}
+          <ClientOnly>
+            <ChatPage
+              currentId={currentId}
+              postedorbookedById={postedorbookedById}
+              gigId={gigId}
+            />
+          </ClientOnly>
           {/* input */}
           <ChatInput
             currentId={currentId}
             postedorbookedById={postedorbookedById}
-            messages={messages}
-            setMessages={setUserState}
+            gigId={gigId}
           />
         </div>
         <small className="text-center text-muted-foreground">
@@ -77,3 +96,7 @@ const Chat = ({ other, curr }) => {
   );
 };
 export default Chat;
+Chat.propTypes = {
+  other: PropTypes.object,
+  curr: PropTypes.object,
+};

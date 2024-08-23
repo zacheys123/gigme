@@ -25,13 +25,26 @@ const getCurrentUser = async (userId) => {
     console.log(error);
   }
 };
+const getGig = async (params) => {
+  try {
+    const res = await fetch(
+      `${checkEnvironment()}/api/gigs/getgig/${params.gigid}`
+    );
+    const data = await res.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 const ChatPage = async ({ params }) => {
   const { userId } = auth();
   const otherUser = await getUser(params);
   const currentUser = await getCurrentUser(userId);
+  const myGig = await getGig(params);
   return (
     <ClientOnly>
-      <Chat other={otherUser} curr={currentUser} />;
+      <Chat other={otherUser} curr={currentUser} getGig={myGig} />;
     </ClientOnly>
   );
 };

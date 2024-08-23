@@ -5,7 +5,8 @@ import { TextInput } from "flowbite-react";
 import { Send } from "lucide-react";
 import React, { useCallback, useState } from "react";
 import { useGlobalContext } from "@/app/Context/store";
-const ChatInput = ({ currentId, postedorbookedById }) => {
+import { PropTypes } from "prop-types";
+const ChatInput = ({ currentId, postedorbookedById, gigId }) => {
   const {
     userState: { messages },
     setUserState,
@@ -22,7 +23,8 @@ const ChatInput = ({ currentId, postedorbookedById }) => {
       message,
       setLoading,
       setUserState,
-      messages
+      messages,
+      gigId
     );
   }, []);
 
@@ -34,6 +36,9 @@ const ChatInput = ({ currentId, postedorbookedById }) => {
        w-full  p-2"
       >
         <div className=" bg-neutral-100 rounded-full px-5 w-full   flex items-center gap-1">
+          {!loading && (
+            <span className="hover:cursor-pointer w-[30px]">🙂</span>
+          )}
           <input
             autoFocus
             type="text"
@@ -46,7 +51,7 @@ const ChatInput = ({ currentId, postedorbookedById }) => {
          focus-visible:ring-0  disabled:cursor-not-allowed
           disabled:opacity-50"
           />
-          {!loading && <span className="hover:cursor-pointer">🙂</span>}
+
           <button className="h-[18px] " type="submit">
             {loading ? (
               <CircularProgress sx={{ fontSize: "12px" }} size="15px" />
@@ -61,3 +66,9 @@ const ChatInput = ({ currentId, postedorbookedById }) => {
 };
 
 export default ChatInput;
+
+ChatInput.propTypes = {
+  currentId: PropTypes.string.isRequired,
+  postedorbookedById: PropTypes.string.isRequired,
+  gigId: PropTypes.string.isRequired,
+};

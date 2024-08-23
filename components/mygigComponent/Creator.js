@@ -85,7 +85,7 @@ const Creator = ({ myGig }) => {
   }, []);
 
   const onClick = (gig) => {
-    router.push(`/gigme/chat/${gig?.postedBy?.clerkId}`);
+    router.push(`/gigme/chat/${gig?.postedBy?.clerkId}/${gig?._id}`);
   };
   if (myGig?.gigs?.isPending === false) {
     router.push(`/gigme/gigs/${userId}`);
@@ -249,10 +249,13 @@ const Creator = ({ myGig }) => {
           <div
             variant={variant}
             onClick={() => onClick(myGig?.gigs)}
-            className="absolute top-24  right-5"
+            className="absolute top-34  right-5"
           >
-            <motion.div className=" text-blue-400   md:cursor-pointer">
+            <motion.div className=" text-blue-400   md:cursor-pointer flex flex-col">
               <FaMessage sx={{ fontSize: "40px" }} size="40px" />
+              <span className="title text-yellow-300 items-end justify-end">
+                chat
+              </span>
             </motion.div>{" "}
           </div>
         )}

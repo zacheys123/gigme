@@ -16,6 +16,7 @@ import { motion } from "framer-motion";
 import { useForgetBookings } from "@/hooks/useForgetBookings";
 import { useBookGig } from "@/hooks/useBookGig";
 import { useAuth } from "@clerk/nextjs";
+import { FaMessage } from "react-icons/fa6";
 const Booker = ({ myGig }) => {
   const { userId } = useAuth();
   const { loading, forgetBookings } = useForgetBookings();
@@ -90,6 +91,7 @@ const Booker = ({ myGig }) => {
     }, 4000);
   }, []);
 
+  console.log(myGig);
   const book = () => {
     bookgig(rating, myGig);
   };
@@ -97,13 +99,13 @@ const Booker = ({ myGig }) => {
     forgetBookings(userId, myGig);
   };
   const onClick = (gig) => {
-    router.push(`/gigme/chat/${gig?.bookedBy?.clerkId}`);
+    router.push(`/gigme/chat/${gig?.bookedBy?.clerkId}/${gig?._id}`);
   };
   if (myGig?.gigs?.isPending === false) {
     router.push(`/gigme/gigs/${userId}`);
   }
   return (
-    <div className="container bg-neutral-600 shadow-xl h-full overflow-hidden w-full p-2">
+    <div className="container bg-neutral-600 shadow-xl h-full overflow-hidden w-full p-2 relative">
       <div className="card m-4">
         <h6 className="title text-neutral-200 text-center uppercase underline">
           <span className="text-red-500 font-bold">Title:</span>{" "}
@@ -201,7 +203,7 @@ const Booker = ({ myGig }) => {
         </div>
       </div>
       {!myGig?.gigs?.isTaken && (
-        <div className="w-[85%] mx-auto flex flex-col justify-between items-center gap-1">
+        <div className="w-[85%] mx-auto flex flex-col justify-between items-center gap-1 mt-[20px]">
           <div className="flex ">
             <Button
               variant="secondary"
@@ -242,15 +244,18 @@ const Booker = ({ myGig }) => {
         </div>
       )}
       {hello && (
-        <motion.div
+        <div
           variant={variant}
-          className={className}
           onClick={() => onClick(myGig?.gigs)}
+          className="absolute top-32  right-5"
         >
-          <Button className="absolute top-[550px] right-10 rounded-tl-xl roundebr-full rounded-bl-xl">
-            Say Hello👋😁
-          </Button>
-        </motion.div>
+          <motion.div className=" text-blue-400   md:cursor-pointer flex flex-col">
+            <FaMessage sx={{ fontSize: "40px" }} size="40px" />
+            <span className="title text-yellow-300 items-end justify-end">
+              chat
+            </span>
+          </motion.div>{" "}
+        </div>
       )}
     </div>
   );

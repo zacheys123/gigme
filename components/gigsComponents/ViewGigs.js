@@ -69,12 +69,9 @@ const ViewGigs = ({ user }) => {
       <ClientOnly>
         {" "}
         {typeOfGig === "published" && <Published user={user} />}{" "}
-      </ClientOnly>
-      <ClientOnly>
-        {" "}
         {typeOfGig === "mygigs" && <Created user={user} />}
+        {typeOfGig === "allgigs" && <AllGigs />}
       </ClientOnly>
-      <ClientOnly>{typeOfGig === "allgigs" && <AllGigs />}</ClientOnly>
     </div>
   );
 };

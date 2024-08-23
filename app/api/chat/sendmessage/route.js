@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   const { userId } = auth();
-  const { sender, text, reciever } = await req.json();
+  const { sender, text, reciever, gigChat } = await req.json();
   if (!userId) {
     return NextResponse.redirect(new URL("/sign-in", req.url));
   }
@@ -24,6 +24,7 @@ export async function POST(req) {
     if (!chat) {
       chat = await Chat.create({
         users: [sender, reciever],
+        gigChat,
       });
     }
     let newmessage = new Message({
@@ -31,12 +32,10 @@ export async function POST(req) {
       sender,
       reciever,
     });
-
     if (newmessage) {
       chat.messages.push(newmessage._id);
     }
     await Promise.all([chat.save(), newmessage.save()]);
-
     let message = await Message.findOne({ _id: newmessage._id })
       .populate({ path: "sender", model: User })
       .populate({ path: "reciever", model: User });

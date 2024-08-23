@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "node":"node server.js"
+    "node": "node server.js"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.5.0",
@@ -29,6 +29,7 @@
     "class-variance-authority": "^0.7.0",
     "cloudinary": "^2.2.0",
     "clsx": "^2.1.1",
+    "emoji-picker-react": "^4.11.1",
     "flowbite-react": "^0.7.5",
     "framer-motion": "^11.1.5",
     "lucide-react": "^0.363.0",

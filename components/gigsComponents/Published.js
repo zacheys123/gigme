@@ -9,6 +9,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
+import GigDescription from "./GigDescription";
+import { Fullscreen } from "lucide-react";
 
 const Published = ({ user }) => {
   const { userId } = useAuth();
@@ -45,7 +47,9 @@ const Published = ({ user }) => {
   }, []);
   const router = useRouter();
   const [readmore, setReadMore] = useState();
-  const [ispend, setIsPending] = useState();
+  const [currentGig, setCurrentGig] = useState({});
+  const [gigdesc, setGigdesc] = useState();
+  const [open, setOpen] = useState();
 
   // Booking function it updates the isPending state ,only the logged in user access it
   const handleBook = async (gig) => {
@@ -81,10 +85,25 @@ const Published = ({ user }) => {
   console.log(category);
   let gigQuery;
   // conditionsl styling
-  const normaldescr = "link text-red-700 font-bold line-clamp-1 ";
-  const readmoredescr = "link text-red-700 font-bold line-clamp-12 ";
+  const handleModal = (gig) => {
+    setOpen(true);
+    setGigdesc(true);
+    setCurrentGig(gig);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    console.log("close", gigdesc);
+  };
   return (
     <div className="w-full h-[calc(100vh-260px)] p-2 shadow-lg mt-3">
+      {" "}
+      {gigdesc && (
+        <GigDescription
+          gig={currentGig}
+          open={open}
+          handleClose={handleClose}
+        />
+      )}
       <div className="flex justify-between ">
         <Input
           placeholder="filterBy:location,time,"
@@ -114,10 +133,10 @@ const Published = ({ user }) => {
         </select>
       </div>
       <Divider sx={{ backgroundColor: "gray" }} />
-
       <br />
       <div className="gigdisplay shadow-lg shadow-yellow-600 w-full h-[100%] overflow-y-scroll element-with-scroll">
         {!loading && pubGigs?.length === 0 && <div>No Gigs to display</div>}
+
         {!loading && pubGigs?.length > 0 ? (
           <>
             {/* content */}
@@ -126,17 +145,15 @@ const Published = ({ user }) => {
               .map((gig) => {
                 return (
                   <div key={gig?.secret} className="p-1 flex w-full mt-3 ">
-                    <div className="rounded-full w-[30px] h-[30px] bg-green-800"></div>
-                    <div className={classing(gig, readmore)}>
-                      <div className="flex">
-                        {" "}
-                        <span className="title tracking-tighter">
-                          Gig Type:
-                        </span>
-                        <span className="link text-red-700 font-bold line-clamp-1  ">
-                          {gig?.bussinesscat}
-                        </span>
+                    <div className="flex ">
+                      <div
+                        className="w-full text-right "
+                        onClick={() => handleModal(gig)}
+                      >
+                        <Fullscreen color="white" />
                       </div>
+                    </div>
+                    <div className={classing(gig, readmore)}>
                       <div className="flex ">
                         {" "}
                         <span className="title">Gig title:</span>
@@ -153,87 +170,6 @@ const Published = ({ user }) => {
                           {gig?.location}
                         </span>
                       </div>
-                      <div className="flex">
-                        {" "}
-                        <span className="title tracking-tighter">Time:</span>
-                        <span className="link text-red-700 font-bold line-clamp-1  ">
-                          {gig?.time?.from}
-                        </span>
-                        &nbsp;
-                        <span className="title">to</span> &nbsp;
-                        <span className="link text-red-700 font-bold line-clamp-1  ">
-                          {gig?.time?.to}
-                        </span>
-                      </div>
-                      <div className="flex">
-                        {" "}
-                        <span className="title tracking-tighter">Contact:</span>
-                        <span className="link text-red-700 font-bold line-clamp-1 blur-sm ">
-                          {gig?.phone}
-                        </span>
-                      </div>
-                      <div className="flex">
-                        {" "}
-                        <span className="title tracking-tighter">
-                          Passuwaad:
-                        </span>
-                        <span className="link text-red-700 font-bold line-clamp-1  ">
-                          {gig?.price}
-                        </span>
-                      </div>
-                      <div className="flex">
-                        {" "}
-                        <span className="title tracking-tighter">
-                          Description:
-                        </span>
-                        <span
-                          className={!readmore ? normaldescr : readmoredescr}
-                          onClick={() => setReadMore((prev) => !prev)}
-                        >
-                          {gig?.description}
-                        </span>
-                      </div>{" "}
-                      {gig?.category && gig?.bussinesscat === "personal" && (
-                        <div className="flex">
-                          <span className="title">Instrument: </span>
-
-                          {gig?.category && gig?.category !== null && (
-                            <h6 className="title text-red-700">
-                              {gig?.category}
-                            </h6>
-                          )}
-                        </div>
-                      )}
-                      {!gig?.category && gig?.bussinesscat === "full" && (
-                        <div className="flex">
-                          <span className="title text-purple-700 font-bold">
-                            FullBand(vocalist,instrumentalists etc){" "}
-                          </span>
-                        </div>
-                      )}
-                      {gig?.bandCategory?.length > 0 ||
-                        (gig?.bussinesscat !== "full" && (
-                          <div>
-                            {" "}
-                            <h6 className="title text-center underline mt-2">
-                              Band Selection
-                            </h6>
-                            {gig?.bandCategory &&
-                              gig?.bussinesscat === "other" &&
-                              gig?.bandCategory !== null &&
-                              gig?.bandCategory.map((band, idx) => {
-                                return (
-                                  <ul
-                                    className="flex link"
-                                    key={idx}
-                                    type="disc"
-                                  >
-                                    <li> {band}</li>
-                                  </ul>
-                                );
-                              })}
-                          </div>
-                        ))}
                       {!gig?.postedBy?.clerkId.includes(userId)
                         ? !gig?.isPending && (
                             <div className="w-full text-right">
@@ -247,21 +183,29 @@ const Published = ({ user }) => {
                             </div>
                           )
                         : ""}
-                      {gig?.isPending === true &&
-                        gig?.bookedBy?.clerkId.includes(userId) &&
-                        gig?.bookedBy?.firstname === user?.user?.firstname && (
-                          <div className="w-full text-right">
-                            <Button
-                              variant="primary"
-                              className="p-2 h-[25px] text-[10px] m-2 "
-                              onClick={() =>
-                                router.push(`/gigme/mygig/${gig?._id}/execute`)
-                              }
-                            >
-                              View Gig!!
-                            </Button>
-                          </div>
-                        )}
+                      <div className="flex  align-start">
+                        {" "}
+                        <>
+                          {gig?.isPending === true &&
+                            gig?.bookedBy?.clerkId.includes(userId) &&
+                            gig?.bookedBy?.firstname ===
+                              user?.user?.firstname && (
+                              <div className="w-full text-right">
+                                <Button
+                                  variant="primary"
+                                  className="p-2 h-[25px] text-[10px] m-2 "
+                                  onClick={() =>
+                                    router.push(
+                                      `/gigme/mygig/${gig?._id}/execute`
+                                    )
+                                  }
+                                >
+                                  View Gig!!
+                                </Button>
+                              </div>
+                            )}
+                        </>
+                      </div>
                       <Divider />{" "}
                       <div className="flex justify-between items-center mt-2">
                         <div
@@ -312,7 +256,7 @@ const Published = ({ user }) => {
                   </div>
                 );
               })
-              .reverse()}
+              .reverse()}{" "}
           </>
         ) : (
           <div className="h-[calc(75vh-150px)] w-full flex justify-center items-center">

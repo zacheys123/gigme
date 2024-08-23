@@ -5,23 +5,32 @@ import React, { useCallback, useEffect, useRef } from "react";
 import Message from "./Message";
 import Skeleton from "./Skeleton";
 import { useGlobalContext } from "@/app/Context/store";
+import { useParams } from "next/navigation";
 
-const ChatPage = ({ currentId, postedorbookedById, messages, setMessages }) => {
-  console.log(currentId, "" + "" + postedorbookedById);
+const ChatPage = ({ currentId, postedorbookedById, gigId }) => {
+  const { gigid } = useParams();
 
+  const {
+    userState: { messages },
+    setUserState,
+  } = useGlobalContext();
   const { loading } = useFetchMessages(currentId, postedorbookedById);
-  console.log(messages);
+
   const lastmsg = useRef();
   useEffect(() => {
     setTimeout(() => {
       lastmsg.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
   }, [messages]);
+  let msg = messages?.messages?.filter((message) => {
+    return messages?.gigChat === gigid;
+  });
+  console.log(msg);
   return (
     <div className="overflow-y-auto shadow-md shadow-zinc-100  border border-input  rounded-md element-with-scroll flex-1  p-2">
       {!loading &&
-        messages?.length > 0 &&
-        messages?.map((message) => {
+        msg?.length > 0 &&
+        msg?.map((message) => {
           return (
             <div key={message._id} ref={lastmsg}>
               {" "}
@@ -40,7 +49,7 @@ const ChatPage = ({ currentId, postedorbookedById, messages, setMessages }) => {
           })}
         </div>
       )}
-      {!loading && messages?.length === 0 && (
+      {!loading && msg?.length === 0 && (
         <h6 className="text-gray-300">send a message to start a chat</h6>
       )}
     </div>
@@ -49,6 +58,6 @@ const ChatPage = ({ currentId, postedorbookedById, messages, setMessages }) => {
 
 export default ChatPage;
 ChatPage.propTypes = {
-  currentId: PropTypes.String,
-  postedorbookedById: PropTypes.String,
+  currentId: PropTypes.string?.isRequired,
+  postedorbookedById: PropTypes.string?.isRequired,
 };

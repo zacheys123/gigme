@@ -6,12 +6,15 @@ export const send = async (
   message,
   setLoading,
   setUserState,
-  messages
+  messages,
+  gigId
 ) => {
+  console.log(messages);
   let dataInfo = {
     sender: currentId,
     text: message,
     reciever: postedorbookedById,
+    gigChat: gigId,
   };
   console.log({ dataInfo: { dataInfo } });
   if (!message || !currentId || !postedorbookedById) {
@@ -29,9 +32,10 @@ export const send = async (
     const data = await response.json();
     console.log(data);
     if (data.chatStatus === true) {
+      messages?.messages?.push(data.message);
       setUserState({
         type: global.SETMESSAGES,
-        payload: [...messages, data.message],
+        payload: messages,
       });
       console.log("Message sent successfully");
     } else {

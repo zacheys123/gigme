@@ -58,7 +58,7 @@ export async function PUT(req, { params }) {
     });
     return NextResponse.json({
       gigstatus: "true",
-      message: "Created Gig successfully",
+      message: "Updated Gig successfully",
       results: getGig,
     });
   } catch (error) {
