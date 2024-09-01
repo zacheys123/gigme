@@ -14,19 +14,22 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 const Chat = ({ other, curr, getGig }) => {
   const { userId } = useAuth();
   const { onlineUsers } = useSocketContext();
-
+  const {
+    userState: { messages },
+    setUserState,
+  } = useGlobalContext();
   const sender = useRef();
   const reciever = useRef();
   const postedorbookedById = other?.user?._id;
   const currentId = curr?.user?._id;
   const gigId = getGig?.gigs?._id;
-  console.log(gigId);
+
   const router = useRouter();
 
-  console.log(
-    "currentId" + currentId,
-    "postedorbookedById" + postedorbookedById
-  );
+  // console.log(
+  //   "currentId" + currentId,
+  //   "postedorbookedById" + postedorbookedById
+  // );
   useEffect(() => {
     sender.current = currentId;
     reciever.current = postedorbookedById;
@@ -51,48 +54,50 @@ const Chat = ({ other, curr, getGig }) => {
     getReciever();
   }, [other, setOther, postedorbookedById]);
   return (
-    <Dialog
-      open
-      className="h-[700px]  max-w-[100%] mx-auto p-1 bg-gray-500"
-      onOpenChange={(isOpen) => {
-        if (!isOpen) router.back();
-      }}
-    >
-      <DialogContent className="sm:max-w-[55%] w-[80%] md:w-[85%] xl:w-[90%]  shadow-sm shadow-gray-300">
-        <DialogHeader className=" h-[30px]">
-          <DialogTitle className="text-[13px]">
-            <span className="text-purple-400 font-bold title">Chat</span>
-            <span className="text-red-500 font-bold">Me!!!</span>
-          </DialogTitle>
-        </DialogHeader>
-        <div className=" w-full flex flex-col gap-1 h-[470px]">
-          {/* header */}
-          <ChatHeader
-            myUser={other}
-            onlineUsers={onlineUsers}
-            id={user?.user?._id}
-            otherUser={postedOther}
-          />
-          {/*  messages*/}
-          <ClientOnly>
-            <ChatPage
+    <ClientOnly>
+      <Dialog
+        open
+        className="h-[700px]  max-w-[100%] mx-auto p-1 bg-gray-500"
+        onOpenChange={(isOpen) => {
+          if (!isOpen) router.back();
+        }}
+      >
+        <DialogContent className="sm:max-w-[55%] w-[80%] md:w-[85%] xl:w-[90%]  shadow-sm shadow-gray-300">
+          <DialogHeader className=" h-[30px]">
+            <DialogTitle className="text-[13px]">
+              <span className="text-purple-400 font-bold title">Chat</span>
+              <span className="text-red-500 font-bold">Me!!!</span>
+            </DialogTitle>
+          </DialogHeader>
+          <div className=" w-full flex flex-col gap-1 h-[470px]">
+            {/* header */}
+            <ChatHeader
+              myUser={other}
+              onlineUsers={onlineUsers}
+              id={user?.user?._id}
+              otherUser={postedOther}
+            />
+            {/*  messages*/}
+            <ClientOnly>
+              <ChatPage
+                currentId={currentId}
+                postedorbookedById={postedorbookedById}
+                gigId={gigId}
+              />
+            </ClientOnly>
+            {/* input */}
+            <ChatInput
               currentId={currentId}
               postedorbookedById={postedorbookedById}
               gigId={gigId}
             />
-          </ClientOnly>
-          {/* input */}
-          <ChatInput
-            currentId={currentId}
-            postedorbookedById={postedorbookedById}
-            gigId={gigId}
-          />
-        </div>
-        <small className="text-center text-muted-foreground">
-          Powered By:gigMeUp
-        </small>
-      </DialogContent>
-    </Dialog>
+          </div>
+          <small className="text-center text-muted-foreground">
+            Powered By:gigMeUp
+          </small>
+        </DialogContent>
+      </Dialog>
+    </ClientOnly>
   );
 };
 export default Chat;

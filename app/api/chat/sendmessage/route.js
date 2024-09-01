@@ -4,6 +4,7 @@ import User from "@/models/user";
 import Message from "@/models/messages";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
+import { getRecieverSocketId } from "@/Backend";
 
 export async function POST(req) {
   const { userId } = auth();
@@ -39,6 +40,12 @@ export async function POST(req) {
     let message = await Message.findOne({ _id: newmessage._id })
       .populate({ path: "sender", model: User })
       .populate({ path: "reciever", model: User });
+    // implement socket io functionality
+    const recieversocketid = getRecieverSocketId(reciever);
+    if (recieversocketid) {
+      // io.to<socket id used to asend events to specific clients>
+      io.to(recieversocketid).emit("newMessage", newmessage);
+    }
     return NextResponse.json({ chatStatus: true, message });
   } catch (error) {
     console.log(error);

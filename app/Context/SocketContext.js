@@ -16,13 +16,13 @@ export const SocketContextProvider = ({ children }) => {
   const { userId } = useAuth();
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnline] = useState([]);
+  const [mymess, setMymess] = useState();
 
   const { loading, user, setUser } = useCurrentUser(userId);
 
-  console.log(user);
   useEffect(() => {
     if (user) {
-      const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
+      const socket = io(process.env.NEXT_PUBLIC_PORT, {
         withCredentials: true,
         extraHeaders: {
           "my-custom-header": "abcd",
@@ -35,6 +35,7 @@ export const SocketContextProvider = ({ children }) => {
       socket.on("getOnlineUsers", (users) => {
         setOnline(users);
       });
+
       return () => socket.close();
     } else {
       if (socket || user === null) {
@@ -46,7 +47,7 @@ export const SocketContextProvider = ({ children }) => {
     }
   }, [user?.user?._id]);
   return (
-    <SocketContext.Provider value={{ socket, onlineUsers }}>
+    <SocketContext.Provider value={{ socket, onlineUsers, mymess }}>
       {children}
     </SocketContext.Provider>
   );

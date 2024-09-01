@@ -1,4 +1,5 @@
 "use client";
+import ClientOnly from "@/app/ClientOnly";
 import SocialNav from "@/components/GigmeNav";
 import MyNav from "@/components/MyNav";
 import LeftBar from "@/components/socials/LeftBar";
@@ -51,7 +52,7 @@ const GigmeLayout = ({ children, modal, chat }) => {
     );
   }
   return (
-    <>
+    <ClientOnly>
       <div className="flex flex-col gap-2">
         <Toaster expand={false} richColors position="top" />
         <SocialNav />
@@ -63,7 +64,7 @@ const GigmeLayout = ({ children, modal, chat }) => {
           <RightBar />
         </div>
       </div>
-    </>
+    </ClientOnly>
   );
 };
 

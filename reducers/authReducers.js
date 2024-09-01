@@ -43,6 +43,11 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         messages: action.payload,
       };
+    case global.GETCHAT:
+      return {
+        ...state,
+        chat: action.payload,
+      };
     case global.GETUSERDATA:
       return {
         ...state,

@@ -9,6 +9,7 @@ export const initialState = {
   showComments: false,
   messages: [],
   loggedUser: {},
+  chat: {},
 };
 
 const GlobalContext = createContext(initialState);

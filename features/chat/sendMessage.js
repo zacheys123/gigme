@@ -32,12 +32,13 @@ export const send = async (
     const data = await response.json();
     console.log(data);
     if (data.chatStatus === true) {
+      // setUserState({
+      //   type: global.SETMESSAGES,
+      //   payload: [...messages?.messages, data.message],
+      // });
       messages?.messages?.push(data.message);
-      setUserState({
-        type: global.SETMESSAGES,
-        payload: messages,
-      });
-      console.log("Message sent successfully");
+
+      console.log(data.message);
     } else {
       console.log("Failed to send message");
     }

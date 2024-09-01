@@ -16,11 +16,7 @@ async function getUser() {
 }
 const GigPage = async () => {
   const user = await getUser();
-  return (
-    <ClientOnly>
-      <MainPage user={user} />;
-    </ClientOnly>
-  );
+  return <MainPage user={user} />;
 };
 
 export default GigPage;

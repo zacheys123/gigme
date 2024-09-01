@@ -6,15 +6,16 @@ import Message from "./Message";
 import Skeleton from "./Skeleton";
 import { useGlobalContext } from "@/app/Context/store";
 import { useParams } from "next/navigation";
+import { useListenMessage } from "@/hooks/useListenMessage";
 
 const ChatPage = ({ currentId, postedorbookedById, gigId }) => {
   const { gigid } = useParams();
-
+  const { loading } = useFetchMessages(currentId, postedorbookedById);
+  const { output } = useListenMessage();
   const {
     userState: { messages },
     setUserState,
   } = useGlobalContext();
-  const { loading } = useFetchMessages(currentId, postedorbookedById);
 
   const lastmsg = useRef();
   useEffect(() => {
@@ -25,7 +26,7 @@ const ChatPage = ({ currentId, postedorbookedById, gigId }) => {
   let msg = messages?.messages?.filter((message) => {
     return messages?.gigChat === gigid;
   });
-  console.log(msg);
+  console.log(output);
   return (
     <div className="overflow-y-auto shadow-md shadow-zinc-100  border border-input  rounded-md element-with-scroll flex-1  p-2">
       {!loading &&

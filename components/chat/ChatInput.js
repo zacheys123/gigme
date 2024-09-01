@@ -28,6 +28,7 @@ const ChatInput = ({ currentId, postedorbookedById, gigId }) => {
     );
   }, []);
 
+  console.log(messages);
   return (
     <div className="w-full flex items-center gap-2 mt-2">
       <form

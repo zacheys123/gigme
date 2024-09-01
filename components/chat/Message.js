@@ -19,7 +19,7 @@ const Message = ({ myMessages, other, curr }) => {
     ? "text-red-200 font-bold"
     : "text-purple-100 font-bold";
   const { loading } = useGetUsers(setReciever, setSender, other, curr);
-  console.log(myMessages);
+
   return (
     <div>
       {loading ? (
