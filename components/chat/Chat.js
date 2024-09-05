@@ -11,13 +11,11 @@ import { useGlobalContext } from "@/app/Context/store";
 import { useSocketContext } from "@/app/Context/SocketContext";
 import ClientOnly from "@/app/ClientOnly";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import useStore from "@/app/zustand/useStore";
 const Chat = ({ other, curr, getGig }) => {
   const { userId } = useAuth();
   const { onlineUsers } = useSocketContext();
-  const {
-    userState: { messages },
-    setUserState,
-  } = useGlobalContext();
+
   const sender = useRef();
   const reciever = useRef();
   const postedorbookedById = other?.user?._id;

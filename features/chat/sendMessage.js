@@ -5,11 +5,11 @@ export const send = async (
   postedorbookedById,
   message,
   setLoading,
-  setUserState,
-  messages,
-  gigId
+  setMessages,
+  gigId,
+  setText,
+  messages
 ) => {
-  console.log(messages);
   let dataInfo = {
     sender: currentId,
     text: message,
@@ -32,12 +32,8 @@ export const send = async (
     const data = await response.json();
     console.log(data);
     if (data.chatStatus === true) {
-      // setUserState({
-      //   type: global.SETMESSAGES,
-      //   payload: [...messages?.messages, data.message],
-      // });
-      messages?.messages?.push(data.message);
-
+      setMessages([...messages, data.message]);
+      setText("");
       console.log(data.message);
     } else {
       console.log("Failed to send message");

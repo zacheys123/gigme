@@ -3,16 +3,16 @@ import { EmojiEmotions } from "@mui/icons-material";
 import { CircularProgress, Input } from "@mui/material";
 import { TextInput } from "flowbite-react";
 import { Send } from "lucide-react";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useGlobalContext } from "@/app/Context/store";
 import { PropTypes } from "prop-types";
+import { useFetchMessages } from "@/hooks/useFetchMessages";
+import useStore from "@/app/zustand/useStore";
 const ChatInput = ({ currentId, postedorbookedById, gigId }) => {
-  const {
-    userState: { messages },
-    setUserState,
-  } = useGlobalContext();
-
+  const { messages, setMessages } = useStore();
   const [loading, setLoading] = useState();
+  const [text, setText] = useState("");
+  const inputref = useRef();
   const handleMessage = useCallback((ev) => {
     ev.preventDefault();
     let message = ev.target[0].value;
@@ -22,13 +22,17 @@ const ChatInput = ({ currentId, postedorbookedById, gigId }) => {
       postedorbookedById,
       message,
       setLoading,
-      setUserState,
-      messages,
-      gigId
+      setMessages,
+      gigId,
+      setText,
+      messages
     );
   }, []);
 
-  console.log(messages);
+  useEffect(() => {
+    inputref.current = text;
+  }, []);
+  console.log(inputref.current);
   return (
     <div className="w-full flex items-center gap-2 mt-2">
       <form
@@ -37,10 +41,14 @@ const ChatInput = ({ currentId, postedorbookedById, gigId }) => {
        w-full  p-2"
       >
         <div className=" bg-neutral-100 rounded-full px-5 w-full   flex items-center gap-1">
-          {!loading && (
-            <span className="hover:cursor-pointer w-[30px]">🙂</span>
-          )}
+          <span className="hover:cursor-pointer w-[30px]">🙂</span>
+
           <input
+            ref={inputref}
+            onChange={(ev) => {
+              setText(ev.target.value);
+            }}
+            value={text}
             autoFocus
             type="text"
             placeholder="Write something...."

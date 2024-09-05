@@ -76,27 +76,27 @@ const Published = ({ user }) => {
   console.log(category);
   let gigQuery;
   // conditionsl styling
-  const handleModal = (gig) => {
-    setOpen(true);
-    setGigdesc(true);
-    setCurrentGig(gig);
-  };
-  const handleClose = () => {
-    setOpen(false);
-    console.log("close", gigdesc);
-  };
+  // const handleModal = (gig) => {
+  //   setOpen(true);
+  //   setGigdesc(true);
+  //   setCurrentGig(gig);
+  // };
+  // const handleClose = () => {
+  //   setOpen(false);
+  //   console.log("close", gigdesc);
+  // };
   const handleEditBooked = async (id) => {
     router.push(`/gigme/mygig/${id}/execute`);
   };
   return (
     <div className="w-full h-[calc(100vh-260px)] p-2 shadow-sm mt-3">
-      {gigdesc && (
+      {/* {!gigdesc && (
         <GigDescription
           gig={currentGig}
           open={open}
           handleClose={handleClose}
         />
-      )}
+      )} */}
       <div className="flex justify-between ">
         <Input
           placeholder="filterBy:location,time,"
@@ -152,37 +152,55 @@ const Published = ({ user }) => {
                     <div className={classing(gig, readmore)}>
                       <div className="flex">
                         {" "}
-                        <span className="title tracking-tighter">
+                        <span className="gigtitle tracking-tighter">
                           Gig Type:
                         </span>
-                        <span className="link text-red-700 font-bold line-clamp-1  ">
+                        <span
+                          className={
+                            !gig?.isPending
+                              ? "titler text-red-700 font-bold"
+                              : "titler font-bold text-yellow-200"
+                          }
+                        >
                           {gig?.bussinesscat}
                         </span>
                       </div>
                       <div className="flex ">
                         {" "}
-                        <span className="title">Gig title:</span>
-                        <span className="link text-red-700 font-bold">
+                        <span className="gigtitle">Gig title:</span>
+                        <span
+                          className={
+                            !gig?.isPending
+                              ? "titler text-red-700 font-bold"
+                              : "titler font-bold text-yellow-200"
+                          }
+                        >
                           {gig?.title}
                         </span>
                       </div>
                       <div className="flex">
                         {" "}
-                        <span className="title tracking-tighter">
+                        <span className="gigtitle tracking-tighter">
                           Location:
                         </span>
-                        <span className="link text-red-700 font-bold line-clamp-2  ">
+                        <span
+                          className={
+                            !gig?.isPending
+                              ? "titler text-red-700 font-bold line-clamp-2"
+                              : "titler font-bold text-yellow-200 line-clamp-2"
+                          }
+                        >
                           {gig?.location}
                         </span>
                       </div>
                       <div className="flex items-center justify-between align-start">
                         {" "}
-                        <div
+                        {/* <div
                           className="w-full text-right "
                           onClick={() => handleModal(gig)}
                         >
                           <Fullscreen />
-                        </div>
+                        </div> */}
                         <>
                           {!gig?.postedBy?.clerkId.includes(userId)
                             ? !gig?.isPending && (
@@ -221,13 +239,19 @@ const Published = ({ user }) => {
                         >
                           {" "}
                           <div className=" w-[80%] flex">
-                            <span className="title tracking-tighter">
+                            <span className="gigtitle tracking-tighter">
                               Status:
                             </span>
-                            <span className="link text-red-700 font-bold line-clamp-1 ">
+                            <span className="giglink text-red-700 font-bold line-clamp-1 no-underline ">
                               {!gig?.isTaken ? (
-                                <span className=" track-tighter bg-red-500  p-2 rounded-full text-[11px]  text-white">
-                                  Not Taken
+                                <span
+                                  className={
+                                    gig?.isPending == false
+                                      ? " track-tighter bg-sky-500  p-2 rounded-full text-[11px]  text-white "
+                                      : ""
+                                  }
+                                >
+                                  {gig?.isPending == false ? "Avaliable" : ""}
                                 </span>
                               ) : (
                                 <span className=" bg-green-500 p-2 rounded-full text-[11px]  text-white">
@@ -237,18 +261,17 @@ const Published = ({ user }) => {
                             </span>
                           </div>
                           {gig?.isPending && (
-                            <h6 className="link bg-red-500 h-[24px] text-white rounded-bl-xl p-1 flex">
-                              <span>/</span>
-                              Pending
+                            <h6 className="giglink bg-red-700 h-[24px] font-bold whitespace-nowrap text-white rounded-bl-xl p-1 flex">
+                              Not Available for now
                             </h6>
                           )}
                         </div>
                         <div>
                           {" "}
-                          <span className="link text-red-700 font-bold line-clamp-1 ">
-                            {gig?.postedBy.picture && (
+                          <span className="giglink text-red-700 font-bold line-clamp-1 ">
+                            {gig?.postedBy?.picture && (
                               <Image
-                                src={gig?.postedBy.picture}
+                                src={gig?.postedBy?.picture}
                                 alt="p"
                                 width={25}
                                 height={25}
@@ -268,7 +291,7 @@ const Published = ({ user }) => {
           <div className="h-[calc(75vh-150px)] w-full flex justify-center items-center">
             <div className="flex flex-col items-center gap-2">
               {" "}
-              <h6 className="title text-white">loading gigs...</h6>
+              <h6 className="gigtitle text-white">loading gigs...</h6>
               <CircularProgress size="15px" sx={{ color: "white" }} />
             </div>
           </div>

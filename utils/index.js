@@ -110,7 +110,7 @@ function gigme(query, data, sorted) {
     return sorted;
   } else if (data?.title?.toLowerCase().includes(query.toLowerCase())) {
     return sorted;
-  }
+  } else return sorted;
 }
 export const searchfunc = (data, searchquery, category, gigQuery) => {
   let sortedData = data;
@@ -126,12 +126,7 @@ export const searchfunc = (data, searchquery, category, gigQuery) => {
     } else if (category.toLowerCase() === "all") {
       return data;
     }
-    if (searchquery) {
-      gigQuery = gigme(searchquery, gig, sortedData);
-      return gigQuery;
-    } else {
-      return sortedData;
-    }
+    gigme(searchquery, gig, sortedData);
   });
 
   return sortedData;

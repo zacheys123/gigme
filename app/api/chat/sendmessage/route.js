@@ -46,7 +46,12 @@ export async function POST(req) {
       // io.to<socket id used to asend events to specific clients>
       io.to(recieversocketid).emit("newMessage", newmessage);
     }
-    return NextResponse.json({ chatStatus: true, message });
+    console.log(recieversocketid);
+    return NextResponse.json({
+      chatStatus: true,
+      message,
+      data: recieversocketid,
+    });
   } catch (error) {
     console.log(error);
     return NextResponse.json("error", error);

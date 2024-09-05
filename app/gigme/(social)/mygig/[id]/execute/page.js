@@ -14,18 +14,16 @@ const MyGigPage = async ({ params }) => {
   const myGig = await getMyGig(params.id);
 
   return (
-    <div className="h-screen w-screen bg-black ">
-      {myGig?.gigs?.bookedBy?.clerkId.includes(userId) && (
-        <ClientOnly>
+    <ClientOnly>
+      <div className="h-screen w-screen bg-black ">
+        {myGig?.gigs?.bookedBy?.clerkId.includes(userId) && (
           <Creator myGig={myGig} />
-        </ClientOnly>
-      )}
-      {myGig?.gigs?.postedBy?.clerkId.includes(userId) && (
-        <ClientOnly>
+        )}
+        {myGig?.gigs?.postedBy?.clerkId.includes(userId) && (
           <Booker myGig={myGig} />
-        </ClientOnly>
-      )}
-    </div>
+        )}
+      </div>{" "}
+    </ClientOnly>
   );
 };
 

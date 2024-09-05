@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
 import GigDescription from "./GigDescription";
+import ButtonComponent from "../ButtonComponent";
 
 const Created = ({ user }) => {
   const { userId } = useAuth();
@@ -84,7 +85,7 @@ const Created = ({ user }) => {
       <div className="flex justify-between ">
         <Input
           placeholder="filterBy:location,time,"
-          className="h-[40px] w-[200px] text-white"
+          className="h-[40px] w-[200px] text-black"
           value={typeOfGig}
           onChange={(ev) => {
             setTypeOfGig(ev.target.value);
@@ -129,26 +130,26 @@ const Created = ({ user }) => {
                     <div className={classing(gig, readmore)}>
                       <div className="flex">
                         {" "}
-                        <span className="title tracking-tighter">
+                        <span className="gigtitle tracking-tighter">
                           Gig Type:
                         </span>
-                        <span className="link text-red-700 font-bold line-clamp-1  ">
+                        <span className="giglink text-red-700 font-bold line-clamp-1  ">
                           {gig?.bussinesscat}
                         </span>
                       </div>
                       <div className="flex ">
                         {" "}
-                        <span className="title">Gig title:</span>
-                        <span className="link text-red-700 font-bold">
+                        <span className="gigtitle">Gig title:</span>
+                        <span className="giglink text-red-700 font-bold">
                           {gig?.title}
                         </span>
                       </div>
                       <div className="flex">
                         {" "}
-                        <span className="title tracking-tighter">
+                        <span className="gigtitle tracking-tighter">
                           Location:
                         </span>
-                        <span className="link text-red-700 font-bold line-clamp-2  ">
+                        <span className="giglink text-red-700 font-bold line-clamp-2  ">
                           {gig?.location}
                         </span>
                       </div>
@@ -166,24 +167,22 @@ const Created = ({ user }) => {
                       )} */}
                       {gig?.isPending && (
                         <div className="w-full text-right">
-                          <Button
-                            variant="primary"
-                            className="p-1 h-[25px] text-[10px] m-2 "
-                            onClick={() => handleEditBooked(gig?._id)}
-                          >
-                            View Booked Gig!!!
-                          </Button>
+                          <ButtonComponent
+                            variant="default"
+                            classname="p-1 h-[25px] text-[10px] m-2 font-bold"
+                            onclick={() => handleEditBooked(gig?._id)}
+                            title=" View Booked Gig!!!"
+                          />
                         </div>
                       )}
                       {!gig?.isPending && !gig?.isTaken && (
                         <div className="w-full text-right">
-                          <Button
-                            variant="primary"
-                            className="p-1 h-[25px] text-[10px] m-2 "
-                            onClick={() => handleEdit(gig?._id)}
-                          >
-                            Edit Gig!!!
-                          </Button>
+                          <ButtonComponent
+                            variant="default"
+                            classname="p-1 h-[25px] text-[10px] m-2 font-bold"
+                            onclick={() => handleEdit(gig?._id)}
+                            title="Edit Gig!!!!"
+                          />
                         </div>
                       )}
                       <Divider />{" "}
@@ -195,16 +194,19 @@ const Created = ({ user }) => {
                         >
                           {" "}
                           <div className=" w-[80%] flex">
-                            <span className="title tracking-tighter">
+                            <span className="gigtitle tracking-tighter">
                               Status:
                             </span>
-                            <span className="link text-red-700 font-bold line-clamp-1 ">
+                            <span className="giglink text-red-700 font-bold line-clamp-1 no-underline ">
                               {!gig?.isTaken ? (
                                 <span
-                                  className=" track-tighter bg-red-500  p-2 rounded-full text-[11px] 
-                                 text-white"
+                                  className={
+                                    gig?.isPending == false
+                                      ? " track-tighter bg-sky-500  p-2 rounded-full text-[11px]  text-white "
+                                      : ""
+                                  }
                                 >
-                                  Not Taken
+                                  {gig?.isPending == false ? "Avaliable" : ""}
                                 </span>
                               ) : (
                                 <span className=" bg-green-500 p-2 rounded-full text-[11px]  text-white">
@@ -214,18 +216,17 @@ const Created = ({ user }) => {
                             </span>
                           </div>
                           {gig?.isPending && (
-                            <h6 className="link bg-red-500 h-[24px] text-white rounded-bl-xl p-1 flex">
-                              <span>/</span>
-                              Pending
+                            <h6 className="giglink bg-red-700 h-[24px] font-bold whitespace-nowrap text-white rounded-bl-xl p-1 flex">
+                              Not Available for now
                             </h6>
                           )}
                         </div>
                         <div>
                           {" "}
-                          <span className="link text-red-700 font-bold line-clamp-1 ">
-                            {gig?.postedBy.picture && (
+                          <span className="giglink text-red-700 font-bold line-clamp-1 ">
+                            {gig?.postedBy?.picture && (
                               <Image
-                                src={gig?.postedBy.picture}
+                                src={gig?.postedBy?.picture}
                                 alt="p"
                                 width={25}
                                 height={25}
@@ -249,7 +250,7 @@ const Created = ({ user }) => {
                             <h6 className="font-mono text-[12px]">
                               Who Booked?!!{" "}
                             </h6>
-                            <span className="link font-bold text-blue-500">
+                            <span className="giglink font-bold text-blue-500">
                               {gig?.bookedBy?.firstname}
                             </span>
                           </div>
@@ -276,7 +277,7 @@ const Created = ({ user }) => {
           <div className="h-[calc(75vh-150px)] w-full flex justify-center items-center">
             <div className="flex flex-col items-center gap-2">
               {" "}
-              <h6 className="title text-white">loading gigs...</h6>
+              <h6 className="gigtitle text-white">loading gigs...</h6>
               <CircularProgress size="15px" sx={{ color: "white" }} />
             </div>
           </div>

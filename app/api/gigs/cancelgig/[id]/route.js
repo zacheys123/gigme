@@ -17,14 +17,10 @@ export async function PUT(req, { params }) {
       },
       { new: true }
     );
-    const currentgig = await Gigs.findById(newGig._id).populate({
-      path: "bookedBy",
-      model: User,
-    });
+
     return NextResponse.json({
       gigstatus: "true",
-      message: "Updated Gig successfully",
-      results: currentgig,
+      message: "canceled Gig successfully",
     });
   } catch (error) {
     console.log(error);

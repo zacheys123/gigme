@@ -11,12 +11,17 @@ import { Button } from "../ui/button";
 import { toast } from "sonner";
 import GigDescription from "./GigDescription";
 import { Fullscreen } from "lucide-react";
+import ButtonComponent from "../ButtonComponent";
+import { Search } from "@mui/icons-material";
+import { motion } from "framer-motion";
 
 const Published = ({ user }) => {
   const { userId } = useAuth();
   const [typeOfGig, setTypeOfGig] = useState("");
   const [category, setCategory] = useState("all");
   const [loading, setLoading] = useState();
+  const [loadingview, setLoadingView] = useState();
+  const [loadingbook, setLoadingBook] = useState();
 
   const [pubGigs, setPubGigs] = useState([]);
   let currentUser = user?.user?._id;
@@ -56,6 +61,7 @@ const Published = ({ user }) => {
     // update the isPending state
 
     try {
+      setLoadingBook(true);
       const res = await fetch(`/api/gigs/bookgig/${gig?._id}`, {
         method: "PUT",
         headers: {
@@ -69,6 +75,7 @@ const Published = ({ user }) => {
       const data = await res.json();
       console.log(data);
       if (data.gigstatus === "true") {
+        setLoadingBook(false);
         toast.success("Booked the gig successfully");
         console.log(data);
         router.push(`/gigme/mygig/${gig?._id}/execute`);
@@ -94,6 +101,21 @@ const Published = ({ user }) => {
     setOpen(false);
     console.log("close", gigdesc);
   };
+  const [search, setSearch] = useState();
+  let variant = {
+    initial: {
+      x: ["-200px"],
+      opacity: 0,
+    },
+    animate: {
+      opacity: 1,
+
+      x: ["-200px", "-100px", "-50px", "0px", "50px", "0px"],
+    },
+    transition: {
+      duration: 1.3,
+    },
+  };
   return (
     <div className="w-full h-[calc(100vh-260px)] p-2 shadow-lg mt-3">
       {" "}
@@ -105,15 +127,38 @@ const Published = ({ user }) => {
         />
       )}
       <div className="flex justify-between ">
-        <Input
-          placeholder="filterBy:location,time,"
-          className="h-[40px] w-[200px] text-white"
-          value={typeOfGig}
-          onChange={(ev) => {
-            setTypeOfGig(ev.target.value);
-          }}
-          onKeyDown={gigQuery}
-        />
+        <div>
+          {!search ? (
+            <div
+              className="bg-gray-200 rounded-full p-[3px] cursor-pointer"
+              onClick={() => setSearch(true)}
+            >
+              <Search />
+            </div>
+          ) : (
+            <motion.div
+              className="flex gap-2 items-center bg-gray-100 p-1 rounded-full h-[40px]  w-[214px]"
+              variant={variant}
+            >
+              <input
+                placeholder="filterBy:location,time,"
+                className="h-[20px] w-[165px] ml-2 text-black bg-inherit p-2 focus-within:right-0 outline-none"
+                value={typeOfGig}
+                onChange={(ev) => {
+                  setTypeOfGig(ev.target.value);
+                }}
+                onKeyDown={gigQuery}
+              />
+              <div className="" onClick={() => setSearch(false)}>
+                <Search
+                  sx={{
+                    color: "gray",
+                  }}
+                />
+              </div>
+            </motion.div>
+          )}
+        </div>
         <select
           className="mb-2 w-[80px] bg-white  h-[40px] rounded-md p-3 text-[11px]  font-mono"
           value={category}
@@ -144,7 +189,7 @@ const Published = ({ user }) => {
               ?.filter((pub) => pub.isTaken === false)
               .map((gig) => {
                 return (
-                  <div key={gig?.secret} className="p-1 flex w-full mt-3 ">
+                  <div key={gig?.secret} className=" flex w-full mt-3 ">
                     <div className="flex ">
                       <div
                         className="w-full text-right "
@@ -156,30 +201,51 @@ const Published = ({ user }) => {
                     <div className={classing(gig, readmore)}>
                       <div className="flex ">
                         {" "}
-                        <span className="title">Gig title:</span>
-                        <span className="link text-red-700 font-bold">
+                        <span className="gigtitle text-blue-500 font-bold">
+                          Gig title:
+                        </span>
+                        <span
+                          className={
+                            !gig?.isPending
+                              ? "titler text-red-700 font-bold"
+                              : "titler font-bold text-yellow-200"
+                          }
+                        >
                           {gig?.title}
                         </span>
                       </div>
                       <div className="flex">
                         {" "}
-                        <span className="title tracking-tighter">
+                        <span className="gigtitle text-blue-500 font-bold">
                           Location:
                         </span>
-                        <span className="link text-red-700 font-bold line-clamp-2  ">
+                        <span
+                          className={
+                            !gig?.isPending
+                              ? "titler text-red-700 font-bold line-clamp-2"
+                              : "titler font-bold text-yellow-200 line-clamp-2"
+                          }
+                        >
                           {gig?.location}
                         </span>
                       </div>
                       {!gig?.postedBy?.clerkId.includes(userId)
                         ? !gig?.isPending && (
-                            <div className="w-full text-right">
-                              <Button
-                                variant="primary"
-                                className="p-1 h-[25px] text-[10px] m-2 "
-                                onClick={() => handleBook(gig)}
-                              >
-                                Book Now!!!
-                              </Button>
+                            <div className="w-full text-right p-1 -my-2 ">
+                              {!loadingbook ? (
+                                <ButtonComponent
+                                  variant="default"
+                                  classname="p-1 h-[25px] text-[10px] m-2 font-bold"
+                                  onclick={() => handleBook(gig)}
+                                  title="Book Gig"
+                                />
+                              ) : (
+                                <ButtonComponent
+                                  variant="default"
+                                  classname="p-1 h-[25px] text-[10px] m-2 font-bold"
+                                  title="booking..."
+                                />
+                              )}
                             </div>
                           )
                         : ""}
@@ -191,17 +257,22 @@ const Published = ({ user }) => {
                             gig?.bookedBy?.firstname ===
                               user?.user?.firstname && (
                               <div className="w-full text-right">
-                                <Button
-                                  variant="primary"
-                                  className="p-2 h-[25px] text-[10px] m-2 "
-                                  onClick={() =>
-                                    router.push(
-                                      `/gigme/mygig/${gig?._id}/execute`
-                                    )
-                                  }
-                                >
-                                  View Gig!!
-                                </Button>
+                                <ButtonComponent
+                                  variant=""
+                                  classname="p-1 h-[25px] text-[10px] m-2 font-bold"
+                                  onclick={() => {
+                                    setLoading(true);
+                                    setTimeout(() => {
+                                      setLoadingView(false);
+                                      router.push(
+                                        `/gigme/mygig/${gig?._id}/execute`
+                                      );
+                                    }, 3000);
+                                  }}
+                                  title="View Gig!!"
+                                  loading={loadingview}
+                                  loadingtitle="viewing..."
+                                />
                               </div>
                             )}
                         </>
@@ -215,13 +286,19 @@ const Published = ({ user }) => {
                         >
                           {" "}
                           <div className=" w-[80%] flex">
-                            <span className="title tracking-tighter">
+                            <span className="gigtitle tracking-tighter">
                               Status:
                             </span>
-                            <span className="link text-red-700 font-bold line-clamp-1 ">
+                            <span className="titler text-red-700 font-bold line-clamp-1 no-underline ">
                               {!gig?.isTaken ? (
-                                <span className=" track-tighter bg-red-500  p-2 rounded-full text-[11px]  text-white">
-                                  Not Taken
+                                <span
+                                  className={
+                                    gig?.isPending == false
+                                      ? " track-tighter bg-sky-500  p-2 rounded-full text-[11px]  text-white "
+                                      : ""
+                                  }
+                                >
+                                  {gig?.isPending == false ? "Avaliable" : ""}
                                 </span>
                               ) : (
                                 <span className=" bg-green-500 p-2 rounded-full text-[11px]  text-white">
@@ -231,15 +308,14 @@ const Published = ({ user }) => {
                             </span>
                           </div>
                           {gig?.isPending && (
-                            <h6 className="link bg-red-500 h-[24px] text-white rounded-bl-xl p-1 flex">
-                              <span>/</span>
-                              Pending
+                            <h6 className="titler bg-red-700 h-[24px] font-bold whitespace-nowrap text-white rounded-bl-xl p-1 flex">
+                              Not Available for now
                             </h6>
                           )}
                         </div>
                         <div>
                           {" "}
-                          <span className="link text-red-700 font-bold line-clamp-1 ">
+                          <span className="titler text-red-700 font-bold line-clamp-1 ">
                             {gig?.postedBy?.picture && (
                               <Image
                                 src={gig?.postedBy?.picture}
@@ -262,7 +338,7 @@ const Published = ({ user }) => {
           <div className="h-[calc(75vh-150px)] w-full flex justify-center items-center">
             <div className="flex flex-col items-center gap-2">
               {" "}
-              <h6 className="title text-white">loading gigs...</h6>
+              <h6 className="gigtitle text-white">loading gigs...</h6>
               <CircularProgress size="15px" sx={{ color: "white" }} />
             </div>
           </div>

@@ -1,14 +1,12 @@
 import { global } from "@/actions";
 import { useGlobalContext } from "@/app/Context/store";
+import useStore from "@/app/zustand/useStore";
 import { useEffect, useState } from "react";
-export function useFetchMessages(currentId, postedorbookedById, setMessages) {
+export function useFetchMessages(currentId, postedorbookedById) {
   const [loading, setLoading] = useState();
   const url = `/api/chat/fetchchats/${currentId}/${postedorbookedById}`;
 
-  const {
-    userState: { messages },
-    setUserState,
-  } = useGlobalContext();
+  const { setMessages, messages } = useStore();
   useEffect(() => {
     async function getMessages() {
       setLoading(true);
@@ -20,7 +18,7 @@ export function useFetchMessages(currentId, postedorbookedById, setMessages) {
           throw new Error(data.error);
         }
 
-        setUserState({ type: global.GETMESSAGES, payload: data.chat });
+        setMessages(data?.chat?.messages);
         return data;
       } catch (error) {
         console.log(error);
@@ -29,7 +27,7 @@ export function useFetchMessages(currentId, postedorbookedById, setMessages) {
       }
     }
     if (postedorbookedById) getMessages();
-  }, [url, setUserState, currentId, postedorbookedById]);
+  }, [url, currentId, postedorbookedById, setMessages]);
 
   return { loading, messages };
 }

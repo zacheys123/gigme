@@ -241,8 +241,8 @@ const EditPage = () => {
               <div
                 className={
                   !secretreturn
-                    ? `flex flex-col gap-1  `
-                    : `flex flex-col gap-1 h-[70px] `
+                    ? `flex flex-col gap-2  `
+                    : `flex flex-col gap-2 h-[70px] `
                 }
               >
                 <div className="flex items-center gap-2">
@@ -257,7 +257,7 @@ const EditPage = () => {
                     value={gigInputs?.secret || userposts?.gigs?.secret}
                     type={!secretpass ? "password" : "text"}
                     placeholder="Enter secret,  NB://(valid only once)"
-                    className="mb-2 border-1 shadow-sm mt-1 border-slate-900 shadow-purple-200 p-1 rounded-xl "
+                    className="mb-2 border-1 shadow-sm mt-1 text-gray-300 border-slate-900 shadow-purple-200 p-2 rounded-xl "
                   />{" "}
                   {secretpass ? (
                     <EyeOff
@@ -288,7 +288,7 @@ const EditPage = () => {
                 value={gigInputs?.title || userposts?.gigs?.title}
                 type="text"
                 placeholder="Enter any title"
-                className="mb-2 border-1 shadow-sm mt-1 border-slate-900 shadow-purple-200 p-1 rounded-xl w-[100%] title focus-visible:ring-0 outline-0 placeholder-[8px]"
+                className="mb-2 border-1 shadow-sm mt-1 p-2 text-gray-300 border-slate-900 shadow-purple-200  rounded-xl w-[100%] title focus-visible:ring-0 outline-0 placeholder-[8px]"
               />{" "}
               <Textarea
                 onChange={(ev) =>
@@ -303,14 +303,14 @@ const EditPage = () => {
                   userposts
                 }
                 style={{ resize: "none", height: "fit-content" }}
-                className="min-h-[110px] p-2 mb-2"
+                className="min-h-[110px] p-2 mb-2 text-gray-300 "
                 placeholder=" Enter description e.g what songs or the vybe expected in the event/show"
               />
               <input
                 autoComplete="off"
                 type="text"
                 placeholder="Enter phone no: "
-                className="mb-2 border-1 shadow-sm mt-1 border-slate-900 shadow-purple-200 p-1 rounded-xl w-[100%] title focus:ring-0 outline-0 placeholder-[8px]"
+                className="mb-2 border-1 shadow-sm mt-1 text-gray-300 border-slate-900 shadow-purple-200 p-2 rounded-xl w-[100%] title focus:ring-0 outline-0 placeholder-[8px]"
                 onChange={(ev) =>
                   setGigs((prev) => {
                     return { ...prev, phoneNo: ev.target.value };
@@ -323,7 +323,7 @@ const EditPage = () => {
                 autoComplete="off"
                 type="text"
                 placeholder="Enter price range expected  "
-                className="mb-2 border-1 shadow-sm mt-1 border-slate-900 shadow-purple-200 p-1 rounded-xl w-[100%] title focus-visible:ring-0 outline-0 placeholder-[8px]"
+                className="mb-2 border-1 shadow-sm mt-1 text-gray-300 border-slate-900 shadow-purple-200 p-2 rounded-xl w-[100%] title focus-visible:ring-0 outline-0 placeholder-[8px]"
                 onChange={(ev) =>
                   setGigs((prev) => {
                     return { ...prev, price: ev.target.value };
@@ -336,7 +336,7 @@ const EditPage = () => {
                 autoComplete="off"
                 type="text"
                 placeholder="Enter location  "
-                className="mb-2 border-1 shadow-sm mt-1 border-slate-900 shadow-purple-200 p-1 rounded-xl w-[100%] title focus-visible:ring-0 outline-0 placeholder-[8px]"
+                className="mb-2 border-1 shadow-sm mt-1 text-gray-300 border-slate-900 shadow-purple-200 p-2 rounded-xl w-[100%] title focus-visible:ring-0 outline-0 placeholder-[8px]"
                 size="10px"
                 sx={{ height: "10px" }}
                 onChange={(ev) =>
@@ -349,7 +349,7 @@ const EditPage = () => {
               />{" "}
               <>
                 {gigInputs?.bussinesscat === "other" ? (
-                  <h6 className="choice mb-2 font-bold underline text-center">
+                  <h6 className="choice mb-2 font-bold underline text-center text-gray-900">
                     Choose the setUp of the show
                   </h6>
                 ) : (
@@ -364,7 +364,7 @@ const EditPage = () => {
                     }
                     name="category"
                     value={gigInputs?.category || userposts?.gigs?.category}
-                    className="mb-2 w-full  h-[25px] rounded-md text-[12px]  p-2 font-mono"
+                    className="mb-2 w-full  h-[28px] text-gray-300 rounded-md text-[12px]  p-2 font-mono"
                   >
                     <option value="">None</option>
                     <option value="piano">Piano</option>
@@ -383,14 +383,14 @@ const EditPage = () => {
                   <div className="h-fit rounded-lg shadow-xl gap-5   bg-gray-100 p-3 choice flex flex-wrap">
                     <div>
                       <input
-                        className="text-[5px]"
+                        className="text-[5px] text-gray-300"
                         onChange={handleChange}
                         type="checkbox"
                         id="vocalist"
                         name="vocalist"
                         value="vocalist"
                       />
-                      <label className="link" htmlFor="vocalist">
+                      <label className="link text-gray-900" htmlFor="vocalist">
                         vocalist
                       </label>
                     </div>
@@ -403,7 +403,7 @@ const EditPage = () => {
                         name="piano"
                         value="piano"
                       />{" "}
-                      <label className="link" htmlFor="piano">
+                      <label className="link text-gray-900" htmlFor="piano">
                         Piano
                       </label>
                     </div>
@@ -416,7 +416,7 @@ const EditPage = () => {
                         name="sax"
                         value="sax"
                       />{" "}
-                      <label className=" link" htmlFor="sax">
+                      <label className=" link text-gray-900" htmlFor="sax">
                         Saxophone
                       </label>
                     </div>{" "}
@@ -429,7 +429,7 @@ const EditPage = () => {
                         name="guitar"
                         value="guitar"
                       />{" "}
-                      <label className=" link" htmlFor="guitar">
+                      <label className=" link text-gray-900" htmlFor="guitar">
                         Guitar
                       </label>
                     </div>{" "}
@@ -442,7 +442,7 @@ const EditPage = () => {
                         name="drums"
                         value="drums"
                       />{" "}
-                      <label className="link" htmlFor="drums">
+                      <label className="link text-gray-900" htmlFor="drums">
                         Drums
                       </label>
                     </div>{" "}
@@ -455,7 +455,7 @@ const EditPage = () => {
                         name="bass"
                         value="bass"
                       />{" "}
-                      <label className="link" htmlFor="bass">
+                      <label className="link text-gray-900" htmlFor="bass">
                         Bass
                       </label>
                     </div>
@@ -465,14 +465,14 @@ const EditPage = () => {
               <div className="flex items-center flex-col gap-2 mt-7">
                 <div className="flex items-center gap-3">
                   {" "}
-                  <h6 className="mb-2 w-[36px] bg-neutral-100 text-[12px] p-1 font-mono">
+                  <h6 className="mb-2 w-[36px] bg-neutral-100  text-[12px] p-2 font-mono">
                     from:
                   </h6>
                   <input
                     autoComplete="off"
                     type="text"
                     placeholder=" Time e.g 10 means 10:00 "
-                    className="mb-2 border-1 shadow-sm mt-1 border-slate-900 shadow-purple-200 p-1 rounded-xl w-[100%] title focus-visible:ring-0 outline-0 placeholder-[8px]"
+                    className="mb-2 border-1 shadow-sm mt-1 text-white border-slate-900 shadow-purple-200 p-2 rounded-xl w-[100%] title focus-visible:ring-0 outline-0 placeholder-[8px]"
                     onChange={(ev) =>
                       setGigs((prev) => {
                         return { ...prev, start: ev.target.value };
@@ -496,14 +496,14 @@ const EditPage = () => {
                   </select>{" "}
                 </div>
                 <div className="flex items-center gap-3">
-                  <h6 className="mb-2 w-[36px] bg-neutral-100 text-[12px] p-1 font-mono">
+                  <h6 className="mb-2 w-[36px] bg-neutral-100 text-[12px] p-2 font-mono">
                     to:
                   </h6>
                   <input
                     autoComplete="off"
                     type="text"
                     placeholder=" Time e.g 10 means 10:00 "
-                    className="mb-2 border-1 shadow-sm mt-1 border-slate-900 shadow-purple-200 p-1 rounded-xl w-[100%] title focus-visible:ring-0 outline-0 placeholder-[8px]"
+                    className="mb-2 border-1 shadow-sm mt-1 text-white border-slate-900 shadow-purple-200 p-2 rounded-xl w-[100%] title focus-visible:ring-0 outline-0 placeholder-[8px]"
                     onChange={(ev) =>
                       setGigs((prev) => {
                         return { ...prev, end: ev.target.value };
@@ -534,11 +534,11 @@ const EditPage = () => {
                   minDate={minDate}
                   maxDate={maxDate}
                   placeholderText="Set Event Date"
-                  className="font-mono p-2 w-full rounded-lg  shadow-xl"
+                  className="font-mono p-2 w-full rounded-lg text-white  shadow-xl"
                 />
               </div>
             </div>{" "}
-            <Button variant="default" type="submit" className="mt-4 w-full">
+            <Button variant="primary" type="submit" className="mt-4 w-full">
               {!loading ? (
                 "Edit Gig"
               ) : (
