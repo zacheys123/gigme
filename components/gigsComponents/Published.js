@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { Input } from "../ui/input";
 import { CircularProgress, Divider } from "@mui/material";
-import { classing, searchfunc } from "@/utils";
+import { classing, gigQuery, searchfunc } from "@/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
@@ -13,7 +13,7 @@ import GigDescription from "./GigDescription";
 import { Fullscreen } from "lucide-react";
 import ButtonComponent from "../ButtonComponent";
 import { Search } from "@mui/icons-material";
-import { motion } from "framer-motion";
+import Gigheader from "./Gigheader";
 
 const Published = ({ user }) => {
   const { userId } = useAuth();
@@ -90,7 +90,6 @@ const Published = ({ user }) => {
     }
   };
   console.log(category);
-  let gigQuery;
   // conditionsl styling
   const handleModal = (gig) => {
     setOpen(true);
@@ -101,21 +100,7 @@ const Published = ({ user }) => {
     setOpen(false);
     console.log("close", gigdesc);
   };
-  const [search, setSearch] = useState();
-  let variant = {
-    initial: {
-      x: ["-200px"],
-      opacity: 0,
-    },
-    animate: {
-      opacity: 1,
 
-      x: ["-200px", "-100px", "-50px", "0px", "50px", "0px"],
-    },
-    transition: {
-      duration: 1.3,
-    },
-  };
   return (
     <div className="w-full h-[calc(100vh-260px)] p-2 shadow-lg mt-3">
       {" "}
@@ -126,60 +111,16 @@ const Published = ({ user }) => {
           handleClose={handleClose}
         />
       )}
-      <div className="flex justify-between ">
-        <div>
-          {!search ? (
-            <div
-              className="bg-gray-200 rounded-full p-[3px] cursor-pointer"
-              onClick={() => setSearch(true)}
-            >
-              <Search />
-            </div>
-          ) : (
-            <motion.div
-              className="flex gap-2 items-center bg-gray-100 p-1 rounded-full h-[40px]  w-[214px]"
-              variant={variant}
-            >
-              <input
-                placeholder="filterBy:location,time,"
-                className="h-[20px] w-[165px] ml-2 text-black bg-inherit p-2 focus-within:right-0 outline-none"
-                value={typeOfGig}
-                onChange={(ev) => {
-                  setTypeOfGig(ev.target.value);
-                }}
-                onKeyDown={gigQuery}
-              />
-              <div className="" onClick={() => setSearch(false)}>
-                <Search
-                  sx={{
-                    color: "gray",
-                  }}
-                />
-              </div>
-            </motion.div>
-          )}
-        </div>
-        <select
-          className="mb-2 w-[80px] bg-white  h-[40px] rounded-md p-3 text-[11px]  font-mono"
-          value={category}
-          onChange={(ev) => {
-            setCategory(ev.target.value);
-          }}
-        >
-          <option value="all">All</option>
-          <option value="piano">piano</option>
-          <option value="guitar">guitar</option>
-          <option value="bass">bass</option>
-          <option value="sax">sax</option>
-          <option value="other">other</option>
-          <option value="ukulele">ukulele</option>
-          <option value="full">fullband</option>{" "}
-          <option value="personal">personal</option>{" "}
-        </select>
-      </div>
+      <Gigheader
+        typeOfGig={typeOfGig}
+        setTypeOfGig={setTypeOfGig}
+        category={category}
+        setCategory={setCategory}
+        gigQuery={gigQuery}
+      />
       <Divider sx={{ backgroundColor: "gray" }} />
       <br />
-      <div className="gigdisplay shadow-lg shadow-yellow-600 w-full h-[100%] overflow-y-scroll element-with-scroll">
+      <div className="gigdisplay shadow-lg shadow-yellow-600 w-full h-[100%] p-2 overflow-y-scroll element-with-scroll">
         {!loading && pubGigs?.length === 0 && <div>No Gigs to display</div>}
 
         {!loading && pubGigs?.length > 0 ? (
@@ -189,7 +130,7 @@ const Published = ({ user }) => {
               ?.filter((pub) => pub.isTaken === false)
               .map((gig) => {
                 return (
-                  <div key={gig?.secret} className=" flex w-full mt-3 ">
+                  <div key={gig?.secret} className=" flex w-full my-3 ">
                     <div className="flex ">
                       <div
                         className="w-full text-right "
@@ -234,15 +175,15 @@ const Published = ({ user }) => {
                             <div className="w-full text-right p-1 -my-2 ">
                               {!loadingbook ? (
                                 <ButtonComponent
-                                  variant="default"
-                                  classname="p-1 h-[25px] text-[10px] m-2 font-bold"
+                                  variant="destructive"
+                                  classname=" h-[20px] text-[8px] m-2 font-bold"
                                   onclick={() => handleBook(gig)}
                                   title="Book Gig"
                                 />
                               ) : (
                                 <ButtonComponent
-                                  variant="default"
-                                  classname="p-1 h-[25px] text-[10px] m-2 font-bold"
+                                  variant="destructive"
+                                  classname="p-1 h-[20px] text-[10px] m-2 font-bold"
                                   title="booking..."
                                 />
                               )}
@@ -258,8 +199,8 @@ const Published = ({ user }) => {
                               user?.user?.firstname && (
                               <div className="w-full text-right">
                                 <ButtonComponent
-                                  variant=""
-                                  classname="p-1 h-[25px] text-[10px] m-2 font-bold"
+                                  variant="secondary"
+                                  classname=" h-[20px] text-[8px] m-2 font-bold"
                                   onclick={() => {
                                     setLoading(true);
                                     setTimeout(() => {
@@ -269,7 +210,7 @@ const Published = ({ user }) => {
                                       );
                                     }, 3000);
                                   }}
-                                  title="View Gig!!"
+                                  title="View Gig Details!!"
                                   loading={loadingview}
                                   loadingtitle="viewing..."
                                 />
@@ -286,7 +227,13 @@ const Published = ({ user }) => {
                         >
                           {" "}
                           <div className=" w-[80%] flex">
-                            <span className="gigtitle tracking-tighter">
+                            <span
+                              className={
+                                !gig?.isPending
+                                  ? " tracking-tighter font-bold text-red-400 text-[11px] mr-1"
+                                  : " tracking-tighter font-bold text-white text-[11px] mr-1"
+                              }
+                            >
                               Status:
                             </span>
                             <span className="titler text-red-700 font-bold line-clamp-1 no-underline ">
@@ -307,10 +254,14 @@ const Published = ({ user }) => {
                               )}
                             </span>
                           </div>
-                          {gig?.isPending && (
-                            <h6 className="titler bg-red-700 h-[24px] font-bold whitespace-nowrap text-white rounded-bl-xl p-1 flex">
-                              Not Available for now
-                            </h6>
+                          {!gig?.bookedBy?.clerkId.includes(userId) && (
+                            <>
+                              {gig?.isPending && (
+                                <h6 className="titler bg-red-700 h-[24px] font-bold whitespace-nowrap text-white p-1 flex">
+                                  Not Available for now
+                                </h6>
+                              )}
+                            </>
                           )}
                         </div>
                         <div>

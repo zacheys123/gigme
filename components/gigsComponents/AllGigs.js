@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import GigDescription from "./GigDescription";
 import { Fullscreen } from "lucide-react";
+import Gigheader from "./Gigheader";
 
 const Published = ({ user }) => {
   const { userId } = useAuth();
@@ -97,34 +98,13 @@ const Published = ({ user }) => {
           handleClose={handleClose}
         />
       )} */}
-      <div className="flex justify-between ">
-        <Input
-          placeholder="filterBy:location,time,"
-          className="h-[40px] w-[200px] text-white placeholder-white"
-          value={typeOfGig}
-          onChange={(ev) => {
-            setTypeOfGig(ev.target.value);
-          }}
-          onKeyDown={gigQuery}
-        />
-        <select
-          className="mb-2 w-[80px] bg-white  h-[40px] rounded-md p-3 text-[11px]  font-mono"
-          value={category}
-          onChange={(ev) => {
-            setCategory(ev.target.value);
-          }}
-        >
-          <option value="all">All</option>
-          <option value="piano">piano</option>
-          <option value="guitar">guitar</option>
-          <option value="bass">bass</option>
-          <option value="sax">sax</option>
-          <option value="other">other</option>
-          <option value="ukulele">ukulele</option>
-          <option value="full">fullband</option>{" "}
-          <option value="personal">personal</option>{" "}
-        </select>
-      </div>
+      <Gigheader
+        typeOfGig={typeOfGig}
+        setTypeOfGig={setTypeOfGig}
+        category={category}
+        setCategory={setCategory}
+        gigQuery={gigQuery}
+      />
       <Divider sx={{ backgroundColor: "gray" }} />
 
       <br />
@@ -152,7 +132,7 @@ const Published = ({ user }) => {
                     <div className={classing(gig, readmore)}>
                       <div className="flex">
                         {" "}
-                        <span className="gigtitle tracking-tighter">
+                        <span className="gigtitle text-blue-500 font-bold tracking-tighter">
                           Gig Type:
                         </span>
                         <span
@@ -167,7 +147,9 @@ const Published = ({ user }) => {
                       </div>
                       <div className="flex ">
                         {" "}
-                        <span className="gigtitle">Gig title:</span>
+                        <span className="gigtitle text-blue-500 font-bold">
+                          Gig title:
+                        </span>
                         <span
                           className={
                             !gig?.isPending
@@ -180,7 +162,7 @@ const Published = ({ user }) => {
                       </div>
                       <div className="flex">
                         {" "}
-                        <span className="gigtitle tracking-tighter">
+                        <span className="gigtitle text-blue-500 font-bold tracking-tighter">
                           Location:
                         </span>
                         <span
@@ -206,7 +188,7 @@ const Published = ({ user }) => {
                             ? !gig?.isPending && (
                                 <div className="w-full text-right">
                                   <Button
-                                    variant="primary"
+                                    variant="destructive"
                                     className="p-1 h-[25px] text-[10px] m-2 "
                                     onClick={() => handleBook(gig?._id)}
                                   >
@@ -239,7 +221,7 @@ const Published = ({ user }) => {
                         >
                           {" "}
                           <div className=" w-[80%] flex">
-                            <span className="gigtitle tracking-tighter">
+                            <span className="gigtitle text-blue-500 font-bold tracking-tighter">
                               Status:
                             </span>
                             <span className="giglink text-red-700 font-bold line-clamp-1 no-underline ">
@@ -291,7 +273,9 @@ const Published = ({ user }) => {
           <div className="h-[calc(75vh-150px)] w-full flex justify-center items-center">
             <div className="flex flex-col items-center gap-2">
               {" "}
-              <h6 className="gigtitle text-white">loading gigs...</h6>
+              <h6 className="gigtitle text-blue-500 font-bold text-white">
+                loading gigs...
+              </h6>
               <CircularProgress size="15px" sx={{ color: "white" }} />
             </div>
           </div>

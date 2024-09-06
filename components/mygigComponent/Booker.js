@@ -94,7 +94,7 @@ const Booker = ({ myGig }) => {
 
   console.log(myGig);
   const book = () => {
-    bookgig(rating, myGig);
+    bookgig(rating, myGig, userId);
   };
   const forget = () => {
     forgetBookings(userId, myGig);
@@ -107,7 +107,7 @@ const Booker = ({ myGig }) => {
   }
   return (
     <ClientOnly>
-      <div className="container bg-neutral-600 shadow-xl h-full overflow-hidden w-full p-2 relative">
+      <div className="container bg-neutral-600 shadow-xl h-screen overflow-hidden w-screen p-2 relative">
         <div className="card m-4">
           <h6 className="title text-neutral-200 text-center uppercase underline">
             <span className="text-red-500 font-bold">Title:</span>{" "}
@@ -232,8 +232,8 @@ const Booker = ({ myGig }) => {
               </div>
             </div>{" "}
             <Button
-              className="h-[45px] mt-3  w-[100%] sm:text-[8px]  text-[11px] md:text-[13px]   p-2 mx-4  whitespace-nowrap"
-              variant="default"
+              className="h-[35px] mt-3  w-[100%] sm:text-[8px] sm:h-[32px]  text-[11px] md:text-[13px]   p-2 mx-4  whitespace-nowrap"
+              variant="destructive"
               onClick={book}
               disabled={bookloading}
             >

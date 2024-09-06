@@ -16,7 +16,11 @@ async function getUser() {
 }
 const GigPage = async () => {
   const user = await getUser();
-  return <MainPage user={user} />;
+  return (
+    <div className="overflow-hidden h-screen w-screen">
+      <MainPage user={user} />
+    </div>
+  );
 };
 
 export default GigPage;

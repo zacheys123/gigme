@@ -8,9 +8,10 @@ import { classing, searchfunc } from "@/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Search } from "lucide-react";
 import GigDescription from "./GigDescription";
 import ButtonComponent from "../ButtonComponent";
+import Gigheader from "./Gigheader";
 
 const Created = ({ user }) => {
   const { userId } = useAuth();
@@ -64,11 +65,7 @@ const Created = ({ user }) => {
   console.log(createdGigs);
   let gigQuery;
   // conditionsl styling
-  const handleModal = (gig) => {
-    setOpen(true);
-    setGigdesc(true);
-    setCurrentGig(gig);
-  };
+
   const handleClose = () => {
     setOpen(false);
     console.log("close", gigdesc);
@@ -82,34 +79,14 @@ const Created = ({ user }) => {
           handleClose={handleClose}
         />
       )}
-      <div className="flex justify-between ">
-        <Input
-          placeholder="filterBy:location,time,"
-          className="h-[40px] w-[200px] text-black"
-          value={typeOfGig}
-          onChange={(ev) => {
-            setTypeOfGig(ev.target.value);
-          }}
-          onKeyDown={gigQuery}
-        />
-        <select
-          className="mb-2 w-[80px] bg-white  h-[40px] rounded-md p-3 text-[11px]  font-mono"
-          value={category}
-          onChange={(ev) => {
-            setCategory(ev.target.value);
-          }}
-        >
-          <option value="all">All</option>
-          <option value="piano">piano</option>
-          <option value="guitar">guitar</option>
-          <option value="bass">bass</option>
-          <option value="sax">sax</option>
-          <option value="other">other</option>
-          <option value="ukulele">ukulele</option>
-          <option value="full">fullband</option>{" "}
-          <option value="personal">personal</option>{" "}
-        </select>
-      </div>
+
+      <Gigheader
+        typeOfGig={typeOfGig}
+        setTypeOfGig={setTypeOfGig}
+        category={category}
+        setCategory={setCategory}
+        gigQuery={gigQuery}
+      />
       <Divider sx={{ backgroundColor: "gray" }} />
 
       <br />
@@ -168,8 +145,8 @@ const Created = ({ user }) => {
                       {gig?.isPending && (
                         <div className="w-full text-right">
                           <ButtonComponent
-                            variant="default"
-                            classname="p-1 h-[25px] text-[10px] m-2 font-bold"
+                            variant="secondary"
+                            classname=" h-[22px] text-[10px] m-2 font-bold"
                             onclick={() => handleEditBooked(gig?._id)}
                             title=" View Booked Gig!!!"
                           />
@@ -178,64 +155,90 @@ const Created = ({ user }) => {
                       {!gig?.isPending && !gig?.isTaken && (
                         <div className="w-full text-right">
                           <ButtonComponent
-                            variant="default"
-                            classname="p-1 h-[25px] text-[10px] m-2 font-bold"
+                            variant="destructive"
+                            classname=" h-[22px] text-[10px] m-2 font-bold"
                             onclick={() => handleEdit(gig?._id)}
                             title="Edit Gig!!!!"
                           />
                         </div>
                       )}
                       <Divider />{" "}
-                      <div className="flex justify-between items-center mt-2">
-                        <div
-                          className={
-                            gig?.isPending ? " flex " : "flex-1 w-[80%]"
-                          }
-                        >
-                          {" "}
-                          <div className=" w-[80%] flex">
-                            <span className="gigtitle tracking-tighter">
-                              Status:
-                            </span>
-                            <span className="giglink text-red-700 font-bold line-clamp-1 no-underline ">
-                              {!gig?.isTaken ? (
-                                <span
-                                  className={
-                                    gig?.isPending == false
-                                      ? " track-tighter bg-sky-500  p-2 rounded-full text-[11px]  text-white "
-                                      : ""
-                                  }
-                                >
-                                  {gig?.isPending == false ? "Avaliable" : ""}
-                                </span>
-                              ) : (
-                                <span className=" bg-green-500 p-2 rounded-full text-[11px]  text-white">
-                                  Taken
-                                </span>
+                      {!gig?.postedBy?.clerkId === userId &&
+                      gig?.isPending === false ? (
+                        <div className="flex justify-between items-center mt-2">
+                          <div
+                            className={
+                              gig?.isPending ? " flex " : "flex-1 w-[80%]"
+                            }
+                          >
+                            {" "}
+                            <div className=" w-[80%] flex">
+                              <span className="gigtitle tracking-tighter">
+                                Status:
+                              </span>
+                              <span className="giglink text-red-700 font-bold line-clamp-1 no-underline ">
+                                {!gig?.isTaken ? (
+                                  <span
+                                    className={
+                                      gig?.isPending == false
+                                        ? " track-tighter bg-sky-500  p-2 rounded-full text-[11px]  text-white "
+                                        : ""
+                                    }
+                                  >
+                                    {gig?.isPending == false ? "Avaliable" : ""}
+                                  </span>
+                                ) : (
+                                  <span className=" bg-green-500 p-2 rounded-full text-[11px]  text-white">
+                                    Taken
+                                  </span>
+                                )}
+                              </span>
+                            </div>
+                            {gig?.isPending && (
+                              <h6 className="giglink bg-red-700 h-[24px] font-bold whitespace-nowrap text-white rounded-bl-xl p-1 flex">
+                                Not Available for now
+                              </h6>
+                            )}
+                          </div>
+                          <div>
+                            {" "}
+                            <span className="giglink text-red-700 font-bold line-clamp-1 ">
+                              {gig?.postedBy?.picture && (
+                                <Image
+                                  src={gig?.postedBy?.picture}
+                                  alt="p"
+                                  width={25}
+                                  height={25}
+                                  className="w-[25px] h-[25px] rounded-full"
+                                />
                               )}
                             </span>
                           </div>
-                          {gig?.isPending && (
-                            <h6 className="giglink bg-red-700 h-[24px] font-bold whitespace-nowrap text-white rounded-bl-xl p-1 flex">
-                              Not Available for now
-                            </h6>
-                          )}
                         </div>
-                        <div>
-                          {" "}
-                          <span className="giglink text-red-700 font-bold line-clamp-1 ">
-                            {gig?.postedBy?.picture && (
-                              <Image
-                                src={gig?.postedBy?.picture}
-                                alt="p"
-                                width={25}
-                                height={25}
-                                className="w-[25px] h-[25px] rounded-full"
-                              />
+                      ) : (
+                        <div className=" w-[80%] flex mt-1">
+                          <span className="gigtitle tracking-tighter">
+                            Status:
+                          </span>
+                          <span className="giglink text-red-700 font-bold line-clamp-1 no-underline ">
+                            {!gig?.isTaken ? (
+                              <span
+                                className={
+                                  gig?.isPending == false
+                                    ? " track-tighter bg-sky-500  p-2 rounded-full text-[11px]  text-white "
+                                    : ""
+                                }
+                              >
+                                {gig?.isPending == false ? "Avaliable" : ""}
+                              </span>
+                            ) : (
+                              <span className=" bg-green-500 p-2 rounded-full text-[11px]  text-white">
+                                Taken
+                              </span>
                             )}
                           </span>
                         </div>
-                      </div>
+                      )}
                       {gig?.isPending === false && gig?.isTaken === true && (
                         <Box
                           className="flex item-center  bg-red-300 p-2 max-w-[80%] rounded-xl mt-2 gap-3

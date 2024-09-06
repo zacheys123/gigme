@@ -3,7 +3,7 @@ import { useState } from "react";
 export function useBookGig() {
   const [bookloading, setLoading] = useState();
   // logic for useBookGig hook goes here
-  const bookgig = async (rating, myGig) => {
+  const bookgig = async (rating, myGig, userId) => {
     try {
       setLoading(true);
       const response = await fetch(`/api/gigs/book/${myGig?.gigs?._id}`, {
@@ -22,6 +22,7 @@ export function useBookGig() {
       if (data.gigstatus === "true") {
         alert("Booked the gig successfully");
         console.log(data);
+        route.push(`/gigme/gigs/${userId}`);
         setLoading(false);
       } else {
         alert(data.message);

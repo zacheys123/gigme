@@ -93,7 +93,7 @@ const Creator = ({ myGig }) => {
   }
   return (
     <ClientOnly>
-      <div className="container bg-neutral-600 shadow-xl h-full overflow-hidden w-full p-4">
+      <div className="container bg-neutral-600 shadow-xl h-screen overflow-hidden w-screen p-4">
         <div className="card m-4">
           <h6 className="title text-gray-200">Personal info</h6>
           <div className="flex gap-3">

@@ -110,23 +110,27 @@ function gigme(query, data, sorted) {
     return sorted;
   } else if (data?.title?.toLowerCase().includes(query.toLowerCase())) {
     return sorted;
-  } else return sorted;
+  }
 }
 export const searchfunc = (data, searchquery, category, gigQuery) => {
   let sortedData = data;
 
   sortedData = sortedData?.filter((gig) => {
-    if (
-      gig?.category &&
-      gig?.category?.toLowerCase() === category?.toLowerCase()
-    ) {
-      return sortedData;
-    } else if (gig.bussinesscat?.toLowerCase() === category?.toLowerCase()) {
-      return sortedData;
-    } else if (category.toLowerCase() === "all") {
-      return data;
+    if (searchquery) {
+      gigQuery = gigme(searchquery, gig, sortedData);
+      return gigQuery;
+    } else {
+      if (
+        gig?.category &&
+        gig?.category?.toLowerCase() === category?.toLowerCase()
+      ) {
+        return sortedData;
+      } else if (gig.bussinesscat?.toLowerCase() === category?.toLowerCase()) {
+        return sortedData;
+      } else if (category.toLowerCase() === "all") {
+        return data;
+      }
     }
-    gigme(searchquery, gig, sortedData);
   });
 
   return sortedData;
