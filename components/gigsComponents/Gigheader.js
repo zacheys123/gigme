@@ -10,6 +10,8 @@ const Gigheader = ({
   category,
   setCategory,
   gigQuery,
+  location,
+  setLocation,
 }) => {
   const { search, setSearch } = useStore();
 
@@ -27,6 +29,38 @@ const Gigheader = ({
       duration: 1.3,
     },
   };
+  const dataCounties = [
+    "Nairobi",
+    "Mombasa",
+    "Kisumu",
+    "Meru",
+    "Kakamega",
+    "Kiambu",
+    "Bungoma",
+    "Voi",
+    "Machakos",
+    "Kilifi",
+    "Mandera",
+    "Tharaka-Nithi",
+    "Kajiado",
+    "Kericho",
+    "Lamu",
+    "Nyeri",
+    "Nakuru",
+    "Kisii",
+    "Muranga",
+    "Garissa",
+    "Kilimanjaro",
+    "Elgeyo-Marakwet",
+    "Mugumu",
+    "Bomet",
+    "Siaya",
+    "Kakuma",
+    "Isiolo",
+    "Kitui",
+    "Vihiga",
+    "All",
+  ];
   return (
     <div className="flex justify-around  mb-1">
       <div>
@@ -39,19 +73,22 @@ const Gigheader = ({
           </div>
         ) : (
           <motion.div
-            className="flex gap-2 items-center bg-gray-100 p-1 rounded-full h-[25px]  w-[214px]"
+            className="flex gap-2 items-center bg-gray-100 px-2 rounded-full h-[30px]  w-[214px]"
             variant={variant}
           >
             <input
-              placeholder="filterBy:location,time,"
-              className="h-[24px] w-[165px] ml-2 text-black bg-inherit   text-[11px] focus-within:right-0 outline-none placeholder-muted-foreground"
+              placeholder="searchBy: title,time('from' or 'to'),"
+              className="h-[28px]  flex-1 ml-2 text-black bg-inherit   text-[11px] focus-within:right-0 outline-none placeholder-muted-foreground"
               value={typeOfGig}
               onChange={(ev) => {
                 setTypeOfGig(ev.target.value);
               }}
               onKeyDown={gigQuery}
             />
-            <div className="" onClick={() => setSearch(false)}>
+            <div
+              className="bg-gray-300 p-1 rounded-full"
+              onClick={() => setSearch(false)}
+            >
               <Search
                 size="12px"
                 sx={{
@@ -62,6 +99,19 @@ const Gigheader = ({
           </motion.div>
         )}
       </div>
+      <select
+        className=" w-[60px] bg-white pl-2 element-with-overflow  h-[20px] rounded-md  text-[9px] font-bold  font-mono"
+        value={location}
+        onChange={(ev) => {
+          setLocation(ev.target.value);
+        }}
+      >
+        {dataCounties?.map((d, idx) => (
+          <option key={idx} value={d}>
+            {d}
+          </option>
+        ))}
+      </select>
       <select
         className=" w-[50px] bg-white pl-2  h-[20px] rounded-md  text-[9px] font-bold  font-mono"
         value={category}

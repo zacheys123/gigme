@@ -24,6 +24,9 @@ const Published = ({ user }) => {
   const [loadingview, setLoadingView] = useState();
   const [loadingbook, setLoadingBook] = useState();
   const [pubGigs, setPubGigs] = useState([]);
+  const [location, setLocation] = useState(() =>
+    user?.user?.city ? user?.user?.city : "all"
+  );
 
   const { setSearch } = useStore();
 
@@ -121,6 +124,8 @@ const Published = ({ user }) => {
         category={category}
         setCategory={setCategory}
         gigQuery={gigQuery}
+        location={location}
+        setLocation={setLocation}
       />
       <Divider sx={{ backgroundColor: "gray" }} />
       <br />
@@ -133,7 +138,7 @@ const Published = ({ user }) => {
         {!loading && pubGigs?.length > 0 ? (
           <>
             {/* content */}
-            {searchfunc(pubGigs, typeOfGig, category, gigQuery)
+            {searchfunc(pubGigs, typeOfGig, category, gigQuery, location)
               ?.filter((pub) => pub.isTaken === false)
               .map((gig) => {
                 return (

@@ -59,7 +59,7 @@ const ViewGigs = ({ user }) => {
         </select>{" "}
         {typeOfGig === "published" && <Published user={user} />}{" "}
         {typeOfGig === "mygigs" && <Created user={user} />}
-        {typeOfGig === "allgigs" && <AllGigs />}
+        {typeOfGig === "allgigs" && <AllGigs user={user} />}
       </div>
     </ClientOnly>
   );

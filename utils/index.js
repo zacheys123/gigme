@@ -112,7 +112,7 @@ function gigme(query, data, sorted) {
     return sorted;
   }
 }
-export const searchfunc = (data, searchquery, category, gigQuery) => {
+export const searchfunc = (data, searchquery, category, gigQuery, location) => {
   let sortedData = data;
 
   sortedData = sortedData?.filter((gig) => {
@@ -127,8 +127,18 @@ export const searchfunc = (data, searchquery, category, gigQuery) => {
         return sortedData;
       } else if (gig.bussinesscat?.toLowerCase() === category?.toLowerCase()) {
         return sortedData;
-      } else if (category.toLowerCase() === "all") {
+      } else if (
+        category.toLowerCase() === "all" &&
+        gig?.location?.toLowerCase().includes(location.toLowerCase())
+      ) {
+        return sortedData;
+      } else if (category.toLowerCase() === "all" && location === "all") {
         return data;
+      }
+    }
+    if (location) {
+      if (gig?.location?.toLowerCase().includes(location.toLowerCase())) {
+        return sortedData;
       }
     }
   });

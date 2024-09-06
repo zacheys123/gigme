@@ -88,6 +88,8 @@ const Created = ({ user }) => {
         category={category}
         setCategory={setCategory}
         gigQuery={gigQuery}
+        location={location}
+        setLocation={setLocation}
       />
       <Divider sx={{ backgroundColor: "gray" }} />
 
@@ -104,7 +106,7 @@ const Created = ({ user }) => {
         {!loading && createdGigs?.length > 0 ? (
           <>
             {/* content */}
-            {searchfunc(createdGigs, typeOfGig, category, gigQuery)
+            {searchfunc(createdGigs, typeOfGig, category, gigQuery, location)
               .map((gig) => {
                 return (
                   <div key={gig?.secret} className="p-1 flex w-full mt-3 ">

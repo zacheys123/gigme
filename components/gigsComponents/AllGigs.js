@@ -106,6 +106,8 @@ const AllGigs = ({ user }) => {
         category={category}
         setCategory={setCategory}
         gigQuery={gigQuery}
+        location={location}
+        setLocation={setLocation}
       />
       <Divider sx={{ backgroundColor: "gray" }} />
 
@@ -118,7 +120,7 @@ const AllGigs = ({ user }) => {
         {!loading && allGigs?.length > 0 ? (
           <>
             {/* content */}
-            {searchfunc(allGigs, typeOfGig, category, gigQuery)
+            {searchfunc(allGigs, typeOfGig, category, gigQuery, location)
               ?.filter((pub) => {
                 return pub.isTaken === false;
               })

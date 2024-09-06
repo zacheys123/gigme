@@ -208,7 +208,7 @@ const Creator = ({ myGig }) => {
               value={creatorData?.price}
             />
           </div>
-          <h6>
+          <div>
             {/* <span>{creatorData?.category}</span> */}
             {creatorData?.personal && creatorData?.category === "personal" && (
               <span className="flex">
@@ -248,7 +248,7 @@ const Creator = ({ myGig }) => {
                     })}
                 </span>
               )}
-          </h6>
+          </div>
           {hello && (
             <div
               variant={variant}
