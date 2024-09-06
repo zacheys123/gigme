@@ -14,7 +14,8 @@ import { Fullscreen } from "lucide-react";
 import ButtonComponent from "../ButtonComponent";
 import { Search } from "@mui/icons-material";
 import Gigheader from "./Gigheader";
-
+import useStore from "@/app/zustand/useStore";
+import { PropTypes } from "prop-types";
 const Published = ({ user }) => {
   const { userId } = useAuth();
   const [typeOfGig, setTypeOfGig] = useState("");
@@ -22,8 +23,10 @@ const Published = ({ user }) => {
   const [loading, setLoading] = useState();
   const [loadingview, setLoadingView] = useState();
   const [loadingbook, setLoadingBook] = useState();
-
   const [pubGigs, setPubGigs] = useState([]);
+
+  const { setSearch } = useStore();
+
   let currentUser = user?.user?._id;
   const getGigs = async () => {
     setLoading(true);
@@ -83,6 +86,7 @@ const Published = ({ user }) => {
       } else {
         toast.error(data.message);
         router.push(`/gigme/gigs/${userId}`);
+        router.refresh();
         setLoading(false);
       }
     } catch (error) {
@@ -120,7 +124,10 @@ const Published = ({ user }) => {
       />
       <Divider sx={{ backgroundColor: "gray" }} />
       <br />
-      <div className="gigdisplay shadow-lg shadow-yellow-600 w-full h-[100%] p-2 overflow-y-scroll element-with-scroll">
+      <div
+        onClick={() => setSearch(false)}
+        className="gigdisplay shadow-lg shadow-yellow-600 w-full h-[100%] p-2 overflow-y-scroll element-with-scroll"
+      >
         {!loading && pubGigs?.length === 0 && <div>No Gigs to display</div>}
 
         {!loading && pubGigs?.length > 0 ? (
@@ -173,20 +180,12 @@ const Published = ({ user }) => {
                       {!gig?.postedBy?.clerkId.includes(userId)
                         ? !gig?.isPending && (
                             <div className="w-full text-right p-1 -my-2 ">
-                              {!loadingbook ? (
-                                <ButtonComponent
-                                  variant="destructive"
-                                  classname=" h-[20px] text-[8px] m-2 font-bold"
-                                  onclick={() => handleBook(gig)}
-                                  title="Book Gig"
-                                />
-                              ) : (
-                                <ButtonComponent
-                                  variant="destructive"
-                                  classname="p-1 h-[20px] text-[10px] m-2 font-bold"
-                                  title="booking..."
-                                />
-                              )}
+                              <ButtonComponent
+                                variant="destructive"
+                                classname=" h-[20px] text-[8px] m-2 font-bold"
+                                onclick={() => handleBook(gig)}
+                                title="Book Gig"
+                              />
                             </div>
                           )
                         : ""}
@@ -300,3 +299,7 @@ const Published = ({ user }) => {
 };
 
 export default Published;
+
+Published.propTypes = {
+  user: PropTypes.object.isRequired,
+};

@@ -6,6 +6,7 @@ import Published from "./Published";
 import Created from "./Created";
 import AllGigs from "./AllGigs";
 import ClientOnly from "@/app/ClientOnly";
+import useStore from "@/app/zustand/useStore";
 const ViewGigs = ({ user }) => {
   const [typeOfGig, setTypeOfGig] = useState("published");
   const [created, setCreated] = useState();
@@ -15,10 +16,12 @@ const ViewGigs = ({ user }) => {
     setTypeOfGig(ev.target.value);
   };
   console.log(typeOfGig);
+  const { setSearch } = useStore();
   return (
     <ClientOnly>
       <div className="min-h-screen w-full justify-center items-center">
         <select
+          onClick={() => setSearch(false)}
           value={typeOfGig}
           onChange={handleVal}
           className="mb-2 w-[150px] bg-neutral-600 shadow-md  pl-2  shadow-red-700 text-white  h-[30px] rounded-md  text-[11px]  font-mono"

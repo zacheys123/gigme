@@ -12,7 +12,8 @@ import { ArrowRight, Search } from "lucide-react";
 import GigDescription from "./GigDescription";
 import ButtonComponent from "../ButtonComponent";
 import Gigheader from "./Gigheader";
-
+import useStore from "@/app/zustand/useStore";
+import { PropTypes } from "prop-types";
 const Created = ({ user }) => {
   const { userId } = useAuth();
   const [typeOfGig, setTypeOfGig] = useState("");
@@ -70,6 +71,7 @@ const Created = ({ user }) => {
     setOpen(false);
     console.log("close", gigdesc);
   };
+  const { setSearch } = useStore();
   return (
     <div className=" w-full h-[calc(100vh-260px)] p-2  mt-3 ">
       {gigdesc && (
@@ -90,7 +92,10 @@ const Created = ({ user }) => {
       <Divider sx={{ backgroundColor: "gray" }} />
 
       <br />
-      <div className="gigdisplay shadow-lg shadow-cyan-600 w-full h-[100%] overflow-y-scroll element-with-scroll">
+      <div
+        onClick={() => setSearch(false)}
+        className="gigdisplay shadow-lg shadow-cyan-600 w-full h-[100%] overflow-y-scroll element-with-scroll"
+      >
         {!loading && createdGigs?.length === 0 && (
           <div className="w-full h-full flex justify-center items-center -mt-[50px]">
             <h6 className="text-gray-100 font-mono"> No Gigs to display</h6>
@@ -176,7 +181,7 @@ const Created = ({ user }) => {
                               <span className="gigtitle tracking-tighter">
                                 Status:
                               </span>
-                              <span className="giglink text-red-700 font-bold line-clamp-1 no-underline ">
+                              <div className="giglink text-red-700 font-bold line-clamp-1 no-underline ">
                                 {!gig?.isTaken ? (
                                   <span
                                     className={
@@ -192,7 +197,7 @@ const Created = ({ user }) => {
                                     Taken
                                   </span>
                                 )}
-                              </span>
+                              </div>
                             </div>
                             {gig?.isPending && (
                               <h6 className="giglink bg-red-700 h-[24px] font-bold whitespace-nowrap text-white rounded-bl-xl p-1 flex">
@@ -291,3 +296,7 @@ const Created = ({ user }) => {
 };
 
 export default Created;
+
+Created.propTypes = {
+  user: PropTypes.object.isRequired,
+};

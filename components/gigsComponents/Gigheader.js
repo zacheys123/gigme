@@ -2,6 +2,8 @@ import { Search } from "lucide-react";
 
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
+import useStore from "@/app/zustand/useStore";
+import { PropTypes } from "prop-types";
 const Gigheader = ({
   typeOfGig,
   setTypeOfGig,
@@ -9,7 +11,8 @@ const Gigheader = ({
   setCategory,
   gigQuery,
 }) => {
-  const [search, setSearch] = useState();
+  const { search, setSearch } = useStore();
+
   let variant = {
     initial: {
       x: ["-200px"],
@@ -81,3 +84,11 @@ const Gigheader = ({
 };
 
 export default Gigheader;
+
+Gigheader.propTypes = {
+  typeOfGig: PropTypes.string,
+  setTypeOfGig: PropTypes.func,
+  category: PropTypes.string,
+  setCategory: PropTypes.func,
+  gigQuery: PropTypes.func,
+};

@@ -136,19 +136,19 @@ const Creator = ({ myGig }) => {
             value={creatorData?.city}
           />{" "}
           <div className="flex items-center justify-between w-[75%] mx-auto mt-3">
-            <h6 className="flex flex-col items-center  title">
+            <div className="flex flex-col items-center  title">
               <span className="text-purple-500 ">Followers</span>
               <span className="text-red-500 font-bold">
                 {creatorData?.followers?.length}
               </span>
-            </h6>
-            <h6 className="flex items-center flex-col  title  ">
+            </div>
+            <div className="flex items-center flex-col  title  ">
               {" "}
               <span className="text-purple-400">Followings</span>
               <span className="text-red-500 font-bold">
                 {creatorData?.followings?.length}
               </span>
-            </h6>
+            </div>
           </div>
         </div>{" "}
         <Divider

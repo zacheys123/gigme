@@ -11,8 +11,9 @@ import { Button } from "../ui/button";
 import GigDescription from "./GigDescription";
 import { Fullscreen } from "lucide-react";
 import Gigheader from "./Gigheader";
-
-const Published = ({ user }) => {
+import useStore from "@/app/zustand/useStore";
+import { PropTypes } from "prop-types";
+const AllGigs = ({ user }) => {
   const { userId } = useAuth();
   const [typeOfGig, setTypeOfGig] = useState("");
   const [category, setCategory] = useState("all");
@@ -89,6 +90,7 @@ const Published = ({ user }) => {
   const handleEditBooked = async (id) => {
     router.push(`/gigme/mygig/${id}/execute`);
   };
+  const { setSearch } = useStore();
   return (
     <div className="w-full h-[calc(100vh-260px)] p-2 shadow-sm mt-3">
       {/* {!gigdesc && (
@@ -108,7 +110,10 @@ const Published = ({ user }) => {
       <Divider sx={{ backgroundColor: "gray" }} />
 
       <br />
-      <div className="gigdisplay shadow-lg shadow-green-700 w-full h-[100%] overflow-y-scroll element-with-scroll">
+      <div
+        onClick={() => setSearch(false)}
+        className="gigdisplay shadow-lg shadow-green-700 w-full h-[100%] overflow-y-scroll element-with-scroll"
+      >
         {loading && allGigs?.length === 0 && <div>No Gigs to display</div>}
         {!loading && allGigs?.length > 0 ? (
           <>
@@ -224,7 +229,7 @@ const Published = ({ user }) => {
                             <span className="gigtitle text-blue-500 font-bold tracking-tighter">
                               Status:
                             </span>
-                            <span className="giglink text-red-700 font-bold line-clamp-1 no-underline ">
+                            <div className="giglink text-red-700 font-bold line-clamp-1 no-underline ">
                               {!gig?.isTaken ? (
                                 <span
                                   className={
@@ -240,7 +245,7 @@ const Published = ({ user }) => {
                                   Taken
                                 </span>
                               )}
-                            </span>
+                            </div>
                           </div>
                           {gig?.isPending && (
                             <h6 className="giglink bg-red-700 h-[24px] font-bold whitespace-nowrap text-white rounded-bl-xl p-1 flex">
@@ -273,7 +278,7 @@ const Published = ({ user }) => {
           <div className="h-[calc(75vh-150px)] w-full flex justify-center items-center">
             <div className="flex flex-col items-center gap-2">
               {" "}
-              <h6 className="gigtitle text-blue-500 font-bold text-white">
+              <h6 className="gigtitle  font-bold text-white">
                 loading gigs...
               </h6>
               <CircularProgress size="15px" sx={{ color: "white" }} />
@@ -285,4 +290,4 @@ const Published = ({ user }) => {
   );
 };
 
-export default Published;
+export default AllGigs;

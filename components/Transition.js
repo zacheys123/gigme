@@ -12,14 +12,14 @@ export default function Transition({
   return (
     <>
       {navStates ? (
-        <motion.h3
+        <motion.div
           initial={variant.initial}
           animate={variant.animate}
           transition={variant.transition}
           className={className}
         >
           {children}
-        </motion.h3>
+        </motion.div>
       ) : (
         <motion.div
           //   initial={initialStyle}

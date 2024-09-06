@@ -109,10 +109,10 @@ const Booker = ({ myGig }) => {
     <ClientOnly>
       <div className="container bg-neutral-600 shadow-xl h-screen overflow-hidden w-screen p-2 relative">
         <div className="card m-4">
-          <h6 className="title text-neutral-200 text-center uppercase underline">
+          <div className="title text-neutral-200 text-center uppercase underline">
             <span className="text-red-500 font-bold">Title:</span>{" "}
             {myGig?.gigs?.title}
-          </h6>
+          </div>
           <h6 className="title text-gray-200">Personal info</h6>
           <div className="flex gap-3 mb-6">
             <Input
@@ -154,19 +154,19 @@ const Booker = ({ myGig }) => {
             value={creatorData?.city}
           />{" "}
           <div className="flex items-center justify-between w-[75%] mx-auto my-8">
-            <h6 className="flex flex-col items-center  title">
+            <div className="flex flex-col items-center  title">
               <span className="text-purple-500 ">Followers</span>
               <span className="text-red-500 font-bold">
                 {creatorData?.followers?.length}
               </span>
-            </h6>
-            <h6 className="flex items-center flex-col  title  ">
+            </div>
+            <div className="flex items-center flex-col  title  ">
               {" "}
               <span className="text-purple-400">Followings</span>
               <span className="text-red-500 font-bold">
                 {creatorData?.followings?.length}
               </span>
-            </h6>
+            </div>
           </div>{" "}
           <Divider
             sx={{ backgroundColor: "gray", width: "82%", margin: "auto" }}
@@ -180,10 +180,10 @@ const Booker = ({ myGig }) => {
             ) : (
               <Box className="flex flex-col gap-1 p-1">
                 {myGig?.gigs?.gigRating > 0 ? (
-                  <h6>
+                  <div>
                     {myGig?.gigs?.gigRating}
-                    <span className="text-neutral-200 title">stars</span>
-                  </h6>
+                    <p className="text-neutral-200 title">stars</p>
+                  </div>
                 ) : (
                   <h6 className="text-[15px] text-neutral-200">No Rating</h6>
                 )}
