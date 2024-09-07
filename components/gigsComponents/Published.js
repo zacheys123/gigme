@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { Input } from "../ui/input";
 import { CircularProgress, Divider } from "@mui/material";
-import { classing, gigQuery, searchfunc } from "@/utils";
+import { classing, searchfunc } from "@/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
@@ -27,9 +27,9 @@ const Published = ({ user }) => {
   const [location, setLocation] = useState(() =>
     user?.user?.city ? user?.user?.city : "all"
   );
-
+  console.log(user?.user?.city);
   const { setSearch } = useStore();
-
+  let gigQuery;
   let currentUser = user?.user?._id;
   const getGigs = async () => {
     setLoading(true);
@@ -126,6 +126,7 @@ const Published = ({ user }) => {
         gigQuery={gigQuery}
         location={location}
         setLocation={setLocation}
+        user={user}
       />
       <Divider sx={{ backgroundColor: "gray" }} />
       <br />

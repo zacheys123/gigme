@@ -14,24 +14,22 @@ import Logo from "@/components/Logo";
 import Link from "next/link";
 const UserProfile = () => {
   const { userId } = useAuth();
+  const [user, setUser] = useState({});
   // Get current User
-  const { status, data, error, isFetching } = useQuery({
-    queryKey: ["userdata"],
-    queryFn: async () => {
-      const res = await fetch(`/api/user/getuser/${userId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const { OnlyUser } = await res.json();
-      console.log(OnlyUser);
-      return OnlyUser;
-    },
-  });
-  console.log(error);
-  //
-  console.log(data);
+  const getCurrentUser = async () => {
+    try {
+      const res = await fetch(`/api/user/getuser/${userId}`);
+      const { user } = await res.json();
+      console.log(user);
+      setUser(user);
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
   const [firstname, setFirstname] = useState("");
   const [email, setEmail] = useState("");
   const [lastname, setLastname] = useState("");
@@ -70,25 +68,23 @@ const UserProfile = () => {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
     22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
   ];
-  console.log(data);
+  console.log(user);
   const [updateFetch, setFetch] = useState(false);
   useEffect(() => {
-    if (status === "success" && status !== "pending") {
-      setFirstname(data[0]?.firstname);
-      setLastname(data[0]?.lastname);
-      setPhone(data[0]?.phone);
-      setUsername(data[0]?.username);
-      setVerify(`Email Status: ${data[0]?.verification}`);
-      setEmail(data[0]?.email);
-      setCity(data[0]?.city);
-      setExperience(data[0]?.experience);
-      setInstrument(data[0]?.instrument);
-      setYear(data[0]?.year);
-      setMonth(data[0]?.month);
-      setAge(data[0]?.date);
-      setAddress(data[0]?.address);
-    }
-  }, [data, status, updateFetch]);
+    setFirstname(user?.firstname);
+    setLastname(user?.lastname);
+    setPhone(user?.phone);
+    setUsername(user?.username);
+    setVerify(`Email Status: ${user?.verification}`);
+    setEmail(user?.email);
+    setCity(user?.city);
+    setExperience(user?.experience);
+    setInstrument(user?.instrument);
+    setYear(user?.year);
+    setMonth(user?.month);
+    setAge(user?.date);
+    setAddress(user?.address);
+  }, [user, updateFetch]);
   const handleUpdate = async () => {
     let datainfo = {
       city: city,
@@ -100,10 +96,10 @@ const UserProfile = () => {
       address,
     };
 
-    if (status === "success") {
+    if (user) {
       try {
         setLoading(true);
-        let res = await fetch(`/api/user/update/${data[0]._id}`, {
+        let res = await fetch(`/api/user/update/${user?._id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -157,8 +153,12 @@ const UserProfile = () => {
       ease: "easeInOut",
     },
   };
-  if (status === "pending") {
-    return <div>Loading...</div>;
+  if (!user) {
+    return (
+      <div className="h-screen w-screen flex justify-center items-center">
+        <h6 className="text-white">Loading...</h6>
+      </div>
+    );
   }
   return (
     <div
@@ -205,7 +205,7 @@ const UserProfile = () => {
                   Followers
                 </span>
                 <span className="font-bold font-mono">
-                  {data[0]?.followers?.length}
+                  {user?.followers?.length}
                 </span>
               </div>
               <div className="flex flex-col items-center">
@@ -214,7 +214,7 @@ const UserProfile = () => {
                   Posts
                 </span>
                 <span className="font-bold font-mono">
-                  {data[0]?.gigPosts?.length}
+                  {user?.gigPosts?.length}
                 </span>
               </div>{" "}
               <div className="flex flex-col items-center">
@@ -223,63 +223,88 @@ const UserProfile = () => {
                   Followings
                 </span>
                 <span className="font-bold font-mono">
-                  {data[0]?.followings?.length}
+                  {user?.followings?.length}
                 </span>
               </div>{" "}
             </div>
             <div className="bg-white h-[165px] mt-3">
               <div className="flex flex-col gap-2">
-                <span className="text-black font-bold font-mono mt-2 mx-2 mb-1">
+                <span className="text-black font-bold font-mono mt-2 mx-2 mb-1 text-[13px]">
                   FullNames
                 </span>
-                <Input type="text" className="" value={firstname} disabled />
+                <Input
+                  type="text"
+                  className="text-yellow-400 text-[10px]"
+                  value={firstname}
+                  disabled
+                />
               </div>
-              <Input type="text" className="" value={lastname} disabled />
+              <Input
+                type="text"
+                className="text-yellow-400 text-[10px]"
+                value={lastname}
+                disabled
+              />
             </div>
             <div className="bg-white h-[165px] mt-3">
               <div className="flex flex-col -gap-[40px]">
-                <span className="text-black font-bold font-mono m-3">
+                <span className="text-black font-bold font-mono m-3 text-[13px]">
                   Authorization Info
                 </span>
-                <Input type="text" className="" value={email} disabled />
+                <Input
+                  type="text"
+                  className="text-yellow-400 text-[10px]"
+                  value={email}
+                  disabled
+                />
               </div>
-              <Input type="text" className="" value={username} disabled />
+              <Input
+                type="text"
+                className="text-yellow-400 text-[10px]"
+                value={username}
+                disabled
+              />
             </div>{" "}
             <div className="bg-white h-[165px] mt-3">
               <div className="flex flex-col -gap-[40px]">
-                <span className="text-black font-bold font-mono m-3">
+                <span className="text-black font-bold font-mono m-3 text-[13px]">
                   More Info
                 </span>
                 <Input
                   type="text"
                   placeholder="Phone No"
-                  className=""
+                  className="text-yellow-400 text-[10px]"
                   value={phone}
                   disabled
                 />
               </div>
-              <Input type="text" className="" value={verification} disabled />
+              <Input
+                type="text"
+                className="text-yellow-400 text-[10px]"
+                value={verification}
+                disabled
+              />
             </div>{" "}
             <div className="bg-white h-[200px] mt-3">
               <div className="flex flex-col -gap-[40px]">
-                <span className="text-black font-bold font-mono m-3">
+                <span className="text-black font-bold font-mono m-3 text-[13px]">
                   Personal Info
                 </span>
-                <TextInput
+                <Input
                   type="text"
                   className={
                     message?.error?.split(" ").includes("City") && city === ""
-                      ? "border border-red-500 rounded-md outline-none w-[120px]  mx-auto focus:ring-0 md:w-[650px] xl:w-[670px]"
-                      : "mt-3 border-neutral-300 w-[280px] mx-auto md:w-[650px] xl:w-[670px]  focus:ring-0 "
+                      ? "border text-yellow-400 border-red-500 rounded-md outline-none w-[120px]  mx-auto focus:ring-0 md:w-[650px] xl:w-[670px] text-[10px]"
+                      : "text-yellow-400 mt-3 border-neutral-300 w-[280px] mx-auto md:w-[650px] xl:w-[670px]  focus:ring-0 text-[10px]"
                   }
                   placeholder="City"
                   value={city}
                   onChange={(ev) => setCity(ev.target.value)}
                 />
               </div>
-              <TextInput
+              <Input
                 type="text"
-                className="mt-3 border-neutral-300 w-[280px] md:w-[650px] mx-auto focus:ring-0 xl:w-[670px]"
+                className="mt-3 text-yellow-400 border-neutral-300 w-[280px] md:w-[650px] mx-auto focus:ring-0 xl:w-[670px] text-[10px]"
                 placeholder="Addresss 1/P.O BOX"
                 value={address}
                 onChange={(ev) => setAddress(ev.target.value)}
@@ -292,9 +317,9 @@ const UserProfile = () => {
                 </div>
               )}
             </div>{" "}
-            <Select
+            <select
+              className=" my-2 w-full bg-white pl-2 element-with-overflow  h-[35px] rounded-md  text-[9px] font-bold  font-mono"
               value={instrument}
-              className="mt-[7px]"
               placeholder="instrument"
               onChange={(ev) => setInstrument(ev.target.value)}
             >
@@ -305,10 +330,10 @@ const UserProfile = () => {
                   </option>
                 );
               })}
-            </Select>
-            <Select
+            </select>
+            <select
+              className=" w-full bg-white pl-2 element-with-overflow  h-[35px]  rounded-md  text-[9px] font-bold  font-mono"
               value={experience}
-              className="mt-[5px]"
               placeholder="Experience"
               onChange={(ev) => setExperience(ev.target.value)}
             >
@@ -319,10 +344,16 @@ const UserProfile = () => {
                   </option>
                 );
               })}
-            </Select>
+            </select>
             <div className="w-full  h-[200px]">
-              <span className="font-bold font-mono  text-white ">Date</span>
-              <Select value={age} onChange={(ev) => setAge(ev.target.value)}>
+              <span className="text-[11px] font-bold font-mono  text-white ">
+                Date
+              </span>
+              <select
+                className="w-full bg-white pl-2 element-with-overflow  h-[35px]  rounded-md  text-[9px] font-bold  font-mono"
+                value={age}
+                onChange={(ev) => setAge(ev.target.value)}
+              >
                 {myarray.map((i) => {
                   return (
                     <option key={i} value={i}>
@@ -330,12 +361,13 @@ const UserProfile = () => {
                     </option>
                   );
                 })}
-              </Select>
+              </select>
               <span className="w-full ">
-                <span className="font-bold font-mono ml-[4px]  text-white">
+                <span className="text-[11px] font-bold font-mono ml-[4px]  text-white">
                   Month
                 </span>
-                <Select
+                <select
+                  className="w-full bg-white pl-2 element-with-overflow  h-[35px] rounded-md  text-[9px] font-bold  font-mono"
                   value={month}
                   onChange={(ev) => setMonth(ev.target.value)}
                 >
@@ -346,20 +378,20 @@ const UserProfile = () => {
                       </option>
                     );
                   })}
-                </Select>
+                </select>
               </span>
               <span className="w-full  text-white  ">
-                <span className="font-bold font-mono ml-[4px]  text-white">
+                <span className="text-[11px] font-bold font-mono ml-[4px]  text-white">
                   Year
                 </span>
-                <TextInput
+                <Input
                   value={year}
                   onChange={(ev) => setYear(ev.target.value)}
                   type="text"
                   className={
                     message?.error?.split(" ").includes("year") && year === ""
-                      ? "border-2 border-red-500 rounded-xl  outline-none focus:ring-0 "
-                      : "mt-3 border-neutral-300    focus:ring-0 "
+                      ? "border-2 border-red-500 rounded-xl  outline-none focus:ring-0 text-yellow-400 "
+                      : "mt-1 border-neutral-300    focus:ring-0 text-yellow-400 "
                   }
                   placeholder="Year,e.g 1992=>92 or 2024 =>24"
                 />

@@ -12,6 +12,7 @@ const Gigheader = ({
   gigQuery,
   location,
   setLocation,
+  user,
 }) => {
   const { search, setSearch } = useStore();
 
@@ -100,6 +101,7 @@ const Gigheader = ({
         )}
       </div>
       <select
+        defaultValue={user?.user?.city ? user?.user?.city : "all"}
         className=" w-[60px] bg-white pl-2 element-with-overflow  h-[20px] rounded-md  text-[9px] font-bold  font-mono"
         value={location}
         onChange={(ev) => {

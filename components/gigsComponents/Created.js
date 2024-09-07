@@ -90,6 +90,7 @@ const Created = ({ user }) => {
         gigQuery={gigQuery}
         location={location}
         setLocation={setLocation}
+        user={user}
       />
       <Divider sx={{ backgroundColor: "gray" }} />
 
