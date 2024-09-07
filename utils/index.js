@@ -131,8 +131,12 @@ export const searchfunc = (data, searchquery, category, gigQuery, location) => {
         category.toLowerCase() === "all" &&
         gig?.location?.toLowerCase().includes(location.toLowerCase())
       ) {
+        console.log(location);
         return sortedData;
-      } else if (category.toLowerCase() === "all" && location === "all") {
+      } else if (
+        category.toLowerCase() === "all" &&
+        location.toLowerCase() === "all"
+      ) {
         return data;
       }
     }

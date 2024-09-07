@@ -25,10 +25,11 @@ const Published = ({ user }) => {
   const [loadingbook, setLoadingBook] = useState();
   const [pubGigs, setPubGigs] = useState([]);
   const [location, setLocation] = useState(() =>
-    user?.user?.city ? user?.user?.city : "all"
+    user?.user?.city ? user?.user?.city : "nairobi"
   );
   console.log(user?.user?.city);
   const { setSearch } = useStore();
+  console.log(location);
   let gigQuery;
   let currentUser = user?.user?._id;
   const getGigs = async () => {
