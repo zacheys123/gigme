@@ -234,14 +234,14 @@ const UserProfile = () => {
                 </span>
                 <Input
                   type="text"
-                  className="text-yellow-400 text-[10px]"
+                  className="text-slate-900 text-[12px]"
                   value={firstname}
                   disabled
                 />
               </div>
               <Input
                 type="text"
-                className="text-yellow-400 text-[10px]"
+                className="text-slate-900 text-[12px]"
                 value={lastname}
                 disabled
               />
@@ -253,14 +253,14 @@ const UserProfile = () => {
                 </span>
                 <Input
                   type="text"
-                  className="text-yellow-400 text-[10px]"
+                  className="text-slate-900 text-[12px]"
                   value={email}
                   disabled
                 />
               </div>
               <Input
                 type="text"
-                className="text-yellow-400 text-[10px]"
+                className="text-slate-900 text-[12px]"
                 value={username}
                 disabled
               />
@@ -273,14 +273,14 @@ const UserProfile = () => {
                 <Input
                   type="text"
                   placeholder="Phone No"
-                  className="text-yellow-400 text-[10px]"
+                  className="text-slate-900 text-[12px]"
                   value={phone}
                   disabled
                 />
               </div>
               <Input
                 type="text"
-                className="text-yellow-400 text-[10px]"
+                className="text-slate-900 text-[12px]"
                 value={verification}
                 disabled
               />
@@ -294,8 +294,8 @@ const UserProfile = () => {
                   type="text"
                   className={
                     message?.error?.split(" ").includes("City") && city === ""
-                      ? "border text-yellow-400 border-red-500 rounded-md outline-none w-[120px]  mx-auto focus:ring-0 md:w-[650px] xl:w-[670px] text-[10px]"
-                      : "text-yellow-400 mt-3 border-neutral-300 w-[280px] mx-auto md:w-[650px] xl:w-[670px]  focus:ring-0 text-[10px]"
+                      ? "border text-slate-900 border-red-500 rounded-md outline-none w-[120px]  mx-auto focus:ring-0 md:w-[650px] xl:w-[670px] text-[12px]"
+                      : "text-slate-900 mt-3 border-neutral-300 w-[280px] mx-auto md:w-[650px] xl:w-[670px]  focus:ring-0 text-[12px]"
                   }
                   placeholder="City"
                   value={city}
@@ -304,7 +304,7 @@ const UserProfile = () => {
               </div>
               <Input
                 type="text"
-                className="mt-3 text-yellow-400 border-neutral-300 w-[280px] md:w-[650px] mx-auto focus:ring-0 xl:w-[670px] text-[10px]"
+                className="mt-3 text-slate-900 border-neutral-300 w-[280px] md:w-[650px] mx-auto focus:ring-0 xl:w-[670px] text-[12px]"
                 placeholder="Addresss 1/P.O BOX"
                 value={address}
                 onChange={(ev) => setAddress(ev.target.value)}
@@ -390,8 +390,8 @@ const UserProfile = () => {
                   type="text"
                   className={
                     message?.error?.split(" ").includes("year") && year === ""
-                      ? "border-2 border-red-500 rounded-xl  outline-none focus:ring-0 text-yellow-400 "
-                      : "mt-1 border-neutral-300    focus:ring-0 text-yellow-400 "
+                      ? "border-2 border-red-500 rounded-xl  outline-none focus:ring-0 text-slate-900 "
+                      : "mt-1 border-neutral-300    focus:ring-0 text-slate-900 "
                   }
                   placeholder="Year,e.g 1992=>92 or 2024 =>24"
                 />

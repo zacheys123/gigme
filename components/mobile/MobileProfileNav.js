@@ -38,7 +38,7 @@ const MobileProfileNav = () => {
         <Link className="mx-4 " href={`/v1/profile/${userId}/user`}>
           <User size="21px" />
         </Link>{" "}
-        <Link className="mx-4 " href={`/v1/profile/${userId}/dashboard`}>
+        <Link className="mx-4 " href={`/v1/profile/${userId}`}>
           <LayoutDashboard size="21px" />
         </Link>{" "}
         <Link className="mx-4 " href={`/v1/profile/${userId}/gigs`}>

@@ -9,6 +9,7 @@ import FellowMusicians from "./FellowMusicians";
 import useStore from "@/app/zustand/useStore";
 import { PropTypes } from "prop-types";
 import { useAuth } from "@clerk/nextjs";
+import Link from "next/link";
 const MoreInfoPage = ({ user, allUsers }) => {
   const { userId } = useAuth();
   const {
@@ -94,27 +95,15 @@ const MoreInfoPage = ({ user, allUsers }) => {
       <section className="flex flex-col ">
         <h6 className="text-white text-[15px] font-bold mt-2 underline">
           Musicians you may know
-        </h6>
-
-        <div
-          className="element-with-scroll h-full w-[full] bg-gray-300 flex flex-wrap "
-          onClick={() => {
-            setShowFriendData(false);
-            setShowPostedGigsData(false);
-            setShowBookedGigsData(false);
-            setShowAllGigsData(false);
-          }}
-        >
-          {" "}
-          <FellowMusicians userId={user?.user?._id} allUsers={allUsers} />
-        </div>
+        </h6>{" "}
+        <FellowMusicians userId={user?.user?._id} allUsers={allUsers} />
       </section>
-      <div>
-        <h6>
+      <div className="my-5">
+        <h6 className="text-gray-200 font-bold gigtittle p-2">
           if you would like to update your personal data{" "}
           <Link
             href={`/v1/profile/${userId}/user`}
-            className="text-blue-600 font-mono mx-1"
+            className="text-blue-600 font-mono mx-3 underline"
           >
             click here
           </Link>
