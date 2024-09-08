@@ -117,5 +117,5 @@ const MoreInfoPage = ({ user, allUsers }) => {
 export default MoreInfoPage;
 MoreInfoPage.propTypes = {
   user: PropTypes.object,
-  allUsers: PropTypes.object,
+  allUsers: PropTypes.array,
 };

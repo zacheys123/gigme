@@ -88,8 +88,8 @@ const FellowMusicians = ({ user, allUsers }) => {
                   </p>
                   {!otheruser?.followers.includes(user?.user?._id) ? (
                     <Button variant="default" className="h-[20px] text-[9px]">
-                      {!loading ? (
-                        <CircularProgress size="11px" color="white" />
+                      {loading ? (
+                        <CircularProgress size="11px" sx={{ color: "white" }} />
                       ) : (
                         "Follow"
                       )}
@@ -118,5 +118,5 @@ const FellowMusicians = ({ user, allUsers }) => {
 export default FellowMusicians;
 FellowMusicians.propTypes = {
   user: PropTypes.object,
-  allUsers: PropTypes.object,
+  allUsers: PropTypes.array,
 };
