@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 
 import { Search, SearchIcon } from "lucide-react";
@@ -8,9 +8,27 @@ import { TextInput, Label } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import MainUser from "./MainUser";
-const SearchComponent = ({ data }) => {
+import { useAuth } from "@clerk/nextjs";
+const SearchComponent = ({}) => {
+  const { userId } = useAuth();
+  const [data, setData] = useState();
+  const getAllUsers = async () => {
+    const res = await fetch(`/api/user/getAllusers/${userId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const { currentuser } = await res.json();
+    console.log(currentuser);
+    setData(currentuser);
+    return currentuser;
+  };
+  useEffect(() => {
+    getAllUsers();
+  }, []);
   const [searchquery, setSearchhQuery] = useState("");
-  const router = useRouter();
+
   // @saak1sak2
   const searchFn = (ev) => {
     let sortedData = data;
@@ -34,9 +52,10 @@ const SearchComponent = ({ data }) => {
           <Input
             onChange={(ev) => setSearchhQuery(ev.target.value)}
             value={searchquery}
-            className="w-[100vw] mx-4 my-10 bg-black text-neutral-200 placeholder-red-600"
+            className="w-[100vw] mx-4 my-10 bg-gray-300 text-neutral-400  placeholder-red-600"
             id="search"
             type="text"
+            data-autofocus
             placeholder="Find anyone/username/instrument..."
             required
             onKeyDown={(ev) => searchFn(ev)}

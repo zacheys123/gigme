@@ -6,7 +6,9 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { CircularProgress } from "@mui/material";
 import useStore from "@/app/zustand/useStore";
+import { useRouter } from "next/navigation";
 const FellowMusicians = ({ user, allUsers }) => {
+  const router = useRouter();
   const {
     setShowFriendData,
 
@@ -16,11 +18,10 @@ const FellowMusicians = ({ user, allUsers }) => {
 
     setShowAllGigsData,
   } = useStore();
-  const [loading, setLoading] = useState();
 
+  const [profileview, setProfileView] = useState();
   const updateFollowers = async (data) => {
     try {
-      setLoading(true);
       const res = await fetch(`/api/user/follower/${data?._id}`, {
         method: "PUT",
         headers: {
@@ -31,19 +32,17 @@ const FellowMusicians = ({ user, allUsers }) => {
 
       const followersData = await res.json();
       console.log(res);
-      setLoading(false);
+
       if (res.ok) {
         console.log("followed!!!", followersData);
+        router.refresh();
       }
     } catch (error) {
-      setLoading(false);
       console.log(error);
     }
   };
   const updateFollowing = async (data) => {
-    console.log(id);
     try {
-      setLoading(true);
       const res = await fetch(`/api/user/following/${data?._id}`, {
         method: "PUT",
         headers: {
@@ -53,19 +52,19 @@ const FellowMusicians = ({ user, allUsers }) => {
       });
       const followingData = await res.json();
       console.log(followingData);
-      setLoading(false);
+
       if (res.ok) {
         console.log("following!!!", followingData);
+        router.refresh();
       }
     } catch (error) {
-      setLoading(false);
       console.log(error);
     }
     (prev) => prev;
   };
   return (
     <div
-      className="element-with-scroll h-fit bg-neutral-700 w-full  flex flex-wrap  mt-3  p-4"
+      className="element-with-scroll h-fit bg-neutral-700 shadow-sm shadow-red-300  overflow-auto flex whitespace-nowrap    mt-3  p-4 transition-all duration-150"
       onClick={() => {
         setShowFriendData(false);
         setShowPostedGigsData(false);
@@ -73,54 +72,66 @@ const FellowMusicians = ({ user, allUsers }) => {
         setShowAllGigsData(false);
       }}
     >
-      {allUsers
-        .filter((userd) => userd?.instrument?.length > 0)
-        .map((otheruser) => {
-          console.log(otheruser);
-          return (
-            <div
-              key={otheruser._id}
-              className=" w-[120px] bg-red-400 p-6 rounded-md my-2 mx-2 h-fit"
-            >
-              <div className="flex justify-center items-center w-full  mx-auto">
-                <div className="">
-                  {otheruser.picture && (
-                    <Image
-                      width={40}
-                      height={40}
-                      className="w-[40px] h-[40px] rounded-full text-center"
-                      src={otheruser.picture}
-                      alt={otheruser.username}
-                    />
-                  )}
-                  <p className="text-white my-2 font-bold  text-[9px]">
-                    {otheruser.username}
-                  </p>
-                  {!otheruser?.followers.includes(user?.user?._id) ? (
-                    <Button variant="default" className="h-[20px] text-[9px]">
-                      {loading ? (
-                        <CircularProgress size="11px" sx={{ color: "white" }} />
-                      ) : (
-                        "Follow"
-                      )}
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="default"
-                      className="h-[20px] text-[9px] w-full"
-                      onClick={() => {
-                        updateFollowers(otheruser);
-                        updateFollowing(otheruser);
-                      }}
-                    >
-                      View Profile
-                    </Button>
-                  )}{" "}
+      <div className="inline-flex ">
+        {allUsers
+          .filter((userd) => userd?.instrument?.length > 0)
+          .map((otheruser) => {
+            console.log(otheruser);
+
+            return (
+              <div
+                onClick={() => {
+                  if (!otheruser?.followers.includes(user?.user?._id)) {
+                    updateFollowers(otheruser);
+                    updateFollowing(otheruser);
+                  }
+                  router.push(`/friends/${otheruser?.username}`);
+                }}
+                key={otheruser._id}
+                className=" w-[110px] bg-slate-400 shadow-sm shadow-yellow-500 p-6 rounded-md my-2 mx-4 h-fit hover:scale-104 transition-transform duration-75"
+              >
+                <div className="flex justify-center items-center w-full  mx-auto">
+                  <div className="">
+                    {otheruser.picture && (
+                      <Image
+                        width={40}
+                        height={40}
+                        className="w-[40px] h-[40px] rounded-full "
+                        src={otheruser.picture}
+                        alt={otheruser.username}
+                      />
+                    )}
+                    <p className="text-yellow-400 my-2 font-bold  text-[11px] ">
+                      {otheruser.username}
+                    </p>
+                    {!otheruser?.followers.includes(user?.user?._id) ? (
+                      <Button
+                        variant="default"
+                        className="h-[20px] text-[9px]"
+                        onClick={() => {
+                          updateFollowers(otheruser);
+                          updateFollowing(otheruser);
+                        }}
+                      >
+                        Follow
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="default"
+                        className="h-[20px] text-[9px] w-full"
+                        onClick={() =>
+                          router.push(`/friends/${otheruser?.username}`)
+                        }
+                      >
+                        View Profile
+                      </Button>
+                    )}{" "}
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+      </div>
     </div>
   );
 };

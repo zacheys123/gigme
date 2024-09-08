@@ -44,7 +44,7 @@ const MoreInfoPage = ({ user, allUsers }) => {
         >
           All Following
         </h2>
-        {friendData && <FriendList userId={user?.user?._id} />}
+        {friendData && <FriendList user={user} allUsers={allUsers} />}
       </div>
 
       <div>
@@ -60,7 +60,7 @@ const MoreInfoPage = ({ user, allUsers }) => {
         >
           Posted Gigs
         </h2>{" "}
-        {postedGigsData && <MyGigList userId={user?.user?._id} />}
+        {postedGigsData && <MyGigList user={user} />}
       </div>
       <div>
         {" "}
@@ -75,7 +75,7 @@ const MoreInfoPage = ({ user, allUsers }) => {
         >
           Booked Gigs
         </h2>{" "}
-        {bookedGigsData && <BookedGigList userId={user?.user?._id} />}
+        {bookedGigsData && <BookedGigList user={user} />}
       </div>
       <div>
         {" "}
@@ -90,13 +90,13 @@ const MoreInfoPage = ({ user, allUsers }) => {
         >
           All Gigs
         </h2>{" "}
-        {allGigsData && <CompletedGigList userId={user?.user?._id} />}
+        {allGigsData && <CompletedGigList user={user} />}
       </div>
       <section className="flex flex-col ">
         <h6 className="text-white text-[15px] font-bold mt-2 underline">
           Musicians you may know
         </h6>{" "}
-        <FellowMusicians userId={user?.user?._id} allUsers={allUsers} />
+        <FellowMusicians user={user} allUsers={allUsers} />
       </section>
       <div className="my-5">
         <h6 className="text-gray-200 font-bold gigtittle p-2">

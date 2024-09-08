@@ -83,7 +83,6 @@ const FriendsProfilePage = () => {
       return data;
     },
   });
-  console.log(id._id);
 
   // Force refresh the page
 

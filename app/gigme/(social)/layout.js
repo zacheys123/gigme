@@ -26,8 +26,12 @@ const GigmeLayout = ({ children, modal, chat }) => {
     console.log(data);
 
     if (data?.userstatus === false) {
+      window?.localStorage.setItem("user", JSON.stringify(data?.results));
+
       return data;
     } else {
+      window?.localStorage.setItem("user", JSON.stringify(data?.results));
+
       return data;
     }
   }, [user]);

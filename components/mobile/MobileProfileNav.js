@@ -32,7 +32,7 @@ const MobileProfileNav = () => {
       className={` md:hidden xl:hidden w-full h-[50px] sticky  p-2 mb-2 flex  justify-center items-center self-center mr-5`}
     >
       <section className="bg-gray-700/50 p-3  flex  justify-center items-center gap-8 text-white w-full">
-        <Link className="mx-4 " href={`/v1/gigme/social`}>
+        <Link className="mx-4 " href={`/gigme/social`}>
           <Home size="21px" />
         </Link>{" "}
         <Link className="mx-4 " href={`/v1/profile/${userId}/user`}>
@@ -41,7 +41,7 @@ const MobileProfileNav = () => {
         <Link className="mx-4 " href={`/v1/profile/${userId}`}>
           <LayoutDashboard size="21px" />
         </Link>{" "}
-        <Link className="mx-4 " href={`/v1/profile/${userId}/gigs`}>
+        <Link className="mx-4 " href={`/gigme/gigs/${userId}`}>
           <Settings size="21px" />
         </Link>
       </section>

@@ -6,21 +6,19 @@ import SearchComponent from "@/components/SearchComponent";
 import ClientOnly from "@/app/ClientOnly";
 import { getAllUsers } from "@/app/server-actions/getAllUsers";
 import { getCurrentUser } from "@/app/server-actions/getCurrentUser";
+import { auth } from "@clerk/nextjs";
 
 const SearchPage = async ({ params }) => {
-  // const id = JSON.parse(window?.localStorage.getItem("user"));
-  const { userId } = auth();
   const user = await getCurrentUser(params);
   const users = await getAllUsers(user?.user?._id);
   return (
-    <div className=" w-[100vw] h-[100vh] ">
-      <ClientOnly>
-        <SearchComponent data={users} />
-      </ClientOnly>
-      <ClientOnly>
+    <ClientOnly>
+      <div className=" w-[100vw] h-[100vh] ">
+        <SearchComponent data={users} userd={user} />
+
         <OverlaySearch />
-      </ClientOnly>
-    </div>
+      </div>{" "}
+    </ClientOnly>
   );
 };
 

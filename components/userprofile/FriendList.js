@@ -1,11 +1,54 @@
 import React from "react";
-
-const FriendList = () => {
+import { PropTypes } from "prop-types";
+import { useRouter } from "next/navigation";
+import ProfileComponent from "./ProfileComponent";
+const FriendList = ({ user, allUsers }) => {
+  const router = useRouter();
+  const lastUser = allUsers[allUsers.length - 1];
+  console.log(lastUser);
   return (
-    <div className="w-full h-[400px] element-with-scroll   bg-neutral-700">
-      Friends
+    <div className="element-with-scroll h-fit bg-neutral-700 shadow-sm shadow-red-300  overflow-auto flex whitespace-nowrap    mt-3  p-4 transition-all duration-150">
+      {user?.user?.followers.length < 1 ? (
+        allUsers
+          ?.filter((userd) => user?.user?.followers.includes(userd?._id))
+          .map((otheruser) => {
+            return (
+              <ProfileComponent
+                otheruser={otheruser}
+                user={user}
+                router={router}
+              />
+            );
+          })
+      ) : (
+        <h6 className="text-[12px] font-bold font-mono text-gray-200">
+          "No data to display at the moment"
+        </h6>
+      )}
+      {user?.user?.followers.length < 1 ? (
+        allUsers
+          ?.filter((userd) => user?.user?.followings.includes(userd?._id))
+          .map((otheruser) => {
+            return (
+              <ProfileComponent
+                otheruser={otheruser}
+                user={user}
+                router={router}
+              />
+            );
+          })
+      ) : (
+        <h6 className="text-[12px] font-bold font-mono text-gray-200">
+          "No data to display at the moment"
+        </h6>
+      )}{" "}
     </div>
   );
+};
+
+FriendList.propTypes = {
+  user: PropTypes.object,
+  allUsers: PropTypes.array,
 };
 
 export default FriendList;

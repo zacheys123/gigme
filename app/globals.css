@@ -76,7 +76,9 @@
     @apply bg-background text-foreground;
   }
 }
-
+html {
+  scroll-behavior: smooth;
+}
 * {
   scrollbar-color: transparent;
   scrollbar-width: thin;
