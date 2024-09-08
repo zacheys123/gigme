@@ -18,7 +18,9 @@ const AllGigs = ({ user }) => {
   const [typeOfGig, setTypeOfGig] = useState("");
   const [category, setCategory] = useState("all");
   const [loading, setLoading] = useState();
-  const [location, setLocation] = useState();
+  const [location, setLocation] = useState(() =>
+    user?.user?.city ? user?.user?.city : "nairobi"
+  );
   const [time, setTime] = useState();
   const [date, setDate] = useState();
 

@@ -19,7 +19,9 @@ const Created = ({ user }) => {
   const [typeOfGig, setTypeOfGig] = useState("");
   const [category, setCategory] = useState("all");
   const [loading, setLoading] = useState();
-  const [location, setLocation] = useState();
+  const [location, setLocation] = useState(() =>
+    user?.user?.city ? user?.user?.city : "nairobi"
+  );
   const [time, setTime] = useState();
   const [date, setDate] = useState();
 
@@ -99,11 +101,15 @@ const Created = ({ user }) => {
         onClick={() => setSearch(false)}
         className="gigdisplay shadow-lg shadow-cyan-600 w-full h-[100%] overflow-y-scroll element-with-scroll"
       >
-        {!loading && createdGigs?.length === 0 && (
-          <div className="w-full h-full flex justify-center items-center -mt-[50px]">
-            <h6 className="text-gray-100 font-mono"> No Gigs to display</h6>
-          </div>
-        )}
+        {!loading &&
+          (searchfunc()?.length === 0) | (searchfunc()?.length < 1) && (
+            <div className="w-full h-full flex justify-center items-center -mt-[50px]">
+              <h6 className="text-gray-100 font-mono">
+                {" "}
+                No Gigs to display/No gigs from your city
+              </h6>
+            </div>
+          )}
         {!loading && createdGigs?.length > 0 ? (
           <>
             {/* content */}

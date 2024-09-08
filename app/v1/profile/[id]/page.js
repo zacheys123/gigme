@@ -1,23 +1,29 @@
+import { getAllUsers } from "@/app/server-actions/getAllUsers";
+import { getCurrentUser } from "@/app/server-actions/getCurrentUser";
 import MoreInfoPage from "@/components/userprofile/MoreInfoPage";
 import RouteProfile from "@/components/userprofile/RouteProfile";
 import { checkEnvironment } from "@/utils";
-const getCurrentUser = async (userId) => {
-  try {
-    const res = await fetch(
-      `${checkEnvironment()}/api/user/getuser/${userId.id}`
-    );
-    const data = await res.json();
-    console.log(data);
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+import { auth } from "@clerk/nextjs";
+
+// export const getAllUsers = async (userId) => {
+//   try {
+//     const res = await fetch(
+//       `${checkEnvironment()}/api/user/getAllusers/${userId}}`
+//     );
+//     const data = await res.json();
+//     console.log(data);
+//     return data;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 const ProfilePage = async ({ params }) => {
+  const { userId } = auth();
   const user = await getCurrentUser(params);
-  console.log(user);
+  const allUsers = await getAllUsers(user?.user?._id);
+  console.log(allUsers);
   return (
-    <div className="container h-[calc(100vh-100px)] w-screen overflow-auto flex flex-col gap-2">
+    <div className="container h-screen w-screen overflow-auto flex flex-col gap-2">
       <h2 className="text-2xl text-white">
         Profile Landing Page
         <br />
@@ -27,7 +33,7 @@ const ProfilePage = async ({ params }) => {
       </h2>
       <RouteProfile user={user} />
       <section>
-        <MoreInfoPage user={user} />
+        <MoreInfoPage user={user} allUsers={allUsers} />
       </section>
     </div>
   );

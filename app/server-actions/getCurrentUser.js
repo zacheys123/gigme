@@ -1,16 +1,17 @@
 import connectDb from "@/lib/connectDb";
 import User from "@/models/user";
+import { checkEnvironment } from "@/utils";
 import { NextResponse } from "next/server";
 
-export async function getCurrentUser(params) {
-  console.log(params);
+export const getCurrentUser = async (userId) => {
   try {
-    await connectDb();
-    const user = await User.findOne({ clerkId: params.id });
-
-    console.log(user);
-    return NextResponse.json({ user, status: 200 });
+    const res = await fetch(
+      `${checkEnvironment()}/api/user/getuser/${userId.id}`
+    );
+    const data = await res.json();
+    console.log(data);
+    return data;
   } catch (error) {
-    return NextResponse.json({ message: error, status: 500 });
+    console.log(error);
   }
-}
+};

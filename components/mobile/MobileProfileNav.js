@@ -29,29 +29,20 @@ const MobileProfileNav = () => {
   const handleUpdate = (ev) => {};
   return (
     <div
-      className={` md:hidden xl:hidden w-[290px]  flex  justify-center items-center self-center mr-5`}
+      className={` md:hidden xl:hidden w-full h-[50px] sticky  p-2 mb-2 flex  justify-center items-center self-center mr-5`}
     >
       <section className="bg-gray-700/50 p-3  flex  justify-center items-center gap-8 text-white w-full">
-        <Link href={`/v1/gigme/social`}>
-          <Home size="17px" />
+        <Link className="mx-4 " href={`/v1/gigme/social`}>
+          <Home size="21px" />
         </Link>{" "}
-        <Link href={`/v1/profile/${userId}/user`}>
-          <User size="17px" />
+        <Link className="mx-4 " href={`/v1/profile/${userId}/user`}>
+          <User size="21px" />
         </Link>{" "}
-        <Link href={`/v1/profile/${userId}/dashboard`}>
-          <LayoutDashboard size="17px" />
+        <Link className="mx-4 " href={`/v1/profile/${userId}/dashboard`}>
+          <LayoutDashboard size="21px" />
         </Link>{" "}
-        <Link
-          href={`/v1/profile/${userId}/posts`}
-          className="flex items-center"
-        >
-          <Podcast size="17px" />
-        </Link>{" "}
-        <Link href={`/v1/profile/${userId}/gigs`}>
-          <Music size="17px" />
-        </Link>{" "}
-        <Link href={`/v1/profile/${userId}/gigs`}>
-          <Settings size="17px" />
+        <Link className="mx-4 " href={`/v1/profile/${userId}/gigs`}>
+          <Settings size="21px" />
         </Link>
       </section>
     </div>
