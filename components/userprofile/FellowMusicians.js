@@ -5,7 +5,17 @@ import { PropTypes } from "prop-types";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { CircularProgress } from "@mui/material";
+import useStore from "@/app/zustand/useStore";
 const FellowMusicians = ({ user, allUsers }) => {
+  const {
+    setShowFriendData,
+
+    setShowPostedGigsData,
+
+    setShowBookedGigsData,
+
+    setShowAllGigsData,
+  } = useStore();
   const [loading, setLoading] = useState();
 
   const updateFollowers = async (data) => {
