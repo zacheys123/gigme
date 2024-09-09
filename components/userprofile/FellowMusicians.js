@@ -52,7 +52,6 @@ const FellowMusicians = ({ user, allUsers }) => {
       });
       const followingData = await res.json();
       console.log(followingData);
-
       if (res.ok) {
         console.log("following!!!", followingData);
         router.refresh();
@@ -64,7 +63,7 @@ const FellowMusicians = ({ user, allUsers }) => {
   };
   return (
     <div
-      className="element-with-scroll h-fit bg-neutral-700 shadow-sm shadow-red-300  overflow-auto flex whitespace-nowrap    mt-3  p-4 transition-all duration-150"
+      className="element-with-scroll h-fit  shadow-md shadow-red-300  overflow-auto flex whitespace-nowrap    mt-3  p-4 transition-all duration-150"
       onClick={() => {
         setShowFriendData(false);
         setShowPostedGigsData(false);
@@ -76,8 +75,6 @@ const FellowMusicians = ({ user, allUsers }) => {
         {allUsers
           .filter((userd) => userd?.instrument?.length > 0)
           .map((otheruser) => {
-            console.log(otheruser);
-
             return (
               <div
                 onClick={() => {
@@ -88,10 +85,10 @@ const FellowMusicians = ({ user, allUsers }) => {
                   router.push(`/friends/${otheruser?.username}`);
                 }}
                 key={otheruser._id}
-                className=" w-[110px] bg-slate-400 shadow-sm shadow-yellow-500 p-6 rounded-md my-2 mx-4 h-fit hover:scale-104 transition-transform duration-75"
+                className=" w-[110px] bg-slate-400 shadow-sm shadow-yellow-500 p-4 rounded-md my-2 mx-4 h-fit hover:scale-104 transition-transform duration-75"
               >
-                <div className="flex justify-center items-center w-full  mx-auto">
-                  <div className="">
+                <div className="flex justify-center items-center w-full  ">
+                  <div className="w-full mx-auto">
                     {otheruser.picture && (
                       <Image
                         width={40}

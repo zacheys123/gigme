@@ -121,26 +121,46 @@ const Created = ({ user }) => {
                     <div className={classing(gig, readmore)}>
                       <div className="flex">
                         {" "}
-                        <span className="gigtitle tracking-tighter">
+                        <span className="gigtitle text-blue-500 font-boldr">
                           Gig Type:
                         </span>
-                        <span className="giglink text-red-700 font-bold line-clamp-1  ">
+                        <span
+                          className={
+                            !gig?.isPending
+                              ? "titler text-red-700 font-bold"
+                              : "titler font-bold text-yellow-200"
+                          }
+                        >
                           {gig?.bussinesscat}
                         </span>
                       </div>
                       <div className="flex ">
                         {" "}
-                        <span className="gigtitle">Gig title:</span>
-                        <span className="giglink text-red-700 font-bold">
+                        <span className="gigtitle text-blue-500 font-bold">
+                          Gig title:
+                        </span>
+                        <span
+                          className={
+                            !gig?.isPending
+                              ? "titler text-red-700 font-bold"
+                              : "titler font-bold text-yellow-200"
+                          }
+                        >
                           {gig?.title}
                         </span>
                       </div>
                       <div className="flex">
                         {" "}
-                        <span className="gigtitle tracking-tighter">
+                        <span className="gigtitle text-blue-500 font-bold">
                           Location:
                         </span>
-                        <span className="giglink text-red-700 font-bold line-clamp-2  ">
+                        <span
+                          className={
+                            !gig?.isPending
+                              ? "titler text-red-700 font-bold"
+                              : "titler font-bold text-yellow-200"
+                          }
+                        >
                           {gig?.location}
                         </span>
                       </div>

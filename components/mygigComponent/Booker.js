@@ -149,7 +149,7 @@ const Booker = ({ myGig }) => {
           <Input
             disabled
             type="text"
-            className=" p-4 title  mx-auto my-4  text-yellow placeholder-gray-100 bg-red-800   md:text-[25px] xl:text-[28]  "
+            className=" p-4 title  mx-auto my-4  text-yellow-200 placeholder-gray-100 bg-red-800   md:text-[25px] xl:text-[28]  "
             placeholder="City"
             value={creatorData?.city}
           />{" "}

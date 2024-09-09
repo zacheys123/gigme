@@ -12,7 +12,7 @@ export async function PUT(req, { params }) {
       {
         $set: {
           isPending: false,
-          bookedBy: userid,
+          bookedBy: null,
         },
       },
       { new: true }

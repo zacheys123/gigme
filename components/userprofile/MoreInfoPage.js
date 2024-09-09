@@ -92,14 +92,14 @@ const MoreInfoPage = ({ user, allUsers }) => {
         </h2>{" "}
         {allGigsData && <CompletedGigList user={user} />}
       </div>
-      <section className="flex flex-col ">
+      <div className="flex flex-col ">
         <h6 className="text-white text-[15px] font-bold mt-2 underline">
           Musicians you may know
         </h6>{" "}
         <FellowMusicians user={user} allUsers={allUsers} />
-      </section>
+      </div>
       <div className="my-5">
-        <h6 className="text-gray-200 font-bold gigtittle p-2">
+        <div className="text-gray-200  title p-2">
           if you would like to update your personal data{" "}
           <Link
             href={`/v1/profile/${userId}/user`}
@@ -108,7 +108,7 @@ const MoreInfoPage = ({ user, allUsers }) => {
             click here
           </Link>
           to redirect you to your profile page.
-        </h6>
+        </div>
       </div>
     </div>
   );

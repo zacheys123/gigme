@@ -85,12 +85,15 @@ const Creator = ({ myGig }) => {
     }, 4000);
   }, []);
 
+  useEffect(() => {
+    if (myGig?.gigs?.isPending === false) {
+      router.push(`/gigme/gigs/${userId}`);
+    }
+  }, []);
   const onClick = (gig) => {
     router.push(`/gigme/chat/${gig?.postedBy?.clerkId}/${gig?._id}`);
   };
-  if (myGig?.gigs?.isPending === false) {
-    router.push(`/gigme/gigs/${userId}`);
-  }
+
   return (
     <ClientOnly>
       <div className="container bg-neutral-600 shadow-xl h-screen overflow-hidden w-screen p-4">
@@ -131,7 +134,7 @@ const Creator = ({ myGig }) => {
           <Input
             disabled
             type="text"
-            className=" p-4 title  mx-auto mt-4  text-yellow placeholder-gray-100 bg-red-800   md:text-[25px] xl:text-[28]  "
+            className=" p-4 title  mx-auto mt-4  text-white placeholder-gray-100 bg-red-800   md:text-[25px] xl:text-[28]  "
             placeholder="City"
             value={creatorData?.city}
           />{" "}

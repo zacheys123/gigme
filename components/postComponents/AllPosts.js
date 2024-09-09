@@ -4,7 +4,7 @@ import React, { useEffect, useState, useOptimistic } from "react";
 import SinglePost from "./SinglePost";
 
 const AllPosts = ({ userposts, user, comments, replies }) => {
-  const [optimisticePosts, setOptimisticePosts] = useOptimistic(userposts);
+  const [optimisticePosts, setOptimisticePosts] = useState(userposts);
   // async function getPosts() {
   //   try {
   //     const res = await fetch(`/api/posts/getPosts`, {

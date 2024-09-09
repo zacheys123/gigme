@@ -21,16 +21,17 @@ const ProfilePage = async ({ params }) => {
   const { userId } = auth();
   const user = await getCurrentUser(params);
   const allUsers = await getAllUsers(user?.user?._id);
+
   console.log(allUsers);
   return (
     <div className="container h-screen w-screen overflow-auto flex flex-col gap-2">
-      <h2 className="text-2xl text-white">
+      <div className="text-2xl text-white">
         Profile Landing Page
         <br />
         <span className="text-sm text-gray-400">
           Welcome, {user?.user?.firstname}!
         </span>
-      </h2>
+      </div>
       <RouteProfile user={user} />
       <section>
         <MoreInfoPage user={user} allUsers={allUsers} />

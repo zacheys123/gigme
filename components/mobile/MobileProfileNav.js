@@ -41,6 +41,12 @@ const MobileProfileNav = () => {
         <Link className="mx-4 " href={`/v1/profile/${userId}`}>
           <LayoutDashboard size="21px" />
         </Link>{" "}
+        <Link
+          href={`/gigme/gigs/${userId}`}
+          className="flex flex-col items-center gap-3"
+        >
+          <Music size="17px" />
+        </Link>{" "}
         <Link className="mx-4 " href={`/gigme/gigs/${userId}`}>
           <Settings size="21px" />
         </Link>

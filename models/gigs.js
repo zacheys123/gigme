@@ -46,6 +46,6 @@ const gigSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-const Gig = models.Gig || mongoose.model("Gig", gigSchema);
+const Gig = models?.Gig || mongoose.model("Gig", gigSchema);
 
 export default Gig;

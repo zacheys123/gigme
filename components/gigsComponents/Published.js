@@ -242,7 +242,7 @@ const Published = ({ user }) => {
                             >
                               Status:
                             </span>
-                            <span className="titler text-red-700 font-bold line-clamp-1 no-underline ">
+                            <div className="titler text-red-700 font-bold line-clamp-1 no-underline ">
                               {!gig?.isTaken ? (
                                 <span
                                   className={
@@ -258,7 +258,7 @@ const Published = ({ user }) => {
                                   Taken
                                 </span>
                               )}
-                            </span>
+                            </div>
                           </div>
                           {!gig?.bookedBy?.clerkId.includes(userId) && (
                             <>

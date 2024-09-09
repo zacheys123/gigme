@@ -29,25 +29,18 @@ import LikeDisLikeComponent from "./LikeDisLikeComponent";
 const SinglePost = ({ post, user, comments, replies }) => {
   let newComm = comments?.comments;
   let myuser = user?.user;
-  const [optimisticePosts, setOptimisticePosts] = useOptimistic(post);
-  const [optimisticeComments, setOptimisticeComments] = useOptimistic(newComm);
 
   const {
     userState: {},
     setUserState,
   } = useGlobalContext();
-  const [like, setLike] = useState();
+
   const [comm, setComm] = useState("");
   const [commentLoad, setComentLoad] = useState();
-  const [dislike, setdisLike] = useState();
-  const [likelength, setLikelength] = useState(post?.likes.length);
-  const [dislikelength, setdisLikelength] = useState(post.dislikes.length);
 
   let myComments = newComm.filter((com) => {
     return com?.postId?._id === post?._id;
   });
-  // const [optimisticeComments, setOptimisticeComments] =
-  //   useOptimistic(newComm);
 
   console.log(post);
   const [commentLength, setCommentlength] = useState(myComments?.length);

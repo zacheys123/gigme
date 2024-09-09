@@ -43,11 +43,7 @@ const RouteProfile = ({ user }) => {
           onClick={() => router.push(`/v1/profile/${userId}/user`)}
         />
       </div>
-      <p className="text-sm text-gray-400">
-        {user?.user?.email}
-        <br />
-        {user?.user?.phoneNo}
-      </p>
+      <p className="text-sm text-gray-400">{user?.user?.email}</p>
     </div>
   );
 };
