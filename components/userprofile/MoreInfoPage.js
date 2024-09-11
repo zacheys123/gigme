@@ -23,7 +23,7 @@ const MoreInfoPage = ({ user, allUsers }) => {
     setShowAllGigsData,
   } = useStore();
   return (
-    <div className="p-1">
+    <div className="p-1 lg:hidden xl:hidden">
       <div
         className={clsx(
           `

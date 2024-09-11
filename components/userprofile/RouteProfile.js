@@ -20,7 +20,7 @@ const RouteProfile = ({ user }) => {
   const router = useRouter();
   return (
     <div
-      className="flex flex-col items-center gap-4"
+      className="flex flex-col items-center gap-4 "
       onClick={() => {
         setShowFriendData(false);
         setShowPostedGigsData(false);

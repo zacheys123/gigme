@@ -2,27 +2,53 @@ import Image from "next/image";
 import React from "react";
 import { PropTypes } from "prop-types";
 import { Button } from "../ui/button";
-const ProfileComponent = ({ otheruser, user, router }) => {
+const ProfileComponent = ({
+  otheruser,
+  user,
+  router,
+  updateFollowers,
+  updateFollowing,
+  maindiv,
+  thirdDiv,
+  image,
+  imageno,
+}) => {
   return (
     <div
+      onClick={() => {
+        if (!otheruser?.followers.includes(user?.user?._id)) {
+          updateFollowers(otheruser);
+          updateFollowing(otheruser);
+        }
+        router.push(`/friends/${otheruser?.username}`);
+      }}
       key={otheruser._id}
-      className=" w-[110px] bg-slate-400 shadow-sm shadow-yellow-500 p-2 rounded-md my-2 mx-4 h-fit hover:scale-110 transition-transform duration-75"
+      className={maindiv}
     >
       <div className="">
-        {otheruser.picture && (
-          <Image
-            width={40}
-            height={40}
-            className="w-[40px] h-[40px] rounded-full "
-            src={otheruser.picture}
-            alt={otheruser.username}
-          />
-        )}
-        <p className="text-yellow-400 my-2 font-bold  text-[11px] ">
-          {otheruser.username}
-        </p>
+        <div className={thirdDiv}>
+          {otheruser.picture && (
+            <Image
+              width={imageno}
+              height={imageno}
+              className={image}
+              src={otheruser.picture}
+              alt={otheruser.username}
+            />
+          )}
+          <p className="text-yellow-400 my-2 font-bold  text-[11px] ">
+            {otheruser.username}
+          </p>{" "}
+        </div>
         {!otheruser?.followers.includes(user?.user?._id) ? (
-          <Button variant="default" className="h-[20px] text-[9px]">
+          <Button
+            variant="default"
+            className="h-[20px] text-[9px] w-full"
+            onClick={() => {
+              updateFollowers(otheruser);
+              updateFollowing(otheruser);
+            }}
+          >
             Follow
           </Button>
         ) : (

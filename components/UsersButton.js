@@ -1,9 +1,9 @@
 import React from "react";
 
-import { Button } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
 import { CircularProgress } from "@mui/material";
+import { Button } from "./ui/button";
 
 const UsersButton = ({
   onClick,
@@ -46,7 +46,8 @@ const UsersButton = ({
               </div>
             </button>
           ) : (
-            <button
+            <Button
+              variant="variant"
               disabled={disabled}
               type="button"
               onClick={onClick}
@@ -57,7 +58,7 @@ const UsersButton = ({
               ) : (
                 <CircularProgress size="30px" sx={{ color: "white" }} />
               )}
-            </button>
+            </Button>
           )}
         </>
       )}

@@ -9,7 +9,7 @@ const FriendList = ({ user, allUsers }) => {
   return (
     <div
       className={
-        user?.user?.followers || user?.user?.followers
+        user?.user?.followers || user?.user?.followings
           ? "element-with-scroll h-fit w-full bg-neutral-700 shadow-sm shadow-red-300  overflow-auto flex whitespace-nowrap    mt-3  p-4 transition-all duration-150"
           : "h-[0px] bg-inherit"
       }
@@ -24,32 +24,18 @@ const FriendList = ({ user, allUsers }) => {
                 otheruser={otheruser}
                 user={user}
                 router={router}
+                maindiv=" w-[90px] bg-slate-400 shadow-sm shadow-yellow-500 p-1 rounded-md my-2 mx-4 h-[85px] hover:scale-110 transition-transform duration-75"
+                thirdDiv="w-full flex justify-center  items-center flex-col"
+                image="w-[25px] h-[25px] rounded-full text-center"
+                imageno={25}
               />
             );
           })
       ) : (
-        <h6 className="text-[12px] font-bold font-mono text-gray-200">
-          No data to display at the moment
-        </h6>
+        <div className="text-gray-200 font-bold text-[11px]">
+          Wait a moment!!!
+        </div>
       )}
-      {user?.user?.followers.length !== 0 ? (
-        allUsers
-          ?.filter((userd) => user?.user?.followings.includes(userd?._id))
-          .map((otheruser) => {
-            return (
-              <ProfileComponent
-                key={otheruser?._id}
-                otheruser={otheruser}
-                user={user}
-                router={router}
-              />
-            );
-          })
-      ) : (
-        <h6 className="text-[12px] font-bold font-mono text-gray-200">
-          No data to display at the moment
-        </h6>
-      )}{" "}
     </div>
   );
 };

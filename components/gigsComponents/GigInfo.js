@@ -104,7 +104,7 @@ const GigInfo = ({ user }) => {
       return;
     }
     if (!gigInputs.category && userinfo.prefferences.length < 0) {
-      alert("Please filla all required fields");
+      alert("Please fill all required fields");
       return;
     }
     if (gigInputs.category.length > 0 && userinfo.prefferences.length > 0) {

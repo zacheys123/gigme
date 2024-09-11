@@ -7,11 +7,14 @@ import { Music, User } from "lucide-react";
 import { Dashboard, Logout, PostAdd } from "@mui/icons-material";
 import { Avatar, Box, Divider } from "@mui/material";
 import Logo from "./Logo";
-const ProfileNav = () => {
+import { PropTypes } from "prop-types";
+import Image from "next/image";
+const ProfileNav = ({ user, loading }) => {
   const { userId } = useAuth();
   const pathname = usePathname();
+  console.log(user);
   let inactiveLink =
-    "flex gap-2 md:mx-3 md:my-[20px] x:my-[30px] xl:mx-[6] xl:text-[20px] text-1xl  font-bold  font-mono    hover:opacity-55 transition-transform duration-200  hover:bg-gray-300/80 md:p-2 xl:p-5 transition-opacity duration-175 ease-out ";
+    "flex gap-2 lg:mx-3 lg:my-[13px]  xl:mx-[6] xl:text-[17px] lg:text-[15px]  font-bold  font-mono    hover:opacity-55 transition-transform duration-200  hover:bg-gray-300/80 md:p-2 xl:p-5 transition-opacity duration-175 ease-out ";
   let activeLink =
     inactiveLink +
     "bg-slate-600 text-white w-full p-2 pr-0 rounded-l-xl transition-none hover:bg-gray-800 hover:opacity-100";
@@ -27,8 +30,8 @@ const ProfileNav = () => {
             <Link
               className={
                 pathname === `/v1/profile/${userId}/user`
-                  ? activeLink
-                  : inactiveLink
+                  ? `${activeLink} lg:hidden xl:hidden`
+                  : `${inactiveLink} lg:hidden xl:hidden`
               }
               href={`/v1/profile/${userId}/user`}
             >
@@ -42,7 +45,7 @@ const ProfileNav = () => {
                   ? activeLink
                   : inactiveLink
               }
-              href={`/v1/profile/${userId}/dashboard`}
+              href={`/v1/profile/${userId}`}
             >
               <Dashboard />
               DashBoard
@@ -66,7 +69,7 @@ const ProfileNav = () => {
                   ? activeLink
                   : inactiveLink
               }
-              href={`/v1/profile/${userId}/gigs`}
+              href={`/gigme/gigs/${userId}`}
             >
               <Music />
               Gigs
@@ -80,23 +83,46 @@ const ProfileNav = () => {
           </div>
         </Box>
       </div>{" "}
-      <div className="h-[300px] bg-gray-200 mb-3 rounded-xl p-2">
-        <div className=" w-full flex justify-center">
-          <Avatar
-            sx={{ width: "90px", height: "90px", marginBottom: ".9rem" }}
-          />
-        </div>
-        <div className="flex flex-col gap-1">
-          <span className="font-mono font-bold tracking-tighter">
-            User:Zacharia Muigai
-          </span>
-          <span className="font-mono font-semibold tracking-tighter text-red-600">
-            Email: zachy@gmail.com
-          </span>
-        </div>
+      <div className="h-[200px] bg-gray-200 mb-3 rounded-xl p-2 gap-2">
+        {!loading ? (
+          <div className=" w-full flex justify-center flex-col mt-2">
+            <div className=" w-full flex justify-center">
+              {user?.user?.picture ? (
+                <Image
+                  width={90}
+                  height={90}
+                  className="w-[90px] h-[90px] rounded-full "
+                  src={user?.user?.picture}
+                  alt={user?.user?.username.split("")[0]}
+                />
+              ) : (
+                <User className="h-[90px] w-[90px] text-center rounded-full" />
+              )}
+            </div>
+            <div className="flex flex-col gap-1">
+              <div className="font-mono font-bold tracking-tighter">
+                User:
+                <span className="text-red-500">
+                  {user?.user?.firstname} {user?.user?.lastname}
+                </span>
+              </div>
+              <span className="font-mono font-semibold tracking-tighter ">
+                Email:
+                <span className="text-red-500">{user?.user?.email}</span>
+              </span>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </aside>
   );
 };
 
 export default ProfileNav;
+
+ProfileNav.propTypes = {
+  user: PropTypes.object,
+  loading: PropTypes.bool,
+};

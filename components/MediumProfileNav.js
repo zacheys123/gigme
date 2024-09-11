@@ -1,7 +1,7 @@
 "use client";
 import { UserButton, useAuth } from "@clerk/nextjs";
 import { Dashboard, Logout, PostAdd } from "@mui/icons-material";
-import { Home, Music, Settings, User } from "lucide-react";
+import { Home, Music, Search, Settings, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -35,9 +35,9 @@ const MediumProfileNav = () => {
   let activeLink = " text-2xl  rounded-xl";
   return (
     <div
-      className={`hidden md:flex xl:hidden w-[30px]  flex-col gap-3  justify-center items-center  `}
+      className={`hidden md:flex xl:hidden w-[30px]  flex-col gap-3  justify-center items-center ml-3 `}
     >
-      <aside className="bg-gray-400 shadow-xl rounded-md p-3  flex flex-col justify-center items-center  h-[450px] gap-10 text-white ">
+      <aside className="shadow-md shadow-slate-400 rounded-md p-3  flex flex-col justify-center items-center  h-[495px] gap-10 border-t-2 text-white ">
         <Link href={`/gigme/social`}>
           <Home />
         </Link>
@@ -66,7 +66,7 @@ const MediumProfileNav = () => {
               className={
                 !navStates.profile
                   ? "text-white font-mono font-bold  z-50"
-                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-400 py-2 px-4 rounded-r-full"
+                  : "text-white font-mono font-bold absolute ml-9 z-50 shadow-md border-l-0 border py-2 px-4 rounded-r-full"
               }
             >
               Profile
@@ -74,7 +74,7 @@ const MediumProfileNav = () => {
           )}
         </Link>{" "}
         <Link
-          href={`/v1/profile/${userId}/dashboard`}
+          href={`/v1/profile/${userId}`}
           className="flex items-center "
           onMouseOver={() =>
             setNavStates((prev) => {
@@ -87,7 +87,7 @@ const MediumProfileNav = () => {
             })
           }
         >
-          {pathname === `/v1/profile/${userId}/dashboard` ? (
+          {pathname === `/v1/profile/${userId}` ? (
             <Dashboard className={activeLink} />
           ) : (
             <MdOutlineDashboard className={activeLink} />
@@ -98,7 +98,7 @@ const MediumProfileNav = () => {
               className={
                 !navStates.dashboard
                   ? "text-white font-mono font-bold  z-50"
-                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-400 py-2 px-4 rounded-r-full"
+                  : "text-white font-mono font-bold absolute ml-9 z-50 shadow-md border-l-0 border py-2 px-4 rounded-r-full"
               }
             >
               Dashboard
@@ -132,7 +132,7 @@ const MediumProfileNav = () => {
               className={
                 !navStates.posts
                   ? "text-white font-mono font-bold  z-50"
-                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-400 py-2 px-4 rounded-r-full"
+                  : "text-white font-mono font-bold absolute ml-9 z-50 shadow-md border-l-0 border py-2 px-4 rounded-r-full"
               }
             >
               Posts
@@ -140,7 +140,7 @@ const MediumProfileNav = () => {
           )}
         </Link>{" "}
         <Link
-          href={`/v1/profile/${userId}/gigs`}
+          href={`/gigme/gigs/${userId}`}
           className="flex items-center"
           onMouseOver={() =>
             setNavStates((prev) => {
@@ -153,7 +153,7 @@ const MediumProfileNav = () => {
             })
           }
         >
-          {pathname === `/v1/profile/${userId}/gigs` ? (
+          {pathname === `/gigme/gigs/${userId}` ? (
             <Music className={activeLink} />
           ) : (
             <CiMusicNote1 className={activeLink} />
@@ -164,13 +164,23 @@ const MediumProfileNav = () => {
               className={
                 !navStates.gigs
                   ? "text-white font-mono font-bold  z-50"
-                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-400 py-2 px-4 rounded-r-full"
+                  : "text-white font-mono font-bold absolute ml-9 z-50 shadow-md border-l-0 border py-2 px-4 rounded-r-full"
               }
             >
               Gigs
             </Transition>
           )}
         </Link>{" "}
+        {pathname === "/gigme/search" ? (
+          ""
+        ) : (
+          <Link
+            href={`/gigme/search`}
+            className="flex flex-col items-center gap-3"
+          >
+            <Search size="20px" />
+          </Link>
+        )}
         <Link
           href={`/v1/profile/${userId}/settings`}
           className="flex items-center"
@@ -196,7 +206,7 @@ const MediumProfileNav = () => {
               className={
                 !navStates.settings
                   ? "text-white font-mono font-bold  z-50"
-                  : "text-white font-mono font-bold absolute ml-9 z-50 bg-gray-400 py-2 px-4 rounded-r-full"
+                  : "text-white font-mono font-bold absolute ml-9 z-50 shadow-md border-l-0 border py-2 px-4 rounded-r-full"
               }
             >
               Settings

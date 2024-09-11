@@ -7,6 +7,7 @@ import {
   LogOut,
   Music,
   Podcast,
+  Search,
   Settings,
   User,
 } from "lucide-react";
@@ -29,26 +30,26 @@ const MobileProfileNav = () => {
   const handleUpdate = (ev) => {};
   return (
     <div
-      className={` md:hidden xl:hidden w-full h-[50px] sticky  p-2 mb-2 flex  justify-center items-center self-center mr-5`}
+      className={` md:hidden xl:hidden w-[100%] mx-auto h-[50px] sticky  p-6 mb-2 flex  justify-center items-center self-center `}
     >
-      <section className="bg-gray-700/50 p-3  flex  justify-center items-center gap-8 text-white w-full">
+      <section className="bg-gray-700/50 p-2    flex  justify-around items-center gap-4 text-white w-full">
         <Link className="mx-4 " href={`/gigme/social`}>
-          <Home size="21px" />
+          <Home size="19px" />
         </Link>{" "}
         <Link className="mx-4 " href={`/v1/profile/${userId}/user`}>
-          <User size="21px" />
+          <User size="19px" />
         </Link>{" "}
         <Link className="mx-4 " href={`/v1/profile/${userId}`}>
-          <LayoutDashboard size="21px" />
+          <LayoutDashboard size="19px" />
         </Link>{" "}
-        <Link
-          href={`/gigme/gigs/${userId}`}
-          className="flex flex-col items-center gap-3"
-        >
+        <Link href={`/gigme/gigs/${userId}`} className="mx-4">
           <Music size="17px" />
         </Link>{" "}
+        <Link href={`/gigme/search`} className="mx-4">
+          <Search size="20px" />
+        </Link>
         <Link className="mx-4 " href={`/gigme/gigs/${userId}`}>
-          <Settings size="21px" />
+          <Settings size="19px" />
         </Link>
       </section>
     </div>

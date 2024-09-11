@@ -46,13 +46,13 @@ const SearchComponent = ({}) => {
     return sortedData;
   };
   return (
-    <div className="relative bg-slate-800/70 w-[100vw] h-[100vh] md:hidden">
+    <div className="relative bg-slate-800/70 w-[100vw] h-[100vh] lg:hidden">
       <form className=" w-[100vw] ">
         <div className=" flex justify-center items-center">
           <Input
             onChange={(ev) => setSearchhQuery(ev.target.value)}
             value={searchquery}
-            className="w-[100vw] mx-4 my-10 bg-gray-300 text-neutral-400  placeholder-red-600"
+            className="w-[100vw] mx-4 my-10 bg-gray-300 text-neutral-600  font-bold placeholder-red-600"
             id="search"
             type="text"
             data-autofocus

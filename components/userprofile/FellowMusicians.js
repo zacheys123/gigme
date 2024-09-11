@@ -7,6 +7,7 @@ import { useState } from "react";
 import { CircularProgress } from "@mui/material";
 import useStore from "@/app/zustand/useStore";
 import { useRouter } from "next/navigation";
+import ProfileComponent from "./ProfileComponent";
 const FellowMusicians = ({ user, allUsers }) => {
   const router = useRouter();
   const {
@@ -63,7 +64,7 @@ const FellowMusicians = ({ user, allUsers }) => {
   };
   return (
     <div
-      className="element-with-scroll h-fit  shadow-md shadow-red-300  overflow-auto flex whitespace-nowrap    mt-3  p-4 transition-all duration-150"
+      className="element-with-scroll h-fit  shadow-md shadow-red-300 max-w-[400px]  overflow-auto flex whitespace-nowrap    mt-3  p-4 transition-all duration-150"
       onClick={() => {
         setShowFriendData(false);
         setShowPostedGigsData(false);
@@ -76,56 +77,18 @@ const FellowMusicians = ({ user, allUsers }) => {
           .filter((userd) => userd?.instrument?.length > 0)
           .map((otheruser) => {
             return (
-              <div
-                onClick={() => {
-                  if (!otheruser?.followers.includes(user?.user?._id)) {
-                    updateFollowers(otheruser);
-                    updateFollowing(otheruser);
-                  }
-                  router.push(`/friends/${otheruser?.username}`);
-                }}
-                key={otheruser._id}
-                className=" w-[110px] bg-slate-400 shadow-sm shadow-yellow-500 p-4 rounded-md my-2 mx-4 h-fit hover:scale-104 transition-transform duration-75"
-              >
-                <div className="flex justify-center items-center w-full  ">
-                  <div className="w-full mx-auto">
-                    {otheruser.picture && (
-                      <Image
-                        width={40}
-                        height={40}
-                        className="w-[40px] h-[40px] rounded-full "
-                        src={otheruser.picture}
-                        alt={otheruser.username}
-                      />
-                    )}
-                    <p className="text-yellow-400 my-2 font-bold  text-[11px] ">
-                      {otheruser.username}
-                    </p>
-                    {!otheruser?.followers.includes(user?.user?._id) ? (
-                      <Button
-                        variant="default"
-                        className="h-[20px] text-[9px]"
-                        onClick={() => {
-                          updateFollowers(otheruser);
-                          updateFollowing(otheruser);
-                        }}
-                      >
-                        Follow
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="default"
-                        className="h-[20px] text-[9px] w-full"
-                        onClick={() =>
-                          router.push(`/friends/${otheruser?.username}`)
-                        }
-                      >
-                        View Profile
-                      </Button>
-                    )}{" "}
-                  </div>
-                </div>
-              </div>
+              <ProfileComponent
+                key={otheruser?._id}
+                otheruser={otheruser}
+                user={user}
+                router={router}
+                updateFollowers={updateFollowers}
+                updateFollowing={updateFollowing}
+                maindiv=" w-[90px] bg-slate-400 shadow-sm shadow-yellow-500 p-1 rounded-md my-2 mx-4 h-[85px] hover:scale-110 transition-transform duration-75"
+                thirdDiv="w-full flex justify-center  items-center flex-col"
+                image="w-[25px] h-[25px] rounded-full text-center"
+                imageno={25}
+              />
             );
           })}
       </div>
