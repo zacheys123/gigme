@@ -39,7 +39,7 @@ const ProfilePage = async ({ params }) => {
       <section>
         <MoreInfoPage user={user} allUsers={allUsers} />
       </section>
-      <div className=" hidden lg:flex w-full h-[490px] shadow-xl shadow-slate-700">
+      <div className=" hidden lg:flex w-full md:h-full lg:h-[490px] shadow-xl shadow-slate-700">
         <InfoComponent user={user} allUsers={allUsers} />
         <Divider />
         <SideBar user={user} allUsers={allUsers} />{" "}

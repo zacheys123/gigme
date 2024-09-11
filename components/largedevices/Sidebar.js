@@ -4,20 +4,24 @@ import { FollowTheSigns, People } from "@mui/icons-material";
 import { Badge } from "@mui/material";
 import { Edit2, Music, Text, User, Users } from "lucide-react";
 import React from "react";
-
-const SideBar = () => {
+import { PropTypes } from "prop-types";
+const SideBar = ({ user }) => {
   const {
-    friendDataLarge,
-    setShowFriendDataLarge,
-    postedGigsDataLarge,
-    setShowPostedGigsDataLarge,
-    bookedGigsDataLarge,
-    setShowBookedGigsDataLarge,
+    setShowFriendData,
 
-    musiciansLarge,
+    setShowPostedGigsData,
+
+    setShowBookedGigsData,
     setShowMusiciansLarge,
-    allGigsLarge,
-    setShowAllGigsLarge,
+    setShowAllGigsData,
+    friendData,
+
+    postedGigsData,
+
+    bookedGigsData,
+
+    allGigsData,
+    musiciansLarge,
   } = useStore();
   let active =
     "my-9 bg-gray-400 p-2 rounded-full cursor-pointer hover:bg-gray-300 transition-all duration-75";
@@ -28,50 +32,50 @@ const SideBar = () => {
       <div className="h-full">
         <ul className="p-3">
           <li
-            className={!friendDataLarge ? active : inactive}
+            className={friendData ? active : inactive}
             onClick={() => {
-              setShowFriendDataLarge(false);
-              setShowPostedGigsDataLarge(false);
-              setShowBookedGigsDataLarge(false);
-              setShowAllGigsLarge(false);
+              setShowFriendData(true);
+              setShowPostedGigsData(false);
+              setShowBookedGigsData(false);
+              setShowAllGigsData(false);
               setShowMusiciansLarge(false);
             }}
           >
-            <Badge badgeContent={4} color="warning">
+            <Badge badgeContent={user?.user?.followers?.length} color="warning">
               <Users sx={{ color: "white" }} className="text-white" />
             </Badge>{" "}
           </li>
           <li
-            className={postedGigsDataLarge ? active : inactive}
+            className={postedGigsData ? active : inactive}
             onClick={() => {
-              setShowFriendDataLarge(true);
-              setShowPostedGigsDataLarge(true);
-              setShowBookedGigsDataLarge(false);
-              setShowAllGigsLarge(false);
+              setShowFriendData(false);
+              setShowPostedGigsData(true);
+              setShowBookedGigsData(false);
+              setShowAllGigsData(false);
               setShowMusiciansLarge(false);
             }}
           >
             <Text sx={{ color: "white" }} className="text-white" />
           </li>
           <li
-            className={bookedGigsDataLarge ? active : inactive}
+            className={bookedGigsData ? active : inactive}
             onClick={() => {
-              setShowFriendDataLarge(true);
-              setShowPostedGigsDataLarge(false);
-              setShowBookedGigsDataLarge(true);
-              setShowAllGigsLarge(false);
+              setShowFriendData(false);
+              setShowPostedGigsData(false);
+              setShowBookedGigsData(true);
+              setShowAllGigsData(false);
               setShowMusiciansLarge(false);
             }}
           >
             <Music sx={{ color: "white" }} className="text-white" />
           </li>
           <li
-            className={allGigsLarge ? active : inactive}
+            className={allGigsData ? active : inactive}
             onClick={() => {
-              setShowFriendDataLarge(true);
-              setShowPostedGigsDataLarge(false);
-              setShowBookedGigsDataLarge(false);
-              setShowAllGigsLarge(true);
+              setShowFriendData(false);
+              setShowPostedGigsData(false);
+              setShowBookedGigsData(false);
+              setShowAllGigsData(true);
               setShowMusiciansLarge(false);
             }}
           >
@@ -80,10 +84,10 @@ const SideBar = () => {
           <li
             className={musiciansLarge ? active : inactive}
             onClick={() => {
-              setShowFriendDataLarge(true);
-              setShowPostedGigsDataLarge(false);
-              setShowBookedGigsDataLarge(false);
-              setShowAllGigsLarge(false);
+              setShowFriendData(false);
+              setShowPostedGigsData(false);
+              setShowBookedGigsData(false);
+              setShowAllGigsData(false);
               setShowMusiciansLarge(true);
             }}
           >
@@ -96,3 +100,6 @@ const SideBar = () => {
 };
 
 export default SideBar;
+SideBar.propTypes = {
+  user: PropTypes.object,
+};

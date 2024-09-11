@@ -35,7 +35,7 @@ const MoreInfoPage = ({ user, allUsers }) => {
       >
         <h2
           onClick={() => {
-            setShowFriendData((prev) => !prev);
+            setShowFriendData(true);
             setShowPostedGigsData(false);
             setShowBookedGigsData(false);
             setShowAllGigsData(false);
@@ -51,8 +51,8 @@ const MoreInfoPage = ({ user, allUsers }) => {
         {" "}
         <h2
           onClick={() => {
-            setShowPostedGigsData((prev) => !prev);
             setShowFriendData(false);
+            setShowPostedGigsData(true);
             setShowBookedGigsData(false);
             setShowAllGigsData(false);
           }}
@@ -66,7 +66,7 @@ const MoreInfoPage = ({ user, allUsers }) => {
         {" "}
         <h2
           onClick={() => {
-            setShowBookedGigsData((prev) => !prev);
+            setShowBookedGigsData(true);
             setShowPostedGigsData(false);
             setShowFriendData(false);
             setShowAllGigsData(false);
@@ -81,7 +81,7 @@ const MoreInfoPage = ({ user, allUsers }) => {
         {" "}
         <h2
           onClick={() => {
-            setShowAllGigsData((prev) => !prev);
+            setShowAllGigsData(true);
             setShowPostedGigsData(false);
             setShowBookedGigsData(false);
             setShowFriendData(false);

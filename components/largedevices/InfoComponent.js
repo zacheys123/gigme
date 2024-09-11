@@ -25,69 +25,134 @@ const InfoComponent = ({ user, allUsers }) => {
   //   An object model to display th pages/components
 
   const {
-    friendDataLarge,
-    setShowFriendDataLarge,
-    postedGigsDataLarge,
-    setShowPostedGigsDataLarge,
-    bookedGigsDataLarge,
-    setShowBookedGigsDataLarge,
-    allGigsDataLarge,
-    setShowAllGigsDataLarge,
+    friendData,
+
+    postedGigsData,
+
+    bookedGigsData,
+
+    allGigsData,
     musiciansLarge,
-    setShowMusiciansLarge,
-    allGigsLarge,
-    setShowAllGigsLarge,
   } = useStore();
+  let mygigs = allGigs?.gigs?.filter(
+    (gig) => gig?.postedBy?._id === user?.user?._id
+  );
+  let bookedgigs = allGigs?.gigs?.filter(
+    (gig) => gig?.bookedBy?._id === user?.user?._id
+  );
+
   return (
-    <div className="  lg:flex-1 overflow-auto ">
-      {!friendDataLarge && (
-        <div className="flex flex-col">
-          <h6 className="text-[13px] font-bold underline text-neutral-400 text-center mb-2 bg-neutral-100 p-2 rounded-lg w-fit">
-            Followers
-          </h6>
-          <div className="flex gap-6 flex-wrap">
-            {dataObject.followers(user, allUsers, router)}
-          </div>
-        </div>
-      )}
-      {postedGigsDataLarge && (
-        <div className="flex flex-col">
-          <h6 className="text-[13px] font-bold underline text-neutral-400 text-center mb-2 bg-neutral-100 p-2 rounded-lg w-fit">
-            All Your Posted Gigs
-          </h6>
-          <div className="flex gap-6 flex-wrap">
-            {dataObject.posted(user, allGigs, router)}
-          </div>
-        </div>
-      )}{" "}
-      {bookedGigsDataLarge && (
-        <div className="flex flex-col">
-          <h6 className="text-[13px] font-bold underline text-neutral-400 text-center mb-2 bg-neutral-100 p-2 rounded-lg w-fit">
-            All Your Booked Gigs
-          </h6>
-          <div className="flex gap-6 flex-wrap">
-            {dataObject.booked(user, allGigs, router)}
-          </div>
-        </div>
-      )}{" "}
-      {musiciansLarge && (
-        <div className="flex flex-col">
-          <h6 className="text-[13px] font-bold underline text-neutral-400 text-center mb-2 bg-neutral-100 p-2 rounded-lg w-fit">
-            All Users That Play An Instrument
-          </h6>{" "}
-          <div className="flex gap-6 flex-wrap">
-            {dataObject.musicians(user, allUsers, router)}{" "}
-          </div>
-        </div>
-      )}
-      {allGigsLarge && (
-        <div className="flex flex-col">
-          <h6 className="text-[13px] font-bold underline text-neutral-400 text-center mb-2 bg-neutral-100 p-2 rounded-lg w-fit">
-            All Gigs Posted And Booked
-          </h6>{" "}
-          <div className="flex gap-6 flex-wrap">
-            {dataObject.allgigs(user, allGigs, router)}
-          </div>
+    <div className="md:flex-1  lg:flex-1 overflow-auto ">
+      {friendData ||
+      postedGigsData ||
+      bookedGigsData ||
+      allGigsData ||
+      musiciansLarge ? (
+        <>
+          {friendData && (
+            <div className="flex h-full w-full">
+              {user?.user?.followers?.length === 0 ? (
+                <div className="h-full w-full flex justify-center items-center">
+                  <h6 className="text-neutral-400 text-center font-mono">
+                    No Followers yet
+                  </h6>
+                </div>
+              ) : (
+                <div className="flex flex-col">
+                  <h6 className="text-[13px] font-bold underline text-neutral-400 text-center mb-2 bg-neutral-100 p-2 rounded-lg w-fit">
+                    Followers
+                  </h6>
+                  <div className="flex gap-6 flex-wrap">
+                    {dataObject.followers(user, allUsers, router)}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          {postedGigsData && (
+            <div className="flex h-full w-full">
+              {mygigs?.length === 0 ? (
+                <div className="h-full w-full flex justify-center items-center">
+                  <h6 className="text-neutral-400 text-center font-mono">
+                    No Posted Gigs yet
+                  </h6>
+                </div>
+              ) : (
+                <div className="flex flex-col">
+                  <h6 className="text-[13px] font-bold underline text-neutral-400 text-center mb-2 bg-neutral-100 p-2 rounded-lg w-fit">
+                    All Your Posted Gigs
+                  </h6>
+                  <div className="flex gap-6 flex-wrap">
+                    {dataObject.posted(user, allGigs, router)}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          {bookedGigsData && (
+            <div className="flex h-full w-full">
+              {bookedgigs?.length === 0 ? (
+                <div className="h-full w-full flex justify-center items-center">
+                  <h6 className="text-neutral-400 text-center font-mono">
+                    No Booked Gigs yet
+                  </h6>
+                </div>
+              ) : (
+                <div className="flex flex-col">
+                  <h6 className="text-[13px] font-bold underline text-neutral-400 text-center mb-2 bg-neutral-100 p-2 rounded-lg w-fit">
+                    All Your Booked Gigs
+                  </h6>
+                  <div className="flex gap-6 flex-wrap">
+                    {dataObject.booked(user, allGigs, router)}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          {musiciansLarge && (
+            <div className="flex h-full w-full">
+              {user?.user?.followers?.length === 0 ? (
+                <div className="h-full w-full flex justify-center items-center">
+                  <h6 className="text-neutral-400 text-center font-mono">
+                    No Posted Gigs yet
+                  </h6>
+                </div>
+              ) : (
+                <div className="flex flex-col">
+                  <h6 className="text-[13px] font-bold underline text-neutral-400 text-center mb-2 bg-neutral-100 p-2 rounded-lg w-fit">
+                    All Users That Play An Instrument
+                  </h6>{" "}
+                  <div className="flex gap-6 flex-wrap">
+                    {dataObject.musicians(user, allUsers, router)}{" "}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          {allGigsData && (
+            <div className="flex h-full w-full">
+              {allGigs?.length === 0 ? (
+                <div className="h-full w-full flex justify-center items-center">
+                  <h6 className="text-neutral-400 text-center font-mono">
+                    No Gigs Posted yet
+                  </h6>
+                </div>
+              ) : (
+                <div className="flex flex-col">
+                  <h6 className="text-[13px] font-bold underline text-neutral-400 text-center mb-2 bg-neutral-100 p-2 rounded-lg w-fit">
+                    All Gigs Posted And Booked
+                  </h6>{" "}
+                  <div className="flex gap-6 flex-wrap">
+                    {dataObject.allgigs(user, allGigs, router)}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </>
+      ) : (
+        <div className="flex justify-center items-center w-full h-full">
+          <h6 className="text-neutral-600">Data to be displayed here</h6>
         </div>
       )}
     </div>

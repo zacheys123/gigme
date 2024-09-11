@@ -3,6 +3,7 @@ import { PropTypes } from "prop-types";
 import Image from "next/image";
 import { Avatar } from "@mui/material";
 import { ArrowRight } from "lucide-react";
+import { useAuth } from "@clerk/nextjs";
 const GigDisplay = ({
   gig,
   gigdescription,
@@ -12,12 +13,20 @@ const GigDisplay = ({
   thirdDiv,
   title,
   imageno,
+  pendingStatus,
 }) => {
+  const { userId } = useAuth();
+
   return (
     <div
       key={gig.id}
       className=" cursor-pointer"
-      onClick={() => router.push(`/gigme/mygig/${gig?._id}/execute`)}
+      onClick={() => {
+        if (gig?.isPending === false || gig?.isTaken === false) {
+          router.push(`/gigme/mygig/${gig?._id}/execute`);
+        }
+        router.push(`/v1/profile/${userId}`);
+      }}
     >
       <div className={secondDiv}>
         {gigdescription?.picture ? (
@@ -56,6 +65,7 @@ const GigDisplay = ({
                 : "Mixed Musicians Gig"}
             </h6>
             <h6 className={title}> Price: {gig.price}</h6>
+            <h6 className="text-red-700 title">{pendingStatus}</h6>
           </div>
         </div>
       </div>
