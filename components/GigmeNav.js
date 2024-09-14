@@ -12,6 +12,7 @@ import { useGlobalContext } from "@/app/Context/store";
 import { Avatar } from "@mui/material";
 import { global } from "@/actions";
 import OverlaySearch from "./OverlaySearch";
+import AvatarComponent from "./Avatar";
 const SocialNav = () => {
   const {
     userState: { toggle },
@@ -124,7 +125,7 @@ const SocialNav = () => {
           />
         </div>
         <div className="-mr-[50px] ml-[20px]">
-          {isLoaded ? <UserButton afterSignOutUrl="/" /> : <Avatar />}
+          {isLoaded ? <AvatarComponent /> : <Avatar />}
         </div>
       </nav>
       {toggle && <OverlaySearch searchfunc={searchFn()} />}

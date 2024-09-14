@@ -41,16 +41,10 @@ export async function POST(req) {
       .populate({ path: "sender", model: User })
       .populate({ path: "reciever", model: User });
     // implement socket io functionality
-    const recieversocketid = getRecieverSocketId(reciever);
-    if (recieversocketid) {
-      // io.to<socket id used to asend events to specific clients>
-      io.to(recieversocketid).emit("newMessage", newmessage);
-    }
-    console.log(recieversocketid);
+
     return NextResponse.json({
       chatStatus: true,
       message,
-      data: recieversocketid,
     });
   } catch (error) {
     console.log(error);

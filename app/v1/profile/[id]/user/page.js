@@ -13,6 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import Logo from "@/components/Logo";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import AvatarComponent from "@/components/Avatar";
 const UserProfile = () => {
   const { userId } = useAuth();
   const [user, setUser] = useState({});
@@ -193,7 +194,7 @@ const UserProfile = () => {
         </h3>
         <div className="mr-8 md:block  ">
           {" "}
-          <UserButton />
+          <AvatarComponent />
         </div>
       </div>{" "}
       <Box className="block w-full lg:flex gap-3 h-full">
@@ -210,14 +211,14 @@ const UserProfile = () => {
         <div className="w-full   md:w-50 py-7 h-[800px]      lg:ml-[70px]">
           <div>
             {!loadinguser && (
-              <h6 className="text-red-300 text-[14px] font-bold font-mono  my-3 ml-8">
+              <div className="text-red-300 text-[14px] font-bold font-mono  my-3 ml-8">
                 {user?.followers?.length === 0 ? (
-                  <h6 className="text-white">No</h6>
+                  <h6 className="text-red-300 text-[14px]">No followers</h6>
                 ) : (
                   `${foll}`
                 )}
                 , you only follow {user?.followings?.length} people.
-              </h6>
+              </div>
             )}
           </div>
           <form className="w-[350px] h-full  md:w-[600px] mx-auto  flex flex-col ">
@@ -292,7 +293,7 @@ const UserProfile = () => {
                     </span>
                     <Input
                       type="text"
-                      className="md:text-slate-200 text-blue-400 md:w-[80%] mx-auto font-bold text-[12px] my-3 cus:ring-0 outline-none"
+                      className="md:text-slate-500 text-blue-700 md:w-[80%] mx-auto font-bold text-[12px] my-3 cus:ring-0 outline-none"
                       placeholder="City"
                       value={city}
                       onChange={(ev) => setCity(ev.target.value)}
@@ -430,7 +431,6 @@ const UserProfile = () => {
               <Button
                 variant="destructive"
                 disabled={loading}
-                loading={loading}
                 title="Update"
                 className="-ml-[13px]"
                 onClick={handleUpdate}

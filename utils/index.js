@@ -8,18 +8,47 @@ export const checkEnvironment = () => {
 
   return base_url;
 };
+const getDays = (days) => {
+  // let month = [];
+  // month.push(days);
+  // console.log(month);
+
+  // let m = month.forEach((mth) => {
+  //   let week = `${mth[0] > 7 && mth[0] > 7 &&  Math.ceil(mth[0]/7)}week ago`
+  //    let month = `${mth[0] > 30 && Math.ceil(mth[0] / 7)}week ago`;
+  //   return mth[0];
+  // });
+  if (days === 1) {
+    return days + " day ago";
+  } else if (days > 1 && days < 7) {
+    return `${Math.ceil(days / 7)} week ago`;
+  } else if (days > 11 && days < 13) {
+    return `${Math.ceil(14 / 7)} week ago`;
+  } else if (days > 18 && days < 20) {
+    return `${Math.ceil(days / 7)} weeks ago`;
+  } else if (days > 23 && days < 25) {
+    return `${Math.floor(days / 7)} weeks ago`;
+  } else if (days > 30 && days < 60) {
+    return `${Math.floor(days / 30)} month ago`;
+  } else if (days > 60 && days < 70) {
+    return `${Math.floor(days / 30)} months ago`;
+  } else if (days > 70 && days < 100) {
+    return `${Math.floor(days / 30)} months ago`;
+  }
+};
 
 export const differenceInMinutes = (post, today) => {
+  let d;
   let mydate = new Date(post?.createdAt);
   var diffMs = today - mydate; // milliseconds between now & Christmas
   var diffDays = Math.floor(diffMs / 86400000); // days
   var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
   var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
-  if (diffDays === 1) {
-    return diffDays + " day ago";
-  } else if (diffDays > 1) {
-    return diffDays + " days ago";
-  } else if (diffHrs === 1) {
+  d = getDays(diffDays);
+  if (diffDays) {
+    return d;
+  }
+  if (diffHrs === 1) {
     return diffHrs + " hour ago";
   } else if (diffHrs > 1) {
     return diffHrs + " hours ago";
@@ -38,7 +67,7 @@ export function getLikes(posts, likeLength) {
   if (posts?.likes?.length > 1000) {
     return posts?.likes?.length < 0
       ? likeLength + "k"
-      : `${posts?.likes?.length}k`;
+      : `${posts?.likes?.length / 1000}k`;
   } else if (posts?.likes?.length < 1) {
     return posts?.likes?.length < 1 ? likeLength : posts?.likes?.length;
   } else if (posts?.likes?.length === 0 || likeLength === 0) {
@@ -65,7 +94,10 @@ export function getDisLikes(posts, dislikeLength) {
 
 export function getComments(commentsarray, commentLength) {
   if (commentsarray?.length >= 1000) {
-    return `${commentsarray?.length}k comments` || `${commentLength}k comments`;
+    return (
+      `${commentsarray?.length / 1000}k comments` ||
+      `${commentLength / 1000}k comments`
+    );
   } else if (commentsarray?.length < 1 || commentLength < 1) {
     return "comment";
   } else if (commentsarray?.length > 1 || commentLength > 1) {
@@ -74,7 +106,9 @@ export function getComments(commentsarray, commentLength) {
 }
 export function getReplys(replarray, replyLength) {
   if (replarray?.length >= 1000) {
-    return `${replarray?.length}k replies` || `${replyLength}k replies`;
+    return (
+      `${replarray?.length / 1000}k replies` || `${replyLength / 1000}k replies`
+    );
   } else if (replarray?.length < 1 || replyLength < 1) {
     return "no reply";
   } else if (replarray?.length > 1 || replyLength > 1) {

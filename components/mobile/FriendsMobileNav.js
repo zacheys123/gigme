@@ -14,6 +14,7 @@ import { IoHome } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
 import { FaBell } from "react-icons/fa";
 import { User } from "lucide-react";
+import AvatarComponent from "../Avatar";
 
 const FriendsMobileNav = () => {
   const { userId } = useAuth();
@@ -40,7 +41,7 @@ const FriendsMobileNav = () => {
             <Link href="/gigme/search" className="text-white">
               <FaSearch size="20px" />
             </Link>
-            <UserButton afterSignOutUrl="/" />
+            <AvatarComponent />
           </div>
         </span>
       </nav>{" "}

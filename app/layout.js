@@ -3,7 +3,6 @@ import "./globals.css";
 import { auth, ClerkLoaded } from "@clerk/nextjs";
 import { GlobalProvider } from "./Context/store";
 import { Providers } from "./Providers/provider";
-import { SocketContextProvider } from "./Context/SocketContext";
 export const metadata = {
   title: "GigMeApp",
   description: "Connect to Musicians",
@@ -12,18 +11,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <Providers>
-      <SocketContextProvider>
-        <QueryProvider>
-          <GlobalProvider>
-            <html lang="en">
-              <body className="min-h-screen bg-gray-200 ">
-                {" "}
-                <ClerkLoaded>{children} </ClerkLoaded>
-              </body>
-            </html>
-          </GlobalProvider>
-        </QueryProvider>
-      </SocketContextProvider>
+      <QueryProvider>
+        <GlobalProvider>
+          <html lang="en">
+            <body className="min-h-screen bg-gray-200 ">
+              {" "}
+              <ClerkLoaded>{children} </ClerkLoaded>
+            </body>
+          </html>
+        </GlobalProvider>
+      </QueryProvider>
     </Providers>
   );
 }

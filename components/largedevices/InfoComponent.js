@@ -5,6 +5,7 @@ import { PropTypes } from "prop-types";
 import ProfileComponent from "../userprofile/ProfileComponent";
 import { useRouter } from "next/navigation";
 import { dataObject } from "@/lib/largeDisplay";
+import { getAllUsers } from "@/app/server-actions/getAllUsers";
 const InfoComponent = ({ user, allUsers }) => {
   const [allGigs, setAllgigs] = useState({});
   const router = useRouter();
@@ -39,6 +40,10 @@ const InfoComponent = ({ user, allUsers }) => {
   );
   let bookedgigs = allGigs?.gigs?.filter(
     (gig) => gig?.bookedBy?._id === user?.user?._id
+  );
+
+  let usersFiltered = allUsers.filter(
+    (user) => user?.instrument?.length > 0 && user?.instrument?.length !== 0
   );
 
   return (
@@ -111,10 +116,10 @@ const InfoComponent = ({ user, allUsers }) => {
           )}
           {musiciansLarge && (
             <div className="flex h-full w-full">
-              {user?.user?.followers?.length === 0 ? (
+              {!usersFiltered ? (
                 <div className="h-full w-full flex justify-center items-center">
                   <h6 className="text-neutral-400 text-center font-mono">
-                    No Posted Gigs yet
+                    No Musicians
                   </h6>
                 </div>
               ) : (
@@ -152,7 +157,7 @@ const InfoComponent = ({ user, allUsers }) => {
         </>
       ) : (
         <div className="flex justify-center items-center w-full h-full">
-          <h6 className="text-neutral-600">Data to be displayed here</h6>
+          <h6 className="text-neutral-500">Data to be displayed here</h6>
         </div>
       )}
     </div>

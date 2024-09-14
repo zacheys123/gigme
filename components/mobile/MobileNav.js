@@ -6,6 +6,7 @@ import { Home, Menu, Music, Search, Settings, User } from "lucide-react";
 import { Chat, Dashboard } from "@mui/icons-material";
 import { UserButton, useAuth } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
+import AvatarComponent from "../Avatar";
 const MobileNav = () => {
   const pathname = usePathname();
   const { userId } = useAuth();
@@ -48,7 +49,7 @@ const MobileNav = () => {
           <Music size="17px" />
         </Link>{" "}
       </div>
-      <UserButton size="17px" className="w-[17px] h-[17px]" />
+      <AvatarComponent />
     </div>
   );
 };

@@ -13,6 +13,7 @@ import {
   Music,
   User,
 } from "lucide-react";
+import AvatarComponent from "./Avatar";
 
 const Nav = async () => {
   const { userId } = auth();
@@ -58,7 +59,7 @@ const Nav = async () => {
               Faq
               <MessageCircleQuestion size="20px" className="md:hidden" />
             </Link>
-            <UserButton afterSignOutUrl="/" />
+            <AvatarComponent afterSignOutUrl="/" />
           </div>
         ) : (
           <div className="flex gap-4">

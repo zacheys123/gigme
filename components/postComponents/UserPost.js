@@ -125,19 +125,38 @@ const UserPost = ({ user }) => {
             const data = new FormData();
             data.append("file", file);
             data.append("upload_preset", "gigmeZach");
-            const uploadResponse = await fetch(
-              "https://api.cloudinary.com/v1_1/dsziq73cb/image/upload",
+            if (file?.type?.startsWith("image/")) {
+              const uploadResponse = await fetch(
+                "https://api.cloudinary.com/v1_1/dsziq73cb/image/upload",
+                {
+                  method: "POST",
+                  body: data,
+                }
+              );
+              const uploadedImageData = await uploadResponse.json();
+              const imageUrl = uploadedImageData.secure_url;
+              setUrl(imageUrl);
+              console.log(imageUrl);
+
+              setUserState({ type: global.SHOWPOSTS, payload: !showPosts });
+            }
+            // https://res.cloudinary.com/demo/video/upload/
+            const uploadResponse2 = await fetch(
+              "https://api.cloudinary.com/v1_1/dsziq73cb/video/upload",
               {
                 method: "POST",
                 body: data,
               }
             );
-            const uploadedImageData = await uploadResponse.json();
+            const uploadedImageData = await uploadResponse2.json();
             const imageUrl = uploadedImageData.secure_url;
             setUrl(imageUrl);
             console.log(imageUrl);
 
-            setUserState({ type: global.SHOWPOSTS, payload: !showPosts });
+            setUserState({
+              type: global.SHOWPOSTS,
+              payload: !showPosts,
+            });
           }}
           className="h-[90px] bg-gray-600 shadow-full w-[90%] mx-auto p-3 mt-8"
         >

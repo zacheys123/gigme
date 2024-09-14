@@ -7,7 +7,7 @@ import {
   getDisLikes,
   getLikes,
 } from "@/utils";
-import { Box, CircularProgress } from "@mui/material";
+import { Avatar, Box, CircularProgress } from "@mui/material";
 import { TextInput } from "flowbite-react";
 import { Globe } from "lucide-react";
 import Image from "next/image";
@@ -19,14 +19,9 @@ import { AiFillDislike } from "react-icons/ai";
 import { FaArrowLeft } from "react-icons/fa";
 import Comments from "./Comments";
 import HeaderDetails from "./HeaderDetails";
-import {
-  handleLike,
-  handleUndislike,
-  handleUnlike,
-  handledisLike,
-} from "@/features/likeDislike";
+
 import LikeDisLikeComponent from "./LikeDisLikeComponent";
-const SinglePost = ({ post, user, comments, replies }) => {
+const SinglePost = ({ post, user, comments, replies, lastpost }) => {
   let newComm = comments?.comments;
   let myuser = user?.user;
 
@@ -79,25 +74,18 @@ const SinglePost = ({ post, user, comments, replies }) => {
   // get a random comment after every 30secs
   const randComment = useCallback(() => {
     let arr = commentsArray;
-    return arr[Math.floor(Math.random() * arr.length)];
+    return arr[Math.floor(Math.random() * arr?.length)];
   }, [commentsArray]);
   useEffect(() => {
     setTimeout(() => {
       randComment();
-    }, 3000);
+    }, 500);
   });
 
   let username = "text-[13px]   ml-2 text-blue-300 font-bold";
   let globe = "text-[10px]";
   let posted = "text-neutral-400 font-mono text-[13px] md:text-[15px]";
 
-  function alt() {
-    return (
-      <div className="text-neutral-500 font-mono  bg-gray-200 flex justify-center items-center w-[20px] h-[20px]">
-        {randComment() && randComment()?.postedBy?.firstname?.split("")[0]}
-      </div>
-    );
-  }
   return (
     <div
       className="container p-3 shadow-slate-400 w-[90%] my-2 
@@ -115,7 +103,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
       <Box className="flex flex-col bg-gray-200 rounded-md p-2">
         <div className="title text-neutral-500 text-[13px] ">{post?.title}</div>
         <div>
-          {post?.media && (
+          {post?.media?.includes("image") && (
             <Image
               width={130}
               height={130}
@@ -123,6 +111,16 @@ const SinglePost = ({ post, user, comments, replies }) => {
               alt="post image"
               className="object-cover h-[260px] w-full mt-3"
             />
+          )}
+          {post?.media?.includes("video") && (
+            <div>
+              <video
+                className="object-cover"
+                src={post?.media}
+                muted
+                controls
+              />
+            </div>
           )}
           <h6 className="text-blue-600 font-bold text-[13px] mt-2 font-mono">
             #{post?.description}
@@ -149,14 +147,20 @@ const SinglePost = ({ post, user, comments, replies }) => {
             {getComments(commentsArray, commentLength)}
           </h6>
           <div className="flex mt-1 items-center mb-3">
-            {randComment()?.postedBy?.picture && (
+            {randComment()?.postedBy?.picture ? (
               <Image
-                alt={alt()}
+                alt={randComment()?.postedBy?.firstname?.split("")[0]}
                 src={randComment() && randComment()?.postedBy?.picture}
                 width={20}
                 height={20}
                 className="w-[20px] h-[20px]  rounded-full"
               />
+            ) : (
+              <>
+                {randComment()?.postedBy && (
+                  <Avatar size="15px" sx={{ fontSize: "15px" }} />
+                )}
+              </>
             )}{" "}
             <h6 className="text-[13px]  text-neutral-300 ml-2">
               {randComment()?.text}

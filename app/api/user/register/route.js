@@ -21,7 +21,9 @@ export async function POST(req) {
         $set: {
           firstname: params?.firstName,
           lastname: params?.lastName,
-          picture: params?.imageUrl,
+          picture: existingUser.picture
+            ? existingUser.picture
+            : params?.imageUrl,
           email: params?.emailAddresses[0]?.emailAddress,
           username: params?.username,
           phone: params?.phoneNumbers[0]?.phoneNumber,
@@ -41,7 +43,7 @@ export async function POST(req) {
         clerkId: userId,
         firstname: params?.firstName,
         lastname: params?.lastName,
-        picture: params?.imageUrl,
+        picture: existingUser.picture ? existingUser.picture : params?.imageUrl,
         email: params?.emailAddresses[0]?.emailAddress,
         username: params?.username,
         phone: params?.phoneNumbers[0]?.phoneNumber,

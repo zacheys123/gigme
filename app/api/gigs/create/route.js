@@ -1,4 +1,6 @@
 import connectDb from "@/lib/connectDb";
+import { pusher } from "@/lib/pusher";
+
 import Gigs from "@/models/gigs";
 import User from "@/models/user";
 import { auth } from "@clerk/nextjs";
@@ -33,6 +35,7 @@ export async function POST(req) {
       });
     }
 
+    let gigId = existingSecret?._id;
     const newGig = await Gigs.create({
       title: data?.dataInfo?.title,
       description: data?.dataInfo?.description,
@@ -52,14 +55,16 @@ export async function POST(req) {
       bandCategory:
         data?.dataInfo?.category.length > 0 ? "" : data?.dataInfo?.bandCategory,
     });
-    const getGig = await Gigs.find({ postedBy: newGig.postedBy }).populate({
-      path: "postedBy",
-      model: User,
-    });
+    await pusher.trigger("gigs", "gig-created", { gig });
+    const gig = await Gigs.find({ postedBy: newGig.postedBy })
+      .populate({ path: "bookedBy", model: User })
+      .collation({ locale: "en", strength: 2 })
+      .exec();
+
     return NextResponse.json({
       gigstatus: "true",
       message: "Created Gig successfully",
-      results: getGig,
+      gig,
     });
   } catch (error) {
     console.log(error);

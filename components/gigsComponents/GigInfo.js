@@ -1,7 +1,7 @@
 "use client";
 import { handleCreateGig } from "@/features/gigs";
 import { Select, Textarea } from "flowbite-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 
 import { Add, PreviewTwoTone } from "@mui/icons-material";
@@ -13,7 +13,38 @@ import "react-datepicker/dist/react-datepicker.css";
 import { CircularProgress } from "@mui/material";
 import { EyeIcon, EyeOff } from "lucide-react";
 import { toast } from "sonner";
+import useStore from "@/app/zustand/useStore";
+import { pusherClient } from "@/lib/pusher-client";
+import { useAuth } from "@clerk/nextjs";
 const GigInfo = ({ user }) => {
+  const { setAllGigs, setPubGigs } = useStore();
+  const { userId } = useAuth();
+  const getGigs = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/gigs/getcreated/${userId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      console.log(data?.gigs);
+      setAllGigs(data?.gigs);
+      setPubGigs(data?.gigs);
+
+      setLoading(false);
+      return data;
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    getGigs();
+  }, []);
   const [loading, setLoading] = useState();
   const [secretpass, setSecretPass] = useState();
   const [selectedDate, setSelectedDate] = useState(null);
@@ -60,9 +91,6 @@ const GigInfo = ({ user }) => {
     setSelectedDate(date);
   };
 
-  const [other, setOther] = useState(false);
-
-  const [full, setFull] = useState(false);
   console.log(gigInputs);
   const handleChange = (e) => {
     const { value, checked } = e.target;
@@ -125,10 +153,14 @@ const GigInfo = ({ user }) => {
       });
       const data = await res.json();
       console.log(data);
+      setPubGigs(data?.gig);
+      setAllGigs(data?.gig);
       if (data.gigstatus === "false") {
         setSecretReturn(data?.message);
       }
       if (data.gigstatus === "true") {
+        setPubGigs(data?.gig);
+        setAllGigs(data?.gig);
         toast.success(data?.message);
       }
 
@@ -155,6 +187,18 @@ const GigInfo = ({ user }) => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    pusherClient.subscribe("gigs");
+    pusherClient.bind("gig-created", (data) => {
+      setAllGigs(data);
+      setPubGigs(data);
+      console.log(data);
+    });
+    return () => {
+      pusherClient.unsubscribe("gigs");
+    };
+  }, []);
   return (
     <div className="min-h-full relative">
       <h6 className="text-center mb-2 font-mono underline">Fill The Details</h6>

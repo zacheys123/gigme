@@ -36,7 +36,9 @@ export default function Home() {
   }
   return (
     <main className="min-h-screen xl:container p-0">
-      <ImageComponent bgCover={bgImage} />
+      <ImageComponent
+        bgCover={`https://res.cloudinary.com/dsziq73cb/image/upload/v1726076396/ktkmiyprgabacrdye9zi.jpg`}
+      />
 
       <div className="h-[70vh] w-100 flex justify-center items-center">
         <div className=" flex-col gap-4 text-2xl xl:text-7xl text-center md:flex-row md:text-6xl">

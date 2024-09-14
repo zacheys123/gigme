@@ -23,9 +23,9 @@ const GigDisplay = ({
       className=" cursor-pointer"
       onClick={() => {
         if (gig?.isPending === false || gig?.isTaken === false) {
-          router.push(`/gigme/mygig/${gig?._id}/execute`);
+          return router.push(`/gigme/mygig/${gig?._id}/execute`);
         }
-        router.push(`/v1/profile/${userId}`);
+        return router.push(`/v1/profile/${userId}`);
       }}
     >
       <div className={secondDiv}>
@@ -38,7 +38,7 @@ const GigDisplay = ({
                 ? gig?.postedBy?.picture
                 : gig?.bookedBy?.picture
             }
-            alt={gigdescription?.username.split("")[0]}
+            alt={gigdescription?.firstname.split("")[0]}
             width={imageno}
             height={imageno}
             className={image}
@@ -65,7 +65,7 @@ const GigDisplay = ({
                 : "Mixed Musicians Gig"}
             </h6>
             <h6 className={title}> Price: {gig.price}</h6>
-            <h6 className="text-red-700 title">{pendingStatus}</h6>
+            <h6 className="text-red-700 font-bold title">{pendingStatus}</h6>
           </div>
         </div>
       </div>

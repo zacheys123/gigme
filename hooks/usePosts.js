@@ -1,30 +1,28 @@
-"use client";
-
 import { global } from "@/actions";
 import { useGlobalContext } from "@/app/Context/store";
 import { useEffect, useState } from "react";
-export function useCurrentUser(userId) {
+export function usePosts(id) {
   const [loading, setLoading] = useState();
-  const [user, setUser] = useState({});
+  const [posts, setPosts] = useState({});
   useEffect(() => {
-    const getUser = async () => {
+    const getPosts = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/user/getuser/${userId}`, {
+        const res = await fetch(`/api/posts/getusersposts/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
         });
-        const user = await res.json();
-        setUser(user);
+        const post = await res.json();
+        setPosts(post);
       } catch (error) {
         console.log(error);
       } finally {
         setLoading(false);
       }
     };
-    getUser();
-  }, [userId]);
-  return { loading, user, setUser };
+    getPosts();
+  }, [id]);
+  return { posts };
 }

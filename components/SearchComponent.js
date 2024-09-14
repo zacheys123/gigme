@@ -50,6 +50,7 @@ const SearchComponent = ({}) => {
       <form className=" w-[100vw] ">
         <div className=" flex justify-center items-center">
           <Input
+            autoComplete="off"
             onChange={(ev) => setSearchhQuery(ev.target.value)}
             value={searchquery}
             className="w-[100vw] mx-4 my-10 bg-gray-300 text-neutral-600  font-bold placeholder-red-600"

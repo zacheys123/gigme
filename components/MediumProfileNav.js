@@ -12,6 +12,7 @@ import { MdOutlineDashboard } from "react-icons/md";
 import { FaMusic } from "react-icons/fa6";
 import { IoSettingsOutline } from "react-icons/io5";
 import { CiMusicNote1 } from "react-icons/ci";
+import AvatarComponent from "./Avatar";
 const MediumProfileNav = () => {
   const { userId } = useAuth();
   const pathname = usePathname();
@@ -213,7 +214,7 @@ const MediumProfileNav = () => {
             </Transition>
           )}
         </Link>{" "}
-        <UserButton />
+        <AvatarComponent />
       </aside>
     </div>
   );
