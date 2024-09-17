@@ -55,16 +55,15 @@ export async function POST(req) {
       bandCategory:
         data?.dataInfo?.category.length > 0 ? "" : data?.dataInfo?.bandCategory,
     });
-    await pusher.trigger("gigs", "gig-created", { gig });
-    const gig = await Gigs.find({ postedBy: newGig.postedBy })
-      .populate({ path: "bookedBy", model: User })
-      .collation({ locale: "en", strength: 2 })
-      .exec();
+    pusher.trigger("gigs-chanel", "gig-created", { newGig });
+    // const gig = await Gigs.find({ postedBy: newGig.postedBy })
+    //   .populate({ path: "bookedBy", model: User })
+    //   .collation({ locale: "en", strength: 2 })
+    //   .exec();
 
     return NextResponse.json({
       gigstatus: "true",
       message: "Created Gig successfully",
-      gig,
     });
   } catch (error) {
     console.log(error);

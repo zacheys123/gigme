@@ -3,9 +3,9 @@ import Image from "next/image";
 import { PropTypes } from "prop-types";
 import React, { useEffect } from "react";
 
-const ChatHeader = ({ myUser, onlineUsers, id, otherUser }) => {
-  const isOnline = onlineUsers.includes(id);
-  const isFriend = onlineUsers?.includes(otherUser?.user?._id);
+const ChatHeader = ({ myUser, id, otherUser }) => {
+  const isOnline = false;
+  const isFriend = false;
   console.log(otherUser?.user?._id);
   return (
     <div className="w-full border-0 border-b-slate-900 shadow-sm h-[40] p-1 mb-2 bg-gray-300 rounded-sm ">

@@ -1,12 +1,13 @@
 import Image from "next/image";
 
 export default function AppBgImg({ bgCover }) {
-  return (
+  return (  
     <Image
       src={bgCover}
-      placeholder="blur"
+      width={100}
+      height={100}
       alt="background Image"
-      size="100vw"
+
       className="object-cover z-[-1] h-[85vh] absolute w-[100vw] xl:container"
     />
   );

@@ -4,7 +4,7 @@ import User from "@/models/user";
 import Message from "@/models/messages";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
-import { getRecieverSocketId } from "@/Backend";
+import { pusher } from "@/lib/pusher";
 
 export async function POST(req) {
   const { userId } = auth();
@@ -19,27 +19,22 @@ export async function POST(req) {
     if (!text || !sender) {
       return;
     }
-    let chat = await Chat.findOne({
-      users: { $all: [sender, reciever] },
-    });
-    if (!chat) {
-      chat = await Chat.create({
-        users: [sender, reciever],
-        gigChat,
-      });
-    }
-    let newmessage = new Message({
+    const newMessage = new Message({
       text,
       sender,
       reciever,
     });
-    if (newmessage) {
-      chat.messages.push(newmessage._id);
-    }
-    await Promise.all([chat.save(), newmessage.save()]);
-    let message = await Message.findOne({ _id: newmessage._id })
+    await newMessage.save();
+    let chat = await Chat.findOne({
+      users: { $all: [sender, reciever] },
+    });
+    chat.messages.push(newMessage._id);
+    await chat.save();
+    let message = await Message.findOne({ _id: newMessage._id })
       .populate({ path: "sender", model: User })
       .populate({ path: "reciever", model: User });
+    pusher.trigger(`chat-channel`, "new-message", message);
+
     // implement socket io functionality
 
     return NextResponse.json({

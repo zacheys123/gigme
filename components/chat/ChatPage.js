@@ -1,24 +1,58 @@
 "use client";
 import { useFetchMessages } from "@/hooks/useFetchMessages";
 import { PropTypes } from "prop-types";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Message from "./Message";
 import Skeleton from "./Skeleton";
 import { useGlobalContext } from "@/app/Context/store";
 import { useParams } from "next/navigation";
-import { useListenMessage } from "@/hooks/useListenMessage";
+import useStore from "@/app/zustand/useStore";
+import { pusherClient } from "@/lib/pusher-client";
 
 const ChatPage = ({ currentId, postedorbookedById, gigId }) => {
   const { gigid } = useParams();
-  const { loading, messages } = useFetchMessages(currentId, postedorbookedById);
-  const { output } = useListenMessage();
 
+  const { messages, setMessages } = useStore();
   const lastmsg = useRef();
+
+  const [loading, setLoading] = useState();
+  const [chat, setChat] = useState({});
+  const url = `/api/chat/fetchchats/${currentId}/${postedorbookedById}`;
+
+  useEffect(() => {
+    async function getMessages() {
+      setLoading(true);
+      if (!currentId || !postedorbookedById) return [];
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.error) {
+          throw new Error(data.error);
+        }
+        setChat(data?.chat);
+        setMessages(data?.chat?.messages);
+        return data;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    if (postedorbookedById) getMessages();
+  }, [url, currentId, postedorbookedById, setMessages]);
   useEffect(() => {
     setTimeout(() => {
       lastmsg.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
-  }, [messages]);
+    const channel = pusherClient.subscribe(`chat-channel`);
+    channel.bind("new-message", (newmessage) => {
+      setMessages((messages) => [...messages, newmessage]);
+      // setAllGigs(data);
+      // setPubGigs(data);
+      console.log(newmessage);
+    });
+  }, [messages, setMessages]);
+
   let msg = messages?.filter((message) => {
     return messages?.gigChat === gigid;
   });

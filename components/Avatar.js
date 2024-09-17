@@ -1,5 +1,6 @@
+"use client";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { useAuth, UserButton } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 import { Avatar } from "@mui/material";
 import Image from "next/image";
 import React from "react";
@@ -19,7 +20,10 @@ const AvatarComponent = () => {
           alt={user?.user?.firstname.split("")[0]}
         />
       ) : (
-        <UserButton />
+        <Avatar
+          className="w-[35px] h-[35px] rounded-full object-fit"
+          sx={{ width: "35px", height: "35px", borderRadius: "100px" }}
+        />
       )}
     </div>
   );

@@ -189,10 +189,10 @@ const GigInfo = ({ user }) => {
   };
 
   useEffect(() => {
-    pusherClient.subscribe("gigs");
+    pusherClient.subscribe("gigs-chanel");
     pusherClient.bind("gig-created", (data) => {
-      setAllGigs(data);
-      setPubGigs(data);
+      // setAllGigs(data);
+      // setPubGigs(data);
       console.log(data);
     });
     return () => {

@@ -70,7 +70,6 @@ const Chat = ({ other, curr, getGig }) => {
             {/* header */}
             <ChatHeader
               myUser={other}
-              onlineUsers={onlineUsers}
               id={user?.user?._id}
               otherUser={postedOther}
             />

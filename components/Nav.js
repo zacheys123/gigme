@@ -59,7 +59,8 @@ const Nav = async () => {
               Faq
               <MessageCircleQuestion size="20px" className="md:hidden" />
             </Link>
-            <AvatarComponent afterSignOutUrl="/" />
+            {/* <AvatarComponent afterSignOutUrl="/" /> */}
+            <UserButton afterSignOutUrl="/" />
           </div>
         ) : (
           <div className="flex gap-4">

@@ -15,11 +15,8 @@ const SideBar = ({ user }) => {
     setShowMusiciansLarge,
     setShowAllGigsData,
     friendData,
-
     postedGigsData,
-
     bookedGigsData,
-
     allGigsData,
     musiciansLarge,
   } = useStore();

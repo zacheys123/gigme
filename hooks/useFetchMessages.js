@@ -1,9 +1,11 @@
 import { global } from "@/actions";
 import { useGlobalContext } from "@/app/Context/store";
 import useStore from "@/app/zustand/useStore";
+import { pusherClient } from "@/lib/pusher-client";
 import { useEffect, useState } from "react";
 export function useFetchMessages(currentId, postedorbookedById) {
   const [loading, setLoading] = useState();
+  const [chat, setChat] = useState({});
   const url = `/api/chat/fetchchats/${currentId}/${postedorbookedById}`;
 
   const { setMessages, messages } = useStore();
@@ -17,7 +19,7 @@ export function useFetchMessages(currentId, postedorbookedById) {
         if (data.error) {
           throw new Error(data.error);
         }
-
+        setChat(data?.chat);
         setMessages(data?.chat?.messages);
         return data;
       } catch (error) {
@@ -28,6 +30,15 @@ export function useFetchMessages(currentId, postedorbookedById) {
     }
     if (postedorbookedById) getMessages();
   }, [url, currentId, postedorbookedById, setMessages]);
+  useEffect(() => {
+    const channel = pusherClient.subscribe(`chat-channel`);
+    channel.bind("new-message", (newmessage) => {
+      setMessages((messages) => [...messages, newmessage]);
+      // setAllGigs(data);
+      // setPubGigs(data);
+      console.log(newmessage);
+    });
+  }, []);
 
   return { loading, messages };
 }
