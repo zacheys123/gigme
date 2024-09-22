@@ -62,6 +62,31 @@ export const differenceInMinutes = (post, today) => {
     return "just now";
   }
 };
+export const diff = (post, today) => {
+  let d;
+  let mydate = new Date(post);
+  var diffMs = today - mydate; // milliseconds between now & Christmas
+  var diffDays = Math.floor(diffMs / 86400000); // days
+  var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+  var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+  d = getDays(diffDays);
+  if (diffDays) {
+    return d;
+  }
+  if (diffHrs === 1) {
+    return diffHrs + " hour ago";
+  } else if (diffHrs > 1) {
+    return diffHrs + " hours ago";
+  } else if (diffMins === 1) {
+    return diffMins + " minute ago";
+  } else if (diffMins > 1) {
+    return diffMins + " minutes ago";
+  } else if (diffMins === 60) {
+    return "1 hour ago";
+  } else {
+    return "just now";
+  }
+};
 
 export function getLikes(posts, likeLength) {
   if (posts?.likes?.length > 1000) {

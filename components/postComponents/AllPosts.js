@@ -9,7 +9,7 @@ const AllPosts = ({ userposts, user, comments, replies, myposts }) => {
 
   const [optimisticePosts, setOptimisticePosts] = useState(userposts);
   const mydata = optimisticePosts?.posts?.filter(
-    (post) => post?.postedBy?._id === user?.user?._id
+    (post) => post?.postedBy?._id !== user?.user?._id
   );
 
   const otherdata = optimisticePosts?.posts?.filter(

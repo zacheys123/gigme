@@ -2,6 +2,7 @@ import { differenceInMinutes, handleRouting } from "@/utils";
 import { useAuth } from "@clerk/nextjs";
 import { Avatar } from "@mui/material";
 import { Globe } from "lucide-react";
+import moment from "moment";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -13,7 +14,7 @@ const HeaderDetails = ({ posts, today, username, globe, posted, user }) => {
     <>
       <div className="flex items-center gap-2  mt-1">
         <Globe className={globe} size="16px" />
-        <h5 className={posted}>posted {differenceInMinutes(posts, today)}</h5>
+        <h5 className={posted}>posted {moment(posts?.createdAt).calendar()}</h5>
       </div>
       <div className="flex mt-1 items-center">
         {posts?.postedBy?.picture ? (

@@ -1,5 +1,7 @@
 import ClientOnly from "@/app/ClientOnly";
 import Chat from "@/components/chat/Chat";
+import connectDb from "@/lib/connectDb";
+import User from "@/models/user";
 import { checkEnvironment } from "@/utils";
 import { auth } from "@clerk/nextjs";
 const getUser = async (params) => {
@@ -38,13 +40,23 @@ const getGig = async (params) => {
   }
 };
 const ChatPage = async ({ params }) => {
+  await connectDb();
+
+  const onlineUsers = await User.find({ isOnline: true });
+
   const { userId } = auth();
   const otherUser = await getUser(params);
   const currentUser = await getCurrentUser(userId);
   const myGig = await getGig(params);
   return (
     <ClientOnly>
-      <Chat other={otherUser} curr={currentUser} getGig={myGig} />;
+      <Chat
+        other={otherUser}
+        curr={currentUser}
+        getGig={myGig}
+        onlineUsers={onlineUsers} // add online users to props to pass to the chat component
+      />
+      ;
     </ClientOnly>
   );
 };

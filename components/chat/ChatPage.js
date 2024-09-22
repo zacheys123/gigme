@@ -41,9 +41,6 @@ const ChatPage = ({ currentId, postedorbookedById, gigId }) => {
     if (postedorbookedById) getMessages();
   }, [url, currentId, postedorbookedById, setMessages]);
   useEffect(() => {
-    setTimeout(() => {
-      lastmsg.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
     const channel = pusherClient.subscribe(`chat-channel`);
     channel.bind("new-message", (newmessage) => {
       setMessages((messages) => [...messages, newmessage]);
@@ -51,17 +48,20 @@ const ChatPage = ({ currentId, postedorbookedById, gigId }) => {
       // setPubGigs(data);
       console.log(newmessage);
     });
+    setTimeout(() => {
+      lastmsg.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
   }, [messages, setMessages]);
 
   let msg = messages?.filter((message) => {
-    return messages?.gigChat === gigid;
+    return chat?.gigChat === gigid;
   });
 
   return (
     <div className="overflow-y-auto shadow-md shadow-zinc-100  border border-input  rounded-md element-with-scroll flex-1  p-2">
       {!loading &&
-        messages?.length > 0 &&
-        messages?.map((message) => {
+        msg?.length > 0 &&
+        msg?.map((message) => {
           return (
             <div key={message._id} ref={lastmsg}>
               {" "}

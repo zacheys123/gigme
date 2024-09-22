@@ -30,7 +30,7 @@ const SocialNav = () => {
     }
   };
 
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const getAllUsers = async () => {
     const res = await fetch(`/api/user/getAllusers/${userId}`, {
       method: "GET",

@@ -18,6 +18,7 @@ export default authMiddleware({
     "/api/gigs/getgig/:id",
     "/api/chat/createchat",
     "/api/chat/sendmessage",
+    "/api/online",
     "/api/chat/fetchchats/:userid/:id",
   ],
 });

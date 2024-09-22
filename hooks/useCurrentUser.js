@@ -16,8 +16,9 @@ export function useCurrentUser(userId) {
             "Content-Type": "application/json",
           },
         });
-        const user = await res.json();
-        setUser(user);
+        const meuser = await res.json();
+        setUser(meuser);
+        console.log(meuser);
       } catch (error) {
         console.log(error);
       } finally {

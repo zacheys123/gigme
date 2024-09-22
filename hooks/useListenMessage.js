@@ -1,24 +1,30 @@
 import { global } from "@/actions";
-import { useSocketContext } from "@/app/Context/SocketContext";
-import { useGlobalContext } from "@/app/Context/store";
+import { useSocketContext } from "@/app/Context/socket";
+import useStore from "@/app/zustand/useStore";
+
 import React, { useEffect, useState } from "react";
 
-export const useListenMessage = () => {
-  const { socket } = useSocketContext;
+export const useListenMessage = (otheruser, message) => {
+  const { socket } = useSocketContext();
   const [output, setOutput] = useState();
-  const {
-    userState: { messages },
-    setUserState,
-  } = useGlobalContext();
+  const { setMessages } = useStore();
   useEffect(() => {
-    socket?.on("newMessage", (message) => {
-      setOutput(message);
-      setUserState({
-        type: global.SETMESSAGES,
-        payload: [...messages?.messages, message],
-      });
-    });
+    let s;
+    let newuser;
+    s = socket;
+    newuser = otheruser;
+    if (s === null) return;
+
+    socket?.emit("sendMessage", { ...message, newuser });
     return () => socket?.off("newMessage"); // cleanup function to prevent memory leak  // eslint-disable-next-line
-  }, [socket, messages, setUserState]);
+  }, [message]);
+
+  useEffect(() => {
+    if (socket === null) return;
+    socket?.on("getMessage", (data) => {
+      setOutput(data);
+      setMessages((prevMessages) => [...prevMessages, data]);
+    });
+  }, [socket]);
   return { output };
 };

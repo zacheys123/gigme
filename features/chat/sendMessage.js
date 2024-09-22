@@ -32,7 +32,7 @@ export const send = async (
     const data = await response.json();
     console.log(data);
     if (data.chatStatus === true) {
-      // setMessages([...messages, data.message]);
+      setMessages([...messages, data.message]);
       setText("");
       console.log(data.message);
     } else {

@@ -12,9 +12,9 @@ import { useGlobalContext } from "@/app/Context/store";
 import ClientOnly from "@/app/ClientOnly";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import useStore from "@/app/zustand/useStore";
-const Chat = ({ other, curr, getGig }) => {
+const Chat = ({ other, curr, getGig, onlineUsers }) => {
   const { userId } = useAuth();
-
+  console.log(onlineUsers);
   const sender = useRef();
   const reciever = useRef();
   const postedorbookedById = other?.user?._id;
@@ -23,10 +23,6 @@ const Chat = ({ other, curr, getGig }) => {
 
   const router = useRouter();
 
-  // console.log(
-  //   "currentId" + currentId,
-  //   "postedorbookedById" + postedorbookedById
-  // );
   useEffect(() => {
     sender.current = currentId;
     reciever.current = postedorbookedById;
@@ -72,6 +68,7 @@ const Chat = ({ other, curr, getGig }) => {
               myUser={other}
               id={user?.user?._id}
               otherUser={postedOther}
+              onlineUsers={onlineUsers}
             />
             {/*  messages*/}
             <ClientOnly>
