@@ -44,8 +44,9 @@ const GigInfo = ({ user }) => {
   };
   useEffect(() => {
     getGigs();
-  }, [getGigs]);
+  }, []);
   const [loading, setLoading] = useState();
+  const [isloading, setIsLoading] = useState();
   const [secretpass, setSecretPass] = useState();
   const [selectedDate, setSelectedDate] = useState(null);
   const minDate = new Date("2020-01-01");
@@ -141,7 +142,7 @@ const GigInfo = ({ user }) => {
     }
 
     try {
-      setLoading(true);
+      setIsLoading(true);
       const res = await fetch(`/api/gigs/create`, {
         method: "POST",
         headers: {
@@ -181,15 +182,15 @@ const GigInfo = ({ user }) => {
         bussinesscat: "personal",
       });
       setUserInfo({ prefferences: [] });
-      setLoading(false);
+      setIsLoading(false);
     } catch (error) {
-      setLoading(false);
+      setIsLoading(false);
       console.log(error);
     }
   };
 
   return (
-    <div className="min-h-full relative">
+    <div className="min-h-scrreen element-with-scroll relative">
       <h6 className="text-center mb-2 font-mono underline">Fill The Details</h6>
       {/* {!open ? ( */}
       <form onSubmit={onSubmit}>

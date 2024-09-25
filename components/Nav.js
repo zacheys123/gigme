@@ -18,7 +18,7 @@ import AvatarComponent from "./Avatar";
 const Nav = async () => {
   const { userId } = auth();
   return (
-    <nav className="container shadow-cyan-700 bg-black p-4 shadow-md sticky top-0 mx-auto max-w-[100vw] xl:w-[100vw]  flex items-center-center justify-between">
+    <nav className="container shadow-cyan-700 bg-black p-4 shadow-md sticky top-0 mx-auto max-w-[100vw] xl:w-[100vw]  flex items-center justify-between">
       <Logo />
       <span className="flex items-center">
         {userId ? (
