@@ -65,7 +65,7 @@ const MainLayout = ({ children }) => {
     );
   }
   return (
-    <Box className="flex bg-black w-[100vw] h-full justify-center items-center ">
+    <Box className="flex bg-black w-[100vw] h-full justify-center items-center overflow-x-hidden">
       <ProfileNav user={allmydata} loading={loading} />
       <MediumProfileNav />
       <Toaster expand={false} richColors position="top" />
