@@ -20,45 +20,39 @@ const Message = ({ myMessages, other, curr }) => {
   const color = !fromme
     ? "text-red-200 font-bold"
     : "text-purple-100 font-bold";
-  const { loading } = useGetUsers(setReciever, setSender, other, curr);
+  // const { loading } = useGetUsers(setReciever, setSender, other, curr);
 
   return (
     <div>
-      {loading ? (
-        <div className="flex justify-center items-center h-[200px] w-[200px]">
-          <CircularProgress size={10} />
-        </div>
-      ) : (
-        <>
-          <Box className={chatclassName}>
-            <div className="chat-image avatar">
-              <div className=" rounded-full h-[16px] w-[16px]">
-                <AvatarComponent
-                  user={profpic}
-                  className="h-[16px] w-[16px] object-fit"
-                />
-              </div>
+      <>
+        <Box className={chatclassName}>
+          <div className="chat-image avatar">
+            <div className=" rounded-full h-[16px] w-[16px]">
+              <AvatarComponent
+                user={profpic}
+                className="h-[16px] w-[16px] object-fit"
+              />
             </div>
+          </div>
 
-            <div className={`chat-bubble text-white  ${background} h-fit`}>
-              {" "}
-              <div
-                className={`chat-header font-sans text-[11px] underline ${color}`}
-              >
-                {name}
-              </div>
-              <span className="title">{myMessages?.text}</span>
+          <div className={`chat-bubble text-white  ${background} h-fit`}>
+            {" "}
+            <div
+              className={`chat-header font-sans text-[11px] underline ${color}`}
+            >
+              {name}
             </div>
-            <div className="chat-footer opacity-50">
-              sent{" "}
-              <span className="font-mono text-[12px]">
-                {/* {formattedtime(myMessages?.createdAt)} */}
-                {moment(myMessages?.createdAt).calendar()}
-              </span>
-            </div>
-          </Box>
-        </>
-      )}
+            <span className="title">{myMessages?.text}</span>
+          </div>
+          <div className="chat-footer opacity-50">
+            sent{" "}
+            <span className="font-mono text-[12px]">
+              {/* {formattedtime(myMessages?.createdAt)} */}
+              {moment(myMessages?.createdAt).calendar()}
+            </span>
+          </div>
+        </Box>
+      </>
     </div>
   );
 };
