@@ -38,7 +38,7 @@ const DisplayAllGigs = ({ gigs = {}, user = {} }) => {
                 <h6 className="text-[9px] font-bold">{gig.title}</h6>
                 <h6 className="text-[9px] font-bold">
                   {" "}
-                  {gig?.postedBy?.username || gig?.bookedBy?.usernam}
+                  {gig?.postedBy?.username || gig?.bookedBy?.username}
                 </h6>
                 <h6 className="text-[9px] font-bold">
                   {" "}
@@ -49,6 +49,9 @@ const DisplayAllGigs = ({ gigs = {}, user = {} }) => {
                     : "Mixed Musicians Gig"}
                 </h6>
                 <h6 className="text-[9px] font-bold"> Price: {gig.price}</h6>
+                <h6 className="text-[9px] font-bold text-red-700">
+                  {gig?.isPending ? "booked" : ""}
+                </h6>
               </div>
             </div>
           </div>
