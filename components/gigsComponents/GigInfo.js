@@ -14,7 +14,7 @@ import { CircularProgress } from "@mui/material";
 import { EyeIcon, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import useStore from "@/app/zustand/useStore";
-import { pusherClient } from "@/lib/pusher-client";
+
 import { useAuth } from "@clerk/nextjs";
 const GigInfo = ({ user }) => {
   const { setAllGigs, setPubGigs } = useStore();
@@ -44,7 +44,7 @@ const GigInfo = ({ user }) => {
   };
   useEffect(() => {
     getGigs();
-  }, []);
+  }, [getGigs]);
   const [loading, setLoading] = useState();
   const [secretpass, setSecretPass] = useState();
   const [selectedDate, setSelectedDate] = useState(null);
@@ -188,17 +188,6 @@ const GigInfo = ({ user }) => {
     }
   };
 
-  useEffect(() => {
-    pusherClient.subscribe("gigs-chanel");
-    pusherClient.bind("gig-created", (data) => {
-      // setAllGigs(data);
-      // setPubGigs(data);
-      console.log(data);
-    });
-    return () => {
-      pusherClient.unsubscribe("gigs");
-    };
-  }, []);
   return (
     <div className="min-h-full relative">
       <h6 className="text-center mb-2 font-mono underline">Fill The Details</h6>

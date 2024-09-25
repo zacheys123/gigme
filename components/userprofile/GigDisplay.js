@@ -19,7 +19,6 @@ const GigDisplay = ({
 
   return (
     <div
-      key={gig.id}
       className=" cursor-pointer"
       onClick={() => {
         if (gig?.isPending === false || gig?.isTaken === false) {

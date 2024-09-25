@@ -1,5 +1,5 @@
 import connectDb from "@/lib/connectDb";
-import { pusher } from "@/lib/pusher";
+
 import Gigs from "@/models/gigs";
 import User from "@/models/user";
 import { NextResponse } from "next/server";
@@ -25,7 +25,6 @@ export async function PUT(req, { params }) {
       },
       { new: true }
     );
-    pusher.trigger("gigs", "gig-booked", newGig);
 
     const currentgig = await Gigs.findById(newGig._id).populate({
       path: "bookedBy",

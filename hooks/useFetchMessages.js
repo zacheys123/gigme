@@ -1,7 +1,6 @@
 import { global } from "@/actions";
 import { useGlobalContext } from "@/app/Context/store";
 import useStore from "@/app/zustand/useStore";
-import { pusherClient } from "@/lib/pusher-client";
 import { useEffect, useState } from "react";
 export function useFetchMessages(currentId, postedorbookedById) {
   const [loading, setLoading] = useState();

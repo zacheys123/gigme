@@ -37,7 +37,7 @@ const EditPage = () => {
   }
   useEffect(() => {
     getGig();
-  }, []);
+  }, [getGig]);
   const [gigInputs, setGigs] = useState({
     title: "",
     description: "",
@@ -68,7 +68,16 @@ const EditPage = () => {
         durationfrom: "pm",
       };
     });
-  }, []);
+  }, [
+    userposts?.gigs?.bussinesscat,
+    userposts?.gigs?.category,
+    userposts?.gigs?.description,
+    userposts?.gigs?.location,
+    userposts?.gigs?.phone,
+    userposts?.gigs?.price,
+    userposts?.gigs?.secret,
+    userposts?.gigs?.titlerposts,
+  ]);
   const [loading, setLoading] = useState();
   const [secretpass, setSecretPass] = useState();
   const [selectedDate, setSelectedDate] = useState(null);

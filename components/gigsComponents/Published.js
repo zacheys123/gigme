@@ -16,7 +16,7 @@ import { Search } from "@mui/icons-material";
 import Gigheader from "./Gigheader";
 import useStore from "@/app/zustand/useStore";
 import { PropTypes } from "prop-types";
-import { pusherClient } from "@/lib/pusher-client";
+
 const Published = ({ user }) => {
   const { userId } = useAuth();
   const [typeOfGig, setTypeOfGig] = useState("");
@@ -59,20 +59,6 @@ const Published = ({ user }) => {
 
   useEffect(() => {
     getGigs();
-    const channel = pusherClient.subscribe("gigs");
-    channel.bind("gig-booked", (data) => {
-      console.log("new gig created", data);
-    });
-    return () => {
-      // cleanup function
-      // here you can unsubscribe from the channel
-      // it will be automatically called when the component is unmounted
-      // to prevent memory leaks
-      channel.unbind("gig-booked");
-
-      // Here you can call the unsubscribe method to stop listening for events
-      channel.unsubscribe("gigs");
-    };
   }, []);
   const router = useRouter();
   const [readmore, setReadMore] = useState();

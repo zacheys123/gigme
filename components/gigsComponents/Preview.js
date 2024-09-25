@@ -38,7 +38,18 @@ export default function Preview({
       from: fromduration,
       postedBy: user?.user?._id,
     };
-  }, []);
+  }, [
+    fromduration,
+    myInputs?.category,
+    myInputs?.date,
+    myInputs?.description,
+    myInputs?.location,
+    myInputs?.phoneNo,
+    myInputs?.price,
+    myInputs?.title,
+    toduration,
+    user?.user?._id,
+  ]);
   const onSubmit = (event) => {
     event.preventDefault();
     // handleCreateGig(dataInfo, handleClose,setLoading);

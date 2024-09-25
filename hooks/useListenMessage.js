@@ -16,7 +16,7 @@ export const useListenMessage = (otheruser, message) => {
     if (s === null) return;
 
     socket?.emit("sendMessage", { ...message, newuser });
-    return () => socket?.off("newMessage"); // cleanup function to prevent memory leak  // eslint-disable-next-line
+    return () => socket?.off("newMessage");
   }, [message]);
 
   useEffect(() => {

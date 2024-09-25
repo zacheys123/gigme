@@ -24,23 +24,6 @@ const Edit = ({ gigs }) => {
   console.log(params);
 
   useEffect(() => {
-    setGig(gigs);
-    setGigs({
-      title: userposts?.gigs?.title,
-      description: userposts?.gigs?.description,
-      phoneNo: userposts?.gigs?.phone,
-      price: userposts?.gigs?.price,
-      category: userposts?.gigs?.category,
-      location: userposts?.gigs?.location,
-      secret: userposts?.gigs?.secret,
-      end: userposts?.gigs?.end,
-      start: userposts?.gigs?.start,
-      durationto: userposts?.gigs?.durationto,
-      durationfrom: userposts?.gigs?.durationfrom,
-      bussinesscat: userposts?.gigs?.bussinesscat,
-    });
-  }, []);
-  useEffect(() => {
     setGigs(() => () => {
       return {
         title: userposts?.gigs?.title,
@@ -56,7 +39,21 @@ const Edit = ({ gigs }) => {
         bussinesscat: userposts?.gigs?.bussinesscat,
       };
     });
-  }, []);
+  }, [
+    gigs,
+    userposts?.gigs?.bussinesscat,
+    userposts?.gigs?.category,
+    userposts?.gigs?.description,
+    userposts?.gigs?.durationfrom,
+    userposts?.gigs?.durationto,
+    userposts?.gigs?.end,
+    userposts?.gigs?.location,
+    userposts?.gigs?.phone,
+    userposts?.gigs?.price,
+    userposts?.gigs?.secret,
+    userposts?.gigs?.start,
+    userposts?.gigs?.title,
+  ]);
 
   const [loading, setLoading] = useState();
   const [secretpass, setSecretPass] = useState();

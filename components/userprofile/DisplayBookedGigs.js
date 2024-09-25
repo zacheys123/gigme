@@ -14,6 +14,7 @@ const DisplayBookedGigs = ({ gigs = {}, user = {} }) => {
         ?.filter((g) => g?.bookedBy?._id.includes(user?.user?._id))
         .map((gig) => (
           <GigDisplay
+            key={gig.id}
             gig={gig}
             gigdescription={gig?.bookedBy}
             router={router}

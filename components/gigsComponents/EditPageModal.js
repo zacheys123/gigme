@@ -25,7 +25,7 @@ const EditPageModal = ({ gigs }) => {
 
   useEffect(() => {
     setGig(gigs);
-  }, []);
+  }, [gigs]);
   const [gigInputs, setGigs] = useState({
     title: "",
     description: "",
@@ -56,7 +56,16 @@ const EditPageModal = ({ gigs }) => {
         durationfrom: "pm",
       };
     });
-  }, []);
+  }, [
+    userposts?.gigs?.bussinesscat,
+    userposts?.gigs?.category,
+    userposts?.gigs?.description,
+    userposts?.gigs?.location,
+    userposts?.gigs?.phone,
+    userposts?.gigs?.price,
+    userposts?.gigs?.secret,
+    userposts?.gigs?.title,
+  ]);
   const [loading, setLoading] = useState();
   const [secretpass, setSecretPass] = useState();
   const [selectedDate, setSelectedDate] = useState(null);

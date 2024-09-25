@@ -7,7 +7,7 @@ import Skeleton from "./Skeleton";
 import { useGlobalContext } from "@/app/Context/store";
 import { useParams } from "next/navigation";
 import useStore from "@/app/zustand/useStore";
-import { pusherClient } from "@/lib/pusher-client";
+
 import { useSocketContext } from "@/app/Context/socket";
 import { useSocket } from "@/hooks/useSocket";
 

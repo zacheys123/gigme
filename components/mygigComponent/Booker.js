@@ -68,7 +68,24 @@ const Booker = ({ myGig }) => {
         date: new Date(myGig?.gigs?.date).toLocaleDateString(),
       };
     });
-  }, []);
+  }, [
+    myGig?.gigs?.bandCategory,
+    myGig?.gigs?.bussinesscat,
+    myGig?.gigs?.category,
+    myGig?.gigs?.date,
+    myGig?.gigs?.description,
+    myGig?.gigs?.location,
+    myGig?.gigs?.phone,
+    myGig?.gigs?.postedBy?.city,
+    myGig?.gigs?.postedBy?.email,
+    myGig?.gigs?.postedBy?.firstname,
+    myGig?.gigs?.postedBy?.followers,
+    myGig?.gigs?.postedBy?.followings,
+    myGig?.gigs?.postedBy?.lastname,
+    myGig?.gigs?.postedBy?.username,
+    myGig?.gigs?.price,
+    myGig?.gigs?.title,
+  ]);
 
   let variant = {
     initial: {

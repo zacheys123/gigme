@@ -60,7 +60,24 @@ const Creator = ({ myGig }) => {
         date: new Date(myGig?.gigs?.date).toLocaleDateString(),
       };
     });
-  }, []);
+  }, [
+    myGig?.gigs?.bandCategory,
+    myGig?.gigs?.bussinesscat,
+    myGig?.gigs?.category,
+    myGig?.gigs?.date,
+    myGig?.gigs?.description,
+    myGig?.gigs?.location,
+    myGig?.gigs?.phone,
+    myGig?.gigs?.postedBy?.city,
+    myGig?.gigs?.postedBy?.email,
+    myGig?.gigs?.postedBy?.firstname,
+    myGig?.gigs?.postedBy?.followers,
+    myGig?.gigs?.postedBy?.followings,
+    myGig?.gigs?.postedBy?.lastname,
+    myGig?.gigs?.postedBy?.username,
+    myGig?.gigs?.price,
+    myGig?.gigs?.title,
+  ]);
 
   let variant = {
     initial: {
@@ -89,7 +106,7 @@ const Creator = ({ myGig }) => {
     if (myGig?.gigs?.isPending === false) {
       router.push(`/gigme/gigs/${userId}`);
     }
-  }, []);
+  }, [myGig?.gigs?.isPending, router, userId]);
   const onClick = (gig) => {
     router.push(`/gigme/chat/${gig?.postedBy?.clerkId}/${gig?._id}`);
   };
