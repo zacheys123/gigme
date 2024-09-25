@@ -16,15 +16,15 @@ const AllPosts = ({ userposts, user, comments, replies, myposts }) => {
     (post) => post?.postedBy?._id !== user?.user?._id
   );
 
-  const uniqueIds = [...new Set(otherdata.map((obj) => obj.postedBy?._id))];
+  // const uniqueIds = [...new Set(otherdata.map((obj) => obj.postedBy?._id))];
 
-  console.log(uniqueIds);
+  // console.log(uniqueIds);
 
-  const filteredobj = uniqueIds.reduce((acc, id) => {
-    acc[id] = otherdata.filter((obj) => obj.postedBy?._id === id);
-    return acc;
-  }, {});
-  console.log(Object.keys(filteredobj).filter((k) => k === uniqueIds));
+  // const filteredobj = uniqueIds.reduce((acc, id) => {
+  //   acc[id] = otherdata.filter((obj) => obj.postedBy?._id === id);
+  //   return acc;
+  // }, {});
+  // console.log(Object.keys(filteredobj).filter((k) => k === uniqueIds));
 
   const {
     userState: { showPosts },
