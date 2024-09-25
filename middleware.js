@@ -20,6 +20,7 @@ export default authMiddleware({
     "/api/chat/sendmessage",
     "/api/online",
     "/api/chat/fetchchats/:userid/:id",
+    "api/chat/getuserchat/:id",
   ],
 });
 export const config = {

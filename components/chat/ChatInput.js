@@ -11,51 +11,56 @@ import useStore from "@/app/zustand/useStore";
 import InputEmoji from "react-input-emoji";
 import { useListenMessage } from "@/hooks/useListenMessage";
 import { useSocketContext } from "@/app/Context/socket";
-const ChatInput = ({ currentId, postedorbookedById, gigId }) => {
-  const { messages, setMessages } = useStore();
+import { useSocket } from "@/hooks/useSocket";
+const ChatInput = ({
+  currentId,
+  postedorbookedById,
+  gigId,
+  setMess,
+  messages,
+}) => {
   const [loading, setLoading] = useState();
   const [text, setText] = useState("");
   const inputref = useRef();
-  const [output, setOutput] = useState();
-  console.log(output);
 
-  const { socket } = useSocketContext();
+  const { setIsLoaded } = useStore();
+  const { socket } = useSocket();
 
-  useEffect(() => {
-    if (socket === null) return;
+  const handleMessage = useCallback(
+    (ev) => {
+      ev.preventDefault();
 
-    socket?.emit("sendMessage", { ...text, postedorbookedById });
-    return () => socket?.off("newMessage"); // cleanup function to prevent memory leak  // eslint-disable-next-line
-  }, [text, postedorbookedById, socket]);
+      let message = ev.target[0].value;
 
-  useEffect(() => {
-    if (socket === null) return;
-    socket?.on("getMessage", (data) => {
-      setOutput(data);
-      setMessages((prevMessages) => [...prevMessages, data]);
-    });
-  }, [socket, setMessages]);
-  const handleMessage = useCallback((ev) => {
-    ev.preventDefault();
-
-    let message = ev.target[0].value;
-
-    send(
+      send(
+        currentId,
+        postedorbookedById,
+        message,
+        setLoading,
+        setMess,
+        gigId,
+        setText,
+        messages,
+        socket,
+        setIsLoaded
+      );
+    },
+    [
       currentId,
-      postedorbookedById,
-      message,
       setLoading,
-      setMessages,
-      gigId,
+      setMess,
       setText,
-      messages
-    );
-  }, []);
+      messages,
+      socket,
+      gigId,
+      postedorbookedById,
+    ]
+  );
 
   useEffect(() => {
     inputref.current = text;
   }, []);
-  console.log(inputref.current);
+
   return (
     <div className="w-full flex items-center gap-2 mt-2">
       <form

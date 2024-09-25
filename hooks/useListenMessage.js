@@ -5,7 +5,7 @@ import useStore from "@/app/zustand/useStore";
 import React, { useEffect, useState } from "react";
 
 export const useListenMessage = (otheruser, message) => {
-  const { socket } = useSocketContext();
+  // const { socket } = useSocketContext();
   const [output, setOutput] = useState();
   const { setMessages } = useStore();
   useEffect(() => {
@@ -25,6 +25,6 @@ export const useListenMessage = (otheruser, message) => {
       setOutput(data);
       setMessages((prevMessages) => [...prevMessages, data]);
     });
-  }, [socket]);
+  }, []);
   return { output };
 };

@@ -13,8 +13,10 @@ import { FaMusic } from "react-icons/fa6";
 import { IoSettingsOutline } from "react-icons/io5";
 import { CiMusicNote1 } from "react-icons/ci";
 import AvatarComponent from "./Avatar";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 const MediumProfileNav = () => {
   const { userId } = useAuth();
+  const { user } = useCurrentUser(userId);
   const pathname = usePathname();
   const [navStates, setNavStates] = useState({
     profile: false,
@@ -214,7 +216,7 @@ const MediumProfileNav = () => {
             </Transition>
           )}
         </Link>{" "}
-        <AvatarComponent />
+        <AvatarComponent user={user} />
       </aside>
     </div>
   );

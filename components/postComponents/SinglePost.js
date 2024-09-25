@@ -21,6 +21,7 @@ import Comments from "./Comments";
 import HeaderDetails from "./HeaderDetails";
 
 import LikeDisLikeComponent from "./LikeDisLikeComponent";
+import AvatarComponent from "../Avatar";
 const SinglePost = ({ post, user, comments, replies, lastpost }) => {
   let newComm = comments?.comments;
   let myuser = user?.user;
@@ -147,20 +148,8 @@ const SinglePost = ({ post, user, comments, replies, lastpost }) => {
             {getComments(commentsArray, commentLength)}
           </h6>
           <div className="flex mt-1 items-center mb-3">
-            {randComment()?.postedBy?.picture ? (
-              <Image
-                alt={randComment()?.postedBy?.firstname?.split("")[0]}
-                src={randComment() && randComment()?.postedBy?.picture}
-                width={20}
-                height={20}
-                className="w-[20px] h-[20px]  rounded-full"
-              />
-            ) : (
-              <>
-                {randComment()?.postedBy && (
-                  <Avatar size="15px" sx={{ fontSize: "15px" }} />
-                )}
-              </>
+            {randComment()?.postedBy?.picture && (
+              <AvatarComponent user={randComment()} />
             )}{" "}
             <h6 className="text-[13px]  text-neutral-300 ml-2">
               {randComment()?.text}

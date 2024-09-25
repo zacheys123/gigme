@@ -4,12 +4,22 @@ import User from "@/models/user";
 import Message from "@/models/messages";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
+import Gig from "@/models/gigs";
 
 export async function POST(req) {
   const { userId } = auth();
   const { sender, text, reciever, gigChat } = await req.json();
   if (!userId) {
     return NextResponse.redirect(new URL("/sign-in", req.url));
+  }
+  const gig = await Gig.findById(gigChat)
+    .populate({ path: "postedBy", model: User })
+    .populate({ path: "bookedBy", model: User });
+  if (!gig || !gig.bookedBy || !gig.postedBy) {
+    return NextResponse.json({
+      message: "Gig or user details not found",
+      status: 400,
+    });
   }
   try {
     await connectDb();

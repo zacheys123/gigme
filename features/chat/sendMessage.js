@@ -8,11 +8,13 @@ export const send = async (
   setMessages,
   gigId,
   setText,
-  messages
+  messages,
+  socket,
+  setIsLoaded
 ) => {
   let dataInfo = {
     sender: currentId,
-    text: message,
+    text: message.trim(),
     reciever: postedorbookedById,
     gigChat: gigId,
   };
@@ -30,10 +32,12 @@ export const send = async (
       body: JSON.stringify(dataInfo),
     });
     const data = await response.json();
+    socket?.emit("sendMessage", data.message);
+    setMessages([...messages, data.message]);
+    setIsLoaded(true);
+    setText("");
     console.log(data);
-    if (data.chatStatus === true) {
-      setMessages([...messages, data.message]);
-      setText("");
+    if (response.ok) {
       console.log(data.message);
     } else {
       console.log("Failed to send message");

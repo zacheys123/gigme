@@ -24,6 +24,10 @@ const useStore = create((set) => ({
   setShowAllGigsLarge: (allGigsLarge) => set({ allGigsLarge }),
   onlineUsers: [],
   setOnlineUsers: (onlineUsers) => set({ onlineUsers }),
+  socket: null,
+  setSocket: (socket) => set({ socket }),
+  isLoaded: false,
+  setIsLoaded: (socket) => set({ socket }),
 }));
 export default useStore;
 

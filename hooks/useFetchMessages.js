@@ -30,15 +30,6 @@ export function useFetchMessages(currentId, postedorbookedById) {
     }
     if (postedorbookedById) getMessages();
   }, [url, currentId, postedorbookedById, setMessages]);
-  useEffect(() => {
-    const channel = pusherClient.subscribe(`chat-channel`);
-    channel.bind("new-message", (newmessage) => {
-      setMessages((messages) => [...messages, newmessage]);
-      // setAllGigs(data);
-      // setPubGigs(data);
-      console.log(newmessage);
-    });
-  }, []);
 
-  return { loading, messages };
+  return { loading, messages, chat };
 }

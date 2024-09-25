@@ -1,3 +1,4 @@
+"use client";
 import UsersButton from "../UsersButton";
 import { UserButton, useAuth } from "@clerk/nextjs";
 
@@ -15,9 +16,11 @@ import { FaSearch } from "react-icons/fa";
 import { FaBell } from "react-icons/fa";
 import { User } from "lucide-react";
 import AvatarComponent from "../Avatar";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 const FriendsMobileNav = () => {
   const { userId } = useAuth();
+  const { user } = useCurrentUser(userId);
   return (
     <div className="shadow-sm shadow-black top-0 sticky min-w-[90%] mx-auto">
       <nav className="container  mx-auto max-w-[100vw] xl:w-[60vw] shadow-lg p-4 border-b-zinc-500 flex items-center justify-between">
@@ -41,7 +44,7 @@ const FriendsMobileNav = () => {
             <Link href="/gigme/search" className="text-white">
               <FaSearch size="20px" />
             </Link>
-            <AvatarComponent />
+            <AvatarComponent user={user} />
           </div>
         </span>
       </nav>{" "}

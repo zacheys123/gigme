@@ -6,6 +6,7 @@ import { Avatar } from "flowbite-react";
 import moment from "moment";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import AvatarComponent from "../Avatar";
 
 const Message = ({ myMessages, other, curr }) => {
   const [reciever, setReciever] = useState({});
@@ -13,7 +14,7 @@ const Message = ({ myMessages, other, curr }) => {
   let fromme = myMessages?.sender === curr;
   let fromother = myMessages?.reciever === other;
   const chatclassName = fromme ? "chat chat-end" : "chat chat-start";
-  const profpic = fromme ? sender?.user?.picture : reciever?.user?.picture;
+  const profpic = fromme ? sender : reciever;
   const name = fromme ? sender?.user?.username : reciever?.user?.username;
   const background = fromme ? "bg-blue-500 " : "";
   const color = !fromme
@@ -32,17 +33,10 @@ const Message = ({ myMessages, other, curr }) => {
           <Box className={chatclassName}>
             <div className="chat-image avatar">
               <div className=" rounded-full h-[16px] w-[16px]">
-                {sender?.user?.picture || reciever?.user?.picture ? (
-                  <Image
-                    width={16}
-                    height={16}
-                    alt="A"
-                    src={profpic}
-                    className="h-[16px] w-[16px] object-fit"
-                  />
-                ) : (
-                  <Avatar />
-                )}
+                <AvatarComponent
+                  user={profpic}
+                  className="h-[16px] w-[16px] object-fit"
+                />
               </div>
             </div>
 

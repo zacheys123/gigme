@@ -194,7 +194,7 @@ const UserProfile = () => {
         </h3>
         <div className="mr-8 md:block  ">
           {" "}
-          <AvatarComponent />
+          <AvatarComponent user={user} />
         </div>
       </div>{" "}
       <Box className="block w-full lg:flex gap-3 h-full">

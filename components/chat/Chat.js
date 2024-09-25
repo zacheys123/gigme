@@ -12,9 +12,11 @@ import { useGlobalContext } from "@/app/Context/store";
 import ClientOnly from "@/app/ClientOnly";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import useStore from "@/app/zustand/useStore";
-const Chat = ({ other, curr, getGig, onlineUsers }) => {
+import { useSocketContext } from "@/app/Context/socket";
+const Chat = ({ other, curr, getGig }) => {
   const { userId } = useAuth();
-  console.log(onlineUsers);
+  const [msg, setMess] = useState([]);
+
   const sender = useRef();
   const reciever = useRef();
   const postedorbookedById = other?.user?._id;
@@ -68,7 +70,6 @@ const Chat = ({ other, curr, getGig, onlineUsers }) => {
               myUser={other}
               id={user?.user?._id}
               otherUser={postedOther}
-              onlineUsers={onlineUsers}
             />
             {/*  messages*/}
             <ClientOnly>
@@ -76,6 +77,8 @@ const Chat = ({ other, curr, getGig, onlineUsers }) => {
                 currentId={currentId}
                 postedorbookedById={postedorbookedById}
                 gigId={gigId}
+                setMess={setMess}
+                messages={msg}
               />
             </ClientOnly>
             {/* input */}
@@ -83,6 +86,8 @@ const Chat = ({ other, curr, getGig, onlineUsers }) => {
               currentId={currentId}
               postedorbookedById={postedorbookedById}
               gigId={gigId}
+              setMess={setMess}
+              messages={msg}
             />
           </div>
           <small className="text-center text-muted-foreground">

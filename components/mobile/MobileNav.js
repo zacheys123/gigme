@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import React from "react";
 import Logo from "../Logo";
@@ -7,9 +8,11 @@ import { Chat, Dashboard } from "@mui/icons-material";
 import { UserButton, useAuth } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import AvatarComponent from "../Avatar";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 const MobileNav = () => {
   const pathname = usePathname();
   const { userId } = useAuth();
+  const { user } = useCurrentUser(userId);
   return (
     <div className="flex p-3 bg-gray-300 shadow-lg  items-center justify-between gap-2 lg:hidden">
       <Box className="flex items-center justify-center gap-3">
@@ -49,7 +52,7 @@ const MobileNav = () => {
           <Music size="17px" />
         </Link>{" "}
       </div>
-      <AvatarComponent />
+      <AvatarComponent user={user} />
     </div>
   );
 };

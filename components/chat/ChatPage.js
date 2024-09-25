@@ -8,15 +8,21 @@ import { useGlobalContext } from "@/app/Context/store";
 import { useParams } from "next/navigation";
 import useStore from "@/app/zustand/useStore";
 import { pusherClient } from "@/lib/pusher-client";
+import { useSocketContext } from "@/app/Context/socket";
+import { useSocket } from "@/hooks/useSocket";
 
-const ChatPage = ({ currentId, postedorbookedById, gigId }) => {
+const ChatPage = ({
+  currentId,
+  postedorbookedById,
+  gigId,
+  setMess,
+  messages,
+}) => {
   const { gigid } = useParams();
-
-  const { messages, setMessages } = useStore();
+  const { socket } = useSocket();
   const lastmsg = useRef();
-
+  const { chat } = useFetchMessages(currentId, postedorbookedById);
   const [loading, setLoading] = useState();
-  const [chat, setChat] = useState({});
   const url = `/api/chat/fetchchats/${currentId}/${postedorbookedById}`;
 
   useEffect(() => {
@@ -29,8 +35,8 @@ const ChatPage = ({ currentId, postedorbookedById, gigId }) => {
         if (data.error) {
           throw new Error(data.error);
         }
-        setChat(data?.chat);
-        setMessages(data?.chat?.messages);
+
+        setMess(data?.chat?.messages);
         return data;
       } catch (error) {
         console.log(error);
@@ -38,30 +44,36 @@ const ChatPage = ({ currentId, postedorbookedById, gigId }) => {
         setLoading(false);
       }
     }
-    if (postedorbookedById) getMessages();
-  }, [url, currentId, postedorbookedById, setMessages]);
+    getMessages();
+    if (socket.connected === true) {
+      socket?.on("getMessage", (data) => {
+        setMess((prev) => [...prev, data]);
+        console.log(data);
+        // cleanup function
+      });
+
+      return () => {
+        socket?.off("getMessage");
+      };
+    }
+  }, [setMess, messages]);
+
   useEffect(() => {
-    const channel = pusherClient.subscribe(`chat-channel`);
-    channel.bind("new-message", (newmessage) => {
-      setMessages((messages) => [...messages, newmessage]);
-      // setAllGigs(data);
-      // setPubGigs(data);
-      console.log(newmessage);
-    });
     setTimeout(() => {
       lastmsg.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
-  }, [messages, setMessages]);
+  }, [messages, setMess]);
 
-  let msg = messages?.filter((message) => {
-    return chat?.gigChat === gigid;
-  });
+  // let msg = messages?.filter((message) => {
+  //   return chat?.gigChat === gigid;
+  // });
 
   return (
     <div className="overflow-y-auto shadow-md shadow-zinc-100  border border-input  rounded-md element-with-scroll flex-1  p-2">
       {!loading &&
-        msg?.length > 0 &&
-        msg?.map((message) => {
+        messages?.length > 0 &&
+        Array.isArray(messages) &&
+        messages?.map((message) => {
           return (
             <div key={message._id} ref={lastmsg}>
               {" "}

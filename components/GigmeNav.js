@@ -13,6 +13,7 @@ import { Avatar } from "@mui/material";
 import { global } from "@/actions";
 import OverlaySearch from "./OverlaySearch";
 import AvatarComponent from "./Avatar";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 const SocialNav = () => {
   const {
     userState: { toggle },
@@ -20,6 +21,7 @@ const SocialNav = () => {
   } = useGlobalContext();
   const router = useRouter();
   const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const { user } = useCurrentUser(userId);
   const pathname = usePathname();
   const [searchquery, setSearchQuery] = useState("");
   const SearchUser = (ev) => {
@@ -125,7 +127,7 @@ const SocialNav = () => {
           />
         </div>
         <div className="-mr-[50px] ml-[20px]">
-          {isLoaded ? <AvatarComponent /> : <Avatar />}
+          {isLoaded && <AvatarComponent user={user} />}
         </div>
       </nav>
       {toggle && <OverlaySearch searchfunc={searchFn()} />}

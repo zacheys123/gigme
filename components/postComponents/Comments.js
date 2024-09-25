@@ -20,6 +20,7 @@ import { useAuth } from "@clerk/nextjs";
 import ReplyModal from "./ReplyModal";
 import { useRouter } from "next/navigation";
 import LikeDisLikeComponent from "./LikeDisLikeComponent";
+import AvatarComponent from "../Avatar";
 const Comments = ({ comment, user, replies }) => {
   const { userId } = useAuth();
   const [open, setOpen] = React.useState(false);
@@ -86,15 +87,7 @@ const Comments = ({ comment, user, replies }) => {
 
       <div className="mt-1  shadow-full p-4 rounded-md h-fit  my-5  mx-2 flex flex-col">
         <div className="flex items-center mt-2">
-          {comment?.postedBy?.picture && (
-            <Image
-              alt="profile"
-              src={comment?.postedBy?.picture}
-              width={20}
-              height={20}
-              className="w-[20px] h-[20px]  rounded-full"
-            />
-          )}{" "}
+          {comment?.postedBy?.picture && <AvatarComponent user={comment} />}{" "}
           <h6 className={username}>{handleRouting(comment, userId)}</h6>
           <h5 className={posted}>{differenceInMinutes(comment, new Date())}</h5>
         </div>
