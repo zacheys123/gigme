@@ -39,7 +39,8 @@ export const updateFollowing = async (
   id,
   setRefetch,
   setFollow,
-  setUserState
+  setUserState,
+  router
 ) => {
   console.log(id);
   try {
@@ -57,13 +58,12 @@ export const updateFollowing = async (
       window.location.reload();
       router.push(`/friends/${data?.user?.username}`);
       setRefetch(true);
-      setFollow((prev) => !prev);
+      setFollow(true);
       setUserState({ type: global.LOADING, payload: false });
     }
   } catch (error) {
     console.log(error);
   }
-  (prev) => prev;
 };
 
 export const unFollower = async (
@@ -71,7 +71,8 @@ export const unFollower = async (
   id,
   setRefetch,
   setFollow,
-  setUserState
+  setUserState,
+  router
 ) => {
   console.log(id);
   try {
@@ -89,7 +90,7 @@ export const unFollower = async (
       window.location.reload();
       router.push(`/friends/${data?.user?.username}`);
       setRefetch(true);
-      setFollow(true);
+      setFollow(false);
       setUserState({ type: global.LOADING, payload: false });
     }
   } catch (error) {
@@ -101,7 +102,8 @@ export const unFollowing = async (
   id,
   setRefetch,
   setFollow,
-  setUserState
+  setUserState,
+  router
 ) => {
   console.log(id);
   try {
@@ -119,11 +121,10 @@ export const unFollowing = async (
       window.location.reload();
       router.push(`/friends/${data?.user?.username}`);
       setRefetch(true);
-      setFollow((prev) => !prev);
+      setFollow(false);
       setUserState({ type: global.LOADING, payload: false });
     }
   } catch (error) {
     console.log(error);
   }
-  (prev) => prev;
 };

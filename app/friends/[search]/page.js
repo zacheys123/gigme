@@ -134,12 +134,12 @@ const FriendsProfilePage = () => {
     <SkeletonUser />;
   }
 
-  if (!isLoaded && !userId) {
+  if (!isLoaded) {
     return (
       <div className="h-screen w-full">
         <div className="flex justify-center items-center h-screen flex-col">
-          <CircularProgress size="100px" />
-          <span className="mt-2 text-2xl font-bold">
+          <CircularProgress size="80px" />
+          <span className="mt-2 text-1xl font-bold">
             <CircularProgress size="16px" sx={{ color: "white" }} />
           </span>
         </div>
@@ -175,41 +175,46 @@ const FriendsProfilePage = () => {
                     {data?.user?.email}
                   </h3>
                 </div>
-
-                {!loading ? (
-                  <div className="md:hidden flex items-center justify-center">
-                    {loading || !data?.user?.followers.includes(id._id) ? (
-                      <Button
-                        disabled={loading}
-                        variant="primary"
-                        onClick={follow}
-                        className="text-[11px] text-[lightgray] h-[23px] p-2"
-                      >
-                        GigFollow <Add size="12px" sx={{ fontSize: "16px" }} />
-                      </Button>
+                {data?.user && (
+                  <>
+                    {!loading ? (
+                      <div className="md:hidden flex items-center justify-center">
+                        {!follows ||
+                        !data?.user?.followers.includes(id?._id) ? (
+                          <Button
+                            disabled={loading}
+                            variant="primary"
+                            onClick={follow}
+                            className="text-[11px] text-[lightgray] h-[23px] p-2"
+                          >
+                            GigFollow{" "}
+                            <Add size="12px" sx={{ fontSize: "16px" }} />
+                          </Button>
+                        ) : (
+                          <Button
+                            disabled={loading}
+                            variant="closed"
+                            onClick={unFollow}
+                            className="text-[11px] text-gray-700 h-[23px] p-2 bg-gray-300"
+                          >
+                            GigUnFollow <IoCheckmarkDone size="20px" />
+                          </Button>
+                        )}
+                      </div>
                     ) : (
-                      <Button
-                        disabled={loading}
-                        variant="closed"
-                        onClick={unFollow}
-                        className=" text-[13px] flex items-center  text-[lightgray] title"
-                      >
-                        GigUnFollow <IoCheckmarkDone size="20px" />
+                      <Button className="bg-gray-700/40">
+                        {" "}
+                        <CircularProgress
+                          className="text-center w-full"
+                          size="18px"
+                        />
                       </Button>
                     )}
-                  </div>
-                ) : (
-                  <Button className="bg-gray-700/40">
-                    {" "}
-                    <CircularProgress
-                      className="text-center w-full"
-                      size="18px"
-                    />
-                  </Button>
+                  </>
                 )}
               </div>
             </Box>
-            <div className="hidden md:flex md:flex-col ">
+            {/* <div className="hidden md:flex md:flex-col ">
               {follows ? (
                 <Button
                   type="button"
@@ -228,7 +233,7 @@ const FriendsProfilePage = () => {
                   GigUnFollow <IoCheckmarkDone size="30px" />
                 </Button>
               )}
-            </div>
+            </div> */}
           </Box>
         </div>{" "}
         {/* for screens more than and equal to medium screen sizes */}

@@ -22,7 +22,7 @@ const MyGigPage = async ({ params }) => {
         {myGig?.gigs?.postedBy?.clerkId.includes(userId) && (
           <Booker myGig={myGig} />
         )}
-      </div>{" "}
+      </div>
     </ClientOnly>
   );
 };

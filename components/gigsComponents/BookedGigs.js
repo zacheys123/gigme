@@ -24,7 +24,7 @@ const BookedGigs = ({ user }) => {
   const [loading, setLoading] = useState();
   const [loadingview, setLoadingView] = useState();
   const [loadingbook, setLoadingBook] = useState();
-  const { gigs, setGigs } = useState([]);
+  const { myGigs, setMyGigs } = useState([]);
   const [location, setLocation] = useState(() =>
     user?.user?.city ? user?.user?.city : "nairobi"
   );
@@ -45,9 +45,9 @@ const BookedGigs = ({ user }) => {
       });
       const data = await res.json();
       console.log(data?.gigs);
-      setGigs(data?.gigs);
-
+      setMyGigs(data?.gigs);
       setLoading(false);
+      console.log(data);
       return data;
     } catch (error) {
       setLoading(false);
@@ -78,7 +78,7 @@ const BookedGigs = ({ user }) => {
     setOpen(false);
     console.log("close", gigdesc);
   };
-  console.log(gigs);
+  console.log(myGigs?.filter((pub) => pub?.bookedBy?._id === currentUser));
   return (
     <div className="w-full h-[calc(100vh-260px)] p-2 shadow-lg mt-3">
       {" "}
@@ -105,13 +105,13 @@ const BookedGigs = ({ user }) => {
         onClick={() => setSearch(false)}
         className="gigdisplay shadow-lg shadow-yellow-600 w-full h-[100%] p-2 overflow-y-scroll element-with-scroll"
       >
-        {!loading && gigs?.length === 0 && <div>No Gigs to display</div>}
+        {!loading && myGigs?.length === 0 && <div>No MyGigs to display</div>}
 
-        {!loading && gigs?.length > 0 ? (
+        {!loading && myGigs?.length > 0 ? (
           <>
             {/* content */}
-            {searchfunc(gigs, typeOfGig, category, gigQuery, location)
-              ?.filter((pub) => pub.bookedBy?._id === currentUser)
+            {myGigs
+              ?.filter((pub) => pub?.bookedBy?._id === currentUser)
 
               .map((gig) => {
                 return (
