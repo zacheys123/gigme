@@ -5,13 +5,13 @@ import React from "react";
 import logo2 from "../public/assets/logo/png/logo-no-background.png";
 const Logo = ({ flex }) => {
   return (
-    <Link href="/gigme/social" className={` flex  hover:cursor-pointer`}>
+    <Link href="/gigme" className={` flex  hover:cursor-pointer`}>
       <Image
         src={logo2}
         width={100}
         height={50}
         alt="logo"
-        className="w-[60px] h-[12px]  md:w-[80px] md:h-[20px]  lg:w-[80px] lg:h-[20px] xl:w-[80px] xl:h-[20px]"
+        className="w-[70px] h-[12px]  md:w-[80px] md:h-[20px]  lg:w-[80px] lg:h-[20px] xl:w-[80px] xl:h-[20px]"
       />
     </Link>
   );

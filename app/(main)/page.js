@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import bgImage from "@/public/assets/bg-cover.jpg";
+import bgImage from "@/public/assets/png/logo-black.png";
 import { Card } from "@/components/ui/card";
 
 import { Footer, TextInput } from "flowbite-react";
@@ -12,6 +12,7 @@ import ImageComponent from "@/components/ImageComponent";
 import UsersButton from "@/components/UsersButton";
 import { CircularProgress } from "@mui/material";
 import { useAuth, useUser } from "@clerk/nextjs";
+import { Input } from "@/components/ui/input";
 export default function Home() {
   // const {
   //   authstate: {},
@@ -35,17 +36,21 @@ export default function Home() {
     );
   }
   return (
-    <main className="min-h-screen xl:container p-0">
-      <ImageComponent
-        bgCover={`https://res.cloudinary.com/dsziq73cb/image/upload/v1726076396/ktkmiyprgabacrdye9zi.jpg`}
-      />
-
+    <main className="min-h-screen xl:container p-0 bg-neutral-800">
+      <ImageComponent bgCover={bgImage} />
+      <div className="absolute my-[40px] mx-[50px] text-2xl md:text-6xl  w-full bg-gradient-to-r  from-red-600 via-green-200  to-yellow-100 inline-block  text-transparent  bg-clip-text">
+        Welcome to gigUp,
+        <span className="text-3xl mx-2 text-gray-400">{user?.firstName}!</span>
+      </div>
       <div className="h-[70vh] w-100 flex justify-center items-center">
         <div className=" flex-col gap-4 text-2xl xl:text-7xl text-center md:flex-row md:text-6xl">
+          <p className="text-3xl md:text-6xl  bg-gradient-to-r  from-yellow-400 via-green-300 to-purple-600 inline-block  text-transparent  bg-clip-text">
+            get gigs anytime anywhere,
+          </p>{" "}
           <div>
-            <span className="md:text-6xl  bg-gradient-to-r  from-orange-600 via-green-500 to-purple-100 inline-block  text-transparent  bg-clip-text">
+            <p className="md:text-6xl  bg-gradient-to-r  from-orange-600 via-green-500 to-purple-100 inline-block  text-transparent  bg-clip-text">
               chat
-            </span>
+            </p>
             <span className="  md:text-6xl md:font-bold bg-cyan-100 bg-clip-text text-transparent text-center">
               {" "}
               and{" "}
@@ -67,7 +72,7 @@ export default function Home() {
           feedback or concern.
         </span>
         <form>
-          <TextInput type="text" placeholder="Give us feedback" />
+          <Input type="text" placeholder="Give us feedback" />
           <UsersButton
             onClick={() => console.log("Email Button clicked!!!")}
             title="Send FeedBack"
@@ -93,13 +98,30 @@ export default function Home() {
           />
         </Card>
       </div>
-      <Footer container>
-        <Footer.Copyright href="#" by="GigMeApp™" year={2022} />
-        <Footer.LinkGroup>
-          <Footer.Link href="#">About</Footer.Link>
-          <Footer.Link href="#">Privacy Policy</Footer.Link>
-          <Footer.Link href="#">Licensing</Footer.Link>
-          <Footer.Link href="#">Contact</Footer.Link>
+      <Footer container className="bg-neutral-800 p-2">
+        <Footer.Copyright
+          href="#"
+          className="text-neutral-300"
+          by="GigMeApp™"
+          year={2022}
+        />
+        <Footer.LinkGroup className="bg-transparent flex justify-around my-4">
+          <Footer.Link href="#" className="text-neutral-300">
+            About
+          </Footer.Link>{" "}
+          <span className="text-neutral-400">|</span>
+          <Footer.Link href="#" className="text-neutral-300">
+            Privacy Policy
+          </Footer.Link>{" "}
+          <span className="text-neutral-400">|</span>
+          <Footer.Link href="#" className="text-neutral-300">
+            Licensing
+          </Footer.Link>{" "}
+          <span className="text-neutral-400">|</span>
+          <Footer.Link href="#" className="text-neutral-300">
+            Contact
+          </Footer.Link>{" "}
+          <span className="text-neutral-400">|</span>
         </Footer.LinkGroup>
       </Footer>
     </main>

@@ -30,7 +30,7 @@ const MainPage = ({ user }) => {
     "h-[40px]  shadow-slate-600 shadow-xl  bg-neutral-300 flex justify-center items-center gap-2 min-w-[120px] whitespace-nowrap";
   return (
     <ClientOnly>
-      <div className="flex w-screen shadow-xl  overflow-y-hidden min-h-screen  lg:hidden gigspage flex-col ">
+      <div className="flex w-screen shadow-xl   h-[100vh]  lg:hidden gigspage flex-col ">
         <h6 className="font-mono underline text-center mt-2 text-white">
           Choose Gig Actions
         </h6>

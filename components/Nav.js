@@ -18,16 +18,16 @@ import AvatarComponent from "./Avatar";
 const Nav = async () => {
   const { userId } = auth();
   return (
-    <nav className="container shadow-cyan-700 bg-black p-4 shadow-md sticky top-0 mx-auto max-w-[100vw] xl:w-[100vw]  flex items-center justify-between">
+    <nav className="container shadow-cyan-700 dark:bg-black bg-neutral-500 p-4 shadow-md sticky top-0 mx-auto max-w-[100vw] xl:w-[100vw]  flex items-center justify-between">
       <Logo />
       <span className="flex items-center">
         {userId ? (
-          <div className="flex flex-grow gap-5 items-center">
+          <div className="flex flex-grow gap-8 items-center">
             <Link
               href="/gigme/social"
               className="ml-4 text-white  link md:text-[16px] md:font-mono flex flex-col gap-2 items-center md:hover:bg-gray-200 md:hover:text-neutral-800 md:hover:scale-100 md:p-2 rounded-full  transition-all duration-75"
             >
-              <span>
+              <span className="hidden ml-2 md:inline-flex">
                 Gigme <span className="hidden ml-2 md:inline-flex">|</span>
               </span>
               <Music size="20px" className="md:hidden" />
@@ -37,7 +37,7 @@ const Nav = async () => {
               href="/gigme/about"
               className="mr-9 text-white  link md:text-[16px] md:font-mono flex flex-col gap-2 items-center md:hover:bg-gray-200 md:hover:text-neutral-800 md:hover:scale-100 p-2 rounded-full  transition-all duration-75"
             >
-              <span>
+              <span className="hidden ml-2 md:inline-flex">
                 {" "}
                 About<span className="hidden ml-2 md:inline-flex">|</span>
               </span>
@@ -47,7 +47,7 @@ const Nav = async () => {
               href={`/v1/profile/${userId}`}
               className="-ml-12 mr-4 text-white  link md:text-[16px] md:font-mono flex flex-col gap-2 items-center md:hover:bg-gray-200 md:hover:text-neutral-800 md:hover:scale-100 p-2 rounded-full  transition-all duration-75"
             >
-              <span>
+              <span className="hidden ml-2 md:inline-flex">
                 Profile <span className="hidden ml-2 md:inline-flex">|</span>
               </span>
               <User size="20px" className="md:hidden" />
@@ -56,7 +56,8 @@ const Nav = async () => {
               href="/gigme/about"
               className="-ml-6 text-white  link md:text-[16px] md:font-mono flex flex-col gap-2 items-center md:hover:bg-gray-200 md:hover:text-neutral-800 md:hover:scale-100 p-2 rounded-full  transition-all duration-75"
             >
-              Faq
+              {" "}
+              <span className="hidden ml-2 md:inline-flex">Faq</span>
               <MessageCircleQuestion size="20px" className="md:hidden" />
             </Link>
             {/* <AvatarComponent afterSignOutUrl="/" /> */}

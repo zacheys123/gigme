@@ -190,7 +190,7 @@ const GigInfo = ({ user }) => {
   };
 
   return (
-    <div className="min-h-scrreen element-with-scroll relative">
+    <div className="h-[100%] overflow-y-scroll relative ">
       <h6 className="text-center mb-2 font-mono underline">Fill The Details</h6>
       {/* {!open ? ( */}
       <form onSubmit={onSubmit}>
@@ -481,13 +481,20 @@ const GigInfo = ({ user }) => {
             />
           </div>
         </div>{" "}
-        <Button variant="primary" type="submit" className="mt-4 w-full">
-          {!loading ? (
-            "Create Gig"
-          ) : (
-            <CircularProgress size="14px" sx={{ color: "white" }} />
-          )}
-        </Button>
+        <div className="w-full flex justify-center">
+          <Button
+            variant="destructive"
+            type="submit"
+            className="mt-4 w-[80%] "
+            disabled={isloading}
+          >
+            {!isloading ? (
+              "Create Gig"
+            ) : (
+              <CircularProgress size="14px" sx={{ color: "white" }} />
+            )}
+          </Button>
+        </div>
       </form>
     </div>
   );
