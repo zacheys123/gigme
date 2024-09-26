@@ -17,7 +17,7 @@ import {
 import AvatarComponent from "./Avatar";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 
-const Nav = async () => {
+const Nav = () => {
   const { userId } = useAuth();
   const { user } = useCurrentUser(userId);
   return (
