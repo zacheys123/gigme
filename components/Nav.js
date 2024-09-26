@@ -3,7 +3,7 @@ import { UserButton, auth, useAuth } from "@clerk/nextjs";
 
 import { Badge, CircularProgress } from "@mui/material";
 // import { useGlobalContext } from "@/app/Context/store";
-
+import { BiSolidVideos } from "react-icons/bi";
 import Link from "next/link";
 import Logo from "./Logo";
 import {
@@ -25,27 +25,17 @@ const Nav = async () => {
           <div className="flex flex-grow gap-8 items-center">
             <Link
               href="/gigme/social"
-              className="ml-4 text-white  link md:text-[16px] md:font-mono flex flex-col gap-2 items-center md:hover:bg-gray-200 md:hover:text-neutral-800 md:hover:scale-100 md:p-2 rounded-full  transition-all duration-75"
+              className=" text-white  link md:text-[16px] md:font-mono flex flex-col gap-2 items-center md:hover:bg-gray-200 md:hover:text-neutral-800 md:hover:scale-100 md:p-2 rounded-full  transition-all duration-75"
             >
               <span className="hidden ml-2 md:inline-flex">
                 Gigme <span className="hidden ml-2 md:inline-flex">|</span>
               </span>
-              <Music size="20px" className="md:hidden" />
+              <BiSolidVideos size="20px" className="md:hidden" />
             </Link>
 
             <Link
-              href="/gigme/about"
-              className="mr-9 text-white  link md:text-[16px] md:font-mono flex flex-col gap-2 items-center md:hover:bg-gray-200 md:hover:text-neutral-800 md:hover:scale-100 p-2 rounded-full  transition-all duration-75"
-            >
-              <span className="hidden ml-2 md:inline-flex">
-                {" "}
-                About<span className="hidden ml-2 md:inline-flex">|</span>
-              </span>
-              <Info size="20px" className="md:hidden" />
-            </Link>
-            <Link
               href={`/v1/profile/${userId}`}
-              className="-ml-12 mr-4 text-white  link md:text-[16px] md:font-mono flex flex-col gap-2 items-center md:hover:bg-gray-200 md:hover:text-neutral-800 md:hover:scale-100 p-2 rounded-full  transition-all duration-75"
+              className=" text-white  link md:text-[16px] md:font-mono flex flex-col gap-2 items-center md:hover:bg-gray-200 md:hover:text-neutral-800 md:hover:scale-100 p-2 rounded-full  transition-all duration-75"
             >
               <span className="hidden ml-2 md:inline-flex">
                 Profile <span className="hidden ml-2 md:inline-flex">|</span>
@@ -54,7 +44,17 @@ const Nav = async () => {
             </Link>
             <Link
               href="/gigme/about"
-              className="-ml-6 text-white  link md:text-[16px] md:font-mono flex flex-col gap-2 items-center md:hover:bg-gray-200 md:hover:text-neutral-800 md:hover:scale-100 p-2 rounded-full  transition-all duration-75"
+              className=" text-white  link md:text-[16px] md:font-mono flex flex-col gap-2 items-center md:hover:bg-gray-200 md:hover:text-neutral-800 md:hover:scale-100 p-2 rounded-full  transition-all duration-75"
+            >
+              <span className="hidden ml-2 md:inline-flex">
+                {" "}
+                About<span className="hidden ml-2 md:inline-flex">|</span>
+              </span>
+              <Info size="20px" className="md:hidden" />
+            </Link>
+            <Link
+              href="/gigme/about"
+              className=" text-white  link md:text-[16px] md:font-mono flex flex-col gap-2 items-center md:hover:bg-gray-200 md:hover:text-neutral-800 md:hover:scale-100 p-2 rounded-full  transition-all duration-75"
             >
               {" "}
               <span className="hidden ml-2 md:inline-flex">Faq</span>
