@@ -160,13 +160,7 @@ const UserProfile = () => {
       ease: "easeInOut",
     },
   };
-  if (!user) {
-    return (
-      <div className="h-screen w-screen flex justify-center items-center">
-        <h6 className="text-white">Loading...</h6>
-      </div>
-    );
-  }
+
   const foll =
     user?.followers?.length === 1
       ? `${user?.followers?.length} follower`
