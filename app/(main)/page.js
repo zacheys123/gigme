@@ -36,11 +36,17 @@ export default function Home() {
     );
   }
   return (
-    <main className="min-h-screen xl:container p-0 bg-neutral-800">
+    <main className="min-h-screen xl:container p-0 bg-neutral-800 w-screen">
       <ImageComponent bgCover={bgImage} />
       <div className="absolute my-[40px] mx-[50px] text-2xl md:text-6xl  w-full bg-gradient-to-r  from-red-600 via-green-200  to-yellow-100 inline-block  text-transparent  bg-clip-text">
-        Welcome to gigUp,
-        <span className="text-3xl mx-2 text-gray-400">{user?.firstName}!</span>
+        {user && (
+          <>
+            Welcome to gigUp,
+            <span className="text-3xl mx-2 text-gray-400">
+              {user?.firstName}!
+            </span>
+          </>
+        )}{" "}
       </div>
       <div className="h-[70vh] w-100 flex justify-center items-center">
         <div className=" flex-col gap-4 text-2xl xl:text-7xl text-center md:flex-row md:text-6xl">

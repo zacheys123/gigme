@@ -28,5 +28,9 @@ const useStore = create((set) => ({
   setSocket: (socket) => set({ socket }),
   isLoaded: false,
   setIsLoaded: (socket) => set({ socket }),
+  logout: false,
+  setLogout: (logout) => set({ logout }),
+  isLoggedOut: false,
+  setisLoggedOut: (isLoggedOut) => set({ isLoggedOut }),
 }));
 export default useStore;

@@ -1,3 +1,4 @@
+"use client";
 import { send } from "@/features/chat/sendMessage";
 import { EmojiEmotions } from "@mui/icons-material";
 import { CircularProgress, Input } from "@mui/material";

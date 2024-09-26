@@ -1,3 +1,4 @@
+"use client";
 import UsersButton from "./UsersButton";
 import { UserButton, auth, useAuth } from "@clerk/nextjs";
 
@@ -14,9 +15,11 @@ import {
   User,
 } from "lucide-react";
 import AvatarComponent from "./Avatar";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 const Nav = async () => {
-  const { userId } = auth();
+  const { userId } = useAuth();
+  const { user } = useCurrentUser(userId);
   return (
     <nav className="container shadow-cyan-700 dark:bg-black bg-neutral-500 p-4 shadow-md sticky top-0 mx-auto max-w-[100vw] xl:w-[100vw]  flex items-center justify-between">
       <Logo />
@@ -60,8 +63,8 @@ const Nav = async () => {
               <span className="hidden ml-2 md:inline-flex">Faq</span>
               <MessageCircleQuestion size="20px" className="md:hidden" />
             </Link>
-            {/* <AvatarComponent afterSignOutUrl="/" /> */}
-            <UserButton afterSignOutUrl="/" />
+            <AvatarComponent user={user} />
+            {/* <UserButton afterSignOutUrl="/" /> */}
           </div>
         ) : (
           <div className="flex gap-4">

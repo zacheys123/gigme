@@ -1,8 +1,11 @@
 "use client";
 import ClientOnly from "@/app/ClientOnly";
 import { useGlobalContext } from "@/app/Context/store";
+import useStore from "@/app/zustand/useStore";
 import MyFooter from "@/components/Footer";
+import LogoutComponent from "@/components/LogoutComponent";
 import SkeletonUser from "@/components/SkeletonUser";
+import UserModal from "@/components/UserModal";
 import UsersButton from "@/components/UsersButton";
 
 import FriendsMobileNav from "@/components/mobile/FriendsMobileNav";
@@ -27,6 +30,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { IoCheckmarkDone } from "react-icons/io5";
 const FriendsProfilePage = () => {
   const router = useRouter();
+  const { logout } = useStore();
   const {
     userState: { loading },
     setUserState,
@@ -144,6 +148,7 @@ const FriendsProfilePage = () => {
   }
   return (
     <ClientOnly>
+      <UserModal />
       <div className="overflow-x-hidden  md:overflow-y-auto h-screen bg-gray-800 md:bg-neutral-700 w-full flex flex-col">
         <FriendsMobileNav />
         <div className="h-[200px] md:hidden">
@@ -399,7 +404,7 @@ const FriendsProfilePage = () => {
             type="text"
             className="w-[330px] mx-auto text-gray-300 bg-inherit border border-b-neutral-400 border-x-0 border-t-0 my-4 md:w-[500px] xl:w-[630px] text-base md:text-[25px] xl:text-[33px] font-bold "
             placeholder="experience"
-            value={`${userdata?.date || "01"}/${userdata?.month || "01"}/${
+            value={`${userdata?.date || "01"}/ ${userdata?.month || "01"}/ ${
               userdata?.year || "0"
             }`}
           />

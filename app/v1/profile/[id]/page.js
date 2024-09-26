@@ -27,8 +27,8 @@ const ProfilePage = async ({ params }) => {
 
   console.log(allUsers);
   return (
-    <div className="container h-screen w-screen md:w-[70vw]  overflow-auto flex flex-col gap-2">
-      <div className="text-2xl text-white">
+    <div className="container h-[100vh] w-screen md:w-[70vw]  overflow-auto flex flex-col gap-2">
+      <div className="text-2xl text-white mt-[35px]">
         Profile Landing Page
         <br />
         <span className="text-sm text-gray-400">

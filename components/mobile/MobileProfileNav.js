@@ -30,7 +30,7 @@ const MobileProfileNav = () => {
   const handleUpdate = (ev) => {};
   return (
     <div
-      className={` md:hidden xl:hidden w-[100%] mx-auto h-[50px] sticky  p-6 mb-2 flex  justify-center items-center self-center `}
+      className={` md:hidden xl:hidden w-[100%] mx-auto h-[60px] sticky  p-6  flex  justify-center items-center self-center `}
     >
       <section className="bg-gray-700/50 p-2    flex  justify-around items-center gap-4 text-white w-full">
         <Link className="mx-4 " href={`/gigme/social`}>

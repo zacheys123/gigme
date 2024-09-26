@@ -233,3 +233,24 @@ export function formattedtime(datestring) {
 function padZero(number) {
   return String(number).padStart(2, "0");
 }
+
+export function handleLogout(router, isLoggedOut, setisLoggedOut) {
+  const localStorageObj = {};
+  Object.keys(localStorage).forEach((key) => {
+    localStorageObj[key] = localStorage.getItem(key);
+  });
+  setTimeout(() => {
+    const cookies = document.cookie.split(";");
+    cookies.forEach((cookie) => {
+      const name = cookie.split("=")[0];
+      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    });
+    localStorage.clear();
+    setisLoggedOut(false);
+
+    router.push("/");
+    window.location.reload();
+  }, 100);
+
+  setisLoggedOut(true);
+}

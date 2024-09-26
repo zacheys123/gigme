@@ -1,9 +1,12 @@
 "use client";
 import ClientOnly from "@/app/ClientOnly";
+import useStore from "@/app/zustand/useStore";
 import SocialNav from "@/components/GigmeNav";
+import LogoutComponent from "@/components/LogoutComponent";
 import MyNav from "@/components/MyNav";
 import LeftBar from "@/components/socials/LeftBar";
 import RightBar from "@/components/socials/RightBar";
+import UserModal from "@/components/UserModal";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { CircularProgress } from "@mui/material";
 import { Button } from "flowbite-react";
@@ -12,6 +15,7 @@ import { useEffect } from "react";
 import { Toaster } from "sonner";
 const GigmeLayout = ({ children, modal, chat }) => {
   const { user } = useUser();
+  const { isLoggedOut } = useStore();
   const { isLoaded, userId } = useAuth();
   const registerUser = useCallback(async () => {
     const res = await fetch("/api/user/register", {
@@ -43,6 +47,7 @@ const GigmeLayout = ({ children, modal, chat }) => {
 
     registerUser();
   });
+  const { logout } = useStore();
   if (!isLoaded || !userId) {
     return (
       <div className="h-screen w-full">
@@ -55,8 +60,13 @@ const GigmeLayout = ({ children, modal, chat }) => {
       </div>
     );
   }
+  console.log(logout);
   return (
     <ClientOnly>
+      <div className="absolute z-[50]">
+        <UserModal open={logout} />
+      </div>
+
       <div className="flex flex-col gap-2">
         <Toaster expand={false} richColors position="top" />
         <SocialNav />
