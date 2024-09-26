@@ -74,12 +74,12 @@ const Gigheader = ({
           </div>
         ) : (
           <motion.div
-            className="flex gap-2 items-center bg-gray-100 px-2 rounded-full h-[30px]  w-[214px]"
+            className="flex gap-3 items-center bg-gray-100 px-2 rounded-full h-[30px]  w-[130px]"
             variant={variant}
           >
             <input
               placeholder="searchBy: title,time('from' or 'to'),"
-              className="h-[28px]  flex-1 ml-2 text-black bg-inherit   text-[11px] focus-within:right-0 outline-none placeholder-muted-foreground"
+              className="h-[28px] w-[60px]  flex-1 ml-2 text-black bg-inherit   text-[9px] focus-within:right-0 outline-none placeholder-muted-foreground"
               value={typeOfGig}
               onChange={(ev) => {
                 setTypeOfGig(ev.target.value);

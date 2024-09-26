@@ -481,14 +481,14 @@ const GigInfo = ({ user }) => {
                 minDate={minDate}
                 maxDate={maxDate}
                 placeholderText="Set Event Date"
-                className="font-mono p-2 w-full rounded-lg"
+                className="font-mono p-2 w-[100vw] rounded-lg"
               />
             </div>{" "}
             <div className="w-full flex justify-center">
               <Button
                 variant="destructive"
                 type="submit"
-                className="mt-4 w-[80%] "
+                className="mt-4 w-[60%] h-[30px] text-[12px]"
                 disabled={isloading}
               >
                 {!isloading ? (
