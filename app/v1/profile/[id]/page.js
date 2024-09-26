@@ -1,5 +1,4 @@
 import { getAllUsers } from "@/app/server-actions/getAllUsers";
-import { getCurrentUser } from "@/app/server-actions/getCurrentUser";
 import InfoComponent from "@/components/largedevices/InfoComponent";
 import SideBar from "@/components/largedevices/Sidebar";
 import MoreInfoPage from "@/components/userprofile/MoreInfoPage";
@@ -8,18 +7,18 @@ import { checkEnvironment } from "@/utils";
 import { auth } from "@clerk/nextjs";
 import { Divider } from "@mui/material";
 
-// export const getAllUsers = async (userId) => {
-//   try {
-//     const res = await fetch(
-//       `${checkEnvironment()}/api/user/getAllusers/${userId}}`
-//     );
-//     const data = await res.json();
-//     console.log(data);
-//     return data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+const getCurrentUser = async (userId) => {
+  try {
+    const res = await fetch(
+      `${checkEnvironment()}/api/user/getuser/${userId.id}`
+    );
+    const data = await res.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 const ProfilePage = async ({ params }) => {
   const { userId } = auth();
   const user = await getCurrentUser(params);
