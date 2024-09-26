@@ -23,9 +23,9 @@ const Nav = async () => {
   return (
     <nav className="container shadow-cyan-700 dark:bg-black bg-neutral-500 p-4 shadow-md sticky top-0 mx-auto max-w-[100vw] xl:w-[100vw]  flex items-center justify-between">
       <Logo />
-      <span className="flex items-center">
+      <div className="flex items-center">
         {userId ? (
-          <div className="flex flex-grow gap-8 items-center">
+          <div className="flex flex-grow gap-4 items-center ml-4">
             <Link
               href="/gigme/social"
               className=" text-white  link md:text-[16px] md:font-mono flex flex-col gap-2 items-center md:hover:bg-gray-200 md:hover:text-neutral-800 md:hover:scale-100 md:p-2 rounded-full  transition-all duration-75"
@@ -81,7 +81,7 @@ const Nav = async () => {
             />{" "} */}
           </div>
         )}{" "}
-      </span>
+      </div>
     </nav>
   );
 };
