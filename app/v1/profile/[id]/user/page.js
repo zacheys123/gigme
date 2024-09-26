@@ -160,17 +160,18 @@ const UserProfile = () => {
       ease: "easeInOut",
     },
   };
-  if (!user) {
-    return (
-      <div className="h-screen w-screen flex justify-center items-center">
-        <h6 className="text-white">Loading...</h6>
-      </div>
-    );
-  }
   const foll =
     user?.followers?.length === 1
       ? `${user?.followers?.length} follower`
       : `${user?.followers?.length} followers`;
+  if (!user) {
+    return (
+      <div className="h-screen w-screen flex justify-center items-center">
+        <h6 className="text-white">Loading profile data...</h6>
+      </div>
+    );
+  }
+
   return (
     <div
       className=" sm:w-[85%] mx-auto sm:h-[calc(100vh-30px)] md:h-[calc(100vh-120px)] md:w-[80%] flex
