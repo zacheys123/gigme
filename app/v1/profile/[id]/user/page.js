@@ -173,21 +173,11 @@ const UserProfile = () => {
       : `${user?.followers?.length} followers`;
   return (
     <div
-      className=" sm:w-full sm:h-[calc(100vh-30px)] md:h-[calc(100vh-120px)] md:w-[80%] flex
-      h-screen flex-col md:flex overflow-auto  items-center shadow-md shadow-slate-500 p-4 w-full md:ml-[35px]"
+      className=" sm:w-[85%] mx-auto sm:h-[calc(100vh-30px)] md:h-[calc(100vh-120px)] md:w-[80%] flex
+      h-screen flex-col md:flex overflow-auto  items-center shadow-md shadow-slate-500 p-4 w-[90%]  md:ml-[35px]"
     >
-      <div className="container flex justify-between items-center  xl:hidden -mb-[30px] ">
-        <Link
-          href="/gigme/social"
-          className="tracking-tighter hover:cursor-pointer "
-        >
-          <span className=" bg-pink-500/50 text-[12px] text-yellow-200 font-bold p-1 rounded-b-xl shadow-red-500">
-            GigMe
-          </span>
-          <span className="text-[12px] text-green-300  rounded-r-xl  font-bold p-1 shadow-blue-500">
-            Up
-          </span>
-        </Link>
+      <div className="container flex justify-between items-center   mt-[25px] -mb-5 shadow-sm shadow-red-500">
+        <Logo />
         <h3 className="text-white font-bold hidden md:block text-[12px]">
           {" "}
           Add More Info
@@ -427,12 +417,12 @@ const UserProfile = () => {
                 )}
               </div>
             </div>
-            <div className="w-full flex justify-center -ml-[14px]   items-center my-[20px] md:my-[40px] md:mb-3 md:-ml-[30px]">
+            <div className="w-full flex justify-center -ml-[14px]   items-center mt-[15px] mb-[20px] md:my-[40px] md:mb-3 md:-ml-[30px]">
               <Button
                 variant="destructive"
                 disabled={loading}
                 title="Update"
-                className="-ml-[13px]"
+                className="-ml-[13px] text-[12px] h-[26px] mb-4"
                 onClick={handleUpdate}
               >
                 {!loading ? (
