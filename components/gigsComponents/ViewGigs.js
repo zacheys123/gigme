@@ -57,6 +57,16 @@ const ViewGigs = ({ user }) => {
           >
             All Gigs
           </option>
+          <option
+            value={"bookedgigs"}
+            onClick={() => {
+              // setPublished(true);
+              // setCreated(false);
+              // setAllGigs(true);
+            }}
+          >
+            Booked Gigs
+          </option>
         </select>{" "}
         {typeOfGig === "published" && <Published user={user} />}{" "}
         {typeOfGig === "mygigs" && <Created user={user} />}

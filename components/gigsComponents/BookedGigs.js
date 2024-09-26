@@ -24,7 +24,7 @@ const BookedGigs = ({ user }) => {
   const [loading, setLoading] = useState();
   const [loadingview, setLoadingView] = useState();
   const [loadingbook, setLoadingBook] = useState();
-
+  const { gigs, setGigs } = useState([]);
   const [location, setLocation] = useState(() =>
     user?.user?.city ? user?.user?.city : "nairobi"
   );
@@ -37,7 +37,7 @@ const BookedGigs = ({ user }) => {
   const getGigs = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/gigs/getpub/${userId}`, {
+      const res = await fetch(`/api/gigs/allgigs`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -45,8 +45,8 @@ const BookedGigs = ({ user }) => {
       });
       const data = await res.json();
       console.log(data?.gigs);
-      setPubGigs(data?.gigs);
-      setCreatedGigs(data?.gigs);
+      setGigs(data?.gigs);
+
       setLoading(false);
       return data;
     } catch (error) {
@@ -67,40 +67,7 @@ const BookedGigs = ({ user }) => {
   const [open, setOpen] = useState();
 
   // Booking function it updates the isPending state ,only the logged in user access it
-  const handleBook = async (gig) => {
-    // update the isPending state
 
-    try {
-      setLoadingBook(true);
-      const res = await fetch(`/api/gigs/bookgig/${gig?._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userid: user?.user?._id,
-          currentId: currentUser,
-        }),
-      });
-      const data = await res.json();
-      console.log(data);
-      if (data.gigstatus === "true") {
-        setLoadingBook(false);
-        toast.success("Booked the gig successfully");
-        console.log(data);
-        router.push(`/gigme/mygig/${gig?._id}/execute`);
-        setLoading(false);
-      } else {
-        toast.error(data.message);
-        router.push(`/gigme/gigs/${userId}`);
-        router.refresh();
-        setLoading(false);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  console.log(category);
   // conditionsl styling
   const handleModal = (gig) => {
     setOpen(true);
@@ -111,7 +78,7 @@ const BookedGigs = ({ user }) => {
     setOpen(false);
     console.log("close", gigdesc);
   };
-
+  console.log(gigs);
   return (
     <div className="w-full h-[calc(100vh-260px)] p-2 shadow-lg mt-3">
       {" "}
@@ -138,13 +105,14 @@ const BookedGigs = ({ user }) => {
         onClick={() => setSearch(false)}
         className="gigdisplay shadow-lg shadow-yellow-600 w-full h-[100%] p-2 overflow-y-scroll element-with-scroll"
       >
-        {!loading && pubGigs?.length === 0 && <div>No Gigs to display</div>}
+        {!loading && gigs?.length === 0 && <div>No Gigs to display</div>}
 
-        {!loading && pubGigs?.length > 0 ? (
+        {!loading && gigs?.length > 0 ? (
           <>
             {/* content */}
-            {searchfunc(pubGigs, typeOfGig, category, gigQuery, location)
-              ?.filter((pub) => pub.isTaken === false)
+            {searchfunc(gigs, typeOfGig, category, gigQuery, location)
+              ?.filter((pub) => pub.bookedBy?._id === currentUser)
+
               .map((gig) => {
                 return (
                   <div key={gig?.secret} className=" flex w-full my-3 ">
