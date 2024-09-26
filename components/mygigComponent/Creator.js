@@ -113,21 +113,21 @@ const Creator = ({ myGig }) => {
 
   return (
     <ClientOnly>
-      <div className="container bg-neutral-600 shadow-xl h-screen overflow-hidden w-screen p-4">
+      <div className="container bg-neutral-600 shadow-xl h-screen overflow-hidden w-screen px-4">
         <div className="card m-4">
           <h6 className="title text-gray-200">Personal info</h6>
           <div className="flex gap-3">
             <Input
               disabled
               type="text"
-              className="title p-4  mx-auto mt-4  text-white bg-red-800  md:text-[25px] xl:text-[28px] "
+              className="title p-4  mx-auto mt-3  text-white bg-red-800  md:text-[25px] xl:text-[28px] "
               placeholder="firstname"
               value={creatorData?.firstname}
             />
             <Input
               disabled
               type="text"
-              className=" p-4 title  mx-auto mt-4  text-white bg-red-800   md:text-[25px] xl:text-[28]  "
+              className=" p-4 title  mx-auto mt-3  text-white bg-red-800   md:text-[25px] xl:text-[28]  "
               placeholder="lastname"
               value={creatorData?.lastname}
             />
@@ -136,14 +136,14 @@ const Creator = ({ myGig }) => {
             <Input
               disabled
               type="text"
-              className=" p-4   mx-auto mt-4  text-white bg-red-800   md:text-[25px] xl:text-[28]  "
+              className=" p-4   mx-auto mt-3  text-white bg-red-800   md:text-[25px] xl:text-[28]  "
               placeholder="Email address"
               value={creatorData?.email}
             />
             <Input
               disabled
               type="text"
-              className=" p-4   mx-auto mt-4  text-white bg-red-800   md:text-[25px] xl:text-[28] "
+              className=" p-4   mx-auto mt-2  text-white bg-red-800   md:text-[25px] xl:text-[28] "
               placeholder="username"
               value={creatorData?.username}
             />{" "}
@@ -151,7 +151,7 @@ const Creator = ({ myGig }) => {
           <Input
             disabled
             type="text"
-            className=" p-4 title  mx-auto mt-4  text-white placeholder-gray-100 bg-red-800   md:text-[25px] xl:text-[28]  "
+            className=" p-4 title  mx-auto mt-1  text-white placeholder-gray-100 bg-red-800   md:text-[25px] xl:text-[28]  "
             placeholder="City"
             value={creatorData?.city}
           />{" "}
@@ -179,14 +179,14 @@ const Creator = ({ myGig }) => {
           <Input
             disabled
             type="text"
-            className=" p-4 title  mx-auto mt-4  text-white bg-red-800   md:text-[25px] xl:text-[28] "
+            className=" p-4 title  mx-auto mt-3  text-white bg-red-800   md:text-[25px] xl:text-[28] "
             placeholder="instrument"
             value={creatorData?.title}
           />{" "}
           <Textarea
             name="description"
             style={{ resize: "none", height: "fit-content" }}
-            className="min-h-[110px]  mb-2 w-full p-2  mx-auto mt-4 text-white bg-red-800 md:w-full xl:w-[full] title md:text-[25px] xl:text-[26] "
+            className="min-h-[110px]  mb-2 w-full p-2  mx-auto mt-3 text-white bg-red-800 md:w-full xl:w-[full] title md:text-[25px] xl:text-[26] "
             disabled
             type="text"
             value={creatorData?.description}
@@ -195,7 +195,7 @@ const Creator = ({ myGig }) => {
             <Input
               disabled
               type="text"
-              className=" p-4 title  mx-auto mt-4  text-white bg-red-800   md:text-[25px] xl:text-[28]  "
+              className=" p-4 title  mx-auto mt-3  text-white bg-red-800   md:text-[25px] xl:text-[28]  "
               placeholder="instrument"
               value={creatorData?.location}
             />{" "}

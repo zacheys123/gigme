@@ -85,6 +85,13 @@ const Booker = ({ myGig }) => {
     myGig?.gigs?.postedBy?.username,
     myGig?.gigs?.price,
     myGig?.gigs?.title,
+    myGig?.gigs?.bookedBy?.firstname,
+    myGig?.gigs?.bookedBy?.lastname,
+    myGig?.gigs?.bookedBy?.email,
+    myGig?.gigs?.bookedBy?.username,
+    myGig?.gigs?.bookedBy?.followers,
+    myGig?.gigs?.bookedBy?.city,
+    myGig?.gigs?.bookedBy?.followings,
   ]);
 
   let variant = {

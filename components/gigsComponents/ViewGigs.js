@@ -7,6 +7,7 @@ import Created from "./Created";
 import AllGigs from "./AllGigs";
 import ClientOnly from "@/app/ClientOnly";
 import useStore from "@/app/zustand/useStore";
+import BookedGigs from "./BookedGigs";
 const ViewGigs = ({ user }) => {
   const [typeOfGig, setTypeOfGig] = useState("published");
   const [created, setCreated] = useState();
@@ -60,6 +61,7 @@ const ViewGigs = ({ user }) => {
         {typeOfGig === "published" && <Published user={user} />}{" "}
         {typeOfGig === "mygigs" && <Created user={user} />}
         {typeOfGig === "allgigs" && <AllGigs user={user} />}
+        {typeOfGig === "booked" && <BookedGigs user={user} />}
       </div>
     </ClientOnly>
   );
