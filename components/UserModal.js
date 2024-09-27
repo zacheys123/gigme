@@ -52,10 +52,10 @@ const UserModal = ({}) => {
                 type="text"
                 className="bg-gray-300 p-2 text-[11px] rounded-sm text-gray-700 placeholder-yellow-800 border-zinc-400 focus-within:ring-0 outline-none md:cursor-pointer"
               />
-              <Label htmlFor="theme">Theme:</Label>
+
               <select
                 id="theme"
-                className="bg-gray-300 p-2 text-[11px] rounded-sm text-gray-700 placeholder-yellow-800 border-zinc-400 focus-within:ring-0 outline-none md:cursor-pointer"
+                className="bg-gray-300 p-2 text-[11px] rounded-sm text-gray-700   mt-3 placeholder-yellow-800 border-zinc-400 focus-within:ring-0 outline-none md:cursor-pointer"
               >
                 {" "}
                 <option>Choose theme</option>
