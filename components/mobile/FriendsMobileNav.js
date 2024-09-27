@@ -23,10 +23,11 @@ const FriendsMobileNav = () => {
   const { user } = useCurrentUser(userId);
   // {`/gigme/chat/${gig?.bookedBy?.clerkId}/${gig?._id}`}
   return (
-    <div className="shadow-sm shadow-black top-0 sticky min-w-[90%] mx-auto">
+    <div className="shadow-sm shadow-yellow-700 top-0 sticky min-w-[90%] mx-auto">
       <nav className="container  mx-auto max-w-[100vw] xl:w-[60vw] shadow-lg p-4 border-b-zinc-500 flex items-center justify-between">
+        <Logo />
         <span className="flex items-center">
-          <div className="flex flex-grow gap-9 items-center">
+          <div className="flex flex-grow gap-7 items-center">
             <Link href={`/gigme/gigs/${userId}`} className="text-white">
               <FaVideo size="17px" />
             </Link>

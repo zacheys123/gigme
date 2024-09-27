@@ -254,3 +254,35 @@ export function handleLogout(router, isLoggedOut, setisLoggedOut) {
 
   setisLoggedOut(true);
 }
+
+export function getFollowing(followdata, followingLength) {
+  if (followdata?.followings?.length > 1000) {
+    return followdata?.followings?.length < 0
+      ? followingLength / 1000 + "k"
+      : `${followdata?.followings?.length / 1000}k`;
+  } else if (followdata?.followings?.length < 1) {
+    return followdata?.followings?.length < 1
+      ? followingLength
+      : followdata?.followings?.length;
+  } else if (followdata?.followings?.length === 0 || followingLength === 0) {
+    return "No followings";
+  } else {
+    return followingLength || followdata?.followings?.length;
+  }
+}
+
+export function getFollow(followdata, followersLength) {
+  if (followdata?.followers?.length > 1000) {
+    return followdata?.followers?.length < 0
+      ? followersLength / 1000 + "k"
+      : `${followdata?.followers?.length / 1000}k`;
+  } else if (followdata?.followers?.length < 1) {
+    return followdata?.followers?.length < 1
+      ? followersLength
+      : followdata?.followers?.length;
+  } else if (followdata?.followers?.length === 0 || followersLength === 0) {
+    return "No followers";
+  } else {
+    return followersLength || followdata?.followers?.length;
+  }
+}

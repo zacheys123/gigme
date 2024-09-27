@@ -32,7 +32,7 @@ const AvatarComponent = ({ usercomm, posts }) => {
           alt={user?.user?.firstname.split("")[0]}
         />
 
-        <AvatarFallback>{user?.user?.firstname.split("")[0]}</AvatarFallback>
+        <AvatarFallback>{usercomm?.firstname?.split("")[0]}</AvatarFallback>
       </Avatar>
     </div>
   );

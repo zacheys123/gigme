@@ -4,7 +4,7 @@ import React from "react";
 const ProfileLoading = () => {
   return (
     <div className="h-[100vh] w-full justify-center items-center">
-      preparing...
+      Preparing Data...
       <CircularProgress size="20px" sx={{ color: "white", opacity: 0.4 }} />
     </div>
   );

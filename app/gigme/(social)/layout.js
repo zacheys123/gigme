@@ -3,11 +3,12 @@ import ClientOnly from "@/app/ClientOnly";
 import useStore from "@/app/zustand/useStore";
 import SocialNav from "@/components/GigmeNav";
 import LogoutComponent from "@/components/LogoutComponent";
+import UserModal from "@/components/modals/UserModal";
 import MyNav from "@/components/MyNav";
 import ToolTip from "@/components/postComponents/ToolTip";
 import LeftBar from "@/components/socials/LeftBar";
 import RightBar from "@/components/socials/RightBar";
-import UserModal from "@/components/UserModal";
+
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { CircularProgress } from "@mui/material";

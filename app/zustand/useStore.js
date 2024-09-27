@@ -30,8 +30,15 @@ const useStore = create((set) => ({
   setIsLoaded: (socket) => set({ socket }),
   name: false,
   setName: (name) => set({ name }),
+  // modals
   logout: false,
   setLogout: (logout) => set({ logout }),
+  followers: false,
+  setFollowers: (followers) => set({ followers }),
+  currentfollowers: false,
+  setCurrentFollowers: (currentfollowers) => set({ currentfollowers }),
+
+  //
   isLoggedOut: false,
   setisLoggedOut: (isLoggedOut) => set({ isLoggedOut }),
 }));

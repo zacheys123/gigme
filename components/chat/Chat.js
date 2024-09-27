@@ -21,7 +21,6 @@ const Chat = ({ other, curr, getGig }) => {
   const reciever = useRef();
   const postedorbookedById = other?.user?._id;
   const currentId = curr?.user?._id;
-  const gigId = getGig?.gigs?._id;
 
   const router = useRouter();
 
@@ -29,7 +28,7 @@ const Chat = ({ other, curr, getGig }) => {
     sender.current = currentId;
     reciever.current = postedorbookedById;
   }, [currentId, postedorbookedById]);
-  const { loading, user } = useCurrentUser(userId);
+
   const [postedOther, setOther] = useState({});
   useEffect(() => {
     const getReciever = async () => {
@@ -68,7 +67,7 @@ const Chat = ({ other, curr, getGig }) => {
             {/* header */}
             <ChatHeader
               myUser={other}
-              id={user?.user?._id}
+              id={curr?.user?._id}
               otherUser={postedOther}
             />
             {/*  messages*/}
@@ -76,7 +75,7 @@ const Chat = ({ other, curr, getGig }) => {
               <ChatPage
                 currentId={currentId}
                 postedorbookedById={postedorbookedById}
-                gigId={gigId}
+                gigId={getGig}
                 setMess={setMess}
                 messages={msg}
               />
@@ -85,7 +84,7 @@ const Chat = ({ other, curr, getGig }) => {
             <ChatInput
               currentId={currentId}
               postedorbookedById={postedorbookedById}
-              gigId={gigId}
+              gigId={getGig}
               setMess={setMess}
               messages={msg}
             />

@@ -14,7 +14,7 @@ export const SocketContextProvider = ({ children }) => {
 
   const { user } = useCurrentUser(userId);
   const { setOnlineUsers } = useStore();
-  console.log(user);
+
   const { socket } = useSocket();
 
   useEffect(() => {

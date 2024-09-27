@@ -40,10 +40,10 @@ const SocialNav = () => {
         "Content-Type": "application/json",
       },
     });
-    const { currentuser } = await res.json();
-    console.log(currentuser);
-    setData(currentuser);
-    return currentuser;
+    const currentuser = await res.json();
+    console.log(currentuser?.currentuser);
+    setData(currentuser?.currentuser);
+    return currentuser?.currentuser;
   };
   useEffect(() => {
     getAllUsers();

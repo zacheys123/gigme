@@ -25,19 +25,3 @@ export async function PUT(req, { params }) {
     return NextResponse.json({ message: error, status: 500 });
   }
 }
-
-//       .then((err, userd) => { if (err) {
-//     return NextResponse.json({ error: err, status: 422 });
-//   }
-//   User.findByIdAndUpdate(
-//     follower,
-//     {
-//       $push: { followings: params.id },
-//     },
-//     { new: true }
-//   );
-//   return NextResponse.json({ userd, status: 200 });
-// })
-// .catch((err) => {
-//   return NextResponse.json({ error: err, status: 422 });
-// });
