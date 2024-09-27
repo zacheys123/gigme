@@ -14,6 +14,7 @@ import Logo from "@/components/Logo";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import AvatarComponent from "@/components/Avatar";
+import UserModal from "@/components/UserModal";
 const UserProfile = () => {
   const { userId } = useAuth();
   const [user, setUser] = useState({});
@@ -177,6 +178,7 @@ const UserProfile = () => {
       className=" sm:w-[85%] mx-auto sm:h-[calc(100vh-30px)] md:h-[calc(100vh-120px)] md:w-[80%] flex
       h-screen flex-col md:flex overflow-auto  items-center shadow-md shadow-slate-500 p-4 w-[90%]  md:ml-[35px]"
     >
+      <UserModal />
       <div className="container flex justify-between items-center   mt-[25px] -mb-5 shadow-sm shadow-red-500">
         <Logo />
         <h3 className="text-white font-bold hidden md:block text-[12px]">

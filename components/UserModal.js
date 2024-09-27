@@ -18,50 +18,71 @@ import { Separator } from "./ui/separator";
 import { handleLogout } from "@/utils";
 import { useRouter } from "next/navigation";
 const UserModal = ({}) => {
-  let open;
   const { setLogout, logout, setisLoggedOut, isLoggedOut } = useStore();
 
+  const router = useRouter();
+  const [deleteacc, setDelete] = React.useState();
+  const [confirmusername, setConfirmUsername] = React.useState();
   const handleClose = () => {
     setLogout(false);
   };
-  const router = useRouter();
-
+  const handleDelete = () => {
+    setDelete(true);
+    if (deleteacc) {
+    }
+  };
   return (
     <div className="w-[100vw] overflow-hidden relative">
       <Dialog
         open={logout}
         onClose={handleClose}
-        PaperProps={{
-          component: "form",
-          onSubmit: (event) => {
-            event.preventDefault();
-            const formData = new FormData(event.currentTarget);
-            const formJson = Object.fromEntries(formData.entries());
-            const email = formJson.email;
-            console.log(email);
-            handleClose();
-          },
-        }}
-        className="w-[390px] absolute bg-neutral-700"
+        className="w-[365px] absolute bg-neutral-700"
       >
-        <DialogTitle>Advanced Settings</DialogTitle>
+        <DialogTitle>Account Settings</DialogTitle>
 
         <DialogContent className="flex flex-col  gap-9">
           {/* theme */}
-          <Box className="flex flex-col gap-2">
-            <Label htmlFor="theme">Theme:</Label>
-            <select
-              id="theme"
-              className="bg-gray-300 p-2 text-[11px] rounded-sm text-gray-700 placeholder-yellow-800 border-zinc-400 focus-within:ring-0 outline-none md:cursor-pointer"
-            >
+          <form>
+            <Box className="flex flex-col gap-2">
+              <input
+                required
+                id="name"
+                name="username"
+                placeholder="Change your Username..."
+                type="text"
+                className="bg-gray-300 p-2 text-[11px] rounded-sm text-gray-700 placeholder-yellow-800 border-zinc-400 focus-within:ring-0 outline-none md:cursor-pointer"
+              />
+              <Label htmlFor="theme">Theme:</Label>
+              <select
+                id="theme"
+                className="bg-gray-300 p-2 text-[11px] rounded-sm text-gray-700 placeholder-yellow-800 border-zinc-400 focus-within:ring-0 outline-none md:cursor-pointer"
+              >
+                {" "}
+                <option>Choose theme</option>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+                <option value="system">System</option>
+              </select>
+            </Box>
+            <div className="m-4 " onClick={handleClose}>
               {" "}
-              <option>Choose theme</option>
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-              <option value="system">System</option>
-            </select>
-          </Box>
-
+              <Button
+                onClick={handleClose}
+                className="h-[25px] text-[9px] gigtitle mx-2"
+                variant="default"
+                type="button"
+              >
+                Cancel
+              </Button>
+              <Button
+                className="h-[25px] text-[9px] gigtitle mx-2"
+                variant="primary"
+                type="submit"
+              >
+                Save changes
+              </Button>
+            </div>
+          </form>
           <DialogContentText
             className="flex items-center gap-9  lg:text-[15px] -mb-[10px]   bg-gray-300 p-1 text-[11px] rounded-sm text-gray-700 placeholder-yellow-800 border-zinc-400 focus-within:ring-0 outline-none md:cursor-pointer 
           "
@@ -81,31 +102,50 @@ const UserModal = ({}) => {
           </DialogContentText>
 
           <Separator />
-          <Button
-            classNmae="h-[15px]"
-            variant="destructive"
-            onClick={handleClose}
-          >
-            Delete Account
-          </Button>
-          <input
-            required
-            id="name"
-            name="username"
-            placeholder="Confirm your Username..."
-            type="text"
-            className="bg-gray-300 p-2 text-[11px] rounded-sm text-gray-700 placeholder-yellow-800 border-zinc-400 focus-within:ring-0 outline-none md:cursor-pointer"
-          />
+
+          <form className="">
+            {!deleteacc && (
+              <Button
+                className=" w-full "
+                variant="destructive"
+                onClick={handleDelete}
+                fullWidth
+                type="button"
+              >
+                Delete Account
+              </Button>
+            )}
+            {deleteacc && (
+              <>
+                {" "}
+                <h6 className="gigtitle tracking-wider">
+                  You have to enter a valid username so as to delete your
+                  account.
+                </h6>
+                <input
+                  value={confirmusername}
+                  onChange={(ev) => setConfirmUsername(ev.target.value)}
+                  autoFocus
+                  required
+                  id="name"
+                  name="username"
+                  placeholder="Confirm your Username to delete account..."
+                  type="text"
+                  className="bg-gray-300 p-2 text-[11px] mt-8 w-full  rounded-sm text-gray-700 placeholder-yellow-800 border-zinc-400 focus-within:ring-0 outline-none md:cursor-pointer"
+                />
+                <Button
+                  className=" w-[70%] mt-5 gigtitle"
+                  variant="primary"
+                  onClick={handleDelete}
+                  fullWidth
+                  type="button"
+                >
+                  Confirm Account Deletion
+                </Button>
+              </>
+            )}
+          </form>
         </DialogContent>
-        <DialogActions onClick={handleClose}>
-          <Button
-            classNmae="h-[15px] text-[9px] title"
-            variant="default"
-            type="button"
-          >
-            back
-          </Button>
-        </DialogActions>
       </Dialog>
     </div>
   );
