@@ -3,17 +3,29 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useAuth } from "@clerk/nextjs";
 
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import useStore from "@/app/zustand/useStore";
 
 const AvatarComponent = () => {
   const { userId } = useAuth();
   const { user } = useCurrentUser(userId);
-  const { setLogout } = useStore();
+  const { setLogout, setName } = useStore();
+
   console.log(user);
+  const showName = () => {
+    setName(true);
+  };
+  const RemoveName = () => {
+    setName(false);
+  };
   return (
-    <div className="w-[40px] h-[40px]" onClick={() => setLogout(true)}>
+    <div
+      className="w-[40px] h-[40px] "
+      onClick={() => setLogout(true)}
+      onMouseOver={showName}
+      onMouseLeave={RemoveName}
+    >
       <Avatar>
         {user?.user?.picture && (
           <>

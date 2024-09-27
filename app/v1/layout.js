@@ -10,6 +10,7 @@ import { Box, CircularProgress } from "@mui/material";
 import { Toaster } from "sonner";
 import React, { useCallback, useEffect, useState } from "react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import ToolTip from "@/components/postComponents/ToolTip";
 
 const MainLayout = ({ children }) => {
   const { user, isSignedIn } = useUser();
@@ -69,6 +70,7 @@ const MainLayout = ({ children }) => {
       <ProfileNav user={allmydata} loading={loading} />
       <MediumProfileNav />
       <Toaster expand={false} richColors position="top" />
+      <ToolTip id={allmydata} />
       <div className="flex flex-col  items-center md:w-full xl:w-full">
         <Transition variant={variant} className={className}>
           {children}

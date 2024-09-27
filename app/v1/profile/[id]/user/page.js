@@ -183,7 +183,7 @@ const UserProfile = () => {
           {" "}
           Add More Info
         </h3>
-        <div className="mr-8 md:block  ">
+        <div className=" md:block  ">
           {" "}
           <AvatarComponent user={user} />
         </div>

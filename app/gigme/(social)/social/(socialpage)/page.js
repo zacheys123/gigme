@@ -20,6 +20,7 @@ async function getUser() {
     console.log(error);
   }
 }
+
 async function getPosts() {
   try {
     const res = await fetch(`${checkEnvironment()}/api/posts/getPosts`, {
@@ -35,6 +36,7 @@ async function getPosts() {
     console.log(error);
   }
 }
+
 async function getComments() {
   try {
     const res = await fetch(`${checkEnvironment()}/api/comments/getComments`, {
@@ -70,14 +72,13 @@ const SocialPage = async () => {
   const posts = await getPosts();
   const comments = await getComments();
   const replies = await getReplies();
-  console.log(replies);
+  console.log(posts);
   return (
     <div className="w-screen h-screen  bg-gray-900">
       {" "}
       <ClientOnly>
         <SocialMainPage
-          user={user}
-          posts={posts}
+          currentuser={user}
           comments={comments}
           replies={replies}
         />

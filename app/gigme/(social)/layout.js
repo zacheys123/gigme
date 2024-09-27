@@ -4,9 +4,11 @@ import useStore from "@/app/zustand/useStore";
 import SocialNav from "@/components/GigmeNav";
 import LogoutComponent from "@/components/LogoutComponent";
 import MyNav from "@/components/MyNav";
+import ToolTip from "@/components/postComponents/ToolTip";
 import LeftBar from "@/components/socials/LeftBar";
 import RightBar from "@/components/socials/RightBar";
 import UserModal from "@/components/UserModal";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { CircularProgress } from "@mui/material";
 import { Button } from "flowbite-react";
@@ -17,6 +19,7 @@ const GigmeLayout = ({ children, modal, chat }) => {
   const { user } = useUser();
   const { isLoggedOut } = useStore();
   const { isLoaded, userId } = useAuth();
+  const { user: id } = useCurrentUser(userId);
   const registerUser = useCallback(async () => {
     const res = await fetch("/api/user/register", {
       method: "POST",
@@ -67,9 +70,9 @@ const GigmeLayout = ({ children, modal, chat }) => {
         <UserModal open={logout} />
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 relative">
         <Toaster expand={false} richColors position="top" />
-        <SocialNav />
+        <SocialNav /> <ToolTip id={id} />
         <div className="flex">
           <LeftBar />
           {chat}

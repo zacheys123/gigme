@@ -22,7 +22,7 @@ import HeaderDetails from "./HeaderDetails";
 
 import LikeDisLikeComponent from "./LikeDisLikeComponent";
 import AvatarComponent from "../Avatar";
-const SinglePost = ({ post, user, comments, replies, lastpost }) => {
+const SinglePost = ({ post, user, comments, replies }) => {
   let newComm = comments?.comments;
   let myuser = user?.user;
 

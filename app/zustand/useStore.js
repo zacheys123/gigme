@@ -28,6 +28,8 @@ const useStore = create((set) => ({
   setSocket: (socket) => set({ socket }),
   isLoaded: false,
   setIsLoaded: (socket) => set({ socket }),
+  name: false,
+  setName: (name) => set({ name }),
   logout: false,
   setLogout: (logout) => set({ logout }),
   isLoggedOut: false,
