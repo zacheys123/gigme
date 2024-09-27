@@ -52,7 +52,10 @@ const MobileNav = () => {
           <Music size="17px" />
         </Link>{" "}
       </div>
-      <AvatarComponent user={user} />
+      <AvatarComponent
+        usercomm={user?.user}
+        posts="w-[32px] h-[32px] rounded-full object-fit"
+      />
     </div>
   );
 };

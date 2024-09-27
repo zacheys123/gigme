@@ -87,7 +87,12 @@ const Comments = ({ comment, user, replies }) => {
 
       <div className="mt-1  shadow-full p-4 rounded-md h-fit  my-5  mx-2 flex flex-col">
         <div className="flex items-center mt-2">
-          {comment?.postedBy?.picture && <AvatarComponent user={comment} />}{" "}
+          {comment?.postedBy?.picture && (
+            <AvatarComponent
+              usercomm={comment?.postedBy}
+              posts="w-[20px] h-[20px] rounded-full object-fit"
+            />
+          )}{" "}
           <h6 className={username}>{handleRouting(comment, userId)}</h6>
           <h5 className={posted}>{differenceInMinutes(comment, new Date())}</h5>
         </div>

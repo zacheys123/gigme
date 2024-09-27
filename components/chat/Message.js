@@ -14,7 +14,7 @@ const Message = ({ myMessages, other, curr }) => {
   let fromme = myMessages?.sender === curr;
   let fromother = myMessages?.reciever === other;
   const chatclassName = fromme ? "chat chat-end" : "chat chat-start";
-  const profpic = fromme ? sender : reciever;
+  const profpic = fromme ? sender?.user : reciever?.user;
   const name = fromme ? sender?.user?.username : reciever?.user?.username;
   const background = fromme ? "bg-blue-500 " : "";
   const color = !fromme
@@ -29,8 +29,8 @@ const Message = ({ myMessages, other, curr }) => {
           <div className="chat-image avatar">
             <div className=" rounded-full h-[16px] w-[16px]">
               <AvatarComponent
-                user={profpic}
-                className="h-[16px] w-[16px] object-fit"
+                usercomm={profpic}
+                posts="h-[18px] w-[18px] object-fit"
               />
             </div>
           </div>

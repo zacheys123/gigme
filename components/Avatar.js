@@ -7,12 +7,11 @@ import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import useStore from "@/app/zustand/useStore";
 
-const AvatarComponent = () => {
+const AvatarComponent = ({ usercomm, posts }) => {
   const { userId } = useAuth();
   const { user } = useCurrentUser(userId);
   const { setLogout, setName } = useStore();
 
-  console.log(user);
   const showName = () => {
     setName(true);
   };
@@ -27,34 +26,13 @@ const AvatarComponent = () => {
       onMouseLeave={RemoveName}
     >
       <Avatar>
-        {user?.user?.picture && (
-          <>
-            <AvatarImage
-              src={user?.user?.picture}
-              className="w-[35px] h-[35px] rounded-full object-fit"
-              alt={user?.user?.firstname.split("")[0]}
-            />
+        <AvatarImage
+          src={usercomm?.picture}
+          className={posts}
+          alt={user?.user?.firstname.split("")[0]}
+        />
 
-            <AvatarFallback>
-              {user?.user?.firstname.split("")[0]}
-            </AvatarFallback>
-          </>
-        )}
-      </Avatar>
-      <Avatar>
-        {user?.postedBy?.picture && (
-          <>
-            <AvatarImage
-              src={user?.postedBy?.picture}
-              className="w-[35px] h-[35px] rounded-full object-fit"
-              alt={user?.postedBy?.firstname.split("")[0]}
-            />
-
-            <AvatarFallback>
-              {user?.postedBy?.firstname.split("")[0]}
-            </AvatarFallback>
-          </>
-        )}
+        <AvatarFallback>{user?.user?.firstname.split("")[0]}</AvatarFallback>
       </Avatar>
     </div>
   );

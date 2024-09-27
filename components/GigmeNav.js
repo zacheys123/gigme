@@ -127,7 +127,12 @@ const SocialNav = () => {
           />
         </div>
         <div className="-mr-[50px] ml-[20px]">
-          {isLoaded && <AvatarComponent user={user} />}
+          {isLoaded && (
+            <AvatarComponent
+              usercomm={user?.user}
+              posts="w-[32px] h-[32px] rounded-full object-fit"
+            />
+          )}
         </div>
       </nav>
       {toggle && <OverlaySearch searchfunc={searchFn()} />}

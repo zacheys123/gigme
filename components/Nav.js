@@ -63,7 +63,10 @@ const Nav = () => {
               <span className="hidden ml-2 md:inline-flex">Faq</span>
               <MessageCircleQuestion size="20px" className="md:hidden" />
             </Link>
-            <AvatarComponent user={user} />
+            <AvatarComponent
+              usercomm={user?.user}
+              posts="w-[32px] h-[32px] rounded-full object-fit"
+            />
             {/* <UserButton afterSignOutUrl="/" /> */}
           </div>
         ) : (

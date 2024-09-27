@@ -83,7 +83,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
     }, 500);
   });
 
-  let username = "text-[13px]   ml-2 text-blue-300 font-bold";
+  let username = "text-[13px]   text-blue-300 font-bold";
   let globe = "text-[10px]";
   let posted = "text-neutral-400 font-mono text-[13px] md:text-[15px]";
 
@@ -149,7 +149,10 @@ const SinglePost = ({ post, user, comments, replies }) => {
           </h6>
           <div className="flex mt-1 items-center mb-3">
             {randComment()?.postedBy?.picture && (
-              <AvatarComponent user={randComment()} />
+              <AvatarComponent
+                usercomm={randComment()?.postedBy}
+                posts="w-[20px] h-[20px] rounded-full object-fit"
+              />
             )}{" "}
             <h6 className="text-[13px]  text-neutral-300 ml-2">
               {randComment()?.text}

@@ -187,7 +187,10 @@ const UserProfile = () => {
         </h3>
         <div className=" md:block  ">
           {" "}
-          <AvatarComponent user={user} />
+          <AvatarComponent
+            usercomm={user}
+            posts="w-[32px] h-[32px] rounded-full object-fit"
+          />
         </div>
       </div>{" "}
       <Box className="block w-full lg:flex gap-3 h-full">

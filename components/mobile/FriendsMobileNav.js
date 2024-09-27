@@ -50,7 +50,10 @@ const FriendsMobileNav = () => {
             <Link href="/gigme/search" className="text-white">
               <FaSearch size="14px" />
             </Link>
-            <AvatarComponent user={user} />
+            <AvatarComponent
+              usercomm={user?.user}
+              posts="w-[32px] h-[32px] rounded-full object-fit"
+            />
           </div>
         </span>
       </nav>{" "}

@@ -12,7 +12,7 @@ export async function getAllPosts(req) {
           from: "users", // The name of the related collection
           localField: "postedBy", // The field in the 'posts' collection that references 'users'
           foreignField: "_id", // The field in the 'users' collection
-          as: "authorDetails", // The name of the field where the lookup results will be stored
+          as: "postedBy", // The name of the field where the lookup results will be stored
         },
       },
       {
