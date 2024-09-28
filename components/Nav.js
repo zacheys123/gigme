@@ -16,10 +16,12 @@ import {
 } from "lucide-react";
 import AvatarComponent from "./Avatar";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import ChatComponent from "./chat/ChatComponent";
 
-const Nav = () => {
+const Nav = ({ chats }) => {
   const { userId } = useAuth();
   const { user } = useCurrentUser(userId);
+  console.log(chats);
   return (
     <nav className="container shadow-cyan-700 dark:bg-black bg-neutral-500 p-4 shadow-md sticky top-0 mx-auto max-w-[100vw] xl:w-[100vw]  flex items-center justify-between">
       <Logo />
@@ -45,16 +47,7 @@ const Nav = () => {
               </span>
               <User size="20px" className="md:hidden" />
             </Link>
-            <Link
-              href="/gigme/about"
-              className=" text-white  link md:text-[16px] md:font-mono flex flex-col gap-2 items-center md:hover:bg-gray-200 md:hover:text-neutral-800 md:hover:scale-100 p-2 rounded-full  transition-all duration-75"
-            >
-              <span className="hidden ml-2 md:inline-flex">
-                {" "}
-                About<span className="hidden ml-2 md:inline-flex">|</span>
-              </span>
-              <Info size="20px" className="md:hidden" />
-            </Link>
+            <ChatComponent chats={chats} />
             <Link
               href="/gigme/about"
               className=" text-white  link md:text-[16px] md:font-mono flex flex-col gap-2 items-center md:hover:bg-gray-200 md:hover:text-neutral-800 md:hover:scale-100 p-2 rounded-full  transition-all duration-75"
