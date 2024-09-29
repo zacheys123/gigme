@@ -123,9 +123,8 @@ const Booker = ({ myGig }) => {
   const forget = () => {
     forgetBookings(userId, myGig);
   };
-  const onClick = (gig) => {
-    router.push(`/gigme/chat/${gig?.bookedBy?.clerkId}/${gig?._id}`);
-  };
+  router.push(`/gigme/chat/${gig?.bookedBy?.clerkId}/${gig?._id}`);
+  const onClick = (gig) => {};
   if (myGig?.gigs?.isPending === false) {
     router.push(`/gigme/gigs/${userId}`);
   }
