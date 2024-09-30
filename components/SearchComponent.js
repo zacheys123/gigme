@@ -37,7 +37,8 @@ const SearchComponent = ({ userd, data }) => {
         if (
           user?.firstname?.toLowerCase().includes(searchquery) ||
           user?.lastname?.toLowerCase().includes(searchquery) ||
-          user?.username?.toLowerCase().includes(searchquery)
+          // user?.username?.toLowerCase().includes(searchquery) ||
+          user?.email?.toLowerCase().includes(searchquery)
         ) {
           return sortedData;
         }
