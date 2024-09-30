@@ -339,7 +339,7 @@ export default function Home() {
             />
             <h3 className="text-2xl font-bold mb-4">React & Interact</h3>
             <p className="text-gray-400">
-              Like, comment, and share your thoughts on others' jam sessions.
+              {`Like, comment, and share your thoughts on others' jam sessions.`}
             </p>
           </motion.div>
         </div>

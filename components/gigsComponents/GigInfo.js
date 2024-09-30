@@ -303,7 +303,7 @@ const GigInfo = ({ user }) => {
               autoComplete="off"
               type="text"
               placeholder="Enter location  "
-              className="font-mono  h-[35px] text-[12px]  bg-white mb-2  focus-within:ring-0 outline-none rounded-xl  px-3 text-black"
+              className="font-mono  h-[35px] text-[12px]  bg-white mb-2  focus-within:ring-0 outline-none rounded-xl  px-3 text-black w-full"
               onChange={(ev) =>
                 setGigs((prev) => {
                   return { ...prev, location: ev.target.value };
