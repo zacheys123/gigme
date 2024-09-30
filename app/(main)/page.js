@@ -16,11 +16,14 @@ import { motion } from "framer-motion";
 import ImageComponent from "@/components/ImageComponent";
 import UsersButton from "@/components/UsersButton";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
+import Head from "next/head";
 export default function Home() {
   // const {
   //   authstate: {},
   //   setAuthState,
   // } = useGlobalContext();
+  const router = useRouter();
   const { isLoaded, userId, sessionId, getToken } = useAuth();
 
   const { isSignedIn, user } = useUser();
@@ -38,6 +41,26 @@ export default function Home() {
       </div>
     );
   }
+  let sentence = ` Welcome to gigUp, ${user?.firstName}!`;
+  const words = sentence.split(" ");
+  const containerVariants = {
+    hidden: { opacity: 1 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.6, // time between each word appearing
+      },
+    },
+  };
+
+  const wordVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 100 },
+    },
+  };
   return (
     // <main className="min-h-screen xl:container p-0 bg-neutral-800 w-screen">
     //   <ImageComponent bgCover={bgImage} />
@@ -232,13 +255,13 @@ export default function Home() {
     //   </footer>
     // </div>
 
-    <div className="bg-gray-900 min-h-screen text-white font-sans">
-      {/* <ImageComponent bgCover={bgImage} /> */}
+    <div className="bg-gray-900 min-h-screen text-white font-sans max-w-screen-screen-sm md:max-w-screen-md">
+      <ImageComponent bgCover={bgImage} />
       <section
         className="flex flex-col items-center justify-center min-h-[520px] text-center bg-cover bg-center bg-no-repeat "
         style={{ backgroundImage: `url(${bgImage})` }}
       >
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5 }}
@@ -260,15 +283,46 @@ export default function Home() {
           >
             Start Jamming
           </Link>
+        </motion.div> */}
+        <motion.div
+          className="mb-10"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          style={{ display: "flex", gap: "10px" }} // keeps words spaced out
+        >
+          {words.map((word, index) => (
+            <motion.span key={index} variants={wordVariants}>
+              {word}
+            </motion.span>
+          ))}
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.5 }}
+          className="bg-gradient-to-r from-purple-600 to-blue-400 text-white py-20"
+        >
+          <h1 className="text-5xl font-bold mb-4">Jam, Discover, Create</h1>
+          <p className="text-lg mb-8">
+            Share your jam sessions, create and book gigs, connect with
+            musicians around the world.
+          </p>
+          <Link
+            href="#features"
+            className="bg-white text-black py-2 px-6 rounded-full font-semibold hover:bg-gray-200"
+          >
+            Get Started
+          </Link>
         </motion.div>
       </section>
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.5 }}
-        className="container bg-neutral-800 rounded-md mx-auto max-w-[80vw] h-[230px] p-4 text-center flex flex-col gap-4 xl:w-[60vw] -mt-[19px] mb-9"
+        className="container bg-neutral-800 rounded-md mx-auto max-w-[80vw] h-[180px] p-4 text-center flex flex-col gap-4 xl:w-[60vw] mt-[17px] mb-9"
       >
-        <span className="font-bold tracking-wider  font-sans text-[23px] ">
+        <span className="font-bold tracking-wider  font-sans text-[17px] ">
           For more information on what igigup is,contact us here.Send us ur
           feedback or concern.
         </span>
@@ -292,6 +346,9 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
             className="bg-gray-800 p-6 rounded-lg shadow-lg"
+            onClick={() => {
+              router.push("/gigme/social");
+            }}
           >
             <Image
               src={postimage}
@@ -325,6 +382,7 @@ export default function Home() {
             </p>
           </motion.div>
           <motion.div
+            id="features"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
