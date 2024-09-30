@@ -20,7 +20,7 @@ const AvatarComponent = ({ usercomm, posts }) => {
   };
   return (
     <div
-      className="w-[40px] h-[40px] "
+      className=""
       onClick={() => setLogout(true)}
       onMouseOver={showName}
       onMouseLeave={RemoveName}
@@ -32,7 +32,9 @@ const AvatarComponent = ({ usercomm, posts }) => {
           alt={user?.user?.firstname.split("")[0]}
         />
 
-        <AvatarFallback>{usercomm?.firstname?.split("")[0]}</AvatarFallback>
+        <AvatarFallback className={posts}>
+          {usercomm?.firstname?.split("")[0]}
+        </AvatarFallback>
       </Avatar>
     </div>
   );

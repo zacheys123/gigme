@@ -3,12 +3,14 @@ import Image from "next/image";
 import { PropTypes } from "prop-types";
 
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
 import useStore from "@/app/zustand/useStore";
 import { useRouter } from "next/navigation";
 import ProfileComponent from "./ProfileComponent";
+import { motion } from "framer-motion";
 const FellowMusicians = ({ user, allUsers }) => {
+  const { setFollow, follows } = useStore();
   const router = useRouter();
   const {
     setShowFriendData,
@@ -20,8 +22,10 @@ const FellowMusicians = ({ user, allUsers }) => {
     setShowAllGigsData,
   } = useStore();
 
-  const [profileview, setProfileView] = useState();
+  const [myUsers, setUsers] = useState(allUsers);
   const updateFollowers = async (data) => {
+    setFollow(true);
+
     try {
       const res = await fetch(`/api/user/follower/${data?._id}`, {
         method: "PUT",
@@ -39,7 +43,8 @@ const FellowMusicians = ({ user, allUsers }) => {
         router.refresh();
       }
     } catch (error) {
-      console.log(error);
+      setFollow((prev) => !prev);
+      console.log("error updating followers in profile page", error);
     }
   };
   const updateFollowing = async (data) => {
@@ -60,11 +65,14 @@ const FellowMusicians = ({ user, allUsers }) => {
     } catch (error) {
       console.log(error);
     }
-    (prev) => prev;
   };
+  useEffect(() => {
+    setUsers(allUsers);
+  }, [follows, allUsers]);
+
   return (
     <div
-      className="element-with-scroll h-fit  shadow-md shadow-red-300 max-w-[400px]  overflow-auto flex whitespace-nowrap    mt-3  p-4 transition-all duration-150"
+      className="w-full overflow-x-scroll scroll-smooth h-fit p-1"
       onClick={() => {
         setShowFriendData(false);
         setShowPostedGigsData(false);
@@ -72,8 +80,8 @@ const FellowMusicians = ({ user, allUsers }) => {
         setShowAllGigsData(false);
       }}
     >
-      <div className="inline-flex ">
-        {allUsers
+      <div className="inline-flex flex-shrink-0 ">
+        {myUsers
           .filter((userd) => userd?.instrument?.length > 0)
           .map((otheruser) => {
             return (
@@ -88,6 +96,10 @@ const FellowMusicians = ({ user, allUsers }) => {
                 thirdDiv="w-full flex justify-center  items-center flex-col"
                 image="w-[25px] h-[25px] rounded-full text-center"
                 imageno={25}
+                initial={{ opacity: 0, x: ["15px"] }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1, delay: 0.1 }}
+                follows={follows}
               />
             );
           })}

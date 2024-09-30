@@ -105,7 +105,7 @@ const InfoComponent = ({ user, allUsers }) => {
               ) : (
                 <div className="flex flex-col">
                   <h6 className="text-[13px] font-bold underline text-neutral-400 text-center mb-2 bg-neutral-100 p-2 rounded-lg w-fit">
-                    All Your Booked Gigs
+                    All Your Booked Gigs .
                   </h6>
                   <div className="flex gap-6 flex-wrap">
                     {dataObject.booked(user, allGigs, router)}

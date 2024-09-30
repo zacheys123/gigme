@@ -40,7 +40,7 @@ const RouteProfile = ({ user }) => {
     }
   };
 
-  console.log(url);
+  console.log(user);
   return (
     <div
       className="flex flex-col items-center gap-4 "
@@ -64,20 +64,20 @@ const RouteProfile = ({ user }) => {
             </label>{" "}
           </>
         )}
-
-        <Image
-          priority
-          src={!fileUrl ? user?.user?.picture : fileUrl}
-          className="object-cover w-[200px] h-[200px] rounded-full"
-          alt={user?.user?.firstname.split("")[0]}
-          width={200}
-          height={200}
-        />
-
+        {fileUrl ||
+          (user && (
+            <Image
+              priority
+              src={!fileUrl ? user?.user?.picture : fileUrl}
+              className="object-cover w-[200px] h-[200px] rounded-full"
+              alt={user?.user?.firstname.split("")[0]}
+              width={200}
+              height={200}
+            />
+          ))}
         <form
           onSubmit={async (ev) => {
             ev.preventDefault();
-
             const data = new FormData();
             data.append("file", file);
             data.append("upload_preset", "gigmeZach");

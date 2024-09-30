@@ -69,7 +69,6 @@ export const unFollower = async (
       body: JSON.stringify({ follower: id }),
     });
     const followersData = await res.json();
-    setFollowersLength(followersData?.result?.followers.length);
   } catch (error) {
     setFollow((prev) => !prev);
 

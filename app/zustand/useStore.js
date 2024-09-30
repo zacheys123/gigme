@@ -35,6 +35,8 @@ const useStore = create((set) => ({
   setLogout: (logout) => set({ logout }),
   followers: false,
   setFollowers: (followers) => set({ followers }),
+  follows: false,
+  setFollow: (follows) => set({ follows }),
   currentfollowers: false,
   setCurrentFollowers: (currentfollowers) => set({ currentfollowers }),
 

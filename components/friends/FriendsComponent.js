@@ -37,7 +37,7 @@ import { getFollow, getFollowing } from "@/utils";
 const FriendsComponent = ({ friend }) => {
   console.log(friend);
   const router = useRouter();
-  const { setFollowers } = useStore();
+  const { setFollowers, follows, setFollow } = useStore();
   const {
     userState: { loading },
     setUserState,
@@ -62,7 +62,7 @@ const FriendsComponent = ({ friend }) => {
     month: "",
     year: "",
   });
-  const [follows, setFollow] = useState(false);
+
   const [followersLength, setFollowersLength] = useState(
     friend?.followers.length > 0 && friend?.followers.length
   );

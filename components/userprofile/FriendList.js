@@ -28,6 +28,7 @@ const FriendList = ({ user, allUsers }) => {
                 thirdDiv="w-full flex justify-center  items-center flex-col"
                 image="w-[25px] h-[25px] rounded-full text-center"
                 imageno={25}
+                onClick={handleRoute}
               />
             );
           })
