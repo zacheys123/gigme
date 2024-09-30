@@ -1,6 +1,6 @@
 "use client";
 import { handleCreateGig } from "@/features/gigs";
-import { Select, Textarea } from "flowbite-react";
+import { Select, Textarea, input } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 
@@ -217,7 +217,7 @@ const GigInfo = ({ user }) => {
               }
             >
               <div className="flex items-center gap-2">
-                <Input
+                <input
                   autoComplete="off"
                   onChange={(ev) =>
                     setGigs((prev) => {
@@ -228,7 +228,7 @@ const GigInfo = ({ user }) => {
                   value={gigInputs?.secret}
                   type={!secretpass ? "password" : "text"}
                   placeholder="Enter secret,  NB://(valid only once)"
-                  className="mb-2"
+                  className="font-mono  h-[35px] text-[12px]  bg-white mb-2 focus-within:ring-0 outline-none rounded-xl  px-3 text-black"
                 />{" "}
                 {secretpass ? (
                   <EyeOff
@@ -248,7 +248,7 @@ const GigInfo = ({ user }) => {
                 </h6>
               )}
             </div>
-            <Input
+            <input
               autoComplete="off"
               onChange={(ev) =>
                 setGigs((prev) => {
@@ -259,7 +259,7 @@ const GigInfo = ({ user }) => {
               value={gigInputs?.title}
               type="text"
               placeholder="Enter any title"
-              className="mb-2"
+              className="font-mono  h-[35px] text-[12px]  bg-white mb-2  focus-within:ring-0 outline-none rounded-xl  px-3 text-black"
             />{" "}
             <Textarea
               onChange={(ev) =>
@@ -273,11 +273,11 @@ const GigInfo = ({ user }) => {
               className="min-h-[70px] p-2 mb-2"
               placeholder=" Enter description e.g what songs or the vybe expected in the event/show"
             />
-            <Input
+            <input
               autoComplete="off"
               type="text"
               placeholder="Enter phone no: "
-              className="mb-2"
+              className="font-mono  h-[35px] text-[12px]  bg-white mb-2  focus-within:ring-0 outline-none rounded-xl  px-3 text-black"
               onChange={(ev) =>
                 setGigs((prev) => {
                   return { ...prev, phoneNo: ev.target.value };
@@ -286,11 +286,11 @@ const GigInfo = ({ user }) => {
               name="phoneNo"
               value={gigInputs?.phoneNo}
             />{" "}
-            <Input
+            <input
               autoComplete="off"
               type="text"
               placeholder="Enter price range expected  "
-              className="mb-2"
+              className="font-mono  h-[35px] text-[12px]  bg-white mb-2  focus-within:ring-0 outline-none rounded-xl  px-3 text-black"
               onChange={(ev) =>
                 setGigs((prev) => {
                   return { ...prev, price: ev.target.value };
@@ -299,11 +299,11 @@ const GigInfo = ({ user }) => {
               name="price"
               value={gigInputs?.price}
             />{" "}
-            <Input
+            <input
               autoComplete="off"
               type="text"
               placeholder="Enter location  "
-              className="mb-2"
+              className="font-mono  h-[35px] text-[12px]  bg-white mb-2  focus-within:ring-0 outline-none rounded-xl  px-3 text-black"
               onChange={(ev) =>
                 setGigs((prev) => {
                   return { ...prev, location: ev.target.value };
@@ -417,11 +417,11 @@ const GigInfo = ({ user }) => {
                 <h6 className="mb-2 w-[50px] bg-neutral-200 font-mono">
                   from:
                 </h6>
-                <Input
+                <input
                   autoComplete="off"
                   type="text"
                   placeholder=" Time e.g 10 means 10:00 "
-                  className="mb-2"
+                  className="mb-2 p-3 focus-within:ring-0 outline-none rounded-xl  px-3 text-black"
                   onChange={(ev) =>
                     setGigs((prev) => {
                       return { ...prev, start: ev.target.value };
@@ -446,11 +446,11 @@ const GigInfo = ({ user }) => {
               </div>
               <div className="flex items-center gap-3">
                 <h6 className="mb-2 w-[50px] bg-neutral-200 font-mono">to:</h6>
-                <Input
+                <input
                   autoComplete="off"
                   type="text"
                   placeholder=" Time e.g 10 means 10:00 "
-                  className="mb-2"
+                  className="mb-2 p-3 focus-within:ring-0 outline-none rounded-xl  px-3 text-black"
                   onChange={(ev) =>
                     setGigs((prev) => {
                       return { ...prev, end: ev.target.value };
@@ -481,7 +481,7 @@ const GigInfo = ({ user }) => {
                 minDate={minDate}
                 maxDate={maxDate}
                 placeholderText="Set Event Date"
-                className="font-mono p-2 w-[100vw] rounded-lg"
+                className="font-mono  h-[35px] text-[12px]  bg-white mb-2  focus-within:ring-0 outline-none rounded-xl  px-3 text-black"
               />
             </div>{" "}
             <div className="w-full flex justify-center">
