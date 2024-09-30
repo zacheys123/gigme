@@ -9,24 +9,24 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import MainUser from "./MainUser";
 import { useAuth } from "@clerk/nextjs";
-const SearchComponent = ({}) => {
+const SearchComponent = ({ userd, data }) => {
   const { userId } = useAuth();
-  const [data, setData] = useState();
-  const getAllUsers = async () => {
-    const res = await fetch(`/api/user/getAllusers/${userId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const { currentuser } = await res.json();
-    console.log(currentuser);
-    setData(currentuser);
-    return currentuser;
-  };
-  useEffect(() => {
-    getAllUsers();
-  }, []);
+  const [usersdata, setData] = useState(data);
+  // const getAllUsers = async () => {
+  //   const res = await fetch(`/api/user/getAllusers/${userId}`, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  //   const { currentuser } = await res.json();
+  //   console.log(currentuser);
+  //   setData(currentuser);
+  //   return currentuser;
+  // };
+  // useEffect(() => {
+  //   getAllUsers();
+  // }, []);
   const [searchquery, setSearchhQuery] = useState("");
 
   // @saak1sak2
