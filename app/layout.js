@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
         <GlobalProvider>
           <SocketContextProvider>
             <html lang="en">
-              <body className="min-h-screen bg-gray-200 ">
+              <body className="min-h-screen bg-gray-200 w-screen overflow-x-hidden ">
                 {" "}
                 <ClerkLoaded>{children} </ClerkLoaded>
               </body>

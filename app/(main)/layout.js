@@ -23,7 +23,7 @@ const MainLayout = async ({ children }) => {
   const currentUser = await getCurrentUser(userId);
   const chats = await getChats(currentUser?.user?._id);
   return (
-    <div>
+    <div className=" h-screeen overflow-x-hidden ">
       <UserModal />
       <Nav chats={chats} />
       {children}

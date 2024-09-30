@@ -22,6 +22,7 @@ import HeaderDetails from "./HeaderDetails";
 
 import LikeDisLikeComponent from "./LikeDisLikeComponent";
 import AvatarComponent from "../Avatar";
+import { motion } from "framer-motion";
 const SinglePost = ({ post, user, comments, replies }) => {
   let newComm = comments?.comments;
   let myuser = user?.user;
@@ -103,7 +104,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
       {/* displaying title and the rest of the post */}
       <Box className="flex flex-col bg-gray-200 rounded-md p-2">
         <div className="title text-neutral-500 text-[13px] ">{post?.title}</div>
-        <div>
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           {post?.media?.includes("image") && (
             <Image
               width={130}
@@ -126,7 +127,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
           <h6 className="text-blue-600 font-bold text-[13px] mt-2 font-mono">
             #{post?.description}
           </h6>
-        </div>
+        </motion.div>
       </Box>
       {/* likes and dislikes */}
       <LikeDisLikeComponent

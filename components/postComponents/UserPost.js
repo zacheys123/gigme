@@ -10,7 +10,11 @@ import { global } from "@/actions";
 import { CircularProgress } from "@mui/material";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
-const UserPost = ({ user }) => {
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useAuth } from "@clerk/nextjs";
+const UserPost = ({}) => {
+  const { userId } = useAuth();
+  const { user } = useCurrentUser(userId);
   const {
     userState: { showPosts },
     setUserState,

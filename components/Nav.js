@@ -23,7 +23,7 @@ const Nav = ({ chats }) => {
   const { user } = useCurrentUser(userId);
   console.log(chats);
   return (
-    <nav className="container shadow-cyan-700 dark:bg-black bg-neutral-500 p-4 shadow-md sticky top-0 mx-auto max-w-[100vw] xl:w-[100vw]  flex items-center justify-between">
+    <nav className="container shadow-cyan-700 dark:bg-black bg-neutral-500 p-4 shadow-md sticky top-0 mx-auto  xl:w-[100vw]  flex items-center justify-between ">
       <Logo />
       <div className="flex items-center">
         {userId ? (

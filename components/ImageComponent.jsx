@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function AppBgImg({ bgCover }) {
+export default function ImageComponent({ bgCover }) {
   return (  
     <Image
       src={bgCover}
