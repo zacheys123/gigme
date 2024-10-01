@@ -332,8 +332,6 @@ input[type="radio"] {
 }
 .player-container {
   border-radius: 8px;
-  margin: 0px 0;
-  height: 400px;
 }
 
 .header {
@@ -368,4 +366,7 @@ input[type="radio"] {
   padding: 10px;
   font-size: 14px;
   color: #333;
+}
+.upload-popup-active {
+  height: 400px;
 }

@@ -9,7 +9,7 @@ import {
 } from "@/utils";
 import { Avatar, Box, CircularProgress } from "@mui/material";
 import { TextInput } from "flowbite-react";
-import { Globe } from "lucide-react";
+import { Globe, Heart, LucideMessageCircleHeart } from "lucide-react";
 import Image from "next/image";
 
 import React, { useCallback, useEffect, useState, useOptimistic } from "react";
@@ -41,7 +41,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
     return com?.postId?._id === post?._id;
   });
   console.log(post);
-  console.log(post?.postedBy[0]?.picture);
+  console.log(post?.media);
   const [commentLength, setCommentlength] = useState(myComments?.length);
   const [commentsArray, setComments] = useState(myComments);
   const [showComments, setShowComments] = useState();
@@ -95,8 +95,8 @@ const SinglePost = ({ post, user, comments, replies }) => {
       initial={{ opacity: 0, y: ["15px"], x: ["-10px"] }}
       whileInView={{ opacity: 1, y: 0, x: 0 }}
       transition={{ duration: 0.3, delay: 0.1 }}
-      className="container p-3 shadow-md shadow-slate-700 w-[90%] my-2 
- rounded-md mx-auto  flex flex-col gap-2 overflow-hidden element-with-scroll"
+      className="container p-3 shadow-md shadow-slate-600 w-[90%] my-2 
+     rounded-md mx-auto  flex flex-col gap-2 overflow-hidden element-with-scroll h-[740px] "
     >
       {/* <HeaderDetails
         posts={post}
@@ -107,27 +107,17 @@ const SinglePost = ({ post, user, comments, replies }) => {
         user={user}
       /> */}
       {/* displaying title and the rest of the post */}
-      <Box className="flex flex-col rounded-md p-2 h-[560px] ">
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="h-full"
-        >
-          {post?.media?.includes("video") && (
+      <Box className="flex flex-col rounded-md p-3 h-fit element-with-scroll">
+        {post?.media && (
+          <div>
+            <Video post={post} />
+          </div>
+        )}
+        {/* {!post?.media?.includes("video") && (
             <div>
-              <Video post={post} />
+              <Image className="object-fill  w-full" src="" alt="post image" />
             </div>
-          )}
-          {!post?.media?.includes("video") && (
-            <div>
-              <Image
-                className="object-cover h-[400px] w-full"
-                src=""
-                alt="post image"
-              />
-            </div>
-          )}
-        </motion.div>
+          )} */}
       </Box>
       {/* likes and dislikes */}
       {/* <LikeDisLikeComponent

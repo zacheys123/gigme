@@ -3,7 +3,7 @@ import { TextInput } from "flowbite-react";
 import React, { useState } from "react";
 import { HiBell } from "react-icons/hi";
 import { Button } from "../ui/button";
-import { Camera } from "@mui/icons-material";
+import { ArrowBack, Camera, Compress, Diversity3 } from "@mui/icons-material";
 import Image from "next/image";
 import { useGlobalContext } from "@/app/Context/store";
 import { global } from "@/actions";
@@ -13,9 +13,12 @@ import { Input } from "../ui/input";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useAuth } from "@clerk/nextjs";
 import { useCompressVideos } from "@/hooks/useCompressVideos";
+import VideoUploadWidget from "../VideoUploadWidget";
+import useStore from "@/app/zustand/useStore";
 const UserPost = ({}) => {
   const { userId } = useAuth();
   const { user } = useCurrentUser(userId);
+  const { videourl } = useStore();
   const {
     userState: { showPosts },
     setUserState,
@@ -26,8 +29,7 @@ const UserPost = ({}) => {
   const [fileUrl, setFileUrl] = useState("");
   const [loading, setLoading] = useState();
   const [statusmsg, setStatusMessage] = useState();
-  const { compressedVideoUrl, uploadError, compressVideo } =
-    useCompressVideos(fileUrl);
+  const { compressedVideoUrl, loader, compressVideo } = useCompressVideos(file);
   const [postdata, setPostData] = useState({ post: "", description: "" });
   const handleChange = (e) => {
     const f = e.target.files?.[0];
@@ -45,12 +47,12 @@ const UserPost = ({}) => {
 
   const handlePost = async (e) => {
     e.preventDefault();
-    console.log(compressedVideoUrl, postdata.post, postdata.description);
+    console.log(url, postdata.post, postdata.description);
 
     let dataInfo = {
-      media: compressedVideoUrl,
-      title: postdata?.post,
-      description: postdata?.description,
+      media: videourl?.secure_url,
+      title: postdata.post,
+      description: postdata.description,
       postedBy: user?.user?._id,
     };
 
@@ -73,7 +75,7 @@ const UserPost = ({}) => {
       console.log(error);
     }
   };
-
+  console.log(videourl?.secure_url);
   return (
     <>
       {!showPosts ? (
@@ -86,7 +88,7 @@ const UserPost = ({}) => {
             <Input
               id="post"
               type="text"
-              className="mt-2"
+              className=" mt-2 p-2 w-full text-[13px] bg-gray-300 rounded-md focus-within:ring-o outline-none"
               placeholder="Create a post...."
               required
               value={postdata?.post}
@@ -126,21 +128,10 @@ const UserPost = ({}) => {
           </div>
         </form>
       ) : (
-        <form
-          onSubmit={compressVideo}
-          className="h-[110px] bg-gray-600 shadow-full w-[90%] mx-auto p-3 mt-8"
-        >
-          <input
-            id="openImage"
-            type="file"
-            className="bg-transparent flex-1 border-none outline-none hidden "
-            name="media"
-            accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm"
-            onChange={handleChange}
-          />
-
+        <div className="h-[110px] bg-gray-600 shadow-full w-[90%] mx-auto p-3 mt-8">
           <div className="w-full">
-            <Input
+            <input
+              autoComplete="off"
               id="post"
               value={postdata.description}
               type="text"
@@ -151,41 +142,27 @@ const UserPost = ({}) => {
                   return { ...prev, description: e.target.value };
                 })
               }
+              className="p-2 w-full text-[13px] bg-gray-300 rounded-md focus-within:ring-o outline-none"
             />
           </div>
           <div className="flex justify-between items-center w-full mx-auto mt-4">
-            <label
-              variant="closed"
-              className="text-white border-2 p-1 rounded-xl text-[10px] lg:cursor-pointer"
-              htmlFor="openImage"
-            >
-              UploadImage <Camera size="30px" sx={{ fontSize: "17px" }} />
-            </label>
-            <Button
-              type="submit"
-              className="text-white font-bold border-2 p-2 rounded-xl text-[10px] lg:cursor-pointer"
-            >
-              Submit image details
-            </Button>
+            <VideoUploadWidget />
+
+            <ArrowBack
+              className="  text-white"
+              size="17px"
+              sx={{ fontSize: "19px", color: "white" }}
+              onClick={() =>
+                setUserState({ type: global.SHOWPOSTS, payload: !showPosts })
+              }
+            />
           </div>
           <div className="h-fit bg-gray-200 mt-7">
-            {file?.type?.startsWith("image/") ? (
-              <div className="w-full h-[240px] md:h-[360px]">
-                {fileUrl && (
-                  <Image
-                    className="object-cover w-full h-[240px] md:h-[360px]"
-                    src={fileUrl}
-                    alt={file?.name}
-                    width={140}
-                    height={140}
-                  />
-                )}
-              </div>
-            ) : (
+            {videourl?.resource_type === "video" && (
               <div>
                 <video
-                  className="object-cover"
-                  src={fileUrl}
+                  className="w-full h-[240px] md:h-[360px]"
+                  src={videourl?.secure_url}
                   autoPlay
                   loop
                   muted
@@ -196,7 +173,7 @@ const UserPost = ({}) => {
           <h6 className="mt-3 text-[15px] text-white font-mono font-bold">
             #{postdata.description}
           </h6>
-        </form>
+        </div>
       )}
     </>
   );

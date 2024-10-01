@@ -43,21 +43,38 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
     <>
       {!showPosts && (
         <div className="text-white  h-full scroll-smooth ">
-          {userposts
-            ?.map((post, index) => {
-              return (
-                <SinglePost
-                  key={post?._id}
-                  post={post}
-                  user={user}
-                  comments={comments}
-                  replies={replies}
-                />
-              );
-            })
-            .reverse()}
+          {userposts?.map((post, index) => {
+            return (
+              <SinglePost
+                key={post?._id}
+                post={post}
+                user={user}
+                comments={comments}
+                replies={replies}
+              />
+            );
+          })}
 
-          <ScrollToTopButton />
+          <div
+            style={{
+              position: "fixed",
+              bottom: "30px",
+              right: "20px",
+              backgroundColor: "#007bff",
+              color: "#fff",
+              borderRadius: "50%",
+              padding: "10px",
+              border: "none",
+              cursor: "pointer",
+            }}
+            className="z-50  absolute bg-blue-700 text-white bottom-[30px] right-10 "
+            onClick={handleScrollToTop}
+          >
+            {" "}
+            {/* <ScrollToTopButton />
+            <> */}
+            <ArrowCircleUpRounded onClick={handleScrollToTop} size="30px" />
+          </div>
         </div>
       )}
     </>

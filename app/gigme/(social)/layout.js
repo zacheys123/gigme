@@ -51,6 +51,14 @@ const GigmeLayout = ({ children, modal, chat }) => {
 
     registerUser();
   });
+
+  useEffect(() => {
+    // Load the Cloudinary widget library
+    const script = document.createElement("script");
+    script.src = "https://widget.cloudinary.com/v2.0/global/all.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
   const { logout } = useStore();
   if (!isLoaded || !userId) {
     return (
