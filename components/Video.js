@@ -17,7 +17,7 @@ const Video = ({ post }) => {
       className="player-container   w-[100%] flex flex-col  gap-4 h-[580px]
      "
     >
-      <div className="  flex justify-between mt-2 bg-neutral-800 p-2 rounded-md">
+      <div className=" w-[100vw] flex justify-between mt-2 bg-slate-900 shadow-md shadow-zinc-700 p-2 rounded-md">
         <div className="user-info ">
           {post?.postedBy[0] ? (
             <Image
@@ -31,7 +31,7 @@ const Video = ({ post }) => {
             <Avatar />
           )}
 
-          <AvatarComponent usercomm={post?.postedBy[0]} />
+          {/* <AvatarComponent usercomm={post?.postedBy[0]} /> */}
           <span className="title">{post?.postedBy[0]?.username}</span>
         </div>
         {menu ? (

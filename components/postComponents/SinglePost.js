@@ -108,7 +108,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
       /> */}
       {/* displaying title and the rest of the post */}
       <Box className="flex flex-col rounded-md p-3 h-[650px] element-with-scroll">
-        {post?.media?.includes("video") && (
+        {post && (
           <div>
             <Video post={post} />
           </div>

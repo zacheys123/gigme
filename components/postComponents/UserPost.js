@@ -80,7 +80,7 @@ const UserPost = ({}) => {
     <>
       {!showPosts ? (
         <form
-          className="h-[140px] bg-gray-600 shadow-xl w-[90%] mx-auto py-5 px-5 mt-4"
+          className="h-[140px]  shadow-xl shadow-slate-500 w-[90%] mx-auto py-5 px-5 mt-4"
           onSubmit={handlePost}
         >
           <div>
@@ -128,7 +128,7 @@ const UserPost = ({}) => {
           </div>
         </form>
       ) : (
-        <div className="h-[110px] bg-gray-600 shadow-full w-[90%] mx-auto p-3 mt-8">
+        <div className="h-[110px] shadow-xl shadow-slate-500 w-[90%] mx-auto p-3 mt-8">
           <div className="w-full">
             <input
               autoComplete="off"
