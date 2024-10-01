@@ -21,13 +21,7 @@ const Video = ({ post }) => {
           : "h-fit player-container   w-[100%] flex flex-col  gap-4"
       }
     >
-      <Box
-        className={
-          post?.media
-            ? " w-full flex justify-between mt-2 bg-slate-900 shadow-md shadow-zinc-600 p-2 rounded-md"
-            : "mt-3"
-        }
-      >
+      <Box className={post?.media ? " w-full " : "mt-3"}>
         <div className="w-full flex justify-between items-center">
           <Box className="user-info ">
             {post?.postedBy[0] ? (
