@@ -11,6 +11,7 @@ import AvatarComponent from "./Avatar";
 import Image from "next/image";
 import { Avatar } from "./ui/avatar";
 import { Box } from "@mui/material";
+import { Separator } from "./ui/separator";
 const Video = ({ post }) => {
   const [menu, setMenu] = useState();
   return (
@@ -72,7 +73,7 @@ const Video = ({ post }) => {
         ) : (
           <Image
             src=""
-            alt="post video"
+            alt=" video here"
             className="profile-image"
             width={30}
             height={30}

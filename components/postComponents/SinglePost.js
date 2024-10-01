@@ -25,6 +25,7 @@ import LikeDisLikeComponent from "./LikeDisLikeComponent";
 import AvatarComponent from "../Avatar";
 import { motion, MotionConfig } from "framer-motion";
 import Video from "../Video";
+import { Separator } from "../ui/separator";
 const SinglePost = ({ post, user, comments, replies }) => {
   let newComm = comments?.comments;
   let myuser = user?.user;
@@ -95,7 +96,11 @@ const SinglePost = ({ post, user, comments, replies }) => {
       initial={{ opacity: 0, y: ["15px"], x: ["-10px"] }}
       whileInView={{ opacity: 1, y: 0, x: 0 }}
       transition={{ duration: 0.3, delay: 0.1 }}
-      className={post?.media ? " h-[740px] " : " h-fit"}
+      className={
+        post?.media
+          ? " h-[740px] shadow-sm shadow-slate-700 rounded-xl my-3"
+          : " h-fit shadow-sm shadow-slate-600"
+      }
     >
       {/* <HeaderDetails
         posts={post}
