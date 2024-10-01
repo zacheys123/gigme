@@ -37,8 +37,12 @@ const VideoUploadWidget = () => {
 
   return (
     <div>
-      <Button id="upload_widget" className=" h-[23px] p-2 text-[11px]">
-        Upload Video
+      <Button
+        variant="secondary"
+        id="upload_widget"
+        className=" h-[23px] p-2 text-[11px] "
+      >
+        Browse Video
       </Button>
     </div>
   );

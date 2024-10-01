@@ -3,7 +3,13 @@ import { TextInput } from "flowbite-react";
 import React, { useState } from "react";
 import { HiBell } from "react-icons/hi";
 import { Button } from "../ui/button";
-import { ArrowBack, Camera, Compress, Diversity3 } from "@mui/icons-material";
+import {
+  AddAPhoto,
+  ArrowBack,
+  Camera,
+  Compress,
+  Diversity3,
+} from "@mui/icons-material";
 import Image from "next/image";
 import { useGlobalContext } from "@/app/Context/store";
 import { global } from "@/actions";
@@ -15,14 +21,13 @@ import { useAuth } from "@clerk/nextjs";
 import { useCompressVideos } from "@/hooks/useCompressVideos";
 import VideoUploadWidget from "../VideoUploadWidget";
 import useStore from "@/app/zustand/useStore";
-const UserPost = ({}) => {
+import ProfileComponent from "../userprofile/ProfileComponent";
+import { useRouter } from "next/navigation";
+const UserPost = ({ users }) => {
   const { userId } = useAuth();
   const { user } = useCurrentUser(userId);
-  const { videourl } = useStore();
-  const {
-    userState: { showPosts },
-    setUserState,
-  } = useGlobalContext();
+  const { videourl, showPosts, setShowPosts } = useStore();
+
   const baseUrl = "/api/posts/createPost";
   const [file, setFile] = useState();
   const [url, setUrl] = useState("");
@@ -44,7 +49,7 @@ const UserPost = ({}) => {
       setFileUrl(undefined);
     }
   };
-
+  const { router } = useRouter();
   const handlePost = async (e) => {
     e.preventDefault();
     console.log(url, postdata.post, postdata.description);
@@ -79,17 +84,49 @@ const UserPost = ({}) => {
   return (
     <>
       {!showPosts ? (
+        <div className="relative h-[180px]  shadow-xl shadow-slate-500 w-full mx-auto  px-5 mt-4">
+          <h6 className="text-neutral-400 title">Musicians you may know</h6>
+
+          <div className="h-full w-full overflow-x-auto snap-x snap-mandatory flex justify-center items-center">
+            <div className="inline-flex flex-shrink-0 scroll-smooth p-3">
+              {users
+                .filter((userd) => userd?.instrument?.length > 0)
+                .map((otheruser) => {
+                  return (
+                    <ProfileComponent
+                      key={otheruser?._id}
+                      otheruser={otheruser}
+                      user={user}
+                      router={router}
+                      maindiv=" w-[100px] bg-slate-900 shadow-sm shadow-yellow-500 p-1 rounded-full my-2 mx-4 h-[85px] hover:scale-110 transition-transform duration-75"
+                      thirdDiv="w-full flex justify-center  items-center flex-col"
+                      image="w-[35px] h-[35px] rounded-full text-center"
+                      imageno={25}
+                      initial={{ opacity: 0, x: ["15px"] }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 1, delay: 0.1 }}
+                      userpost={true}
+                    />
+                  );
+                })}
+            </div>
+          </div>
+        </div>
+      ) : (
         <form
-          className="h-[140px]  shadow-xl shadow-slate-500 w-[90%] mx-auto py-5 px-5 mt-4"
+          className="h-[800px] shadow-xl shadow-slate-500 w-[90%] mx-auto  mt-8 p-4"
           onSubmit={handlePost}
         >
-          <div>
+          <h6 className="text-[15px] text-gray-300 underline text-center">
+            Jam Details
+          </h6>
+          <div className="w-full mt-5">
             {" "}
             <Input
               id="post"
               type="text"
               className=" mt-2 p-2 w-full text-[13px] bg-gray-300 rounded-md focus-within:ring-o outline-none"
-              placeholder="Create a post...."
+              placeholder="Create a Jamtitle...."
               required
               value={postdata?.post}
               onChange={(e) =>
@@ -99,43 +136,13 @@ const UserPost = ({}) => {
               }
             />
           </div>
-          <div className="flex h-[80px] justify-between items-center w-full mx-auto -mt-2">
-            <Button
-              variant="secondary"
-              type="button"
-              className="h-[30px] w-[80px] p-3"
-              onClick={() =>
-                setUserState({ type: global.SHOWPOSTS, payload: !showPosts })
-              }
-            >
-              Add more+
-            </Button>
-            <Button
-              variant="primary"
-              type="submit"
-              className="h-[30px] w-[80px] p-2"
-            >
-              {!loading ? (
-                "Post"
-              ) : (
-                <CircularProgress
-                  size="13px"
-                  sx={{ color: "white", fontBold: "500" }}
-                  className="bg-white rounded-tr-full text-[12px]"
-                />
-              )}
-            </Button>
-          </div>
-        </form>
-      ) : (
-        <div className="h-[110px] shadow-xl shadow-slate-500 w-[90%] mx-auto p-3 mt-8">
-          <div className="w-full">
+          <div className="w-full mt-5">
             <input
               autoComplete="off"
               id="post"
               value={postdata.description}
               type="text"
-              placeholder="Write something ,image description......"
+              placeholder="Jam session description......"
               required
               onChange={(e) =>
                 setPostData((prev) => {
@@ -152,12 +159,10 @@ const UserPost = ({}) => {
               className="  text-white"
               size="17px"
               sx={{ fontSize: "19px", color: "white" }}
-              onClick={() =>
-                setUserState({ type: global.SHOWPOSTS, payload: !showPosts })
-              }
+              onClick={() => setShowPosts(false)}
             />
           </div>
-          <div className="h-fit bg-gray-200 mt-7">
+          <div className="h-[300px] bg-gray-800 mt-7">
             {videourl?.resource_type === "video" && (
               <div>
                 <video
@@ -170,10 +175,25 @@ const UserPost = ({}) => {
               </div>
             )}
           </div>
-          <h6 className="mt-3 text-[15px] text-white font-mono font-bold">
-            #{postdata.description}
+          <h6 className="my-5 text-[15px] text-orange-800 font-mono font-bold">
+            {postdata.description.length > 0 ? `#${postdata.description}` : ""}
           </h6>
-        </div>
+          <Button
+            variant="primary"
+            type="submit"
+            className="h-[30px] w-full p-4"
+          >
+            {!loading ? (
+              "Post"
+            ) : (
+              <CircularProgress
+                size="13px"
+                sx={{ color: "white", fontBold: "500" }}
+                className="bg-orange-700 rounded-tr-full text-[12px]"
+              />
+            )}
+          </Button>
+        </form>
       )}
     </>
   );

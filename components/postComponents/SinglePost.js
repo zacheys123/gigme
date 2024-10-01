@@ -26,6 +26,9 @@ import AvatarComponent from "../Avatar";
 import { motion, MotionConfig } from "framer-motion";
 import Video from "../Video";
 import { Separator } from "../ui/separator";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { BsThreeDots } from "react-icons/bs";
+import useStore from "@/app/zustand/useStore";
 const SinglePost = ({ post, user, comments, replies }) => {
   let newComm = comments?.comments;
   let myuser = user?.user;
@@ -34,7 +37,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
     userState: {},
     setUserState,
   } = useGlobalContext();
-
+  const { menu, setMenu } = useStore();
   const [comm, setComm] = useState("");
   const [commentLoad, setComentLoad] = useState();
 
@@ -98,22 +101,34 @@ const SinglePost = ({ post, user, comments, replies }) => {
       transition={{ duration: 0.3, delay: 0.1 }}
       className={
         post?.media
-          ? " h-[740px] shadow-sm shadow-slate-700 rounded-xl my-3"
-          : " h-fit shadow-sm shadow-slate-600"
+          ? " h-[740px] shadow-sm shadow-slate-700 rounded-sm my-3"
+          : " h-fit shadow-sm shadow-slate-800"
       }
     >
-      {/* <HeaderDetails
-        posts={post}
-        today={today}
-        username={username}
-        globe={globe}
-        posted={posted}
-        user={user}
-      /> */}
       {/* displaying title and the rest of the post */}
       <Box className="flex flex-col rounded-md p-3 h-[650px] element-with-scroll">
         {post && (
-          <div>
+          <div className={post?.media ? " w-full " : "mt-3"}>
+            <div className="w-full flex justify-between items-center">
+              <HeaderDetails
+                posts={post}
+                today={today}
+                username={username}
+                globe={globe}
+                posted={posted}
+                user={user}
+              />
+              <div>
+                {menu ? (
+                  <BsThreeDotsVertical
+                    onClick={() => setMenu((prev) => !prev)}
+                  />
+                ) : (
+                  <BsThreeDots onClick={() => setMenu((prev) => !prev)} />
+                )}
+              </div>
+            </div>
+
             <Video post={post} />
           </div>
         )}

@@ -12,8 +12,9 @@ import Image from "next/image";
 import { Avatar } from "./ui/avatar";
 import { Box } from "@mui/material";
 import { Separator } from "./ui/separator";
+import useStore from "@/app/zustand/useStore";
 const Video = ({ post }) => {
-  const [menu, setMenu] = useState();
+  const { menu, setMenu } = useStore();
   return (
     <div
       className={
@@ -22,38 +23,6 @@ const Video = ({ post }) => {
           : "h-fit player-container   w-[100%] flex flex-col  gap-4"
       }
     >
-      <Box className={post?.media ? " w-full " : "mt-3"}>
-        <div className="w-full flex justify-between items-center">
-          <Box className="user-info ">
-            {post?.postedBy[0] ? (
-              <Image
-                src={post?.postedBy[0]?.picture}
-                alt={post?.postedBy[0]?.username}
-                className="profile-image"
-                width={30}
-                height={30}
-              />
-            ) : (
-              <Avatar />
-            )}
-
-            {/* <AvatarComponent usercomm={post?.postedBy[0]} /> */}
-            <span className="title text-neutral-300">
-              {post?.postedBy[0]?.username}
-            </span>
-          </Box>
-          <div>
-            {menu ? (
-              <BsThreeDotsVertical onClick={() => setMenu((prev) => !prev)} />
-            ) : (
-              <BsThreeDots onClick={() => setMenu((prev) => !prev)} />
-            )}
-          </div>
-        </div>
-      </Box>
-      <h6 className="title text-neutral-400 my-3">
-        posted {moment(post.createdAt).calendar()}
-      </h6>
       <motion.div
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -79,7 +48,7 @@ const Video = ({ post }) => {
             height={30}
           />
         )}
-        <div className="flex flex-col gap-2 my-3 shadow-md bg-slate-800/80 rounded-md p-3">
+        <div className="flex flex-col gap-2 my-3 shadow-md shadow-slate-800/80 rounded-md p-3">
           {" "}
           <div className=" text-neutral-300 text-[13px] line-clamp-3">
             {post?.title}

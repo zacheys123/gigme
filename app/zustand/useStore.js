@@ -39,6 +39,10 @@ const useStore = create((set) => ({
   setFollow: (follows) => set({ follows }),
   videourl: "",
   setUrl: (videourl) => set({ videourl }),
+  menu: false,
+  setMenu: (menu) => set({ menu }),
+  showPosts: false,
+  setShowPosts: (showPosts) => set({ showPosts }),
   currentfollowers: false,
   setCurrentFollowers: (currentfollowers) => set({ currentfollowers }),
 

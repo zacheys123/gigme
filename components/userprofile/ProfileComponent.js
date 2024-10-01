@@ -20,6 +20,7 @@ const ProfileComponent = ({
   transition,
   onClick: handleClick,
   follows,
+  userpost,
 }) => {
   return (
     <motion.div
@@ -52,29 +53,32 @@ const ProfileComponent = ({
             {otheruser.username}
           </p>{" "}
         </div>
-
-        <div className="md:hidden flex items-center justify-center">
-          {!follows && !otheruser?.followers?.includes(user?.user?._id) ? (
-            <Button
-              variant="default"
-              className="h-[20px] text-[9px] w-full"
-              onClick={() => {
-                updateFollowers(otheruser);
-                updateFollowing(otheruser);
-              }}
-            >
-              Follow <Add size="12px" sx={{ fontSize: "16px" }} />
-            </Button>
-          ) : (
-            <Button
-              variant="default"
-              className="h-[20px] text-[9px] w-full"
-              onClick={() => router.push(`/friends/${otheruser?.username}`)}
-            >
-              View Profile
-            </Button>
-          )}
-        </div>
+        {!userpost ? (
+          <div className="md:hidden flex items-center justify-center">
+            {!follows && !otheruser?.followers?.includes(user?.user?._id) ? (
+              <Button
+                variant="default"
+                className="h-[20px] text-[9px] w-full"
+                onClick={() => {
+                  updateFollowers(otheruser);
+                  updateFollowing(otheruser);
+                }}
+              >
+                Follow <Add size="12px" sx={{ fontSize: "16px" }} />
+              </Button>
+            ) : (
+              <Button
+                variant="default"
+                className="h-[20px] text-[9px] w-full"
+                onClick={() => router.push(`/friends/${otheruser?.username}`)}
+              >
+                View Profile
+              </Button>
+            )}
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </motion.div>
   );
