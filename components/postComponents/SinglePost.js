@@ -98,7 +98,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
       className={
         post?.media
           ? "container p-3 shadow-md shadow-slate-600 w-[90%] my-2 rounded-md mx-auto  flex flex-col gap-2 overflow-hidden element-with-scroll h-[740px] "
-          : "h-fit"
+          : "container p-3 shadow-md shadow-slate-600 w-[90%] my-2 rounded-md mx-auto  flex flex-col gap-2 overflow-hidden element-with-scroll h-fit"
       }
     >
       {/* <HeaderDetails
