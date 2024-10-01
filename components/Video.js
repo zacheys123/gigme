@@ -24,11 +24,11 @@ const Video = ({ post }) => {
       <Box
         className={
           post?.media
-            ? " w-[100vw] flex justify-between mt-2 bg-red-400 500shadow-md shadow-zinc-600 p-2 rounded-md"
+            ? " w-full flex justify-between mt-2 bg-slate-900 shadow-md shadow-zinc-600 p-2 rounded-md"
             : "mt-3"
         }
       >
-        <div className="flex justify-between items-center">
+        <div className="w-full flex justify-between items-center">
           <Box className="user-info ">
             {post?.postedBy[0] ? (
               <Image
