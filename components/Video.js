@@ -6,8 +6,8 @@ import moment from "moment";
 const Video = ({ post }) => {
   return (
     <div
-      className="player-container  w-[100%] my-2 
-     bg-neutral-600 "
+      className="player-container  w-[100%] -mt-[30px] 
+     "
     >
       <div className="header">
         <div className="user-info">

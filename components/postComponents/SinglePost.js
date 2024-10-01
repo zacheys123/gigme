@@ -95,7 +95,8 @@ const SinglePost = ({ post, user, comments, replies }) => {
       initial={{ opacity: 0, y: ["15px"], x: ["-10px"] }}
       whileInView={{ opacity: 1, y: 0, x: 0 }}
       transition={{ duration: 0.3, delay: 0.1 }}
-      className="container p-1 rounded-md mx-auto  flex flex-col gap-2 overflow-hidden element-with-scroll"
+      className="container p-3 shadow-md shadow-slate-700 w-[90%] my-2 
+ rounded-md mx-auto  flex flex-col gap-2 overflow-hidden element-with-scroll"
     >
       {/* <HeaderDetails
         posts={post}
@@ -106,7 +107,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
         user={user}
       /> */}
       {/* displaying title and the rest of the post */}
-      <Box className="flex flex-col rounded-md p-2 h-[460px] ">
+      <Box className="flex flex-col rounded-md p-2 h-[560px] ">
         <motion.div
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -129,12 +130,12 @@ const SinglePost = ({ post, user, comments, replies }) => {
         </motion.div>
       </Box>
       {/* likes and dislikes */}
-      <LikeDisLikeComponent
+      {/* <LikeDisLikeComponent
         apiroute={post}
         myuser={myuser}
         mydep="posts"
         api="Post"
-      />
+      /> */}
       {/* comment section */}
       {/* {!showComments ? (
         <div
