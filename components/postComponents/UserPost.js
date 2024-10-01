@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useAuth } from "@clerk/nextjs";
+import { useCompressVideos } from "@/hooks/useCompressVideos";
 const UserPost = ({}) => {
   const { userId } = useAuth();
   const { user } = useCurrentUser(userId);
@@ -25,7 +26,8 @@ const UserPost = ({}) => {
   const [fileUrl, setFileUrl] = useState("");
   const [loading, setLoading] = useState();
   const [statusmsg, setStatusMessage] = useState();
-
+  const { compressedVideoUrl, uploadError, compressVideo } =
+    useCompressVideos(fileUrl);
   const [postdata, setPostData] = useState({ post: "", description: "" });
   const handleChange = (e) => {
     const f = e.target.files?.[0];
@@ -43,12 +45,12 @@ const UserPost = ({}) => {
 
   const handlePost = async (e) => {
     e.preventDefault();
-    console.log(url, postdata.post, postdata.description);
+    console.log(compressedVideoUrl, postdata.post, postdata.description);
 
     let dataInfo = {
-      media: url,
-      title: postdata.post,
-      description: postdata.description,
+      media: compressedVideoUrl,
+      title: postdata?.post,
+      description: postdata?.description,
       postedBy: user?.user?._id,
     };
 
@@ -71,7 +73,7 @@ const UserPost = ({}) => {
       console.log(error);
     }
   };
-  console.log(fileUrl);
+
   return (
     <>
       {!showPosts ? (
@@ -125,51 +127,7 @@ const UserPost = ({}) => {
         </form>
       ) : (
         <form
-          onSubmit={async (ev) => {
-            ev.preventDefault();
-            const data = new FormData();
-            data.append("file", file);
-            data.append("upload_preset", "gigmeZach");
-            if (url) {
-              try {
-                if (file?.type?.startsWith("image/")) {
-                  const uploadResponse = await fetch(
-                    "https://api.cloudinary.com/v1_1/dsziq73cb/image/upload",
-                    {
-                      method: "POST",
-                      body: data,
-                    }
-                  );
-                  const uploadedImageData = await uploadResponse.json();
-                  const imageUrl = uploadedImageData.secure_url;
-                  setUrl(imageUrl);
-                  console.log(imageUrl);
-
-                  setUserState({ type: global.SHOWPOSTS, payload: !showPosts });
-                } else {
-                  // https://res.cloudinary.com/demo/video/upload/
-                  const uploadResponse2 = await fetch(
-                    "https://api.cloudinary.com/v1_1/dsziq73cb/video/upload",
-                    {
-                      method: "POST",
-                      body: data,
-                    }
-                  );
-                  const uploadedImageData = await uploadResponse2.json();
-                  const imageUrl = uploadedImageData.secure_url;
-                  setUrl(imageUrl);
-                  console.log(uploadedImageData);
-                  setUserState({
-                    type: global.SHOWPOSTS,
-                    payload: !showPosts,
-                  });
-                }
-              } catch (error) {
-                console.log("Error uploading video:", error);
-              }
-            }
-            alert("select a video to upload");
-          }}
+          onSubmit={compressVideo}
           className="h-[110px] bg-gray-600 shadow-full w-[90%] mx-auto p-3 mt-8"
         >
           <input

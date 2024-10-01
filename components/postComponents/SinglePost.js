@@ -11,6 +11,7 @@ import { Avatar, Box, CircularProgress } from "@mui/material";
 import { TextInput } from "flowbite-react";
 import { Globe } from "lucide-react";
 import Image from "next/image";
+
 import React, { useCallback, useEffect, useState, useOptimistic } from "react";
 import { AiOutlineLike } from "react-icons/ai";
 import { AiFillLike } from "react-icons/ai";
@@ -23,6 +24,7 @@ import HeaderDetails from "./HeaderDetails";
 import LikeDisLikeComponent from "./LikeDisLikeComponent";
 import AvatarComponent from "../Avatar";
 import { motion, MotionConfig } from "framer-motion";
+import Video from "../Video";
 const SinglePost = ({ post, user, comments, replies }) => {
   let newComm = comments?.comments;
   let myuser = user?.user;
@@ -38,8 +40,8 @@ const SinglePost = ({ post, user, comments, replies }) => {
   let myComments = newComm.filter((com) => {
     return com?.postId?._id === post?._id;
   });
-
   console.log(post);
+  console.log(post?.postedBy[0]?.picture);
   const [commentLength, setCommentlength] = useState(myComments?.length);
   const [commentsArray, setComments] = useState(myComments);
   const [showComments, setShowComments] = useState();
@@ -93,55 +95,37 @@ const SinglePost = ({ post, user, comments, replies }) => {
       initial={{ opacity: 0, y: ["15px"], x: ["-10px"] }}
       whileInView={{ opacity: 1, y: 0, x: 0 }}
       transition={{ duration: 0.3, delay: 0.1 }}
-      className="container p-4 shadow-slate-400 w-[90%] my-2 
-     bg-neutral-600 rounded-md mx-auto fit flex flex-col gap-2 overflow-hidden element-with-scroll"
+      className="container p-1 rounded-md mx-auto  flex flex-col gap-2 overflow-hidden element-with-scroll"
     >
-      <HeaderDetails
+      {/* <HeaderDetails
         posts={post}
         today={today}
         username={username}
         globe={globe}
         posted={posted}
         user={user}
-      />
+      /> */}
       {/* displaying title and the rest of the post */}
-      <Box className="flex flex-col rounded-md p-2 h-[360px] ">
-        <div className="title text-neutral-300 text-[13px] mb-4">
-          {post?.title}
-        </div>
-        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          {post?.media?.includes("image") && (
-            <Image
-              width={130}
-              height={130}
-              src={post?.media}
-              alt="post image"
-              className="object-cover h-[280px] w-full mt-3"
-            />
-          )}
+      <Box className="flex flex-col rounded-md p-2 h-[460px] ">
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="h-full"
+        >
           {post?.media?.includes("video") && (
             <div>
-              <video
-                className="object-cover h-full w-full"
-                src={post?.media}
-                muted
-                controls
+              <Video post={post} />
+            </div>
+          )}
+          {!post?.media?.includes("video") && (
+            <div>
+              <Image
+                className="object-cover h-[400px] w-full"
+                src=""
+                alt="post image"
               />
             </div>
           )}
-          {!post?.media?.includes("video") &&
-            !post?.media?.includes("image") && (
-              <div>
-                <Image
-                  className="object-cover h-[300px] w-full"
-                  src=""
-                  alt="post image"
-                />
-              </div>
-            )}
-          <h6 className="text-blue-200 font-bold text-[13px] mt-2 font-mono">
-            #{post?.description}
-          </h6>
         </motion.div>
       </Box>
       {/* likes and dislikes */}
@@ -153,7 +137,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
       />
       {/* comment section */}
       {/* {!showComments ? (
-<div
+        <div
           className="flex flex-col h-[170px] bg-slate-800 rounded-xl mb-5 px-2  hover:bg-slate-600 cursor-pointer transition-all duration-500"
           onClick={() =>
             // setUserState({ type: global.SHOWCOMMENTS, payload: !showComments })

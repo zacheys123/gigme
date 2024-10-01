@@ -43,17 +43,19 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
     <>
       {!showPosts && (
         <div className="text-white  h-full scroll-smooth ">
-          {userposts?.map((post, index) => {
-            return (
-              <SinglePost
-                key={post?._id}
-                post={post}
-                user={user}
-                comments={comments}
-                replies={replies}
-              />
-            );
-          })}
+          {userposts
+            ?.map((post, index) => {
+              return (
+                <SinglePost
+                  key={post?._id}
+                  post={post}
+                  user={user}
+                  comments={comments}
+                  replies={replies}
+                />
+              );
+            })
+            .reverse()}
 
           <ScrollToTopButton />
         </div>
