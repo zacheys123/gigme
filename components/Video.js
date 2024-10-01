@@ -11,7 +11,7 @@ const Video = ({ post }) => {
   const [menu, setMenu] = useState();
   return (
     <div
-      className="player-container   w-[100%] flex flex-col  gap-4 h-full
+      className="player-container   w-[100%] flex flex-col  gap-4 h-[580px]
      "
     >
       <div className="  flex justify-between mt-2 bg-neutral-800 p-2 rounded-md">
@@ -46,7 +46,9 @@ const Video = ({ post }) => {
         />{" "}
         <div className="flex flex-col gap-2 my-3 shadow-md bg-slate-800/80 rounded-md p-3">
           {" "}
-          <div className=" text-neutral-300 text-[13px] ">{post?.title}</div>
+          <div className=" text-neutral-300 text-[13px] line-clamp-3">
+            {post?.title}
+          </div>
           <div className="title text-red-500">#{post?.description}</div>
           <div className="flex items-center  gap-7 mb-2">
             <div className="flex items-center gap-1">
