@@ -7,6 +7,9 @@ import { ChatBubbleOutline } from "@mui/icons-material";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { BsThreeDots } from "react-icons/bs";
 import { motion } from "framer-motion";
+import AvatarComponent from "./Avatar";
+import Image from "next/image";
+import { Avatar } from "./ui/avatar";
 const Video = ({ post }) => {
   const [menu, setMenu] = useState();
   return (
@@ -16,12 +19,20 @@ const Video = ({ post }) => {
     >
       <div className="  flex justify-between mt-2 bg-neutral-800 p-2 rounded-md">
         <div className="user-info ">
-          <img
-            src={post?.postedBy[0]?.picture}
-            alt={post?.postedBy[0]?.username}
-            className="profile-image"
-          />
-          <span className="username">{post?.postedBy[0]?.username}</span>
+          {post?.postedBy[0] ? (
+            <Image
+              src={post?.postedBy[0]?.picture}
+              alt={post?.postedBy[0]?.username}
+              className="profile-image"
+              width={30}
+              height={30}
+            />
+          ) : (
+            <Avatar />
+          )}
+
+          <AvatarComponent usercomm={post?.postedBy[0]} />
+          <span className="title">{post?.postedBy[0]?.username}</span>
         </div>
         {menu ? (
           <BsThreeDotsVertical onClick={() => setMenu((prev) => !prev)} />
@@ -36,7 +47,7 @@ const Video = ({ post }) => {
       >
         <ReactPlayer
           url={post?.media}
-          className="w-full   -mt-10"
+          className="w-full  h-full -mt-10"
           controls // Show controls
           autoPlay
           width="100%"

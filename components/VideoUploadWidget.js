@@ -12,8 +12,8 @@ const VideoUploadWidget = () => {
     // Create the widget configuration
     const widget = cloudinary.createUploadWidget(
       {
-        cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-        uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
+        cloudName: "dsziq73cb",
+        uploadPreset: "gigmeZach",
         resourceType: "video", // Limit upload to videos
         sources: ["local", "url", "camera"], // Options for video upload
         multiple: false, // Allow only one video upload at a time
