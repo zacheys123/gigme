@@ -95,11 +95,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
       initial={{ opacity: 0, y: ["15px"], x: ["-10px"] }}
       whileInView={{ opacity: 1, y: 0, x: 0 }}
       transition={{ duration: 0.3, delay: 0.1 }}
-      className={
-        post?.media
-          ? "container p-3 shadow-md shadow-slate-600 w-[90%] my-2 rounded-md mx-auto  flex flex-col gap-2 overflow-hidden element-with-scroll h-[740px] "
-          : "container p-3 shadow-md shadow-slate-600 w-[90%] my-2 rounded-md mx-auto  flex flex-col gap-2 overflow-hidden element-with-scroll h-fit"
-      }
+      className={post?.media ? " h-[740px] " : " h-fit"}
     >
       {/* <HeaderDetails
         posts={post}
