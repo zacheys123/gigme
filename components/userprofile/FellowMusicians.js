@@ -68,7 +68,7 @@ const FellowMusicians = ({ user, allUsers }) => {
   };
   useEffect(() => {
     setUsers(allUsers);
-  }, [follows, allUsers]);
+  }, [follows]);
 
   return (
     <div
@@ -80,7 +80,7 @@ const FellowMusicians = ({ user, allUsers }) => {
         setShowAllGigsData(false);
       }}
     >
-      <div className="inline-flex flex-shrink-0 ">
+      <div className="inline-flex flex-shrink-0 scroll-smooth ">
         {myUsers
           .filter((userd) => userd?.instrument?.length > 0)
           .map((otheruser) => {

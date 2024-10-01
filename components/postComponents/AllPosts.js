@@ -1,8 +1,11 @@
 "use client";
 import { useGlobalContext } from "@/app/Context/store";
-import React, { useEffect, useState, useOptimistic } from "react";
+import React, { useEffect, useState, useOptimistic, useRef } from "react";
 import SinglePost from "./SinglePost";
 import { usePosts } from "@/hooks/usePosts";
+import { ArrowBigUp } from "lucide-react";
+import { ArrowCircleUpRounded } from "@mui/icons-material";
+import ScrollToTopButton from "../ScrollToTopButton";
 
 const AllPosts = ({ userposts, comments, replies, user }) => {
   const { posts } = usePosts(user?.user?._id);
@@ -10,6 +13,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
   const [optimisticePosts, setOptimisticePosts] = useState(userposts);
   console.log(userposts);
   const [allposts, setposts] = useState([]);
+  const lastPostRef = useRef(null);
 
   // useEffect(() => {
   //   setOptimisticePosts(userposts);
@@ -24,6 +28,13 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
   //   }, []);
   //   setposts(latestPosts);
   // }, [userposts]);
+
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // For smooth scrolling effect
+    });
+  };
   const {
     userState: { showPosts },
   } = useGlobalContext();
@@ -31,8 +42,8 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
   return (
     <>
       {!showPosts && (
-        <div className="text-white  h-full  ">
-          {userposts?.map((post) => {
+        <div className="text-white  h-full scroll-smooth ">
+          {userposts?.map((post, index) => {
             return (
               <SinglePost
                 key={post?._id}
@@ -43,6 +54,8 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
               />
             );
           })}
+
+          <ScrollToTopButton />
         </div>
       )}
     </>

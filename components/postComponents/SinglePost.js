@@ -22,7 +22,7 @@ import HeaderDetails from "./HeaderDetails";
 
 import LikeDisLikeComponent from "./LikeDisLikeComponent";
 import AvatarComponent from "../Avatar";
-import { motion } from "framer-motion";
+import { motion, MotionConfig } from "framer-motion";
 const SinglePost = ({ post, user, comments, replies }) => {
   let newComm = comments?.comments;
   let myuser = user?.user;
@@ -89,9 +89,12 @@ const SinglePost = ({ post, user, comments, replies }) => {
   let posted = "text-neutral-400 font-mono text-[13px] md:text-[15px]";
 
   return (
-    <div
-      className="container p-3 shadow-slate-400 w-[90%] my-2 
-     bg-neutral-600 rounded-md mx-auto h-[560px] flex flex-col gap-2 overflow-hidden element-with-scroll"
+    <motion.div
+      initial={{ opacity: 0, y: ["15px"], x: ["-10px"] }}
+      whileInView={{ opacity: 1, y: 0, x: 0 }}
+      transition={{ duration: 0.3, delay: 0.1 }}
+      className="container p-4 shadow-slate-400 w-[90%] my-2 
+     bg-neutral-600 rounded-md mx-auto fit flex flex-col gap-2 overflow-hidden element-with-scroll"
     >
       <HeaderDetails
         posts={post}
@@ -102,8 +105,10 @@ const SinglePost = ({ post, user, comments, replies }) => {
         user={user}
       />
       {/* displaying title and the rest of the post */}
-      <Box className="flex flex-col bg-gray-200 rounded-md p-2">
-        <div className="title text-neutral-500 text-[13px] ">{post?.title}</div>
+      <Box className="flex flex-col rounded-md p-2 h-[360px] ">
+        <div className="title text-neutral-300 text-[13px] mb-4">
+          {post?.title}
+        </div>
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           {post?.media?.includes("image") && (
             <Image
@@ -111,20 +116,30 @@ const SinglePost = ({ post, user, comments, replies }) => {
               height={130}
               src={post?.media}
               alt="post image"
-              className="object-cover h-[260px] w-full mt-3"
+              className="object-cover h-[280px] w-full mt-3"
             />
           )}
           {post?.media?.includes("video") && (
             <div>
               <video
-                className="object-cover"
+                className="object-cover h-full w-full"
                 src={post?.media}
                 muted
                 controls
               />
             </div>
           )}
-          <h6 className="text-blue-600 font-bold text-[13px] mt-2 font-mono">
+          {!post?.media?.includes("video") &&
+            !post?.media?.includes("image") && (
+              <div>
+                <Image
+                  className="object-cover h-[300px] w-full"
+                  src=""
+                  alt="post image"
+                />
+              </div>
+            )}
+          <h6 className="text-blue-200 font-bold text-[13px] mt-2 font-mono">
             #{post?.description}
           </h6>
         </motion.div>
@@ -137,8 +152,8 @@ const SinglePost = ({ post, user, comments, replies }) => {
         api="Post"
       />
       {/* comment section */}
-      {!showComments ? (
-        <div
+      {/* {!showComments ? (
+<div
           className="flex flex-col h-[170px] bg-slate-800 rounded-xl mb-5 px-2  hover:bg-slate-600 cursor-pointer transition-all duration-500"
           onClick={() =>
             // setUserState({ type: global.SHOWCOMMENTS, payload: !showComments })
@@ -206,8 +221,8 @@ const SinglePost = ({ post, user, comments, replies }) => {
             </form>
           </section>
         </>
-      )}
-    </div>
+      )} */}
+    </motion.div>
   );
 };
 
