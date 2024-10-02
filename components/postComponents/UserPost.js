@@ -91,14 +91,14 @@ const UserPost = ({ users }) => {
     // Check for file size (e.g., limit to 60MB)
     const MAX_FILE_SIZE = 60 * 1024 * 1024; // 60MB
     if (file.size > MAX_FILE_SIZE) {
-      setError("File is too large. Maximum size is 50MB.");
+      toast.error("File is too large. Maximum size is 50MB.");
       return;
     }
 
     // Check if the file is a video
     const allowedTypes = ["video/mp4", "video/webm", "video/ogg"];
     if (!allowedTypes.includes(file.type)) {
-      setError("Only video files are allowed.");
+      toast.error("Only video files are allowed.");
       return;
     }
 
@@ -182,6 +182,7 @@ const UserPost = ({ users }) => {
                     transition={{ duration: 1, delay: 0.1 }}
                     key={otheruser?._id}
                     className="min-w-[75px] h-[75px] rounded-full overflow-hidden shadow-lg"
+                    onClick={handleClick}
                   >
                     {otheruser?.picture && (
                       <Image
@@ -245,7 +246,7 @@ const UserPost = ({ users }) => {
             >
               Upload Video
             </label>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+
             <input
               id="postvideo"
               className="hidden"
