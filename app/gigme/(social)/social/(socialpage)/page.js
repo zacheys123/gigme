@@ -74,7 +74,7 @@ const SocialPage = async () => {
   const replies = await getReplies();
   console.log(posts);
   return (
-    <div className="w-screen h-screen  bg-gray-900">
+    <div className="w-screen h-screen  bg-gray-900 overflow-x-hidden">
       {" "}
       <ClientOnly>
         <SocialMainPage

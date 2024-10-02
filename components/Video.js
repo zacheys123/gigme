@@ -48,7 +48,7 @@ const Video = ({ post }) => {
             height={30}
           />
         )}
-        <div className="flex flex-col gap-2 my-3 shadow-md shadow-slate-800/80 rounded-md p-3">
+        <div className="flex flex-col gap-2 my-3   rounded-md p-3">
           {" "}
           <div className=" text-neutral-300 text-[13px] line-clamp-3">
             {post?.title}

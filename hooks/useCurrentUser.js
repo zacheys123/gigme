@@ -17,6 +17,10 @@ export function useCurrentUser(userId) {
           },
         });
         const meuser = await res.json();
+        if (meuser === null) {
+          setUser({});
+          throw new Error("User not found");
+        }
         setUser(meuser);
         console.log(meuser);
       } catch (error) {

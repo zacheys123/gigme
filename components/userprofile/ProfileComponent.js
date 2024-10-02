@@ -43,7 +43,7 @@ const ProfileComponent = ({
       key={otheruser?._id}
       className={maindiv}
     >
-      <div className="">
+      {userpost && (
         <div className={thirdDiv} onClick={handleClick}>
           {otheruser?.picture && (
             <Image
@@ -54,11 +54,26 @@ const ProfileComponent = ({
               alt={otheruser?.username}
             />
           )}
-          <p className="text-yellow-400 my-2 font-bold  text-[11px] ">
-            {otheruser.username}
-          </p>{" "}
         </div>
-        {!userpost ? (
+      )}
+      {!userpost ? (
+        <div className="">
+          <div className={thirdDiv} onClick={handleClick}>
+            {otheruser?.picture && (
+              <Image
+                width={imageno}
+                height={imageno}
+                className={image}
+                src={otheruser?.picture}
+                alt={otheruser?.username}
+              />
+            )}
+
+            <p className="text-yellow-400 my-2 font-bold  text-[11px] ">
+              {otheruser.username}
+            </p>
+          </div>
+
           <div className="md:hidden flex items-center justify-center">
             {!follows && !otheruser?.followers?.includes(user?.user?._id) ? (
               <Button
@@ -81,10 +96,10 @@ const ProfileComponent = ({
               </Button>
             )}
           </div>
-        ) : (
-          ""
-        )}
-      </div>
+        </div>
+      ) : (
+        ""
+      )}
     </motion.div>
   );
 };

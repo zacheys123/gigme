@@ -58,7 +58,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
           <div
             style={{
               position: "fixed",
-              bottom: "50px",
+              bottom: "70px",
               right: "20px",
               backgroundColor: "#007bff",
               color: "#fff",
@@ -67,7 +67,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
               border: "none",
               cursor: "pointer",
             }}
-            className="z-50  absolute bg-blue-700 text-white bottom-[30px] right-10 "
+            className="z-50  absolute bg-blue-700 text-white bottom-[70px] right-10 "
             onClick={handleScrollToTop}
           >
             {" "}
@@ -78,7 +78,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
           <div
             style={{
               position: "fixed",
-              bottom: "107px",
+              bottom: "125px",
               right: "20px",
               color: "#fff",
               borderRadius: "50%",
@@ -86,7 +86,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
               border: "none",
               cursor: "pointer",
             }}
-            className="z-50  absolute bg-neutral-300 text-white bottom-[107px] right-10 "
+            className="z-50  absolute bg-neutral-300 text-white bottom-[125px] right-10 "
           >
             <AddAPhoto
               sx={{ color: "blue" }}
