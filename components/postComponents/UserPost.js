@@ -37,19 +37,15 @@ const UserPost = ({ users }) => {
   const [statusmsg, setStatusMessage] = useState();
   const { compressedVideoUrl, loader, compressVideo } = useCompressVideos(file);
   const [postdata, setPostData] = useState({ post: "", description: "" });
-  const handleChange = (e) => {
-    const f = e.target.files?.[0];
-    setFile(f);
-    if (fileUrl) {
-      URL.revokeObjectURL(fileUrl);
-    }
-    if (f) {
-      const url = URL.createObjectURL(f);
-      setFileUrl(url);
-    } else {
-      setFileUrl(undefined);
-    }
-  };
+
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [videoUrl, setVideoUrl] = useState("");
+  // Handle the upload
+  const [error, setError] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+  // Handle file selection
+
   const router = useRouter();
   const handlePost = async (e) => {
     e.preventDefault();
@@ -84,7 +80,74 @@ const UserPost = ({ users }) => {
   const handleClick = (otheruser) => {
     router?.push(`/friends/${otheruser?.username}`);
   };
-  console.log(videourl?.secure_url);
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    // Check for file size (e.g., limit to 60MB)
+    const MAX_FILE_SIZE = 60 * 1024 * 1024; // 60MB
+    if (file.size > MAX_FILE_SIZE) {
+      setError("File is too large. Maximum size is 50MB.");
+      return;
+    }
+
+    // Check if the file is a video
+    const allowedTypes = ["video/mp4", "video/webm", "video/ogg"];
+    if (!allowedTypes.includes(file.type)) {
+      setError("Only video files are allowed.");
+      return;
+    }
+
+    setError(null); // Reset error
+    setIsUploading(true);
+
+    try {
+      // Step 1: Get the signed upload URL from your API
+      const response = await fetch("/api/upload");
+      const { signature, timestamp, upload_preset, cloud_name } =
+        await response.json();
+
+      // Step 2: Upload the video file to Cloudinary
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", upload_preset);
+      formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY);
+      formData.append("signature", signature);
+      formData.append("timestamp", timestamp);
+      formData.append("cloud_name", cloud_name);
+
+      const uploadResponse = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloud_name}/video/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const uploadResult = await uploadResponse.json();
+
+      if (uploadResponse.ok) {
+        alert("Upload successful!");
+        console.log(uploadResult); // You can process this result further (e.g., store the URL)
+        setVideoUrl(uploadResult.secure_url);
+
+        toast.success("Video uploaded successfully!");
+      } else {
+        setError("Upload failed, please try again.");
+        console.error(uploadResult);
+      }
+    } catch (error) {
+      setError("An error occurred during upload.");
+      console.error(error);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   return (
     <>
       {!showPosts ? (
@@ -175,8 +238,23 @@ const UserPost = ({ users }) => {
             />
           </div>
           <div className="flex justify-between items-center w-full mx-auto mt-4">
-            <VideoUploadWidget />
-
+            {/* <VideoUploadWidget /> */}
+            <label
+              htmlFor="postvideo"
+              className="bg-gray-300 title p-1 mt-2 min-w-[120px] rounded-xl whitespace-nowrap"
+            >
+              Upload Video
+            </label>
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            <input
+              id="postvideo"
+              className="hidden"
+              type="file"
+              accept="video/*"
+              onChange={handleFileChange}
+              disabled={isUploading}
+            />
+            {isUploading && <p>Uploading...</p>}
             <ArrowBack
               className="  text-white"
               size="17px"
@@ -185,11 +263,11 @@ const UserPost = ({ users }) => {
             />
           </div>
           <div className="h-[300px] bg-gray-800 mt-7">
-            {videourl?.resource_type === "video" && (
+            {videoUrl && (
               <div>
                 <video
                   className="w-full h-[240px] md:h-[360px]"
-                  src={videourl?.secure_url}
+                  src={videoUrl}
                   autoPlay
                   loop
                   muted
@@ -200,21 +278,23 @@ const UserPost = ({ users }) => {
           <h6 className="my-5 text-[15px] text-orange-800 font-mono font-bold">
             {postdata.description.length > 0 ? `#${postdata.description}` : ""}
           </h6>
-          <Button
-            variant="primary"
-            type="submit"
-            className="h-[30px] w-full p-4"
-          >
-            {!loading ? (
-              "Post"
-            ) : (
-              <CircularProgress
-                size="13px"
-                sx={{ color: "white", fontBold: "500" }}
-                className="bg-orange-700 rounded-tr-full text-[12px]"
-              />
-            )}
-          </Button>
+          <div className="h-[30px] w-[100%] text-center">
+            <Button
+              variant="primary"
+              type="submit"
+              className="h-full w-[80%]   text-[15px]  p-4"
+            >
+              {!loading ? (
+                "Post"
+              ) : (
+                <CircularProgress
+                  size="13px"
+                  sx={{ color: "white", fontBold: "500" }}
+                  className="bg-orange-700 rounded-tr-full text-[15px] font-bold"
+                />
+              )}
+            </Button>
+          </div>
         </form>
       )}
     </>
