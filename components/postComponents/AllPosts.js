@@ -90,6 +90,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
           >
             <AddAPhoto
               sx={{ color: "blue" }}
+              size="44px"
               onClick={() => setShowPosts(true)}
             />
           </div>

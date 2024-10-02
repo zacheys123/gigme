@@ -13,7 +13,7 @@ import {
 import Image from "next/image";
 import { useGlobalContext } from "@/app/Context/store";
 import { global } from "@/actions";
-import { CircularProgress } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
@@ -23,6 +23,7 @@ import VideoUploadWidget from "../VideoUploadWidget";
 import useStore from "@/app/zustand/useStore";
 import ProfileComponent from "../userprofile/ProfileComponent";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 const UserPost = ({ users }) => {
   const { userId } = useAuth();
   const { user } = useCurrentUser(userId);
@@ -87,36 +88,52 @@ const UserPost = ({ users }) => {
   return (
     <>
       {!showPosts ? (
-        <div className="relative h-[180px]  shadow-xl shadow-slate-500 w-full mx-auto  px-5 mt-4">
+        <Box className="flex flex-col mt-3">
           <h6 className="text-neutral-400 title">Musicians you may know</h6>
+          <div className="flex  overflow-x-auto space-x-4 p-4">
+            {users
+              .filter((userd) => userd?.instrument?.length > 0)
+              .map((otheruser, index) => {
+                return (
+                  // <ProfileComponent
+                  //   key={otheruser?._id}
+                  //   otheruser={otheruser}
+                  //   user={user}
+                  //   router={router}
+                  //   maindiv=" w-[100px] bg-slate-900  px-4 rounded-full my-2 ml-3 h-[85px] hover:scale-110 transition-transform duration-75"
+                  //   thirdDiv="w-[85px] h-[85px] flex justify-center  items-center flex-col shadow-sm shadow-yellow-500 rounded-full"
+                  //   image="w-[85px] h-[85px] rounded-full text-center"
+                  //   imageno={25}
+                  //   initial={{ opacity: 0, x: ["15px"] }}
+                  //   whileInView={{ opacity: 1, x: 0 }}
+                  //   whileTap={{ scale: 0.95 }}
+                  //   transition={{ duration: 1, delay: 0.1 }}
+                  //   userpost={true}
+                  //   onClick={() => handleClick(otheruser)}
+                  // />
 
-          <div className="w-[100vw] overflow-x-scroll scroll-smooth h-fit p-1">
-            <div className="w-full flex-shrink-0 scroll-smooth flex justify-center items-center ">
-              {users
-                .filter((userd) => userd?.instrument?.length > 0)
-                .map((otheruser) => {
-                  return (
-                    <ProfileComponent
-                      key={otheruser?._id}
-                      otheruser={otheruser}
-                      user={user}
-                      router={router}
-                      maindiv=" w-[100px] bg-slate-900  px-4 rounded-full my-2 ml-3 h-[85px] hover:scale-110 transition-transform duration-75"
-                      thirdDiv="w-[85px] h-[85px] flex justify-center  items-center flex-col shadow-sm shadow-yellow-500 rounded-full"
-                      image="w-[85px] h-[85px] rounded-full text-center"
-                      imageno={25}
-                      initial={{ opacity: 0, x: ["15px"] }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      whileTap={{ scale: 0.95 }}
-                      transition={{ duration: 1, delay: 0.1 }}
-                      userpost={true}
-                      onClick={() => handleClick(otheruser)}
-                    />
-                  );
-                })}
-            </div>
+                  <motion.div
+                    initial={{ opacity: 0, x: ["15px"] }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ duration: 1, delay: 0.1 }}
+                    key={otheruser?._id}
+                    className="min-w-[75px] h-[75px] rounded-full overflow-hidden shadow-lg"
+                  >
+                    {otheruser?.picture && (
+                      <Image
+                        height={100}
+                        width={100}
+                        src={otheruser?.picture}
+                        alt={otheruser?.firstname}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                  </motion.div>
+                );
+              })}
           </div>
-        </div>
+        </Box>
       ) : (
         <form
           className="h-[800px] shadow-xl shadow-slate-500 w-[90%] mx-auto  mt-8 p-4"

@@ -7,6 +7,10 @@ export function useCurrentUser(userId) {
   const [loading, setLoading] = useState();
   const [user, setUser] = useState({});
   useEffect(() => {
+    if (!userId) {
+      setUser({});
+      return;
+    }
     const getUser = async () => {
       try {
         setLoading(true);
@@ -19,7 +23,8 @@ export function useCurrentUser(userId) {
         const meuser = await res.json();
         if (meuser === null) {
           setUser({});
-          throw new Error("User not found");
+          console.group("User not found");
+          return {};
         }
         setUser(meuser);
         console.log(meuser);
