@@ -30,12 +30,12 @@ const UserPost = ({ users }) => {
   const { showPosts, setShowPosts } = useStore();
 
   const baseUrl = "/api/posts/createPost";
-  const [file, setFile] = useState();
+
   const [url, setUrl] = useState("");
   const [fileUrl, setFileUrl] = useState("");
   const [loading, setLoading] = useState();
   const [statusmsg, setStatusMessage] = useState();
-  const { compressedVideoUrl, loader, compressVideo } = useCompressVideos(file);
+
   const [postdata, setPostData] = useState({ post: "", description: "" });
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -71,7 +71,7 @@ const UserPost = ({ users }) => {
       toast.success(data?.message);
       setPostData({ post: "", description: "" });
       setFileUrl(undefined);
-      setFile(undefined);
+
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -86,8 +86,8 @@ const UserPost = ({ users }) => {
     if (fileUrl) {
       URL.revokeObjectURL(fileUrl);
     }
-    if (f) {
-      const url = URL.createObjectURL(f);
+    if (file) {
+      const url = URL.createObjectURL(file);
       setFileUrl(url);
     } else {
       setFileUrl(undefined);
@@ -116,7 +116,7 @@ const UserPost = ({ users }) => {
 
     try {
       // Step 1: Get the signed upload URL from your API
-      const response = await fetch("/api/upload");
+      const response = await fetch("/api/post/sign-upload");
       const { signature, timestamp, upload_preset, cloud_name } =
         await response.json();
 
@@ -251,7 +251,7 @@ const UserPost = ({ users }) => {
             {/* <VideoUploadWidget /> */}
             <label
               htmlFor="postvideo"
-              className="bg-gray-300 title p-1 mt-2 min-w-[120px] rounded-xl whitespace-nowrap"
+              className="bg-gray-300 title py-2 px-3 mt-2 min-w-[115px] rounded-xl whitespace-nowrap"
             >
               Upload Video
             </label>
