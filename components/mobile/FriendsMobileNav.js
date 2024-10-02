@@ -18,13 +18,14 @@ import { FaMusic } from "react-icons/fa6";
 import AvatarComponent from "../Avatar";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { FaUser } from "react-icons/fa";
+import { Separator } from "../ui/separator";
 const FriendsMobileNav = () => {
   const { userId } = useAuth();
   const { user } = useCurrentUser(userId);
   // {`/gigme/chat/${gig?.bookedBy?.clerkId}/${gig?._id}`}
   return (
-    <div className="shadow-sm shadow-yellow-700 top-0 sticky min-w-[90%] mx-auto">
-      <nav className="container  mx-auto max-w-[100vw] xl:w-[60vw] shadow-lg p-4 border-b-zinc-500 flex items-center justify-between">
+    <div className="shadow-sm  top-0 sticky min-w-[90%] mx-auto">
+      <nav className="container  mx-auto max-w-[100vw] xl:w-[60vw] shadow-lg p-4 flex items-center justify-between">
         <div className="flex items-center">
           <div className="flex flex-grow gap-10 items-center">
             <Link href={`/gigme/social`} className="text-white">
@@ -57,6 +58,7 @@ const FriendsMobileNav = () => {
           </div>
         </div>
       </nav>{" "}
+      <Separator />
     </div>
   );
 };
