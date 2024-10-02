@@ -41,7 +41,7 @@ const FollowersModal = ({ friend }) => {
   let myfollowers = friend?.followers.map((fol) => fol);
   console.log(myfollowers);
   const filteredUsers = data.filter((user) => myfollowers?.includes(user._id));
-  console.log(friend);
+  console.log(filteredUsers);
   return (
     <Dialog
       open={followers}

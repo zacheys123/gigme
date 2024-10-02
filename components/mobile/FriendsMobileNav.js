@@ -25,9 +25,8 @@ const FriendsMobileNav = () => {
   return (
     <div className="shadow-sm shadow-yellow-700 top-0 sticky min-w-[90%] mx-auto">
       <nav className="container  mx-auto max-w-[100vw] xl:w-[60vw] shadow-lg p-4 border-b-zinc-500 flex items-center justify-between">
-        <Logo />
-        <span className="flex items-center">
-          <div className="flex flex-grow gap-7 items-center">
+        <div className="flex items-center">
+          <div className="flex flex-grow gap-10 items-center">
             <Link href={`/gigme/gigs/${userId}`} className="text-white">
               <FaVideo size="17px" />
             </Link>
@@ -35,7 +34,7 @@ const FriendsMobileNav = () => {
               <FaUser size="17px" />
             </Link>
             <Link href={`/gigme/gigs/${userId}`} className="text-white">
-              <FaMusic size="14px" />
+              <FaMusic size="17px" />
             </Link>
             <div>
               <Link href="/" className="text-white">
@@ -44,19 +43,19 @@ const FriendsMobileNav = () => {
                   color="warning"
                   sx={{ fontSize: "8px" }}
                 >
-                  <FaBell size="15px" />
+                  <FaBell size="17px" />
                 </Badge>
               </Link>
             </div>
             <Link href="/gigme/search" className="text-white">
-              <FaSearch size="14px" />
+              <FaSearch size="17px" />
             </Link>
             <AvatarComponent
               usercomm={user?.user}
               posts="w-[32px] h-[32px] rounded-full object-fit"
             />
           </div>
-        </span>
+        </div>
       </nav>{" "}
     </div>
   );

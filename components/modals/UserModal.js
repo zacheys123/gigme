@@ -138,7 +138,6 @@ const UserModal = ({}) => {
                 className=" w-[70%] mt-5 gigtitle"
                 variant="primary"
                 onClick={handleDelete}
-                fullWidth
                 type="button"
               >
                 Confirm Account Deletion

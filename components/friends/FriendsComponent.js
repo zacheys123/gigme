@@ -110,6 +110,12 @@ const FriendsComponent = ({ friend }) => {
   };
 
   const greeting = friend?.followers?.includes(id?._id);
+  useEffect(() => {
+    if (friend?.username === id?.username) {
+      router.back();
+    }
+    return;
+  }, [friend?.username, id?.username, router]);
   return (
     <>
       <Modal width="100vw">

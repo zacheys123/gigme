@@ -49,7 +49,7 @@ const UserPost = ({ users }) => {
       setFileUrl(undefined);
     }
   };
-  const { router } = useRouter();
+  const router = useRouter();
   const handlePost = async (e) => {
     e.preventDefault();
     console.log(url, postdata.post, postdata.description);
@@ -80,6 +80,9 @@ const UserPost = ({ users }) => {
       console.log(error);
     }
   };
+  const handleClick = (otheruser) => {
+    router?.push(`/friends/${otheruser?.username}`);
+  };
   console.log(videourl?.secure_url);
   return (
     <>
@@ -87,8 +90,8 @@ const UserPost = ({ users }) => {
         <div className="relative h-[180px]  shadow-xl shadow-slate-500 w-full mx-auto  px-5 mt-4">
           <h6 className="text-neutral-400 title">Musicians you may know</h6>
 
-          <div className="h-full w-full overflow-x-auto snap-x snap-mandatory flex justify-center items-center">
-            <div className="inline-flex flex-shrink-0 scroll-smooth p-3">
+          <div className="h-full w-[100vw] overflow-x-scroll snap-x snap-mandatory flex justify-center items-center">
+            <div className="w-full inline-flex flex-shrink-0 scroll-smooth py-3 ">
               {users
                 .filter((userd) => userd?.instrument?.length > 0)
                 .map((otheruser) => {
@@ -98,14 +101,16 @@ const UserPost = ({ users }) => {
                       otheruser={otheruser}
                       user={user}
                       router={router}
-                      maindiv=" w-[100px] bg-slate-900 shadow-sm shadow-yellow-500 p-1 rounded-full my-2 mx-4 h-[85px] hover:scale-110 transition-transform duration-75"
+                      maindiv=" w-[100px] bg-slate-900 shadow-sm shadow-yellow-500 px-4 rounded-full my-2  h-[85px] hover:scale-110 transition-transform duration-75"
                       thirdDiv="w-full flex justify-center  items-center flex-col"
                       image="w-[35px] h-[35px] rounded-full text-center"
                       imageno={25}
                       initial={{ opacity: 0, x: ["15px"] }}
                       whileInView={{ opacity: 1, x: 0 }}
+                      whileTap={{ scale: 0.95 }}
                       transition={{ duration: 1, delay: 0.1 }}
                       userpost={true}
+                      onClick={() => handleClick(otheruser)}
                     />
                   );
                 })}

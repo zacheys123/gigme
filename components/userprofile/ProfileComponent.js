@@ -17,6 +17,7 @@ const ProfileComponent = ({
   imageno,
   initial,
   whileInView,
+  whileTap,
   transition,
   onClick: handleClick,
   follows,
@@ -27,8 +28,12 @@ const ProfileComponent = ({
       initial={initial}
       whileInView={whileInView}
       transition={transition}
+      whileTap={whileTap}
       onClick={() => {
-        if (!otheruser?.followers?.includes(user?.user?._id)) {
+        if (
+          !otheruser?.followers?.includes(user?.user?._id) &&
+          userpost === false
+        ) {
           updateFollowers(otheruser);
           updateFollowing(otheruser);
         } else {
@@ -39,7 +44,7 @@ const ProfileComponent = ({
       className={maindiv}
     >
       <div className="">
-        <div className={thirdDiv}>
+        <div className={thirdDiv} onClick={handleClick}>
           {otheruser?.picture && (
             <Image
               width={imageno}

@@ -34,14 +34,14 @@ export default function Home() {
       <div className="h-screen w-full">
         <div className="flex justify-center items-center h-screen flex-col">
           <CircularProgress size="100px" />
-          <span className="mt-2 text-2xl font-bold">
+          <span className="mt-2 text-1xl font-bold">
             Please wait a moment :)..
           </span>
         </div>
       </div>
     );
   }
-  let sentence = ` Welcome to gigUp, ${user?.firstName}!`;
+  let sentence = `Welcome to gigUp, ${user?.firstName}!`;
   const words = sentence.split(" ");
   const containerVariants = {
     hidden: { opacity: 1 },
@@ -284,19 +284,25 @@ export default function Home() {
             Start Jamming
           </Link>
         </motion.div> */}
-        <motion.div
-          className="mb-10"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          style={{ display: "flex", gap: "10px" }} // keeps words spaced out
-        >
-          {words.map((word, index) => (
-            <motion.span key={index} variants={wordVariants}>
-              {word}
-            </motion.span>
-          ))}
-        </motion.div>
+        {user && (
+          <motion.div
+            className="mb-10"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            style={{ display: "flex", gap: "6px" }} // keeps words spaced out
+          >
+            {words.map((word, index) => (
+              <motion.span
+                key={index}
+                variants={wordVariants}
+                className="text-[16px] bg-gradient-to-l  from-yellow-600 via-gray-400  to-red-600 inline-block  text-transparent  bg-clip-text font-bold"
+              >
+                {word}
+              </motion.span>
+            ))}
+          </motion.div>
+        )}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -320,14 +326,18 @@ export default function Home() {
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.5 }}
-        className="container bg-neutral-800 rounded-md mx-auto max-w-[80vw] h-[180px] p-4 text-center flex flex-col gap-4 xl:w-[60vw] mt-[17px] mb-9"
+        className="container bg-neutral-900 shadow-md  shadow-slate-600 rounded-md mx-auto max-w-[80vw] h-[180px] p-4 text-center flex flex-col gap-4 xl:w-[60vw] mt-[17px] mb-9"
       >
-        <span className="font-bold tracking-wider  font-sans text-[17px] ">
-          For more information on what igigup is,contact us here.Send us ur
+        <span className=" tracking-wider  font-sans text-[17px] ">
+          For more information on what gigup is,contact us here.Send us ur
           feedback or concern.
         </span>
         <form>
-          <Input type="text" placeholder="Give us feedback" />
+          <input
+            type="text"
+            placeholder="Ask a Question..."
+            className=" w-[85%] mx-auto p-3 h-[35px]  bg-gray-300 text-black focus-within:ring-0 outline-none rounded-xl"
+          />
           <UsersButton
             onClick={() => console.log("Email Button clicked!!!")}
             title="Send FeedBack"
@@ -422,7 +432,7 @@ export default function Home() {
       </section>
       {/* Footer */}
       <footer className="bg-gray-800 py-8 text-center text-gray-500">
-        <p>© 2024 IgigUp. All rights reserved.</p>
+        <p>© 2024 gigUp. All rights reserved.</p>
       </footer>
     </div>
   );

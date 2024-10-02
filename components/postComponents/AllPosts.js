@@ -55,11 +55,10 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
             );
           })}
 
-          <Link
-            href="#top"
+          <div
             style={{
               position: "fixed",
-              bottom: "30px",
+              bottom: "50px",
               right: "20px",
               backgroundColor: "#007bff",
               color: "#fff",
@@ -75,11 +74,11 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
             {/* <ScrollToTopButton />
             <> */}
             <ArrowCircleUpRounded onClick={handleScrollToTop} size="30px" />
-          </Link>
+          </div>
           <div
             style={{
               position: "fixed",
-              bottom: "87px",
+              bottom: "107px",
               right: "20px",
               color: "#fff",
               borderRadius: "50%",
@@ -87,7 +86,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
               border: "none",
               cursor: "pointer",
             }}
-            className="z-50  absolute bg-neutral-300 text-white bottom-[87px] right-10 "
+            className="z-50  absolute bg-neutral-300 text-white bottom-[107px] right-10 "
           >
             <AddAPhoto
               sx={{ color: "blue" }}
