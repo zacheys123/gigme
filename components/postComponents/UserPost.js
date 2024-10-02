@@ -101,7 +101,7 @@ const UserPost = ({ users }) => {
                       otheruser={otheruser}
                       user={user}
                       router={router}
-                      maindiv=" w-[100px] bg-slate-900 shadow-sm shadow-yellow-500 px-4 rounded-full my-2  h-[85px] hover:scale-110 transition-transform duration-75"
+                      maindiv=" w-[100px] bg-slate-900 shadow-sm shadow-yellow-500 px-4 rounded-full my-2 ml-3 h-[85px] hover:scale-110 transition-transform duration-75"
                       thirdDiv="w-full flex justify-center  items-center flex-col"
                       image="w-[35px] h-[35px] rounded-full text-center"
                       imageno={25}
