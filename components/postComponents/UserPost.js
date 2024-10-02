@@ -27,7 +27,7 @@ import { motion } from "framer-motion";
 const UserPost = ({ users }) => {
   const { userId } = useAuth();
   const { user } = useCurrentUser(userId);
-  const { videourl, showPosts, setShowPosts } = useStore();
+  const { showPosts, setShowPosts } = useStore();
 
   const baseUrl = "/api/posts/createPost";
   const [file, setFile] = useState();
@@ -52,7 +52,7 @@ const UserPost = ({ users }) => {
     console.log(url, postdata.post, postdata.description);
 
     let dataInfo = {
-      media: videourl?.secure_url,
+      media: videoUrl,
       title: postdata.post,
       description: postdata.description,
       postedBy: user?.user?._id,
@@ -83,6 +83,15 @@ const UserPost = ({ users }) => {
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
+    if (fileUrl) {
+      URL.revokeObjectURL(fileUrl);
+    }
+    if (f) {
+      const url = URL.createObjectURL(f);
+      setFileUrl(url);
+    } else {
+      setFileUrl(undefined);
+    }
 
     if (!file) {
       return;
@@ -147,7 +156,7 @@ const UserPost = ({ users }) => {
       setIsUploading(false);
     }
   };
-
+  console.log(videoUrl);
   return (
     <>
       {!showPosts ? (
@@ -268,7 +277,7 @@ const UserPost = ({ users }) => {
               <div>
                 <video
                   className="w-full h-[240px] md:h-[360px]"
-                  src={videoUrl}
+                  src={fileUrl}
                   autoPlay
                   loop
                   muted
