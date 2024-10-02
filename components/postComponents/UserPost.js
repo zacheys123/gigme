@@ -91,7 +91,7 @@ const UserPost = ({ users }) => {
           <h6 className="text-neutral-400 title">Musicians you may know</h6>
 
           <div className="h-full w-[100vw] overflow-x-scroll snap-x snap-mandatory flex justify-center items-center">
-            <div className="w-full inline-flex flex-shrink-0 scroll-smooth py-3 ">
+            <div className="w-full inline-flex flex-shrink-0  scroll-smooth py-3 ">
               {users
                 .filter((userd) => userd?.instrument?.length > 0)
                 .map((otheruser) => {
@@ -101,7 +101,7 @@ const UserPost = ({ users }) => {
                       otheruser={otheruser}
                       user={user}
                       router={router}
-                      maindiv=" w-[100px] bg-slate-900 shadow-sm shadow-yellow-500 px-4 rounded-full my-2 ml-3 h-[85px] hover:scale-110 transition-transform duration-75"
+                      maindiv=" w-[100px] bg-slate-900 shadow-sm shadow-yellow-500 px-4 border-2 border-yellow-500 rounded-full my-2 ml-5 h-[85px] hover:scale-110 transition-transform duration-75"
                       thirdDiv="w-full flex justify-center  items-center flex-col"
                       image="w-[35px] h-[35px] rounded-full text-center"
                       imageno={25}

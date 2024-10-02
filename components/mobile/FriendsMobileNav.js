@@ -27,7 +27,7 @@ const FriendsMobileNav = () => {
       <nav className="container  mx-auto max-w-[100vw] xl:w-[60vw] shadow-lg p-4 border-b-zinc-500 flex items-center justify-between">
         <div className="flex items-center">
           <div className="flex flex-grow gap-10 items-center">
-            <Link href={`/gigme/gigs/${userId}`} className="text-white">
+            <Link href={`/gigme/social`} className="text-white">
               <FaVideo size="17px" />
             </Link>
             <Link href={`/v1/profile/${userId}`} className="text-white">
