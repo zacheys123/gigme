@@ -97,7 +97,6 @@ const SinglePost = ({ post, user, comments, replies }) => {
   const [activePostId, setActivePostId] = useState(null);
 
   const togglePost = (postId) => {
-    alert(activePostId);
     if (activePostId === postId) {
       setActivePostId(null); // Close the div if it's already open
     } else {
@@ -119,24 +118,32 @@ const SinglePost = ({ post, user, comments, replies }) => {
       <Box className="flex flex-col rounded-md p-3  element-with-scroll">
         {post && (
           <div className={post?.media ? " w-full " : "mt-3"}>
-            <div className="w-full flex justify-between items-center">
-              <HeaderDetails
-                posts={post}
-                today={today}
-                username={username}
-                globe={globe}
-                posted={posted}
-                user={user}
-              />
+            <div className="w-full flex justify-between items-center p-2 shadow-sm shadow-slate-900">
+              <div className="flex items-center">
+                {/* <AvatarComponent user={post?.postedBy[0]} /> */}
+                {post?.postedBy[0]?.picture ? (
+                  <Image
+                    className="w-[35px] h-[35px] object-cover rounded-full"
+                    src={post?.postedBy[0]?.picture}
+                    alt="Profile picture"
+                    width={35}
+                    height={35}
+                  />
+                ) : (
+                  <AvatarComponent user={post?.postedBy[0]} />
+                )}
+                {/* username here */}
+                <span className={username}>{post?.postedBy[0]?.username}</span>
+              </div>
               <button
                 onClick={() => togglePost(post._id)}
                 className="bg-neutral-500 p-2 rounded-full"
               >
-                <BsThreeDotsVertical sx={{ marginRight: "1rem" }} />
+                <BsThreeDotsVertical onClick={() => togglePost(post?.id)} />
               </button>
             </div>
             {activePostId === post.id && (
-              <div className="details">
+              <div className=" bg-gray-300 z-50">
                 <p>edit</p>
               </div>
             )}

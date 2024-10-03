@@ -94,6 +94,10 @@ const Video = ({ post }) => {
             </div>
           </div>
         </div>
+        {/* display the posted at */}
+        <div className="flex items-center gap-2 text-neutral-300 text-[11px]">
+          {moment(post?.createdAt).fromNow()}
+        </div>
       </motion.div>
     </div>
   );
