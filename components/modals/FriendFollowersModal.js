@@ -23,16 +23,16 @@ const FollowersModal = ({ friend }) => {
   };
   const [data, setData] = useState([]);
   const getAllUsers = async () => {
-    const res = await fetch(`/api/user/getAllusers/${userId}`, {
+    const res = await fetch(`/api/user/getAllmyusers`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    const { currentuser } = await res.json();
-    console.log(currentuser);
-    setData(currentuser);
-    return currentuser;
+    const mydata = await res.json();
+    console.log(mydata);
+    setData(mydata);
+    return mydata;
   };
   useEffect(() => {
     getAllUsers();
@@ -51,21 +51,25 @@ const FollowersModal = ({ friend }) => {
       {filteredUsers?.length > 0 ? (
         <DialogContent className="w-[350px] ">
           <h6 className="title">followers list</h6>
-          {filteredUsers.map((follower) => (
-            <ScrollArea key={follower._id}>
-              <div
-                className="flex gap-3 items-center p-2"
-                onClick={() => {
-                  router.push(`/friends/${follower.username}`);
-                  handleClose();
-                }}
-              >
-                <AvatarComponent usercomm={follower} />
-                <div>{follower.username}</div>
-              </div>
-              <ScrollBar orientation="vertical" /> <Separator />
-            </ScrollArea>
-          ))}
+          {filteredUsers
+            .map((follower) => (
+              <ScrollArea key={follower._id}>
+                <div
+                  className="flex gap-3 items-center p-2"
+                  onClick={() => {
+                    router.push(`/friends/${follower?.username}`);
+                    handleClose();
+                  }}
+                >
+                  <AvatarComponent usercomm={follower} />
+                  <div>
+                    {follower?.clerkId === userId ? "Me" : follower?.username}
+                  </div>
+                </div>
+                <ScrollBar orientation="vertical" /> <Separator />
+              </ScrollArea>
+            ))
+            .reverse()}
         </DialogContent>
       ) : (
         <h6 className="text-[12px] choice p-5 ">No followers to display</h6>

@@ -6,6 +6,7 @@ import {
   getComments,
   getDisLikes,
   getLikes,
+  handleRouting,
 } from "@/utils";
 import { Avatar, Box, CircularProgress } from "@mui/material";
 import { TextInput } from "flowbite-react";
@@ -29,6 +30,8 @@ import { Separator } from "../ui/separator";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { BsThreeDots } from "react-icons/bs";
 import useStore from "@/app/zustand/useStore";
+import Link from "next/link";
+import { useAuth } from "@clerk/nextjs";
 const SinglePost = ({ post, user, comments, replies }) => {
   let newComm = comments?.comments;
   let myuser = user?.user;
@@ -90,6 +93,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
     }, 500);
   });
 
+  const { userId } = useAuth();
   let username = "text-[11px]   text-blue-300 font-bold";
   let globe = "text-[10px]";
   let posted = "text-neutral-400 font-mono text-[13px] md:text-[15px]";
@@ -103,6 +107,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
       setActivePostId(postId); // Open the div for the clicked post
     }
   };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: ["15px"], x: ["-10px"] }}
@@ -133,7 +138,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
                   <AvatarComponent user={post?.postedBy[0]} />
                 )}
                 {/* username here */}
-                <span className={username}>{post?.postedBy[0]?.username}</span>
+                <span className={username}>{handleRouting(post, userId)}</span>
               </div>
               <button
                 onClick={() => togglePost(post._id)}

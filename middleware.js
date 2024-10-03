@@ -22,6 +22,7 @@ export default authMiddleware({
     "/api/chat/fetchchats/:userid/:id",
     "/api/chat/getuserchat/:id",
     "/api/posts/getusersposts",
+    "/api/user/getAllmyusers",
   ],
 });
 export const config = {
