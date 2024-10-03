@@ -60,7 +60,7 @@ const Video = ({ post }) => {
             ref={playerRef}
             url={post?.media}
             playing={isPlaying}
-            className="w-full  h-auto -mt-2  object-fill"
+            className="w-full  h-auto -mt-2  object-fill shadow-sm shadow-slate-500"
             controls // Show controls
             width="100%"
             quality="auto"
@@ -76,6 +76,7 @@ const Video = ({ post }) => {
             height={30}
           />
         )}
+        <div className="w-full border border-slate-800"></div>
         <div className="flex flex-col gap-2 my-3   rounded-md p-3">
           {" "}
           <div className=" text-neutral-300 text-[13px] line-clamp-3">
