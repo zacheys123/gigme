@@ -68,7 +68,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
               border: "none",
               cursor: "pointer",
             }}
-            className="z-50  absolute bg-blue-700 text-white bottom-[130px] right-10 "
+            className="z-50  absolute bg-blue-700 text-white bottom-[130px] right-10 opacity-85 "
             onClick={handleScrollToTop}
           >
             {" "}
@@ -77,7 +77,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
             <ArrowCircleUpRounded onClick={handleScrollToTop} size="30px" />
           </div>
           <div
-            initial={{ opacity: 0, y: ["15px"], x: ["-60px"] }}
+            initial={{ opacity: 0, y: ["15px"] }}
             whileInView={{ opacity: 1, y: 0, x: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             style={{
@@ -90,7 +90,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
               border: "none",
               cursor: "pointer",
             }}
-            className="z-50  absolute bg-neutral-300 text-white bottom-[200px] right-10 "
+            className="z-50  absolute bg-neutral-300 text-white bottom-[200px] right-10 opacity-85 "
           >
             <AddAPhoto
               sx={{ color: "blue" }}

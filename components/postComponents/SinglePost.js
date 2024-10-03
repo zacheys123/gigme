@@ -90,7 +90,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
     }, 500);
   });
 
-  let username = "text-[13px]   text-blue-300 font-bold";
+  let username = "text-[11px]   text-blue-300 font-bold";
   let globe = "text-[10px]";
   let posted = "text-neutral-400 font-mono text-[13px] md:text-[15px]";
 
@@ -118,8 +118,8 @@ const SinglePost = ({ post, user, comments, replies }) => {
       <Box className="flex flex-col rounded-md p-3  element-with-scroll">
         {post && (
           <div className={post?.media ? " w-full " : "mt-3"}>
-            <div className="w-full flex justify-between items-center p-2 shadow-sm shadow-slate-900">
-              <div className="flex items-center">
+            <div className="w-full flex justify-between items-center p-2 border border-t-0 border-r-0 border-l-0 border-b-slate-800">
+              <div className="flex items-center gap-3">
                 {/* <AvatarComponent user={post?.postedBy[0]} /> */}
                 {post?.postedBy[0]?.picture ? (
                   <Image
