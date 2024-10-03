@@ -6,7 +6,13 @@ import { NextResponse } from "next/server";
 export const getCurrentUser = async (userId) => {
   try {
     const res = await fetch(
-      `${checkEnvironment()}/api/user/getuser/${userId.id}`
+      `${checkEnvironment()}/api/user/getuser/${userId.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
     const data = await res.json();
     console.log(data);

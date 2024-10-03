@@ -4,7 +4,15 @@ import { auth } from "@clerk/nextjs";
 // Get current User
 async function getCurrentUser(userId) {
   try {
-    const res = await fetch(`${checkEnvironment()}/api/user/getuser/${userId}`);
+    const res = await fetch(
+      `${checkEnvironment()}/api/user/getuser/${userId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const { user } = await res.json();
     return user;
   } catch (error) {

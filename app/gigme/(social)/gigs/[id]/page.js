@@ -8,7 +8,15 @@ import React from "react";
 async function getUser() {
   const { userId } = auth();
   try {
-    const res = await fetch(`${checkEnvironment()}/api/user/getuser/${userId}`);
+    const res = await fetch(
+      `${checkEnvironment()}/api/user/getuser/${userId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     return res.json();
   } catch (error) {
     console.log(error);

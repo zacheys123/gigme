@@ -116,7 +116,7 @@ const UserPost = ({ users }) => {
 
     try {
       // Step 1: Get the signed upload URL from your API
-      const response = await fetch("/api/post/sign-upload");
+      const response = await fetch("/api/posts/sign-upload");
       const { signature, timestamp, upload_preset, cloud_name } =
         await response.json();
 
@@ -151,12 +151,12 @@ const UserPost = ({ users }) => {
       }
     } catch (error) {
       setError("An error occurred during upload.");
-      console.error(error);
+      console.error("An error occurred during upload.", error);
     } finally {
       setIsUploading(false);
     }
   };
-  console.log(videoUrl);
+  console.log(fileUrl);
   return (
     <>
       {!showPosts ? (

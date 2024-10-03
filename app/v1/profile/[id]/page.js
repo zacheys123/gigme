@@ -9,7 +9,15 @@ import { Divider } from "@mui/material";
 
 const getCurrentUser = async (userId) => {
   try {
-    const res = await fetch(`${checkEnvironment()}/api/user/getuser/${userId}`);
+    const res = await fetch(
+      `${checkEnvironment()}/api/user/getuser/${userId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await res.json();
 
     return data;

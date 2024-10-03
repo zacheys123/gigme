@@ -7,7 +7,13 @@ import { auth } from "@clerk/nextjs";
 const getUser = async (params) => {
   try {
     const res = await fetch(
-      `${checkEnvironment()}/api/user/getuser/${params.usersearch}`
+      `${checkEnvironment()}/api/user/getuser/${params.usersearch}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
     const data = await res.json();
     console.log(data);
@@ -19,7 +25,15 @@ const getUser = async (params) => {
 
 const getCurrentUser = async (userId) => {
   try {
-    const res = await fetch(`${checkEnvironment()}/api/user/getuser/${userId}`);
+    const res = await fetch(
+      `${checkEnvironment()}/api/user/getuser/${userId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await res.json();
     console.log(data);
     return data;
@@ -30,7 +44,13 @@ const getCurrentUser = async (userId) => {
 const getGig = async (params) => {
   try {
     const res = await fetch(
-      `${checkEnvironment()}/api/gigs/getgig/${params.gigid}`
+      `${checkEnvironment()}/api/gigs/getgig/${params.gigid}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
     const data = await res.json();
     console.log(data);

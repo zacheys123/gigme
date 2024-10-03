@@ -6,7 +6,12 @@ import { auth } from "@clerk/nextjs";
 import React from "react";
 
 async function getMyGig(gigId) {
-  const res = await fetch(`${checkEnvironment()}/api/gigs/getgig/${gigId}`);
+  const res = await fetch(`${checkEnvironment()}/api/gigs/getgig/${gigId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   return res.json();
 }
 const MyGigPage = async ({ params }) => {
