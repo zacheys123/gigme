@@ -32,7 +32,7 @@ const SocialMainPage = async ({ currentuser, comments, replies }) => {
 
   return (
     <div
-      className="element-with-scroll w-full h-full overflow-y-scroll"
+      className="element-with-scroll w-full h-full overflow-y-scroll bg-slate-900"
       style={{ scrollbarColor: "grey", scrollbarWidth: "thin" }}
     >
       <UserPost user={currentuser} userposts={posts} users={allUsers} />

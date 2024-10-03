@@ -118,7 +118,12 @@ const UserPost = ({ users }) => {
 
     try {
       // Step 1: Get the signed upload URL from your API
-      const response = await fetch("/api/posts/sign-upload");
+      const response = await fetch("/api/posts/sign-upload", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const { signature, timestamp, upload_preset, cloud_name } =
         await response.json();
 
@@ -132,7 +137,7 @@ const UserPost = ({ users }) => {
       formData.append("cloud_name", cloud_name);
 
       const uploadResponse = await fetch(
-        `https://api.cloudinary.com/v1_1/${cloud_name}/video/upload`,
+        `https://api.cloudinary.com/v1_1/${cloud_name}/video/upload/`,
         {
           method: "POST",
           body: formData,
@@ -161,8 +166,13 @@ const UserPost = ({ users }) => {
   console.log(fileUrl);
   return (
     <>
+      {/* {!isUploading && (
+        <div className="absolute h-[100vh] w-full bg-gray-400 opacity-20 z-50">
+          <CircularProgress size={100} />
+        </div>
+      )} */}
       {!showPosts ? (
-        <Box className="flex flex-col mt-3">
+        <Box className="flex flex-col mt-3 p-2 shadow-md shadow-slate-800 -z-[1]">
           <h6 className="text-neutral-400 title">Musicians you may know</h6>
           <div className="flex  overflow-x-auto space-x-4 p-4">
             {users
@@ -194,7 +204,7 @@ const UserPost = ({ users }) => {
         </Box>
       ) : (
         <form
-          className="h-[650px] shadow-md shadow-slate-500 w-[90%] mx-auto  mt-2 p-4"
+          className="h-[650px] z-[50] shadow-md shadow-slate-500 w-[90%] mx-auto  mt-2 p-4"
           onSubmit={handlePost}
         >
           <h6 className="text-[15px] text-gray-300 underline text-center">

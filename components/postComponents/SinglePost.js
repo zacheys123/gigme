@@ -94,6 +94,16 @@ const SinglePost = ({ post, user, comments, replies }) => {
   let globe = "text-[10px]";
   let posted = "text-neutral-400 font-mono text-[13px] md:text-[15px]";
 
+  const [activePostId, setActivePostId] = useState(null);
+
+  const togglePost = (postId) => {
+    alert(activePostId);
+    if (activePostId === postId) {
+      setActivePostId(null); // Close the div if it's already open
+    } else {
+      setActivePostId(postId); // Open the div for the clicked post
+    }
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: ["15px"], x: ["-10px"] }}
@@ -101,12 +111,12 @@ const SinglePost = ({ post, user, comments, replies }) => {
       transition={{ duration: 0.3, delay: 0.1 }}
       className={
         post?.media
-          ? " h-[740px] shadow-sm shadow-slate-700 rounded-sm my-3 last:shadow-none"
-          : " h-fit shadow-sm shadow-slate-800"
+          ? " h-[820px] shadow-sm shadow-slate-700 rounded-sm my-6 relative"
+          : " h-fit shadow-sm shadow-slate-800 my-6"
       }
     >
       {/* displaying title and the rest of the post */}
-      <Box className="flex flex-col rounded-md p-3 h-[650px] element-with-scroll">
+      <Box className="flex flex-col rounded-md p-3  element-with-scroll">
         {post && (
           <div className={post?.media ? " w-full " : "mt-3"}>
             <div className="w-full flex justify-between items-center">
@@ -118,17 +128,18 @@ const SinglePost = ({ post, user, comments, replies }) => {
                 posted={posted}
                 user={user}
               />
-              <div>
-                {menu ? (
-                  <BsThreeDotsVertical
-                    onClick={() => setMenu((prev) => !prev)}
-                  />
-                ) : (
-                  <BsThreeDots onClick={() => setMenu((prev) => !prev)} />
-                )}
-              </div>
+              <button
+                onClick={() => togglePost(post._id)}
+                className="bg-neutral-500 p-2 rounded-full"
+              >
+                <BsThreeDotsVertical sx={{ marginRight: "1rem" }} />
+              </button>
             </div>
-
+            {activePostId === post.id && (
+              <div className="details">
+                <p>edit</p>
+              </div>
+            )}
             <Video post={post} />
           </div>
         )}

@@ -104,7 +104,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
         initial={{ opacity: 0, y: ["25px"] }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.1 }}
-        className="w-full bg-gray-800 my-5 py-3 text-center text-gray-500"
+        className="w-full  my-5 py-3 text-center text-gray-500"
       >
         <p>© 2024 gigUp. All rights reserved.</p>
       </motion.footer>
