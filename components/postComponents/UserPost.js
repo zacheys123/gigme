@@ -57,25 +57,27 @@ const UserPost = ({ users }) => {
       description: postdata.description,
       postedBy: user?.user?._id,
     };
+    if (videoUrl) {
+      try {
+        setLoading(true);
+        const res = await fetch(baseUrl, {
+          method: "POST",
+          "Content-Type": "application/json",
+          body: JSON.stringify(dataInfo),
+        });
 
-    try {
-      setLoading(true);
-      const res = await fetch(baseUrl, {
-        method: "POST",
-        "Content-Type": "application/json",
-        body: JSON.stringify(dataInfo),
-      });
-
-      const data = await res.json();
-      console.log(data);
-      toast.success(data?.message);
-      setPostData({ post: "", description: "" });
-      setFileUrl(undefined);
-
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
+        const data = await res.json();
+        console.log(data);
+        toast.success(data?.message);
+        setPostData({ post: "", description: "" });
+        setFileUrl(undefined);
+        setShowPosts(false);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
     }
+    alert("Please provide all required fields");
   };
   const handleClick = (otheruser) => {
     router?.push(`/friends/${otheruser?.username}`);
@@ -272,11 +274,11 @@ const UserPost = ({ users }) => {
               onClick={() => setShowPosts(false)}
             />
           </div>
-          <div className="h-[300px] bg-gray-800 mt-7">
+          <div className="h-[300px] md:h-[360px] bg-gray-800 mt-7">
             {videoUrl && (
               <div>
                 <video
-                  className="w-full h-[240px] md:h-[360px]"
+                  className="w-full h-[100%] object-cover"
                   src={fileUrl}
                   autoPlay
                   loop
@@ -290,6 +292,7 @@ const UserPost = ({ users }) => {
           </h6>
           <div className="h-[30px] w-[100%] text-center">
             <Button
+              disabled={loading}
               variant="primary"
               type="submit"
               className="h-full w-[80%]   text-[15px]  p-4"

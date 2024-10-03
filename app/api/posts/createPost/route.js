@@ -10,6 +10,9 @@ export async function POST(req) {
   if (!userId) {
     return NextResponse.redirect(new URL("/sign-in", req.url));
   }
+  if (!title || !media || !description || !postedBy) {
+    return NextResponse.json({ message: "Please provide all required fields" });
+  }
   try {
     await connectDb();
 
@@ -23,7 +26,7 @@ export async function POST(req) {
 
     return NextResponse.json({
       userstatus: true,
-      message: "posted successfully",
+      message: "Posted Uploaded successfully",
       results: post,
     });
   } catch (error) {
