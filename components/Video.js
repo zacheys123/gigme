@@ -60,7 +60,7 @@ const Video = ({ post }) => {
             ref={playerRef}
             url={post?.media}
             playing={isPlaying}
-            className="w-full  h-auto -mt-2  object-fill shadow-sm shadow-slate-500"
+            className="w-full  h-auto -mt-2  object-fill shadow-sm "
             controls // Show controls
             width="100%"
             quality="auto"
