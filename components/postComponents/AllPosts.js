@@ -8,6 +8,7 @@ import ScrollToTopButton from "../ScrollToTopButton";
 import Link from "next/link";
 import { useGlobalContext } from "@/app/Context/store";
 import useStore from "@/app/zustand/useStore";
+import { motion } from "framer-motion";
 
 const AllPosts = ({ userposts, comments, replies, user }) => {
   const { posts } = usePosts(user?.user?._id);
@@ -58,7 +59,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
           <div
             style={{
               position: "fixed",
-              bottom: "70px",
+              bottom: "130px",
               right: "20px",
               backgroundColor: "#007bff",
               color: "#fff",
@@ -67,7 +68,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
               border: "none",
               cursor: "pointer",
             }}
-            className="z-50  absolute bg-blue-700 text-white bottom-[70px] right-10 "
+            className="z-50  absolute bg-blue-700 text-white bottom-[130px] right-10 "
             onClick={handleScrollToTop}
           >
             {" "}
@@ -76,9 +77,12 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
             <ArrowCircleUpRounded onClick={handleScrollToTop} size="30px" />
           </div>
           <div
+            initial={{ opacity: 0, y: ["15px"], x: ["-60px"] }}
+            whileInView={{ opacity: 1, y: 0, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
             style={{
               position: "fixed",
-              bottom: "125px",
+              bottom: "200px",
               right: "20px",
               color: "#fff",
               borderRadius: "50%",
@@ -86,7 +90,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
               border: "none",
               cursor: "pointer",
             }}
-            className="z-50  absolute bg-neutral-300 text-white bottom-[125px] right-10 "
+            className="z-50  absolute bg-neutral-300 text-white bottom-[200px] right-10 "
           >
             <AddAPhoto
               sx={{ color: "blue" }}
@@ -95,7 +99,15 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
             />
           </div>
         </div>
-      )}
+      )}{" "}
+      <motion.footer
+        initial={{ opacity: 0, y: ["25px"] }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.1 }}
+        className="w-full bg-gray-800 my-5 py-3 text-center text-gray-500"
+      >
+        <p>© 2024 gigUp. All rights reserved.</p>
+      </motion.footer>
     </div>
   );
 };

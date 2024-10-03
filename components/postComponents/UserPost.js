@@ -169,23 +169,6 @@ const UserPost = ({ users }) => {
               .filter((userd) => userd?.instrument?.length > 0)
               .map((otheruser, index) => {
                 return (
-                  // <ProfileComponent
-                  //   key={otheruser?._id}
-                  //   otheruser={otheruser}
-                  //   user={user}
-                  //   router={router}
-                  //   maindiv=" w-[100px] bg-slate-900  px-4 rounded-full my-2 ml-3 h-[85px] hover:scale-110 transition-transform duration-75"
-                  //   thirdDiv="w-[85px] h-[85px] flex justify-center  items-center flex-col shadow-sm shadow-yellow-500 rounded-full"
-                  //   image="w-[85px] h-[85px] rounded-full text-center"
-                  //   imageno={25}
-                  //   initial={{ opacity: 0, x: ["15px"] }}
-                  //   whileInView={{ opacity: 1, x: 0 }}
-                  //   whileTap={{ scale: 0.95 }}
-                  //   transition={{ duration: 1, delay: 0.1 }}
-                  //   userpost={true}
-                  //   onClick={() => handleClick(otheruser)}
-                  // />
-
                   <motion.div
                     initial={{ opacity: 0, x: ["15px"] }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -207,11 +190,11 @@ const UserPost = ({ users }) => {
                   </motion.div>
                 );
               })}
-          </div>
+          </div>{" "}
         </Box>
       ) : (
         <form
-          className="h-[800px] shadow-xl shadow-slate-500 w-[90%] mx-auto  mt-8 p-4"
+          className="h-[650px] shadow-md shadow-slate-500 w-[90%] mx-auto  mt-2 p-4"
           onSubmit={handlePost}
         >
           <h6 className="text-[15px] text-gray-300 underline text-center">

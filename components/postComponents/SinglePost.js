@@ -101,7 +101,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
       transition={{ duration: 0.3, delay: 0.1 }}
       className={
         post?.media
-          ? " h-[740px] shadow-sm shadow-slate-700 rounded-sm my-3"
+          ? " h-[740px] shadow-sm shadow-slate-700 rounded-sm my-3 last:shadow-none"
           : " h-fit shadow-sm shadow-slate-800"
       }
     >
