@@ -27,7 +27,7 @@ import { motion } from "framer-motion";
 const UserPost = ({ users }) => {
   const { userId } = useAuth();
   const { user } = useCurrentUser(userId);
-  const { showPosts, setShowPosts } = useStore();
+  const { showPosts, setShowPosts, showComments } = useStore();
 
   const baseUrl = "/api/posts/createPost";
 
@@ -166,142 +166,151 @@ const UserPost = ({ users }) => {
   console.log(fileUrl);
   return (
     <>
-      {/* {!isUploading && (
+      {!showComments ? (
+        <>
+          {" "}
+          {/* {!isUploading && (
         <div className="absolute h-[100vh] w-full bg-gray-400 opacity-20 z-50">
           <CircularProgress size={100} />
         </div>
       )} */}
-      {!showPosts ? (
-        <Box className="flex flex-col mt-3 p-2 shadow-md shadow-slate-800 -z-[1]">
-          <h6 className="text-neutral-400 title">Musicians you may know</h6>
-          <div className="flex  overflow-x-auto space-x-4 p-4">
-            {users
-              .filter((userd) => userd?.instrument?.length > 0)
-              .map((otheruser, index) => {
-                return (
-                  <motion.div
-                    initial={{ opacity: 0, x: ["15px"] }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    whileTap={{ scale: 0.95 }}
-                    transition={{ duration: 1, delay: 0.1 }}
-                    key={otheruser?._id}
-                    className="min-w-[75px] h-[75px] rounded-full overflow-hidden shadow-lg"
-                    onClick={handleClick}
-                  >
-                    {otheruser?.picture && (
-                      <Image
-                        height={100}
-                        width={100}
-                        src={otheruser?.picture}
-                        alt={otheruser?.firstname}
-                        className="w-full h-full object-cover"
-                      />
-                    )}
-                  </motion.div>
-                );
-              })}
-          </div>{" "}
-        </Box>
-      ) : (
-        <form
-          className="h-[650px] z-[50] shadow-md shadow-slate-500 w-[90%] mx-auto  mt-2 p-4"
-          onSubmit={handlePost}
-        >
-          <h6 className="text-[15px] text-gray-300 underline text-center">
-            Jam Details
-          </h6>
-          <div className="w-full mt-5">
-            {" "}
-            <Input
-              id="post"
-              type="text"
-              className=" mt-2 p-2 w-full text-[13px] bg-gray-300 rounded-md focus-within:ring-o outline-none"
-              placeholder="Create a Jamtitle...."
-              required
-              value={postdata?.post}
-              onChange={(e) =>
-                setPostData((prev) => {
-                  return { ...prev, post: e.target.value };
-                })
-              }
-            />
-          </div>
-          <div className="w-full mt-5">
-            <input
-              autoComplete="off"
-              id="post"
-              value={postdata.description}
-              type="text"
-              placeholder="Jam session description......"
-              required
-              onChange={(e) =>
-                setPostData((prev) => {
-                  return { ...prev, description: e.target.value };
-                })
-              }
-              className="p-2 w-full text-[13px] bg-gray-300 rounded-md focus-within:ring-o outline-none"
-            />
-          </div>
-          <div className="flex justify-between items-center w-full mx-auto mt-4">
-            {/* <VideoUploadWidget /> */}
-            <label
-              htmlFor="postvideo"
-              className="bg-gray-300 title py-2 px-3 mt-2 min-w-[115px] rounded-xl whitespace-nowrap"
+          {!showPosts ? (
+            <Box className="flex flex-col mt-3 p-2 shadow-md shadow-slate-800 -z-[1]">
+              <h6 className="text-neutral-400 title">Musicians you may know</h6>
+              <div className="flex  overflow-x-auto space-x-4 p-4">
+                {users
+                  .filter((userd) => userd?.instrument?.length > 0)
+                  .map((otheruser, index) => {
+                    return (
+                      <motion.div
+                        initial={{ opacity: 0, x: ["15px"] }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{ duration: 1, delay: 0.1 }}
+                        key={otheruser?._id}
+                        className="min-w-[75px] h-[75px] rounded-full overflow-hidden shadow-lg"
+                        onClick={handleClick}
+                      >
+                        {otheruser?.picture && (
+                          <Image
+                            height={100}
+                            width={100}
+                            src={otheruser?.picture}
+                            alt={otheruser?.firstname}
+                            className="w-full h-full object-cover"
+                          />
+                        )}
+                      </motion.div>
+                    );
+                  })}
+              </div>{" "}
+            </Box>
+          ) : (
+            <form
+              className="h-[650px] z-[50] shadow-md shadow-slate-500 w-[90%] mx-auto  mt-2 p-4"
+              onSubmit={handlePost}
             >
-              Upload Video
-            </label>
-
-            <input
-              id="postvideo"
-              className="hidden"
-              type="file"
-              accept="video/*"
-              onChange={handleFileChange}
-              disabled={isUploading}
-            />
-            {isUploading && <p>Uploading...</p>}
-            <ArrowBack
-              className="  text-white"
-              size="17px"
-              sx={{ fontSize: "19px", color: "white" }}
-              onClick={() => setShowPosts(false)}
-            />
-          </div>
-          <div className="h-[300px] md:h-[360px] bg-gray-800 mt-7">
-            {videoUrl && (
-              <div>
-                <video
-                  className="w-full h-[100%] object-cover"
-                  src={fileUrl}
-                  autoPlay
-                  loop
-                  muted
+              <h6 className="text-[15px] text-gray-300 underline text-center">
+                Jam Details
+              </h6>
+              <div className="w-full mt-5">
+                {" "}
+                <Input
+                  id="post"
+                  type="text"
+                  className=" mt-2 p-2 w-full text-[13px] bg-gray-300 rounded-md focus-within:ring-o outline-none"
+                  placeholder="Create a Jamtitle...."
+                  required
+                  value={postdata?.post}
+                  onChange={(e) =>
+                    setPostData((prev) => {
+                      return { ...prev, post: e.target.value };
+                    })
+                  }
                 />
               </div>
-            )}
-          </div>
-          <h6 className="my-5 text-[15px] text-orange-800 font-mono font-bold">
-            {postdata.description.length > 0 ? `#${postdata.description}` : ""}
-          </h6>
-          <div className="h-[30px] w-[100%] text-center">
-            <Button
-              disabled={loading}
-              variant="primary"
-              type="submit"
-              className="h-full w-[80%]   text-[15px]  p-4"
-            >
-              {!loading ? (
-                "Post"
-              ) : (
-                <CircularProgress
-                  size="13px"
-                  sx={{ color: "white", fontBold: "500" }}
-                  className="bg-orange-700 rounded-tr-full text-[15px] font-bold"
+              <div className="w-full mt-5">
+                <input
+                  autoComplete="off"
+                  id="post"
+                  value={postdata.description}
+                  type="text"
+                  placeholder="Jam session description......"
+                  required
+                  onChange={(e) =>
+                    setPostData((prev) => {
+                      return { ...prev, description: e.target.value };
+                    })
+                  }
+                  className="p-2 w-full text-[13px] bg-gray-300 rounded-md focus-within:ring-o outline-none"
                 />
-              )}
-            </Button>
-          </div>
-        </form>
+              </div>
+              <div className="flex justify-between items-center w-full mx-auto mt-4">
+                {/* <VideoUploadWidget /> */}
+                <label
+                  htmlFor="postvideo"
+                  className="bg-gray-300 title py-2 px-3 mt-2 min-w-[115px] rounded-xl whitespace-nowrap"
+                >
+                  Upload Video
+                </label>
+
+                <input
+                  id="postvideo"
+                  className="hidden"
+                  type="file"
+                  accept="video/*"
+                  onChange={handleFileChange}
+                  disabled={isUploading}
+                />
+                {isUploading && <p>Uploading...</p>}
+                <ArrowBack
+                  className="  text-white"
+                  size="17px"
+                  sx={{ fontSize: "19px", color: "white" }}
+                  onClick={() => setShowPosts(false)}
+                />
+              </div>
+              <div className="h-[300px] md:h-[360px] bg-gray-800 mt-7">
+                {videoUrl && (
+                  <div>
+                    <video
+                      className="w-full h-[100%] object-cover"
+                      src={fileUrl}
+                      autoPlay
+                      loop
+                      muted
+                    />
+                  </div>
+                )}
+              </div>
+              <h6 className="my-5 text-[15px] text-orange-800 font-mono font-bold">
+                {postdata.description.length > 0
+                  ? `#${postdata.description}`
+                  : ""}
+              </h6>
+              <div className="h-[30px] w-[100%] text-center">
+                <Button
+                  disabled={loading}
+                  variant="primary"
+                  type="submit"
+                  className="h-full w-[80%]   text-[15px]  p-4"
+                >
+                  {!loading ? (
+                    "Post"
+                  ) : (
+                    <CircularProgress
+                      size="13px"
+                      sx={{ color: "white", fontBold: "500" }}
+                      className="bg-orange-700 rounded-tr-full text-[15px] font-bold"
+                    />
+                  )}
+                </Button>
+              </div>
+            </form>
+          )}
+        </>
+      ) : (
+        ""
       )}
     </>
   );

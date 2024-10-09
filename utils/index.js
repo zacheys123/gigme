@@ -117,18 +117,21 @@ export function getDisLikes(posts, dislikeLength) {
   }
 }
 
-export function getComments(commentsarray, commentLength) {
-  if (commentsarray?.length >= 1000) {
-    return (
-      `${commentsarray?.length / 1000}k comments` ||
-      `${commentLength / 1000}k comments`
-    );
-  } else if (commentsarray?.length < 1 || commentLength < 1) {
-    return "comment";
-  } else if (commentsarray?.length > 1 || commentLength > 1) {
-    return `${commentsarray?.length} comments` || `${commentLength}comments`;
-  }
-}
+// Utility function to calculate comment length
+export const getComments = (comments, commlength) => {
+  if (comments?.length > 1000) {
+    return comments?.length < 0
+      ? commlength / 1000 + "k"
+      : `${comments?.length / 1000}k`;
+  } else if (comments?.length < 1) {
+    return comments?.length < 1 ? commlength : comments?.length;
+  } else if (comments?.length === 0 || commlength === 0) {
+    return;
+  } else {
+    return comments?.length;
+  } // If less than 1000 comments, return the count as a string
+};
+
 export function getReplys(replarray, replyLength) {
   if (replarray?.length >= 1000) {
     return (

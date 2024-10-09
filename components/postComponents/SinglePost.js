@@ -36,62 +36,13 @@ const SinglePost = ({ post, user, comments, replies }) => {
   let newComm = comments?.comments;
   let myuser = user?.user;
 
-  const {
-    userState: {},
-    setUserState,
-  } = useGlobalContext();
   const { menu, setMenu } = useStore();
-  const [comm, setComm] = useState("");
-  const [commentLoad, setComentLoad] = useState();
 
-  let myComments = newComm.filter((com) => {
+  let myComments = newComm?.filter((com) => {
     return com?.postId?._id === post?._id;
   });
   console.log(post);
   console.log(post?.media);
-  const [commentLength, setCommentlength] = useState(myComments?.length);
-  const [commentsArray, setComments] = useState(myComments);
-  const [showComments, setShowComments] = useState();
-  var today = new Date();
-  function calcComments() {
-    setCommentlength((prev) => prev + 1);
-  }
-  const handleComment = async (ev) => {
-    ev.preventDefault();
-    setComentLoad(true);
-    try {
-      const dataInfo = {
-        text: comm,
-        postedBy: user?.user?._id,
-        post: post?._id,
-      };
-      console.log(dataInfo);
-      const res = await fetch(`/api/comments/createComment/${post?._id}`, {
-        method: "POST",
-        "Content-Type": "application/json",
-        body: JSON.stringify(dataInfo),
-      });
-
-      const data = await res.json();
-      console.log(data);
-      calcComments();
-      setComments((commentsArray) => [...commentsArray, data?.results[0]]);
-      setComm("");
-      setComentLoad(false);
-    } catch (error) {
-      setComentLoad(false);
-    }
-  };
-  // get a random comment after every 30secs
-  const randComment = useCallback(() => {
-    let arr = commentsArray;
-    return arr[Math.floor(Math.random() * arr?.length)];
-  }, [commentsArray]);
-  useEffect(() => {
-    setTimeout(() => {
-      randComment();
-    }, 500);
-  });
 
   const { userId } = useAuth();
   let username = "text-[11px]   text-blue-300 font-bold";
@@ -107,7 +58,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
       setActivePostId(postId); // Open the div for the clicked post
     }
   };
-
+  console.log(comments);
   return (
     <motion.div
       initial={{ opacity: 0, y: ["15px"], x: ["-10px"] }}
@@ -115,7 +66,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
       transition={{ duration: 0.3, delay: 0.1 }}
       className={
         post?.media
-          ? " h-[820px] shadow-sm shadow-slate-700 rounded-sm my-6 relative"
+          ? " h-[890px] shadow-sm shadow-slate-700 rounded-sm my-6 relative"
           : " h-fit shadow-sm shadow-slate-800 my-6"
       }
     >
@@ -152,7 +103,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
                 <p>edit</p>
               </div>
             )}
-            <Video post={post} />
+            <Video post={post} myuser={myuser} myComments={myComments} />
           </div>
         )}
         {/* {!post?.media?.includes("video") && (
@@ -162,12 +113,7 @@ const SinglePost = ({ post, user, comments, replies }) => {
           )} */}
       </Box>
       {/* likes and dislikes */}
-      {/* <LikeDisLikeComponent
-        apiroute={post}
-        myuser={myuser}
-        mydep="posts"
-        api="Post"
-      /> */}
+
       {/* comment section */}
       {/* {!showComments ? (
         <div

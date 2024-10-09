@@ -22,7 +22,7 @@ const FellowMusicians = ({ user, allUsers }) => {
     setShowAllGigsData,
   } = useStore();
 
-  const [myUsers, setUsers] = useState(allUsers);
+  const [myUsers, setUsers] = useState(allUsers || []);
   const updateFollowers = async (data) => {
     setFollow(true);
 

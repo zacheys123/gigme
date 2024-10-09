@@ -45,6 +45,18 @@ const useStore = create((set) => ({
   setShowPosts: (showPosts) => set({ showPosts }),
   currentfollowers: false,
   setCurrentFollowers: (currentfollowers) => set({ currentfollowers }),
+  // user details
+  refetch: false,
+  setRefetch: (refetch) => set({ refetch }),
+  comm: "",
+  setComm: (comm) => set({ comm }),
+
+  // user profile
+  showComments: false,
+  setShowComments: (showComments) => set({ showComments }),
+
+  currentpost: {},
+  setCurrentpost: (currentpost) => set({ currentpost }),
 
   //
   isLoggedOut: false,

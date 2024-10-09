@@ -14,29 +14,38 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useRouter } from "next/navigation";
 const FollowersModal = ({ friend }) => {
-  const { followers, setFollowers } = useStore();
+  const { followers, setFollowers, refetch } = useStore();
   const router = useRouter();
   const { userId } = useAuth();
   const { user } = useCurrentUser(userId);
+  const [loading, setLoading] = useState();
+  0;
   const handleClose = () => {
     setFollowers(false);
   };
   const [data, setData] = useState([]);
   const getAllUsers = async () => {
-    const res = await fetch(`/api/user/getAllmyusers`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const mydata = await res.json();
-    console.log(mydata);
-    setData(mydata);
-    return mydata;
+    try {
+      setLoading(true);
+      const res = await fetch(`/api/user/getAllmyusers`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const mydata = await res.json();
+      console.log(mydata);
+      setData(mydata);
+      return mydata;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
   useEffect(() => {
     getAllUsers();
-  }, []);
+  }, [refetch]);
 
   let myfollowers = friend?.followers.map((fol) => fol);
   console.log(myfollowers);
@@ -48,31 +57,39 @@ const FollowersModal = ({ friend }) => {
       onClose={handleClose}
       className="w-[100%] absolute bg-neutral-700"
     >
-      {filteredUsers?.length > 0 ? (
-        <DialogContent className="w-[350px] ">
-          <h6 className="title">followers list</h6>
-          {filteredUsers
-            .map((follower) => (
-              <ScrollArea key={follower._id}>
-                <div
-                  className="flex gap-3 items-center p-2"
-                  onClick={() => {
-                    router.push(`/friends/${follower?.username}`);
-                    handleClose();
-                  }}
-                >
-                  <AvatarComponent usercomm={follower} />
-                  <div>
-                    {follower?.clerkId === userId ? "Me" : follower?.username}
-                  </div>
-                </div>
-                <ScrollBar orientation="vertical" /> <Separator />
-              </ScrollArea>
-            ))
-            .reverse()}
-        </DialogContent>
+      {!loading ? (
+        <>
+          {filteredUsers?.length > 0 ? (
+            <DialogContent className="w-[350px] ">
+              <h6 className="title">followers list</h6>
+              {filteredUsers
+                .map((follower) => (
+                  <ScrollArea key={follower._id}>
+                    <div
+                      className="flex gap-3 items-center p-2"
+                      onClick={() => {
+                        router.push(`/friends/${follower?.username}`);
+                        handleClose();
+                      }}
+                    >
+                      <AvatarComponent usercomm={follower} />
+                      <div>
+                        {follower?.clerkId === userId
+                          ? "Me"
+                          : follower?.username}
+                      </div>
+                    </div>
+                    <ScrollBar orientation="vertical" /> <Separator />
+                  </ScrollArea>
+                ))
+                .reverse()}
+            </DialogContent>
+          ) : (
+            <h6 className="text-[12px] choice p-5 ">No followers to display</h6>
+          )}
+        </>
       ) : (
-        <h6 className="text-[12px] choice p-5 ">No followers to display</h6>
+        "loading..."
       )}
     </Dialog>
   );

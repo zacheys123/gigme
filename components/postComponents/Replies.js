@@ -18,10 +18,6 @@ import { useAuth } from "@clerk/nextjs";
 import LikeDisLikeComponent from "./LikeDisLikeComponent";
 const Replies = ({ replies, username, posted, myuser }) => {
   const { userId } = useAuth();
-  const [like, setLike] = useState();
-  const [dislike, setdisLike] = useState();
-  const [likelength, setLikelength] = useState();
-  const [dislikelength, setdisLikelength] = useState();
 
   return (
     <Box className="bg-inherit shadow-xl h-[120px] rounded-sm w-full p-2  mt-2 ml-5 ">
@@ -44,12 +40,12 @@ const Replies = ({ replies, username, posted, myuser }) => {
         {/* likes and dislikes */}
         <Box className="w-full flex  justify-center">
           <div className="flex gap-6 items-center  ">
-            <LikeDisLikeComponent
+            {/* <LikeDisLikeComponent
               apiroute={replies}
               myuser={myuser}
               mydep="reply"
               api="Reply"
-            />
+            /> */}
           </div>
         </Box>
       </div>

@@ -14,7 +14,10 @@ import { Box } from "@mui/material";
 import { Separator } from "./ui/separator";
 import useStore from "@/app/zustand/useStore";
 import { useRef } from "react";
-const Video = ({ post }) => {
+import { useFetchMessages } from "@/hooks/useFetchMessages";
+import { PropTypes } from "prop-types";
+import LikeDisLikeComponent from "./postComponents/LikeDisLikeComponent";
+const Video = ({ post, myuser, myComments }) => {
   const playerRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoContainerRef = useRef(null);
@@ -41,8 +44,9 @@ const Video = ({ post }) => {
       }
     };
   }, []);
+
   return (
-    <div
+    <section
       className={
         post?.media
           ? "player-container   w-[100%] flex flex-col  gap-4 h-[620px] "
@@ -77,21 +81,20 @@ const Video = ({ post }) => {
           />
         )}
         <div className="w-full border border-slate-800"></div>
-        <div className="flex flex-col gap-2 my-3   rounded-md p-3">
+        <div className="flex flex-col gap-4 my-3   rounded-md p-3">
           {" "}
           <div className=" text-neutral-300 text-[13px] line-clamp-3">
             {post?.title}
           </div>
           <div className="title text-red-500">#{post?.description}</div>
-          <div className="flex items-center  gap-7 mb-2">
-            <div className="flex items-center gap-1">
-              <span className="text-neutral-400 text-[11px]">1</span>{" "}
-              <Heart size="18px" />
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="text-neutral-400 text-[11px]">1.5k</span>
-              <ChatBubbleOutline size="18px" sx={{ fontSize: "18px" }} />
-            </div>
+          <div className="flex items-center gap-1">
+            <LikeDisLikeComponent
+              apiroute={post}
+              myuser={myuser}
+              mydep="posts"
+              api="Post"
+              comments={myComments}
+            />
           </div>
           {/* display the posted at */}
           <div className="flex items-center gap-2 text-neutral-300 text-[11px]">
@@ -99,8 +102,14 @@ const Video = ({ post }) => {
           </div>
         </div>
       </motion.div>
-    </div>
+    </section>
   );
 };
+// proptypes for the post types
 
+Video.propTypes = {
+  post: PropTypes.object,
+  myuser: PropTypes.object,
+  myComments: PropTypes.array,
+};
 export default Video;

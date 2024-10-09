@@ -24,9 +24,9 @@ function ChatComponent({ chats }) {
     setAnchorEl(null);
   };
   let chat = chats
-    .map((ch) => ch)
-    .filter((c) => c.users[0]._id === user?.user?._id)
-    .filter((c) => c.users.includes(user?.user?._id));
+    ?.map((ch) => ch)
+    .filter((c) => c?.users[0]._id === user?.user?._id)
+    .filter((c) => c?.users.includes(user?.user?._id));
   console.log(chat);
   const router = useRouter();
   let usequery = (c) => {

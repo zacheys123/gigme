@@ -37,7 +37,7 @@ import { getFollow, getFollowing } from "@/utils";
 const FriendsComponent = ({ friend }) => {
   console.log(friend);
   const router = useRouter();
-  const { setFollowers, follows, setFollow } = useStore();
+  const { setFollowers, follows, setFollow, setRefetch } = useStore();
   const {
     userState: { loading },
     setUserState,
@@ -69,7 +69,6 @@ const FriendsComponent = ({ friend }) => {
   const [followingLength, setFollowingLength] = useState(
     friend?.followers.length > 0 && friend?.followers.length
   );
-  const [refetch, setRefetch] = useState(false);
 
   useEffect(() => {
     setUserdata(() => {
@@ -162,7 +161,7 @@ const FriendsComponent = ({ friend }) => {
 
                 {friend?.followers?.includes(id?._id) ? (
                   <div className="md:hidden flex items-center justify-center">
-                    {!follows && !friend?.followers.includes(id?._id) ? (
+                    {!follows || !friend?.followers.includes(id?._id) ? (
                       <Button
                         disabled={loading}
                         variant="primary"
@@ -272,6 +271,8 @@ const FriendsComponent = ({ friend }) => {
           <h6
             className="text-red-600 mb-1 sm:gigtitle text-[11px]  bg-gray-200  w-fit px-2 py-1 rounded-sm"
             onClick={() => {
+              setRefetch(true);
+
               setFollowers(true);
             }}
           >

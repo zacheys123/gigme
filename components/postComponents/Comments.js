@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderDetails from "./HeaderDetails";
 import { Box, Divider } from "@mui/material";
 import {
@@ -10,36 +10,35 @@ import {
   getReplys,
   handleRouting,
 } from "@/utils";
-import { AiOutlineLike } from "react-icons/ai";
-import { AiFillLike } from "react-icons/ai";
-import { AiOutlineDislike } from "react-icons/ai";
-import { AiFillDislike } from "react-icons/ai";
-import { FaArrowLeft } from "react-icons/fa";
-import { FaRegCommentAlt } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa6";
+import { FaHeart } from "react-icons/fa";
 import { useAuth } from "@clerk/nextjs";
 import ReplyModal from "./ReplyModal";
 import { useRouter } from "next/navigation";
-import LikeDisLikeComponent from "./LikeDisLikeComponent";
-import AvatarComponent from "../Avatar";
+import { Avatar } from "../ui/avatar";
+import { BsReplyFill } from "react-icons/bs";
+import { PropTypes } from "prop-types";
+import moment from "moment";
 const Comments = ({ comment, user, replies }) => {
   const { userId } = useAuth();
   const [open, setOpen] = React.useState(false);
   let newRep = replies?.replies;
   let myuser = user?.user;
   const [like, setLike] = useState();
-  const [dislike, setdisLike] = useState();
   const [likelength, setLikelength] = useState();
-  const [dislikelength, setdisLikelength] = useState();
   const myreplies = newRep?.filter((rep) => {
     return rep?.commentId?._id === comment?._id;
   });
-  const [replyarray, setReplyArray] = useState(() =>
-    replies?.length < 1 || myreplies === "undefined" ? [] : myreplies
-  );
+  const [replyarray, setReplyArray] = useState(myreplies);
+  useEffect(() => {
+    const myReplies = replies?.replies.filter(
+      (rep) => rep?.commentId?._id === comment?._id
+    );
+    setReplyArray(myReplies);
+  }, [replies, comment]);
+
   const [replyLength, setReplyLength] = useState(myreplies?.length);
-  let username = "text-[11px]   ml-2 text-blue-300 font-normal";
-  let globe = "text-[8px] ";
-  let posted = "text-neutral-400 font-mono text-[11px] md:text-[13px] ml-2";
+
   // creating reply api
   const [text, setText] = React.useState("");
   const [loading, setLoading] = React.useState(false);
@@ -66,15 +65,15 @@ const Comments = ({ comment, user, replies }) => {
       console.log(data);
       setText("");
       handleClose();
-      setTimeout(() => {
-        router.push(`/gigme/social/replies/${comment?._id}`);
-      }, 3000);
+      // setTimeout(() => {
+      //   router.push(`/gigme/social/replies/${comment?._id}`);
+      // }, 3000);
     } catch (error) {
       console.log(error);
     }
   };
   //
-  console.log(replyarray);
+  console.log(myreplies);
   return (
     <>
       <ReplyModal
@@ -85,56 +84,80 @@ const Comments = ({ comment, user, replies }) => {
         setText={setText}
       />
 
-      <div className="mt-1  shadow-full p-4 rounded-md h-fit  my-5  mx-2 flex flex-col">
-        <div className="flex items-center mt-2">
-          {comment?.postedBy?.picture && (
-            <AvatarComponent
-              usercomm={comment?.postedBy}
-              posts="w-[20px] h-[20px] rounded-full object-fit"
-            />
-          )}{" "}
-          <h6 className={username}>{handleRouting(comment, userId)}</h6>
-          <h5 className={posted}>{differenceInMinutes(comment, new Date())}</h5>
-        </div>
-        <div className="flex  flex-col ">
-          <h6
-            onClick={() => router.push(`/gigme/social/replies/${comment?._id}`)}
-            className="text-[13px] text-neutral-300 m-2 line-clamp-2 p-2 "
-          >
-            {comment?.text}
-          </h6>
+      <Box
+        key={comment?._id}
+        className="flex items-start space-x-4 p-5 border-b-gray-300"
+      >
+        {/* User Image */}
 
-          {/* likes and dislikes */}
-          <Box className="w-full flex  justify-center">
-            <div className="flex gap-6 items-center  ">
-              <LikeDisLikeComponent
-                apiroute={comment}
-                myuser={myuser}
-                mydep="comments"
-                api="Comment"
-              />
-              <div className="text-[11px] -mt-3">
-                <FaRegCommentAlt onClick={() => setOpen(true)} />
-              </div>
-            </div>
-          </Box>
-
-          {/* reply section */}
-          <div className="my-2">
-            <h4
-              className="text-[11px] text-blue-400 "
-              onClick={() =>
-                router.push(`/gigme/social/replies/${comment?._id}`)
-              }
-            >
-              {getReplys(replyarray, replyLength)}
-            </h4>{" "}
+        {comment?.postedBy?.picture ? (
+          <Image
+            width={18}
+            height={18}
+            src={comment?.postedBy?.picture}
+            alt={comment?.postedBy?.username}
+            className="w-[18px] h-[18px] rounded-full object-cover"
+          />
+        ) : (
+          <Avatar />
+        )}
+        <section className="flex-1 ">
+          {/* Username and CreatedAt */}
+          <div className="flex items-center space-x-4">
+            <p className="font-semibold text-neutral-200 title">
+              {comment?.postedBy?.username}
+            </p>
+            <span className="text-sm text-gray-300 gigtitle">
+              {moment(comment?.createdAt).calendar()}
+            </span>
           </div>
-        </div>
-        <Divider className="bg-neutral-400" />
-      </div>
+
+          {/* Comment Text */}
+          <p className="text-gray-400 mt-1 choice">{comment?.text}</p>
+
+          {/* Like and Reply Buttons */}
+
+          <div className="flex items-center gap-2 mt-2">
+            {" "}
+            <h6>
+              <span className="flex items-center text-[11px]    gap-1 mr-1 font-mono text-white">
+                {" "}
+                {getLikes(comment, likelength)}
+                {(!like && !comment?.likes?.includes(user?.user?._id)) ||
+                likelength < 1 ? (
+                  <FaRegHeart
+                    //  onClick={setPostLike} />
+                    className="text-gray-300"
+                    size="16px"
+                  />
+                ) : (
+                  <FaHeart
+                    // onClick={setPostUnLike}
+                    className="text-red-500"
+                  />
+                )}{" "}
+              </span>
+            </h6>
+            <h6 className="text-white gigtitle">
+              <BsReplyFill size="16px" onClick={() => setOpen(true)} />
+            </h6>
+          </div>
+          <h6
+            className="text-blue-400 choice mt-2"
+            onClick={() => router.push(`/gigme/social/replies/${comment?._id}`)}
+          >
+            {getReplys(replyarray, replyLength)}
+          </h6>
+        </section>
+      </Box>
     </>
   );
 };
+// proptypes for comments
 
+Comments.propTypes = {
+  comment: PropTypes.object,
+  user: PropTypes.object,
+  replies: PropTypes.object,
+};
 export default Comments;
