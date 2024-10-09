@@ -1,13 +1,7 @@
 "use client";
 import { global } from "@/actions";
 import { useGlobalContext } from "@/app/Context/store";
-import {
-  differenceInMinutes,
-  getComments,
-  getDisLikes,
-  getLikes,
-  handleRouting,
-} from "@/utils";
+import { getComments, getDisLikes, getLikes, handleRouting } from "@/utils";
 import { Avatar, Box, CircularProgress } from "@mui/material";
 import { TextInput } from "flowbite-react";
 import { Globe, Heart, LucideMessageCircleHeart } from "lucide-react";

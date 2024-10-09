@@ -1,4 +1,4 @@
-import { differenceInMinutes, handleRouting } from "@/utils";
+import { handleRouting } from "@/utils";
 import { useAuth } from "@clerk/nextjs";
 import { Avatar } from "@mui/material";
 import { Globe } from "lucide-react";

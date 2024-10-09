@@ -262,7 +262,7 @@ AllPosts.propTypes = {
   userposts: PropTypes.arrayOf(PropTypes.object).isRequired,
   user: PropTypes.object.isRequired,
   replies: PropTypes.object.isRequired,
-  comments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  comments: PropTypes.object.isRequired,
 };
 // const uniqueIds = [...new Set(otherdata.map((obj) => obj.postedBy?._id))];
 

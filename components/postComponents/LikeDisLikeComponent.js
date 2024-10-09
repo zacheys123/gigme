@@ -13,10 +13,7 @@ import React, {
   useCallback,
   useRef,
 } from "react";
-import { AiOutlineLike } from "react-icons/ai";
-import { AiFillLike } from "react-icons/ai";
-import { AiOutlineDislike } from "react-icons/ai";
-import { AiFillDislike } from "react-icons/ai";
+import { BsReplyFill } from "react-icons/bs";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa";
 import { ChatBubbleOutline } from "@mui/icons-material";
@@ -24,7 +21,14 @@ import useStore from "@/app/zustand/useStore";
 import { Box } from "@mui/material";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useAuth } from "@clerk/nextjs";
-const LikeDisLikeComponent = ({ apiroute, myuser, mydep, api, comments }) => {
+const LikeDisLikeComponent = ({
+  apiroute,
+  myuser,
+  mydep,
+  api,
+  comments,
+  setOpen,
+}) => {
   const [like, setLike] = useState(false);
   const { userId } = useAuth();
   const [likelength, setLikelength] = useState(
@@ -34,15 +38,14 @@ const LikeDisLikeComponent = ({ apiroute, myuser, mydep, api, comments }) => {
   const [commentsArray, setComments] = useState(comments || []);
 
   // user data
-  const { user } = useCurrentUser(userId);
-  // loading state triggered when creating a new comment
-  const [commentLoad, setComentLoad] = useState();
-  const [commlength, setCommLength] = useState(commentsArray.length);
-  console.log(comments);
+  // const { user } = useCurrentUser(userId);
+  // // loading state triggered when creating a new comment
+  // const [commentLoad, setComentLoad] = useState();
+  // const [commlength, setCommLength] = useState(commentsArray.length);
+  // console.log(comments);
   let deplike = `/api/${mydep}/like${api}/${apiroute?._id}`;
   let depunlike = `/api/${mydep}/unlike${api}/${apiroute?._id}`;
-  // let depdislike = `/api/${mydep}/dislike${api}/${apiroute?._id}`;
-  // let depundislike = `/api/${mydep}/undislike${api}/${apiroute?._id}`;
+
   const setPostLike = () => {
     handleLike(deplike, myuser?._id, setLikelength, setLike);
   };
@@ -82,32 +85,53 @@ const LikeDisLikeComponent = ({ apiroute, myuser, mydep, api, comments }) => {
   return (
     <section className="flex flex-col gap-2 w-full">
       <Box className="flex  gap-4 mb-1 ml-6">
-        <div className="flex  items-center ">
+        <div className="flex  items-center  ">
           {" "}
-          <h6 className="text-[11px] mr-1 font-mono text-white">
+          <h6
+            className={
+              mydep !== "reply"
+                ? "text-[11px] mr-1 font-mono text-white"
+                : "text-[11px] mr-1 font-mono text-gray-700"
+            }
+          >
             {" "}
             {getLikes(apiroute, likelength)}
           </h6>
           {(!like && !apiroute?.likes.includes(myuser?._id)) ||
           likelength < 1 ? (
-            <FaRegHeart onClick={setPostLike} />
+            <FaRegHeart
+              onClick={setPostLike}
+              className={
+                mydep !== "comments" && mydep !== "posts"
+                  ? "text-gray-800"
+                  : "text-gray-300"
+              }
+            />
           ) : (
             <FaHeart onClick={setPostUnLike} className="text-red-500" />
           )}
         </div>
-        <div className="flex  items-center  gap-1">
-          <h6 className="text-neutral-300 title my-1">{comments?.length}</h6>
-          <ChatBubbleOutline
-            size="18px"
-            sx={{ fontSize: "18px" }}
-            onClick={() => {
-              alert(apiroute?._id);
-              setCurrentpost(apiroute);
+        {mydep !== "reply" && mydep !== "comments" ? (
+          <div className="flex  items-center  gap-1">
+            <h6 className="text-neutral-300 title my-1">{comments?.length}</h6>
+            <ChatBubbleOutline
+              size="18px"
+              sx={{ fontSize: "18px" }}
+              onClick={() => {
+                alert(apiroute?._id);
+                setCurrentpost(apiroute);
 
-              setShowComments(true);
-            }}
-          />
-        </div>{" "}
+                setShowComments(true);
+              }}
+            />
+          </div>
+        ) : (
+          <div className="flex  items-center  gap-1">
+            <h6 className="text-white gigtitle">
+              <BsReplyFill size="16px" onClick={() => setOpen(true)} />
+            </h6>
+          </div>
+        )}
       </Box>
     </section>
   );

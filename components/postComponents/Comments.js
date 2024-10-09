@@ -3,22 +3,17 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import HeaderDetails from "./HeaderDetails";
 import { Box, Divider } from "@mui/material";
-import {
-  differenceInMinutes,
-  getDisLikes,
-  getLikes,
-  getReplys,
-  handleRouting,
-} from "@/utils";
+import { getDisLikes, getLikes, getReplys, handleRouting } from "@/utils";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa";
 import { useAuth } from "@clerk/nextjs";
 import ReplyModal from "./ReplyModal";
 import { useRouter } from "next/navigation";
 import { Avatar } from "../ui/avatar";
-import { BsReplyFill } from "react-icons/bs";
+
 import { PropTypes } from "prop-types";
 import moment from "moment";
+import LikeDisLikeComponent from "./LikeDisLikeComponent";
 const Comments = ({ comment, user, replies }) => {
   const { userId } = useAuth();
   const [open, setOpen] = React.useState(false);
@@ -29,6 +24,15 @@ const Comments = ({ comment, user, replies }) => {
   const myreplies = newRep?.filter((rep) => {
     return rep?.commentId?._id === comment?._id;
   });
+
+  function formatReplies(count) {
+    if (count < 1000) return count;
+    if (count >= 1000 && count < 1000000) {
+      return (count / 1000).toFixed(1).replace(/\.0$/, "") + "K"; // Formats as "1K", "2.5K", etc.
+    }
+    return (count / 1000000).toFixed(1).replace(/\.0$/, "") + "M"; // For million comments
+  }
+
   const [replyarray, setReplyArray] = useState(myreplies);
   useEffect(() => {
     const myReplies = replies?.replies.filter(
@@ -74,6 +78,15 @@ const Comments = ({ comment, user, replies }) => {
   };
   //
   console.log(myreplies);
+  function count() {
+    if (formatReplies(replyarray.length || replyLength) === 0) {
+      return "no replies";
+    }
+    if (formatReplies(replyarray.length || replyLength) === 1) {
+      return formatReplies(replyarray.length || replyLength) + " reply";
+    }
+    return formatReplies(replyarray.length || replyLength) + " replies";
+  }
   return (
     <>
       <ReplyModal
@@ -118,35 +131,19 @@ const Comments = ({ comment, user, replies }) => {
           {/* Like and Reply Buttons */}
 
           <div className="flex items-center gap-2 mt-2">
-            {" "}
-            <h6>
-              <span className="flex items-center text-[11px]    gap-1 mr-1 font-mono text-white">
-                {" "}
-                {getLikes(comment, likelength)}
-                {(!like && !comment?.likes?.includes(user?.user?._id)) ||
-                likelength < 1 ? (
-                  <FaRegHeart
-                    //  onClick={setPostLike} />
-                    className="text-gray-300"
-                    size="16px"
-                  />
-                ) : (
-                  <FaHeart
-                    // onClick={setPostUnLike}
-                    className="text-red-500"
-                  />
-                )}{" "}
-              </span>
-            </h6>
-            <h6 className="text-white gigtitle">
-              <BsReplyFill size="16px" onClick={() => setOpen(true)} />
-            </h6>
+            <LikeDisLikeComponent
+              apiroute={comment}
+              myuser={myuser}
+              mydep="comments"
+              api="Comment"
+              setOpen={setOpen}
+            />
           </div>
           <h6
             className="text-blue-400 choice mt-2"
             onClick={() => router.push(`/gigme/social/replies/${comment?._id}`)}
           >
-            {getReplys(replyarray, replyLength)}
+            {count()}
           </h6>
         </section>
       </Box>

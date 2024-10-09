@@ -161,6 +161,20 @@ export const handleRouting = (post, user) => {
     </Link>
   );
 };
+export const handleRouting2 = (post, user) => {
+  if (post?.postedBy?.clerkId === user) {
+    return (
+      <Link href={`/v1/profile/${user}/user`} className="text-[14px] font-mono">
+        @{post?.postedBy?.username}
+      </Link>
+    );
+  }
+  return (
+    <Link href={`/friends/${post?.postedBy?.username}`} className="link">
+      @{post?.postedBy?.username}
+    </Link>
+  );
+};
 
 function gigme(query, data, sorted) {
   if (data?.location?.toLowerCase().includes(query.toLowerCase())) {

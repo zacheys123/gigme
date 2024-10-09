@@ -1,6 +1,7 @@
 export const handleLike = async (dep, id, setLikeLength, setLike) => {
   setLike(true);
   try {
+    setLikeLength((prev) => prev + 1);
     const res = await fetch(`${dep}`, {
       method: "PUT",
       headers: {
@@ -11,7 +12,6 @@ export const handleLike = async (dep, id, setLikeLength, setLike) => {
       }),
     });
     const data = await res.json();
-    setLikeLength((prev) => prev + 1);
 
     console.log(data);
   } catch (error) {
@@ -22,6 +22,7 @@ export const handleLike = async (dep, id, setLikeLength, setLike) => {
 export const handleUnlike = async (dep, id, setLikeLength, setLike) => {
   setLike(false);
   try {
+    setLikeLength((prev) => prev - 1);
     const res = await fetch(`${dep}`, {
       method: "PUT",
       cache: "no-cache",
@@ -33,7 +34,6 @@ export const handleUnlike = async (dep, id, setLikeLength, setLike) => {
       }),
     });
     const data = await res.json();
-    setLikeLength((prev) => prev - 1);
 
     console.log(data);
   } catch (error) {

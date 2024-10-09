@@ -27,13 +27,13 @@ export default function ReplyModal({
         }}
       >
         <DialogContent>
-          <Input
+          <input
             autoFocus
             margin="dense"
             placeholder="Reply to this comment..."
             type="text"
             variant="standard"
-            className="text-[12px] w-full"
+            className="text-[12px] w-full bg-gray-600 focus-within:ring-0 outline-none p-3 rounded-md placeholder-red-300 text-red-200 "
             value={text}
             onChange={(ev) => setText(ev.target.value)}
           />

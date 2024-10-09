@@ -35,6 +35,7 @@ async function getReplies() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "Cache-Control": "no-store", //
       },
     });
     const replies = await res.json();
@@ -48,7 +49,7 @@ const ReplyPage = async ({ params }) => {
   const comment = await getComments(params);
   const replies = await getReplies();
   const user = await getUser();
-  console.log(replies);
+  console.log("Replies from API:", replies);
 
   return (
     <div className="h-fit w-screen bg-neutral-300 overflow-hidden">

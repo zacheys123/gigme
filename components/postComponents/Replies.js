@@ -8,19 +8,15 @@ import { AiOutlineDislike } from "react-icons/ai";
 import { AiFillDislike } from "react-icons/ai";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaRegCommentAlt } from "react-icons/fa";
-import {
-  differenceInMinutes,
-  getDisLikes,
-  getLikes,
-  handleRouting,
-} from "@/utils";
+import { getDisLikes, getLikes, handleRouting, handleRouting2 } from "@/utils";
 import { useAuth } from "@clerk/nextjs";
 import LikeDisLikeComponent from "./LikeDisLikeComponent";
+import moment from "moment";
 const Replies = ({ replies, username, posted, myuser }) => {
   const { userId } = useAuth();
 
   return (
-    <Box className="bg-inherit shadow-xl h-[120px] rounded-sm w-full p-2  mt-2 ml-5 ">
+    <Box className="bg-gray-300 shadow-xl h-[120px] rounded-sm w-full p-2  mt-2 ml-5 ">
       <div className="flex items-center ">
         {replies?.postedBy?.picture && (
           <Image
@@ -31,8 +27,8 @@ const Replies = ({ replies, username, posted, myuser }) => {
             className="w-[25px] h-[25px]  rounded-full"
           />
         )}{" "}
-        <h6 className={username}>{handleRouting(replies, userId)}</h6>
-        <h5 className={posted}>{differenceInMinutes(replies, new Date())}</h5>
+        <h6 className={username}>{handleRouting2(replies, userId)}</h6>
+        <h5 className={posted}>{moment(replies?.createdAt).fromNow()}</h5>
       </div>
       <div className="flex  flex-col ">
         <h6 className="text  text-neutral-500 m-2 ">{replies?.text}</h6>
@@ -40,12 +36,13 @@ const Replies = ({ replies, username, posted, myuser }) => {
         {/* likes and dislikes */}
         <Box className="w-full flex  justify-center">
           <div className="flex gap-6 items-center  ">
-            {/* <LikeDisLikeComponent
+            <LikeDisLikeComponent
               apiroute={replies}
               myuser={myuser}
               mydep="reply"
               api="Reply"
-            /> */}
+              comments={replies?.likes}
+            />
           </div>
         </Box>
       </div>
