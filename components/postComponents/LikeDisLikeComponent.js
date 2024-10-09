@@ -88,19 +88,8 @@ const LikeDisLikeComponent = ({
   //   });
   // };
 
-  // get a random comment after every 30secs
-  // const randComment = useCallback(() => {
-  //   let arr = commentsArray;
-  //   return arr[Math.floor(Math.random() * arr?.length)];
-  // }, [commentsArray]);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     randComment();
-  //   }, 500);
-  // });
-
   return (
-    <section className="flex flex-col gap-2 w-full">
+    <section className="flex flex-col gap-2 w-full rounded-md">
       <Box className="flex  gap-4 mb-1 ml-6">
         {comments !== "replycomment" && (
           <div className="flex  items-center  ">
@@ -109,7 +98,7 @@ const LikeDisLikeComponent = ({
               className={
                 mydep !== "reply"
                   ? "text-[11px] mr-1 font-mono text-white"
-                  : "text-[11px] mr-1 font-mono text-gray-700"
+                  : "text-[11px] mr-1 font-mono text-gray-300"
               }
             >
               {" "}
@@ -120,8 +109,8 @@ const LikeDisLikeComponent = ({
                 onClick={setPostLike}
                 className={
                   mydep !== "comments" && mydep !== "posts"
-                    ? "text-gray-800"
-                    : "text-gray-500"
+                    ? "text-gray-400"
+                    : "text-gray-300"
                 }
               />
             ) : (

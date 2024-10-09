@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 
 import moment from "moment";
@@ -44,7 +44,16 @@ const Video = ({ post, myuser, myComments }) => {
       }
     };
   }, []);
-
+  const random = useCallback(() => {
+    let arr = myComments;
+    return arr[Math.floor(Math.random() * arr?.length)];
+  }, [myComments]);
+  useEffect(() => {
+    setTimeout(() => {
+      random();
+    }, 3000);
+  });
+  console.log(random());
   return (
     <section
       className={
@@ -96,6 +105,44 @@ const Video = ({ post, myuser, myComments }) => {
               comments={myComments}
             />
           </div>
+          {myComments && myComments?.length > 0 ? (
+            <div className="h-[42px] bg-zinc-900 w-full max-w-2xl mx-auto py-2 -mt-4">
+              <div className="flex items-center px-2 gap-2">
+                <>
+                  {random()?.postedBy?.picture ? (
+                    <Image
+                      className="w-[20px] h-[20px] object-cover rounded-full"
+                      src={random()?.postedBy?.picture}
+                      alt="Profile picture"
+                      width={20}
+                      height={20}
+                    />
+                  ) : (
+                    <Avatar />
+                  )}
+                </>
+                <div className="flex flex-col ">
+                  <span className="gigtitle">
+                    {" "}
+                    {myComments?.length} comments
+                  </span>
+
+                  <motion.div
+                    initial={{ opacity: 0, x: ["200px"] }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.1 }}
+                    className="text-neutral-300 text-[11px] lineclam-2"
+                  >
+                    {random()?.text}
+                  </motion.div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 text-neutral-300 text-[11px]">
+              No one has liked this yet.
+            </div>
+          )}
           {/* display the posted at */}
           <div className="flex items-center gap-2 text-neutral-300 text-[11px]">
             {moment(post?.createdAt).fromNow()}

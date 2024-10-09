@@ -144,9 +144,9 @@ const ReplyComponent = ({ comment, user }) => {
       " replies"
     );
   }
-  let username = "  ml-2 text-slate-400 font-normal";
+  let username = "  ml-2 text-slate-200 font-normal";
   let globe = "text-[8px] ";
-  let posted = "text-neutral-400 font-mono text-[12px] md:text-[15px] ml-2";
+  let posted = "text-gray-300 font-mono text-[12px] md:text-[15px] ml-2";
   console.log(mycomm);
   return (
     <>
@@ -157,8 +157,8 @@ const ReplyComponent = ({ comment, user }) => {
         text={text}
         setText={setText}
       />
-      <div className="flex flex-col">
-        <Box className="bg-neutral-200 shadow-lg rounded-md my-2 h-[140px] mx-auto w-[95%]  p-3 top-0 ">
+      <div className="flex flex-col bg-neutral-900 w-full max-w-2xl ">
+        <Box className="bg-neutral-300 shadow-lg rounded-md my-2 h-[140px] mx-auto w-[95%]  p-3 top-0 ">
           <div className="flex justify-between">
             <FaArrowLeft
               onClick={() => router.back()}
@@ -181,8 +181,12 @@ const ReplyComponent = ({ comment, user }) => {
                 className="w-[25px] h-[25px]  rounded-full"
               />
             )}{" "}
-            <h6 className={username}>{handleRouting2(mycomm, userId)}</h6>
-            <h5 className={posted}>{moment(mycomm.createdAt).fromNow()}</h5>
+            <h6 className={"texxt-[13px] text-slate-800 ml-2"}>
+              {handleRouting2(mycomm, userId)}
+            </h6>
+            <h5 className={"text-[11px] text-gray-600 ml-2"}>
+              {moment(mycomm.createdAt).fromNow()}
+            </h5>
           </div>
           <div className="flex  flex-col ">
             <h6 className="comtext text-[13px] text-neutral-600 m-2">
@@ -209,7 +213,7 @@ const ReplyComponent = ({ comment, user }) => {
         {replyarray?.length > 0 ? (
           <section
             className="overflow-scroll element-with-scroll flex
-       justify-items-end h-screen bg-neutral-300 flex-col container "
+       justify-items-end h-screen bg-neutral-800 flex-col container "
           >
             {replyarray
               ?.map((rep) => {

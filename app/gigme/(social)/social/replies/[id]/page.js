@@ -52,7 +52,7 @@ const ReplyPage = async ({ params }) => {
   console.log("Replies from API:", replies);
 
   return (
-    <div className="h-fit w-screen bg-neutral-300 overflow-hidden">
+    <div className="h-fit w-screen bg-neutral-900 overflow-hidden">
       <ClientOnly>
         <ReplyComponent comment={comment} replies={replies} user={user} />
       </ClientOnly>

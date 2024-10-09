@@ -1,5 +1,11 @@
 "use client";
-import React, { useEffect, useState, useOptimistic, useRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  useOptimistic,
+  useRef,
+  useCallback,
+} from "react";
 import SinglePost from "./SinglePost";
 import { PropTypes } from "prop-types";
 import {
@@ -129,7 +135,8 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
   // const setPostUnLike = () => {
   //   handleUndislike(depunlike, user?.user?._id, setLikelength, setLike);
   // };
-  console.log(inptref?.current?.value);
+  // get a random comment after every 30secs
+
   return (
     <>
       {!showComments ? (
@@ -202,15 +209,15 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
           </motion.footer>
         </div>
       ) : (
-        <div className="h-[100vh] w-full p-3  ">
-          <div className="flex justify-between items-center  h-[10vh] shadow-md shadow-neutral-600 ">
+        <div className="h-[100vh] w-full p-2  ">
+          <div className="flex justify-between items-center  h-[10vh] shadow-md  px-4 shadow-neutral-600 ">
             {" "}
             <ArrowBack
-              sizxe="16px"
+              sizxe="14px"
               sx={{ color: "white" }}
               onClick={() => setShowComments(false)}
             />
-            <h6 className="text-gray-300" size="16px">
+            <h6 className="text-gray-300 title" size="16px">
               {" "}
               {formatCommentsCount(commentsArray.length || commlength)} comments
             </h6>

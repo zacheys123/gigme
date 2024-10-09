@@ -12,11 +12,17 @@ import { getDisLikes, getLikes, handleRouting, handleRouting2 } from "@/utils";
 import { useAuth } from "@clerk/nextjs";
 import LikeDisLikeComponent from "./LikeDisLikeComponent";
 import moment from "moment";
+import { motion } from "framer-motion";
 const Replies = ({ replies, username, posted, myuser }) => {
   const { userId } = useAuth();
 
   return (
-    <Box className="bg-gray-300 shadow-xl h-[120px] rounded-sm w-full p-2  mt-2 ml-5 ">
+    <motion.div
+      initial={{ opacity: 0, y: ["25px"] }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 0.1 }}
+      className="bg-gray-600 shadow-xl h-[120px] rounded-sm w-full p-2  mt-2 ml-5 "
+    >
       <div className="flex items-center ">
         {replies?.postedBy?.picture && (
           <Image
@@ -31,7 +37,7 @@ const Replies = ({ replies, username, posted, myuser }) => {
         <h5 className={posted}>{moment(replies?.createdAt).fromNow()}</h5>
       </div>
       <div className="flex  flex-col ">
-        <h6 className="text  text-neutral-500 m-2 ">{replies?.text}</h6>
+        <h6 className="text  text-neutral-200 m-2 ">{replies?.text}</h6>
 
         {/* likes and dislikes */}
         <Box className="w-full flex  justify-center">
@@ -46,7 +52,7 @@ const Replies = ({ replies, username, posted, myuser }) => {
           </div>
         </Box>
       </div>
-    </Box>
+    </motion.div>
   );
 };
 
