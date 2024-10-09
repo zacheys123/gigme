@@ -21,7 +21,7 @@ const Video = ({ post, myuser, myComments }) => {
   const playerRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoContainerRef = useRef(null);
-
+  const { setShowComments, setCurrentpost } = useStore();
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -106,7 +106,13 @@ const Video = ({ post, myuser, myComments }) => {
             />
           </div>
           {myComments && myComments?.length > 0 ? (
-            <div className="h-[42px] bg-zinc-900 w-full max-w-2xl mx-auto py-2 -mt-4">
+            <div
+              className="h-[42px] bg-zinc-900 w-full max-w-2xl mx-auto py-2 -mt-4"
+              onClick={() => {
+                setCurrentpost(post);
+                setShowComments(true);
+              }}
+            >
               <div className="flex items-center px-2 gap-2">
                 <>
                   {random()?.postedBy?.picture ? (
@@ -122,7 +128,7 @@ const Video = ({ post, myuser, myComments }) => {
                   )}
                 </>
                 <div className="flex flex-col ">
-                  <span className="gigtitle">
+                  <span className="gigtitle text-gray-300">
                     {" "}
                     {myComments?.length} comments
                   </span>
@@ -131,7 +137,7 @@ const Video = ({ post, myuser, myComments }) => {
                     initial={{ opacity: 0, x: ["200px"] }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: 0.1 }}
-                    className="text-neutral-300 text-[11px] lineclam-2"
+                    className="text-neutral-400 text-[11px] lineclam-2"
                   >
                     {random()?.text}
                   </motion.div>

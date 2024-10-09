@@ -110,10 +110,15 @@ const ReplyComponent = ({ comment, user }) => {
       });
       const data = await res.json();
 
-      if (Array.isArray(data?.results) && data.results.length > 0) {
-        setReplyArray((replyarr) => [...replyarr, data.results[0]]);
-        updateReplyLength();
-      }
+      setReplyArray((prev) => {
+        return prev.map((comment) => {
+          if (comment._id === newReply._id) {
+            return data?.results[0];
+          }
+          return comment;
+        });
+      });
+      updateReplyLength();
       console.log(data);
       setText("");
       handleClose();

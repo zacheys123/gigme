@@ -125,7 +125,6 @@ const LikeDisLikeComponent = ({
               size="18px"
               sx={{ fontSize: "18px" }}
               onClick={() => {
-                alert(apiroute?._id);
                 setCurrentpost(apiroute);
 
                 setShowComments(true);
