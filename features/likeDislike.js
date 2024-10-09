@@ -1,4 +1,4 @@
-export const handleLike = async (dep, id, setLikeLength, setLike) => {
+export const handleLike = async (dep, id, setLikeLength, setLike, socket) => {
   setLike(true);
   try {
     setLikeLength((prev) => prev + 1);
@@ -12,14 +12,21 @@ export const handleLike = async (dep, id, setLikeLength, setLike) => {
       }),
     });
     const data = await res.json();
+    const newLikeCount = data?.mylikes?.likes?.length;
+    setLikeLength(newLikeCount);
+    socket.emit("like", {
+      postId: dep.split("/").pop(),
+      likesCount: newLikeCount,
+    });
 
-    console.log(data);
+    console.log(dep.split("/").pop());
   } catch (error) {
     setLike((prev) => !prev);
+    console.error("Error liking the post:", error);
   }
 };
 
-export const handleUnlike = async (dep, id, setLikeLength, setLike) => {
+export const handleUnlike = async (dep, id, setLikeLength, setLike, socket) => {
   setLike(false);
   try {
     setLikeLength((prev) => prev - 1);
@@ -34,8 +41,14 @@ export const handleUnlike = async (dep, id, setLikeLength, setLike) => {
       }),
     });
     const data = await res.json();
+    const newLikeCount = data?.mylikes?.likes?.length;
+    setLikeLength(newLikeCount);
+    socket.emit("unlike", {
+      postId: dep.split("/").pop(),
+      likesCount: newLikeCount,
+    });
 
-    console.log(data);
+    console.log(dep.split("/").pop());
   } catch (error) {
     setLike((prev) => !prev);
   }

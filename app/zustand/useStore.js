@@ -51,6 +51,9 @@ const useStore = create((set) => ({
   comm: "",
   setComm: (comm) => set({ comm }),
 
+  open: false,
+  setOpen: (open) => set({ open }),
+
   // user profile
   showComments: false,
   setShowComments: (showComments) => set({ showComments }),

@@ -14,7 +14,6 @@ const postSchema = new mongoose.Schema(
     },
     media: { type: String },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    dislikes: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );

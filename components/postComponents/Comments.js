@@ -14,9 +14,10 @@ import { Avatar } from "../ui/avatar";
 import { PropTypes } from "prop-types";
 import moment from "moment";
 import LikeDisLikeComponent from "./LikeDisLikeComponent";
+import useStore from "@/app/zustand/useStore";
 const Comments = ({ comment, user, replies }) => {
   const { userId } = useAuth();
-  const [open, setOpen] = React.useState(false);
+  const { open, setOpen } = useStore();
   let newRep = replies?.replies;
   let myuser = user?.user;
   const [like, setLike] = useState();
@@ -99,7 +100,7 @@ const Comments = ({ comment, user, replies }) => {
 
       <Box
         key={comment?._id}
-        className="flex items-start space-x-4 p-5 border-b-gray-300"
+        className="flex items-start space-x-4 p-5 border-gray-300"
       >
         {/* User Image */}
 
@@ -147,6 +148,7 @@ const Comments = ({ comment, user, replies }) => {
           </h6>
         </section>
       </Box>
+      <div className="border border-neutral-700 w-[80%] mx-auto last:border-0" />
     </>
   );
 };

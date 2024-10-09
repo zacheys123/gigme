@@ -21,8 +21,11 @@ import Replies from "./Replies";
 import { useRouter } from "next/navigation";
 import LikeDisLikeComponent from "./LikeDisLikeComponent";
 import moment from "moment";
+import useStore from "@/app/zustand/useStore";
+import ReplyModal from "./ReplyModal";
 const ReplyComponent = ({ comment, user }) => {
   const { userId } = useAuth();
+  const { open, setOpen } = useStore();
   const [replies, setReplies] = useState();
   async function getReplies() {
     try {
@@ -30,6 +33,8 @@ const ReplyComponent = ({ comment, user }) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+
+          sort: "desc",
         },
       });
       const replies = await res.json();
@@ -59,7 +64,7 @@ const ReplyComponent = ({ comment, user }) => {
     return rep?.commentId?._id === mycomm?._id;
   });
   const [replyarray, setReplyArray] = useState(myreplies);
-  const [replyLength, setReplyLength] = useState(myreplies?.length);
+  const [replyLength, setReplyLength] = useState(replyarray?.length);
   useEffect(() => {
     // Filter out replies to the current comment
 
@@ -68,82 +73,167 @@ const ReplyComponent = ({ comment, user }) => {
     );
 
     setReplyArray(myReplies);
+    setReplyLength(myReplies?.length);
   }, [replies, mycomm]);
 
+  const [text, setText] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  let dataInfo = { text, postedBy: myuser._id };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  function updateReplyLength() {
+    return setReplyLength((prev) => prev + 1);
+  }
+  console.log(mycomm?._id);
+
+  // create submi reply route
+  const onSubmit = async (ev) => {
+    ev.preventDefault();
+
+    try {
+      setLoading(true);
+      const newReply = {
+        text,
+        postedBy: myuser,
+        createdAt: new Date().toISOString(),
+        _id: Math.random().toString(36).substring(7), // Temporary ID until real one is returned
+      };
+      updateReplyLength();
+      setReplyArray((replyarray) => [...replyarray, newReply]);
+      setText("");
+      const res = await fetch(`/api/reply/createReply/${mycomm?._id}`, {
+        method: "POST",
+        "Content-Type": "application/json",
+        body: JSON.stringify(dataInfo),
+      });
+      const data = await res.json();
+
+      if (Array.isArray(data?.results) && data.results.length > 0) {
+        setReplyArray((replyarr) => [...replyarr, data.results[0]]);
+        updateReplyLength();
+      }
+      console.log(data);
+      setText("");
+      handleClose();
+      // setTimeout(() => {
+      //   router.push(`/gigme/social/replies/${comment?._id}`);
+      // }, 3000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //
   function count() {
-    if (formatReplies(replyarray?.length || replyLength) === 0) {
-      return "no replies";
+    if (
+      formatReplies(replyarray?.length ? replyarray?.length : replyLength) === 0
+    ) {
+      return "no reply";
     }
-    if (formatReplies(replyarray?.length || replyLength) === 1) {
-      return formatReplies(replyarray?.length || replyLength) + " reply";
+    if (
+      formatReplies(replyarray?.length ? replyarray?.length : replyLength) === 1
+    ) {
+      return (
+        formatReplies(replyarray?.length ? replyarray?.length : replyLength) +
+        " reply"
+      );
     }
-    return formatReplies(replyarray?.length || replyLength) + " replies";
+    return (
+      formatReplies(replyarray?.length ? replyarray?.length : replyLength) +
+      " replies"
+    );
   }
   let username = "  ml-2 text-slate-400 font-normal";
   let globe = "text-[8px] ";
   let posted = "text-neutral-400 font-mono text-[12px] md:text-[15px] ml-2";
-
+  console.log(mycomm);
   return (
-    <div className="flex flex-col">
-      <Box className="bg-neutral-200 shadow-lg rounded-md my-2 h-[120px] mx-auto w-[95%]  p-3 top-0 ">
-        <div className="flex justify-between">
-          <FaArrowLeft
-            onClick={() => router.back()}
-            sx={{ backgroundColor: "blue" }}
-            className="text-red-500 md:cursor-pointer"
-          />
-          <h6 className="font-mono text-pretty tracking-tight text-[13px]">
-            {" "}
-            {count()}
-          </h6>
-        </div>
-        <Divider />{" "}
-        <div className="flex items-center mt-2">
-          {mycomm?.postedBy?.picture && (
-            <Image
-              alt={mycomm && mycomm?.postedBy?.firstname.split("")[0]}
-              src={mycomm?.postedBy?.picture}
-              width={20}
-              height={20}
-              className="w-[25px] h-[25px]  rounded-full"
+    <>
+      <ReplyModal
+        open={open}
+        handleClose={handleClose}
+        onSubmit={onSubmit}
+        text={text}
+        setText={setText}
+      />
+      <div className="flex flex-col">
+        <Box className="bg-neutral-200 shadow-lg rounded-md my-2 h-[140px] mx-auto w-[95%]  p-3 top-0 ">
+          <div className="flex justify-between">
+            <FaArrowLeft
+              onClick={() => router.back()}
+              sx={{ backgroundColor: "blue" }}
+              className="text-red-500 md:cursor-pointer"
             />
-          )}{" "}
-          <h6 className={username}>{handleRouting2(mycomm, userId)}</h6>
-          <h5 className={posted}>{moment(mycomm.createdAt).fromNow()}</h5>
-        </div>
-        <div className="flex  flex-col ">
-          <h6 className="comtext text-[13px] text-neutral-600 m-2">
-            {mycomm?.text}
-          </h6>
+            <h6 className="font-mono text-pretty tracking-tight text-[13px]">
+              {" "}
+              {count()}
+            </h6>
+          </div>
+          <Divider />{" "}
+          <div className="flex items-center mt-2">
+            {mycomm?.postedBy?.picture && (
+              <Image
+                alt={mycomm && mycomm?.postedBy?.firstname.split("")[0]}
+                src={mycomm?.postedBy?.picture}
+                width={20}
+                height={20}
+                className="w-[25px] h-[25px]  rounded-full"
+              />
+            )}{" "}
+            <h6 className={username}>{handleRouting2(mycomm, userId)}</h6>
+            <h5 className={posted}>{moment(mycomm.createdAt).fromNow()}</h5>
+          </div>
+          <div className="flex  flex-col ">
+            <h6 className="comtext text-[13px] text-neutral-600 m-2">
+              {mycomm?.text}
+            </h6>
 
-          {/* likes and dislikes */}
-          <Box className="w-full flex  justify-center"></Box>
-        </div>
-      </Box>{" "}
-      <Divider />
-      {/* <section className="overflow-hidden flex justify-center items-center h-[calc(100vh-270px)] bg-neutral-300 flex-col container ">
+            {/* likes and dislikes */}
+            <LikeDisLikeComponent
+              myuser={myuser}
+              mydep="comments"
+              api="Comment"
+              setOpen={setOpen}
+              comments="replycomment"
+              mydep2={mycomm}
+            />
+            <Box className="w-full flex  justify-center"></Box>
+          </div>
+        </Box>{" "}
+        <Divider />
+        {/* <section className="overflow-hidden flex justify-center items-center h-[calc(100vh-270px)] bg-neutral-300 flex-col container ">
           no replies available 😪🧐
         </section>
       ) : ( */}
-      <section
-        className="overflow-scroll element-with-scroll flex
+        {replyarray?.length > 0 ? (
+          <section
+            className="overflow-scroll element-with-scroll flex
        justify-items-end h-screen bg-neutral-300 flex-col container "
-      >
-        {replyarray
-          ?.map((rep) => {
-            return (
-              <Replies
-                key={rep?._id}
-                replies={rep}
-                username={username}
-                posted={posted}
-                myuser={myuser}
-              />
-            );
-          })
-          .reverse()}
-      </section>
-    </div>
+          >
+            {replyarray
+              ?.map((rep) => {
+                return (
+                  <Replies
+                    key={rep?._id}
+                    replies={rep}
+                    username={username}
+                    posted={posted}
+                    myuser={myuser}
+                  />
+                );
+              })
+              .reverse()}
+          </section>
+        ) : (
+          <div className="flex h-screen overflow-hidden justify-center items-center">
+            <h6 className="text-center text-neutral-400 text-lg -mt-[25px]">
+              No replies available
+            </h6>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

@@ -203,7 +203,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
         </div>
       ) : (
         <div className="h-[100vh] w-full p-3  ">
-          <div className="flex justify-between items-center  h-[10vh] ">
+          <div className="flex justify-between items-center  h-[10vh] shadow-md shadow-neutral-600 ">
             {" "}
             <ArrowBack
               sizxe="16px"

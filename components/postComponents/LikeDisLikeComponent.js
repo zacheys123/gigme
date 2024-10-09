@@ -21,6 +21,7 @@ import useStore from "@/app/zustand/useStore";
 import { Box } from "@mui/material";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useAuth } from "@clerk/nextjs";
+import { useSocket } from "@/hooks/useSocket";
 const LikeDisLikeComponent = ({
   apiroute,
   myuser,
@@ -31,11 +32,15 @@ const LikeDisLikeComponent = ({
 }) => {
   const [like, setLike] = useState(false);
   const { userId } = useAuth();
-  const [likelength, setLikelength] = useState(
-    apiroute?.likes.length === 0 ? "" : apiroute.likes.length
-  );
+  const [likelength, setLikelength] = useState(apiroute?.likes?.length);
+
+  useEffect(() => {
+    // Filter out replies to the current comment
+
+    setLikelength(apiroute?.likes?.length);
+  }, [apiroute]);
+  const { socket } = useSocket();
   const { setShowComments, setCurrentpost } = useStore();
-  const [commentsArray, setComments] = useState(comments || []);
 
   // user data
   // const { user } = useCurrentUser(userId);
@@ -45,21 +50,33 @@ const LikeDisLikeComponent = ({
   // console.log(comments);
   let deplike = `/api/${mydep}/like${api}/${apiroute?._id}`;
   let depunlike = `/api/${mydep}/unlike${api}/${apiroute?._id}`;
-
   const setPostLike = () => {
-    handleLike(deplike, myuser?._id, setLikelength, setLike);
+    handleLike(deplike, myuser?._id, setLikelength, setLike, socket);
   };
   const setPostUnLike = () => {
-    handleUnlike(depunlike, myuser?._id, setLikelength, setLike);
+    handleUnlike(depunlike, myuser?._id, setLikelength, setLike, socket);
   };
+  useEffect(() => {
+    // Listen for 'update_like' event from the server
+    socket.on("update_like", (updatedLikeData) => {
+      console.log(updatedLikeData);
+      if (updatedLikeData.postId === apiroute?._id) {
+        // Update the like length when receiving the real-time update
+        setLikelength(updatedLikeData.likesCount);
+      }
+    });
+
+    return () => {
+      socket.off("update_like"); // Cleanup the listener when the component unmounts
+    };
+  }, [apiroute?._id, socket]);
+
   // const setPostdisLike = () => {
   //   handledisLike(depdislike, myuser?._id, setdisLikelength, setdisLike);
   // };
   // const setPostUndisLike = () => {
   //   handleUndislike(depundislike, myuser?._id, setdisLikelength, setdisLike);
   // };
-
-  const [commentInputs, setCommentInputs] = useState({});
 
   // Handle change in the input field for a specific post
   // const handleCommentChange = (e, postId) => {
@@ -72,45 +89,46 @@ const LikeDisLikeComponent = ({
   // };
 
   // get a random comment after every 30secs
-  const randComment = useCallback(() => {
-    let arr = commentsArray;
-    return arr[Math.floor(Math.random() * arr?.length)];
-  }, [commentsArray]);
-  useEffect(() => {
-    setTimeout(() => {
-      randComment();
-    }, 500);
-  });
-  console.log(comments);
+  // const randComment = useCallback(() => {
+  //   let arr = commentsArray;
+  //   return arr[Math.floor(Math.random() * arr?.length)];
+  // }, [commentsArray]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     randComment();
+  //   }, 500);
+  // });
+
   return (
     <section className="flex flex-col gap-2 w-full">
       <Box className="flex  gap-4 mb-1 ml-6">
-        <div className="flex  items-center  ">
-          {" "}
-          <h6
-            className={
-              mydep !== "reply"
-                ? "text-[11px] mr-1 font-mono text-white"
-                : "text-[11px] mr-1 font-mono text-gray-700"
-            }
-          >
+        {comments !== "replycomment" && (
+          <div className="flex  items-center  ">
             {" "}
-            {getLikes(apiroute, likelength)}
-          </h6>
-          {(!like && !apiroute?.likes.includes(myuser?._id)) ||
-          likelength < 1 ? (
-            <FaRegHeart
-              onClick={setPostLike}
+            <h6
               className={
-                mydep !== "comments" && mydep !== "posts"
-                  ? "text-gray-800"
-                  : "text-gray-300"
+                mydep !== "reply"
+                  ? "text-[11px] mr-1 font-mono text-white"
+                  : "text-[11px] mr-1 font-mono text-gray-700"
               }
-            />
-          ) : (
-            <FaHeart onClick={setPostUnLike} className="text-red-500" />
-          )}
-        </div>
+            >
+              {" "}
+              {getLikes(apiroute, likelength)}
+            </h6>
+            {like === false && !apiroute?.likes?.includes(myuser?._id) ? (
+              <FaRegHeart
+                onClick={setPostLike}
+                className={
+                  mydep !== "comments" && mydep !== "posts"
+                    ? "text-gray-800"
+                    : "text-gray-500"
+                }
+              />
+            ) : (
+              <FaHeart onClick={setPostUnLike} className="text-red-500" />
+            )}
+          </div>
+        )}
         {mydep !== "reply" && mydep !== "comments" ? (
           <div className="flex  items-center  gap-1">
             <h6 className="text-neutral-300 title my-1">{comments?.length}</h6>
@@ -127,7 +145,7 @@ const LikeDisLikeComponent = ({
           </div>
         ) : (
           <div className="flex  items-center  gap-1">
-            <h6 className="text-white gigtitle">
+            <h6 className="text-gray-400 gigtitle">
               <BsReplyFill size="16px" onClick={() => setOpen(true)} />
             </h6>
           </div>
