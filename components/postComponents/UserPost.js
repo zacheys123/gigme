@@ -1,6 +1,6 @@
 "use client";
 import { TextInput } from "flowbite-react";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { HiBell } from "react-icons/hi";
 import { Button } from "../ui/button";
 import {
@@ -84,6 +84,22 @@ const UserPost = ({ users }) => {
     router?.push(`/friends/${otheruser?.username}`);
   };
 
+  const [userloading, setUserLoading] = useState();
+  const [muUsers, setUsers] = useState([]);
+  useEffect(() => {
+    setUserLoading(true);
+    if (users?.length > 0) {
+      const filteredUsers = users.filter(
+        (user) => user?._id !== user?.user?._id
+      );
+      setUsers(filteredUsers);
+      setUserLoading(false);
+    }
+    return () => {
+      setUserLoading(false);
+      setUsers([]);
+    };
+  }, []);
   const handleFileChange = useCallback((event) => {
     let dep = "video";
     const allowedTypes = ["video/mp4", "video/webm", "video/ogg"];
@@ -115,36 +131,40 @@ const UserPost = ({ users }) => {
                 Musicians you may know
               </h6>
               <div className="flex  overflow-x-auto space-x-4 p-4  ">
-                {users
-                  .filter((userd) => userd?.instrument?.length > 0)
-                  .map((otheruser, index) => {
-                    return (
-                      <motion.div
-                        initial={{ opacity: 0, x: ["15px"] }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        whileTap={{ scale: 0.95 }}
-                        transition={{ duration: 1, delay: 0.1 }}
-                        key={otheruser?._id}
-                        // className="min-w-[75px] h-[75px] rounded-full overflow-hidden  border-4 shadow-lg relative inline-block p-[4px] bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 "
-                        className="min-w-[75px] h-[75px] p-1 bg-gradient-to-r from-purple-500 via-yellow-500 to-red-500 rounded-full "
-                        onClick={handleClick}
-                      >
-                        <div className="flex justify-center items-center min-w-[64px] h-[64px] object-fit  rounded-full bg-zinc-900">
-                          {" "}
-                          {otheruser?.picture && (
-                            <Image
-                              height={55}
-                              width={55}
-                              src={otheruser?.picture}
-                              alt={otheruser?.firstname}
-                              className="min-w-[55px] h-[55px] object-fit  rounded-full"
-                            />
-                          )}
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-              </div>{" "}
+                {!userloading ? (
+                  <>
+                    {muUsers?.map((otheruser, index) => {
+                      return (
+                        <motion.div
+                          initial={{ opacity: 0, x: ["15px"] }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          whileTap={{ scale: 0.95 }}
+                          transition={{ duration: 1, delay: 0.1 }}
+                          key={otheruser?._id}
+                          // className="min-w-[75px] h-[75px] rounded-full overflow-hidden  border-4 shadow-lg relative inline-block p-[4px] bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 "
+                          className="min-w-[75px] h-[75px] p-1 bg-gradient-to-r from-purple-500 via-yellow-500 to-red-500 rounded-full "
+                          onClick={handleClick}
+                        >
+                          <div className="flex justify-center items-center min-w-[64px] h-[64px] object-fit  rounded-full bg-zinc-900">
+                            {" "}
+                            {otheruser?.picture && (
+                              <Image
+                                height={55}
+                                width={55}
+                                src={otheruser?.picture}
+                                alt={otheruser?.firstname}
+                                className="min-w-[55px] h-[55px] object-fit  rounded-full"
+                              />
+                            )}
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <Skeleton />
+                )}
+              </div>
             </Box>
           ) : (
             <form
@@ -258,3 +278,21 @@ const UserPost = ({ users }) => {
 };
 
 export default UserPost;
+
+const Skeleton = () => {
+  return (
+    <>
+      {[...Array(5)].map((_, index) => (
+        <motion.div
+          key={index}
+          className="min-w-[75px] h-[75px] p-1 bg-neutral-700 rounded-full z-0 animate-bounce anima"
+        >
+          <div className="flex justify-center items-center min-w-[64px] h-[64px] object-fit  rounded-full bg-zinc-700 z-30">
+            {" "}
+            <div className="min-w-[55px] h-[55px] object-fit  rounded-full bg-neutral-600 z-50"></div>
+          </div>
+        </motion.div>
+      ))}
+    </>
+  );
+};
