@@ -13,6 +13,7 @@ import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { fileupload } from "@/features/fileupload";
 import DescriptionModal from "../postComponents/DescriptionModal";
+import { motion } from "framer-motion";
 const RouteProfile = ({ user }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [isfile, setIsfile] = useState(false);
@@ -79,17 +80,46 @@ const RouteProfile = ({ user }) => {
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setIsTitle(false);
     console.log("close", isTitle);
   };
   return (
     <>
+      {" "}
       {isTitle && (
-        <DescriptionModal
-          objectdep={currentPost}
-          open={open}
-          handleClose={handleClose}
-        />
+        <motion.div
+          className="relative"
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+        >
+          <div className="absolute inset-0 h-full w-full bg-neutral-600 bg-cover bg-center opacity-50"></div>
+          <div className="absolute z-10">
+            <div className="absolute  bg-neutral-400 h-[30px] w-[30px] rounded-full flex justify-center items-center cursor-pointer">
+              <span
+                className="text-white font-bold text-[18px] "
+                onClick={handleClose}
+              >
+                &times;
+              </span>{" "}
+            </div>
+            <Image
+              priority
+              src={
+                !fileUrl && !user?.user?.picture
+                  ? ""
+                  : fileUrl
+                  ? fileUrl
+                  : user?.user?.picture
+              }
+              className="object-cover w-[680px] h-[680px] rounded-xl"
+              alt={user?.user?.firstname.split("")[0]}
+              width={200}
+              height={200}
+              onClick={() => handleModal(user)}
+            />
+          </div>
+        </motion.div>
       )}{" "}
       <div
         className="flex flex-col items-center gap-4 "

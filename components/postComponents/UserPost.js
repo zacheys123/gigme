@@ -82,6 +82,7 @@ const UserPost = ({ users }) => {
   };
   const handleClick = (otheruser) => {
     router?.push(`/friends/${otheruser?.username}`);
+    console.log(otheruser);
   };
 
   const [userloading, setUserLoading] = useState();
@@ -143,7 +144,7 @@ const UserPost = ({ users }) => {
                           key={otheruser?._id}
                           // className="min-w-[75px] h-[75px] rounded-full overflow-hidden  border-4 shadow-lg relative inline-block p-[4px] bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 "
                           className="min-w-[78px] h-[78px] p-1 bg-gradient-to-r from-purple-500 via-yellow-500 to-red-500 rounded-full "
-                          onClick={handleClick}
+                          onClick={() => handleClick(otheruser)}
                         >
                           <div className="flex justify-center items-center min-w-[67px] h-[67px] object-fit  rounded-full bg-zinc-900">
                             {" "}
