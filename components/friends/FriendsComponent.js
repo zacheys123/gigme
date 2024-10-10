@@ -34,6 +34,8 @@ import useStore from "@/app/zustand/useStore";
 import ToolTip from "../postComponents/ToolTip";
 import { Separator } from "../ui/separator";
 import { getFollow, getFollowing } from "@/utils";
+import ImageModal from "../ImageModal";
+import { motion } from "framer-motion";
 const FriendsComponent = ({ friend }) => {
   console.log(friend);
   const router = useRouter();
@@ -115,12 +117,54 @@ const FriendsComponent = ({ friend }) => {
     }
     return;
   }, [friend?.username, id?.username, router]);
+
+  const [isTitle, setIsTitle] = useState(false);
+  const [open, setOpen] = useState();
+  const [currentPost, setCurrentPost] = useState({});
+  const handleModal = (post) => {
+    setIsTitle(true);
+    setCurrentPost(post);
+    console.log("close", isTitle);
+  };
+
+  const handleClose = () => {
+    setIsTitle(false);
+    console.log("close", isTitle);
+  };
   return (
     <>
       <Modal width="100vw">
         <UserModal />
       </Modal>
-
+      {isTitle && (
+        <motion.div
+          className="relative h-full w-full"
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+        >
+          <div className="absolute inset-0 h-[100vh] w-full bg-zinc-700  opacity-90"></div>
+          <div className="absolute z-10 mt-20">
+            <div className="absolute  bg-neutral-400 h-[30px] w-[30px] rounded-full flex justify-center items-center cursor-pointer">
+              <span
+                className="text-white font-bold text-[18px] "
+                onClick={handleClose}
+              >
+                &times;
+              </span>{" "}
+            </div>
+            <></>
+            <Image
+              priority
+              src={friend.picture}
+              className="object-cover w-[580px] h-[580px] rounded-xl mt-[24px]"
+              alt={friend.firstname.split("")[0]}
+              width={200}
+              height={200}
+            />
+          </div>
+        </motion.div>
+      )}{" "}
       {friend ? (
         <Modal>
           {" "}
@@ -146,6 +190,7 @@ const FriendsComponent = ({ friend }) => {
                     width={100}
                     height={100}
                     className="h-[100px] w-[100px] rounded-full"
+                    onClick={() => handleModal(friend)}
                   />
                 </div>
               )}{" "}
