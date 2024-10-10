@@ -12,6 +12,7 @@ import { BsCameraFill } from "react-icons/bs";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { fileupload } from "@/features/fileupload";
+import DescriptionModal from "../postComponents/DescriptionModal";
 const RouteProfile = ({ user }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [isfile, setIsfile] = useState(false);
@@ -68,56 +69,77 @@ const RouteProfile = ({ user }) => {
       setIsfile(false);
     }
   };
+  const [isTitle, setIsTitle] = useState(false);
+  const [open, setOpen] = useState();
+  const [currentPost, setCurrentPost] = useState({});
+  const handleModal = (post) => {
+    setOpen(true);
+    setIsTitle(true);
+    setCurrentPost(post);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    console.log("close", isTitle);
+  };
   return (
-    <div
-      className="flex flex-col items-center gap-4 "
-      onClick={() => {
-        setShowFriendData(false);
-        setShowPostedGigsData(false);
-        setShowBookedGigsData(false);
-        setShowAllGigsData(false);
-      }}
-    >
-      <div className=" relative w-[200px] h-[200px]">
-        {!fileUrl && (
-          <>
-            {" "}
-            <label
-              variant="closed"
-              className="absolute bottom-[10px] right-[37px] text-white  p-1  text-[10px] lg:cursor-pointer bg-gray-900 rounded-full"
-              htmlFor="imageId"
-            >
-              <BsCameraFill size="30px" sx={{ fontSize: "24px" }} />
-            </label>{" "}
-          </>
-        )}
-
-        <Image
-          priority
-          src={
-            !fileUrl && !user?.user?.picture
-              ? ""
-              : fileUrl
-              ? fileUrl
-              : user?.user?.picture
-          }
-          className="object-cover w-[200px] h-[200px] rounded-full"
-          alt={user?.user?.firstname.split("")[0]}
-          width={200}
-          height={200}
+    <>
+      {isTitle && (
+        <DescriptionModal
+          objectdep={currentPost}
+          open={open}
+          handleClose={handleClose}
         />
+      )}{" "}
+      <div
+        className="flex flex-col items-center gap-4 "
+        onClick={() => {
+          setShowFriendData(false);
+          setShowPostedGigsData(false);
+          setShowBookedGigsData(false);
+          setShowAllGigsData(false);
+        }}
+      >
+        <div className=" relative w-[200px] h-[200px]">
+          {!fileUrl && isfile === false && (
+            <>
+              {" "}
+              <label
+                variant="closed"
+                className="absolute bottom-[10px] right-[37px] text-white  p-1  text-[10px] lg:cursor-pointer bg-gray-900 rounded-full"
+                htmlFor="imageId"
+              >
+                <BsCameraFill size="30px" sx={{ fontSize: "24px" }} />
+              </label>{" "}
+            </>
+          )}
 
-        <form onSubmit={handleUpload}>
-          <Input
-            type="file"
-            id="imageId"
-            className="bg-transparent flex-1 border-none outline-none hidden "
-            name="media"
-            accept="image/jpeg,image/png,image/webp,image/gif,"
-            onChange={handleFileChange}
+          <Image
+            priority
+            src={
+              !fileUrl && !user?.user?.picture
+                ? ""
+                : fileUrl
+                ? fileUrl
+                : user?.user?.picture
+            }
+            className="object-cover w-[200px] h-[200px] rounded-full"
+            alt={user?.user?.firstname.split("")[0]}
+            width={200}
+            height={200}
+            onClick={() => handleModal(user?.user)}
           />
-          {fileUrl ||
-            (!isfile && (
+
+          <form onSubmit={handleUpload}>
+            <Input
+              type="file"
+              id="imageId"
+              className="bg-transparent flex-1 border-none outline-none hidden "
+              name="media"
+              accept="image/jpeg,image/png,image/webp,image/gif,"
+              onChange={handleFileChange}
+            />
+            {fileUrl && !isfile === true && (
               <Button
                 type="submit"
                 variant="destructive"
@@ -127,21 +149,22 @@ const RouteProfile = ({ user }) => {
                 Upload Image
                 <Upload size="11px" className=" font-bold" />
               </Button>
-            ))}
-        </form>
+            )}
+          </form>
+        </div>
+        <div className="flex items-center gap-2">
+          <h3 className="text-xl text-white">
+            {user?.user?.firstname} {user?.user?.lastname}
+          </h3>
+          <Pencil
+            color="white"
+            size="14px"
+            onClick={() => router.push(`/v1/profile/${userId}/user`)}
+          />
+        </div>
+        <p className="text-sm text-gray-400">{user?.user?.email}</p>
       </div>
-      <div className="flex items-center gap-2">
-        <h3 className="text-xl text-white">
-          {user?.user?.firstname} {user?.user?.lastname}
-        </h3>
-        <Pencil
-          color="white"
-          size="14px"
-          onClick={() => router.push(`/v1/profile/${userId}/user`)}
-        />
-      </div>
-      <p className="text-sm text-gray-400">{user?.user?.email}</p>
-    </div>
+    </>
   );
 };
 

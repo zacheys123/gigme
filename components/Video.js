@@ -21,7 +21,7 @@ import PostDescription from "./postComponents/DescriptionModal";
 const Video = ({ post, myuser, myComments }) => {
   const playerRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isTitle, setIsTitle] = useState(false);
+
   const videoContainerRef = useRef(null);
   const { setShowComments, setCurrentpost } = useStore();
   useEffect(() => {
@@ -55,6 +55,7 @@ const Video = ({ post, myuser, myComments }) => {
       random();
     }, 3000);
   });
+  const [isTitle, setIsTitle] = useState(false);
   const [open, setOpen] = useState();
   const [currentPost, setCurrentPost] = useState({});
   const handleModal = (post) => {
