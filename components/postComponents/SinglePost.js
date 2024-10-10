@@ -60,14 +60,14 @@ const SinglePost = ({ post, user, comments, replies }) => {
       transition={{ duration: 0.3, delay: 0.1 }}
       className={
         post?.media
-          ? " h-[890px] shadow-sm shadow-slate-700 rounded-sm my-6 relative"
+          ? " h-fit shadow-sm shadow-slate-700 rounded-sm my-2 relative"
           : " h-fit shadow-sm shadow-slate-800 my-6"
       }
     >
       {/* displaying title and the rest of the post */}
       <Box className="flex flex-col rounded-md p-3  element-with-scroll">
         {post && (
-          <div className={post?.media ? " w-full " : "mt-3"}>
+          <div className={post?.media ? " w-full " : "mt-1"}>
             <div className="w-full flex justify-between items-center p-2 border border-t-0 border-r-0 border-l-0 border-b-slate-800">
               <div className="flex items-center gap-3">
                 {/* <AvatarComponent user={post?.postedBy[0]} /> */}

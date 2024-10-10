@@ -352,7 +352,11 @@ input[type="radio"] {
   height: 23px;
   margin-right: 10px;
 }
-
+.react-player video {
+  object-fit: cover; /* Crops the video */
+  height: 100%; /* Makes sure it doesn't exceed the container height */
+  width: 100%; /* Ensures the video fits the width of the container */
+}
 .username {
   font-weight: bold;
 }

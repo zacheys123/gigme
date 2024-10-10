@@ -17,9 +17,11 @@ import { useRef } from "react";
 import { useFetchMessages } from "@/hooks/useFetchMessages";
 import { PropTypes } from "prop-types";
 import LikeDisLikeComponent from "./postComponents/LikeDisLikeComponent";
+import PostDescription from "./postComponents/DescriptionModal";
 const Video = ({ post, myuser, myComments }) => {
   const playerRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isTitle, setIsTitle] = useState(false);
   const videoContainerRef = useRef(null);
   const { setShowComments, setCurrentpost } = useStore();
   useEffect(() => {
@@ -53,109 +55,134 @@ const Video = ({ post, myuser, myComments }) => {
       random();
     }, 3000);
   });
+  const [open, setOpen] = useState();
+  const [currentPost, setCurrentPost] = useState({});
+  const handleModal = (post) => {
+    setOpen(true);
+    setIsTitle(true);
+    setCurrentPost(post);
+  };
   console.log(random());
+  const handleClose = () => {
+    setOpen(false);
+    console.log("close", isTitle);
+  };
   return (
-    <section
-      className={
-        post?.media
-          ? "player-container   w-[100%] flex flex-col  gap-4 h-[620px] "
-          : "h-fit player-container   w-[100%] flex flex-col  gap-4"
-      }
-    >
-      <motion.div
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="w-full   mb-10 flex-1"
-        ref={videoContainerRef}
+    <>
+      {" "}
+      {isTitle && (
+        <PostDescription
+          objectdep={currentPost}
+          open={open}
+          handleClose={handleClose}
+        />
+      )}{" "}
+      <section
+        className={
+          post?.media
+            ? "player-container   w-[100%] flex flex-col  gap-4 max-h-fit "
+            : "h-fit player-container   w-[100%] flex flex-col  gap-4"
+        }
       >
-        {post?.media ? (
-          <ReactPlayer
-            ref={playerRef}
-            url={post?.media}
-            playing={isPlaying}
-            className="w-full  h-auto -mt-2  object-fill shadow-sm "
-            controls // Show controls
-            width="100%"
-            quality="auto"
-            height="100%"
-            // Show a thumbnail before playing
-          />
-        ) : (
-          <Image
-            src=""
-            alt=" video here"
-            className="profile-image"
-            width={30}
-            height={30}
-          />
-        )}
-        <div className="w-full border border-slate-800"></div>
-        <div className="flex flex-col gap-4 my-3   rounded-md p-3">
-          {" "}
-          <div className=" text-neutral-300 text-[13px] line-clamp-3">
-            {post?.title}
-          </div>
-          <div className="title text-red-500">#{post?.description}</div>
-          <div className="flex items-center gap-1">
-            <LikeDisLikeComponent
-              apiroute={post}
-              myuser={myuser}
-              mydep="posts"
-              api="Post"
-              comments={myComments}
-            />
-          </div>
-          {myComments && myComments?.length > 0 ? (
-            <div
-              className="h-[42px] bg-zinc-900 w-full max-w-2xl mx-auto py-2 -mt-4 rounded-xl"
-              onClick={() => {
-                setCurrentpost(post);
-                setShowComments(true);
-              }}
-            >
-              <div className="flex items-center px-2 gap-2">
-                <>
-                  {random()?.postedBy?.picture ? (
-                    <Image
-                      className="w-[20px] h-[20px] object-cover rounded-full"
-                      src={random()?.postedBy?.picture}
-                      alt="Profile picture"
-                      width={20}
-                      height={20}
-                    />
-                  ) : (
-                    <Avatar />
-                  )}
-                </>
-                <div className="flex flex-col ">
-                  <span className="gigtitle text-gray-300">
-                    {" "}
-                    {myComments?.length} comments
-                  </span>
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="w-full mb-10 flex-1 relative overflow-hidden max-h-fit"
+          ref={videoContainerRef}
+        >
+          {post?.media ? (
+            <ReactPlayer
+              ref={playerRef}
+              url={post?.media}
+              playing={isPlaying}
+              className="object-cover"
+              controls // Show controls
+              width="100%"
+              quality="auto"
+              height="100%"
 
-                  <motion.div
-                    initial={{ opacity: 0, x: ["200px"] }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: 0.1 }}
-                    className="text-neutral-400 text-[11px] lineclam-2"
-                  >
-                    {random()?.text}
-                  </motion.div>
+              // Show a thumbnail before playing
+            />
+          ) : (
+            <Image
+              src=""
+              alt=" video here"
+              className="profile-image"
+              width={30}
+              height={30}
+            />
+          )}
+          <div className="w-full border border-slate-800"></div>
+          <div className="flex flex-col gap-4 my-3   rounded-md p-3">
+            {" "}
+            <div
+              className=" text-neutral-300 text-[13px] line-clamp-3"
+              onClick={() => handleModal(post)}
+            >
+              {post?.title}
+            </div>
+            <div className="title text-red-500">#{post?.description}</div>
+            <div className="flex items-center gap-1">
+              <LikeDisLikeComponent
+                apiroute={post}
+                myuser={myuser}
+                mydep="posts"
+                api="Post"
+                comments={myComments}
+              />
+            </div>
+            {myComments && myComments?.length > 0 ? (
+              <div
+                className="h-[42px] bg-zinc-900 w-full max-w-2xl mx-auto py-2 -mt-4 rounded-xl"
+                onClick={() => {
+                  setCurrentpost(post);
+                  setShowComments(true);
+                }}
+              >
+                <div className="flex items-center px-2 gap-2">
+                  <>
+                    {random()?.postedBy?.picture ? (
+                      <Image
+                        className="w-[20px] h-[20px] object-cover rounded-full"
+                        src={random()?.postedBy?.picture}
+                        alt="Profile picture"
+                        width={20}
+                        height={20}
+                      />
+                    ) : (
+                      <Avatar />
+                    )}
+                  </>
+                  <div className="flex flex-col ">
+                    <span className="gigtitle text-gray-300">
+                      {" "}
+                      {myComments?.length} comments
+                    </span>
+
+                    <motion.div
+                      initial={{ opacity: 0, x: ["200px"] }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: 0.1 }}
+                      className="text-neutral-400 text-[11px] lineclam-2"
+                    >
+                      {random()?.text}
+                    </motion.div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ) : (
+            ) : (
+              <div className="flex items-center gap-2 text-neutral-300 text-[11px]">
+                No one has liked this yet.
+              </div>
+            )}
+            {/* display the posted at */}
             <div className="flex items-center gap-2 text-neutral-300 text-[11px]">
-              No one has liked this yet.
+              {moment(post?.createdAt).fromNow()}
             </div>
-          )}
-          {/* display the posted at */}
-          <div className="flex items-center gap-2 text-neutral-300 text-[11px]">
-            {moment(post?.createdAt).fromNow()}
           </div>
-        </div>
-      </motion.div>
-    </section>
+        </motion.div>
+      </section>
+    </>
   );
 };
 // proptypes for the post types

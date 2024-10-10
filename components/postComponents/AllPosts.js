@@ -142,7 +142,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
       {!showComments ? (
         <div id="top">
           {!showPosts && (
-            <div className="text-white  h-full scroll-smooth ">
+            <div className="text-white  h-full scroll-smooth shadow-md shadow-stone-700 ">
               {userposts?.map((post, index) => {
                 return (
                   <SinglePost
