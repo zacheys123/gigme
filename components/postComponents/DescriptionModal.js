@@ -3,6 +3,7 @@ import React from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
+import Image from "next/image";
 
 const DescriptionModal = ({ objectdep, open, handleClose }) => {
   // const { userId } = useAuth();
@@ -19,19 +20,43 @@ const DescriptionModal = ({ objectdep, open, handleClose }) => {
         }
       }}
     >
-      <DialogContent>
-        {" "}
-        <DialogHeader>
-          <DialogTitle>More Info</DialogTitle>
-        </DialogHeader>
-        <div className="flex">
+      {objectdep === "post" && (
+        <DialogContent>
           {" "}
-          <span className="title text-red-700 font-mono font-bold   ">
-            {objectdep?.title}
-          </span>
-          &nbsp;
-        </div>
-      </DialogContent>
+          <DialogHeader>
+            <DialogTitle>More Info</DialogTitle>
+          </DialogHeader>
+          <div className="flex">
+            {" "}
+            <span className="title text-red-700 font-mono font-bold   ">
+              {objectdep?.title}
+            </span>
+            &nbsp;
+          </div>
+        </DialogContent>
+      )}
+      {objectdep === "user" && (
+        <DialogContent className="object-cover w-[500px] h-[500px] rounded-full">
+          {" "}
+          <DialogHeader>
+            <DialogTitle>User Details</DialogTitle>
+          </DialogHeader>
+          <div className="flex">
+            {" "}
+            {objectdep?.user?.picture && (
+              <Image
+                priority
+                src={objectdep?.user?.picture}
+                className="object-cover w-[500px] h-[500px] rounded-full"
+                alt={objectdep.user?.firstname.split("")[0]}
+                width={200}
+                height={200}
+                onClick={() => handleModal(user)}
+              />
+            )}
+          </div>
+        </DialogContent>
+      )}
     </Dialog>
   );
 };

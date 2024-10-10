@@ -127,7 +127,7 @@ const RouteProfile = ({ user }) => {
             alt={user?.user?.firstname.split("")[0]}
             width={200}
             height={200}
-            onClick={() => handleModal(user?.user)}
+            onClick={() => handleModal(user)}
           />
 
           <form onSubmit={handleUpload}>
