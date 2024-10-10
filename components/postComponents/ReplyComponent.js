@@ -163,19 +163,19 @@ const ReplyComponent = ({ comment, user }) => {
         setText={setText}
       />
       <div className="flex flex-col bg-neutral-900 w-full max-w-2xl ">
-        <Box className="bg-neutral-300 shadow-lg rounded-md my-2 h-[140px] mx-auto w-[95%]  p-3 top-0 ">
+        <Box className="bg-zinc-700 shadow-sm shadow-zinc-500 rounded-md my-2 h-[140px] mx-auto w-[95%]  p-3 top-0 ">
           <div className="flex justify-between">
             <FaArrowLeft
               onClick={() => router.back()}
               sx={{ backgroundColor: "blue" }}
               className="text-red-500 md:cursor-pointer"
             />
-            <h6 className="font-mono text-pretty tracking-tight text-[13px]">
+            <h6 className="font-mono text-pretty tracking-tight text-[13px] text-neutral-300">
               {" "}
               {count()}
             </h6>
           </div>
-          <Divider />{" "}
+          <Divider className=" bg-zinc-600" />{" "}
           <div className="flex items-center mt-2">
             {mycomm?.postedBy?.picture && (
               <Image
@@ -186,15 +186,15 @@ const ReplyComponent = ({ comment, user }) => {
                 className="w-[25px] h-[25px]  rounded-full"
               />
             )}{" "}
-            <h6 className={"texxt-[13px] text-slate-800 ml-2"}>
+            <h6 className={"texxt-[13px] text-slate-300 ml-2"}>
               {handleRouting2(mycomm, userId)}
             </h6>
-            <h5 className={"text-[11px] text-gray-600 ml-2"}>
+            <h5 className={"text-[11px] text-gray-400 ml-2"}>
               {moment(mycomm.createdAt).fromNow()}
             </h5>
           </div>
           <div className="flex  flex-col ">
-            <h6 className="comtext text-[13px] text-neutral-600 m-2">
+            <h6 className="comtext text-[13px] text-neutral-200 ml-9 m-2">
               {mycomm?.text}
             </h6>
 

@@ -107,7 +107,7 @@ const Video = ({ post, myuser, myComments }) => {
           </div>
           {myComments && myComments?.length > 0 ? (
             <div
-              className="h-[42px] bg-zinc-900 w-full max-w-2xl mx-auto py-2 -mt-4"
+              className="h-[42px] bg-zinc-900 w-full max-w-2xl mx-auto py-2 -mt-4 rounded-xl"
               onClick={() => {
                 setCurrentpost(post);
                 setShowComments(true);

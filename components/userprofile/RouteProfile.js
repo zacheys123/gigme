@@ -5,14 +5,16 @@ import { Pencil, Upload } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { PropTypes } from "prop-types";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Input } from "../ui/input";
 import { Camera } from "@mui/icons-material";
 import { BsCameraFill } from "react-icons/bs";
 import { Button } from "../ui/button";
+import { toast } from "sonner";
+import { fileupload } from "@/features/fileupload";
 const RouteProfile = ({ user }) => {
-  const [file, setFile] = useState();
-  const [url, setUrl] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+  const [imageUrl, setUrl] = useState("");
   const [fileUrl, setFileUrl] = useState("");
   const {
     setShowFriendData,
@@ -26,21 +28,49 @@ const RouteProfile = ({ user }) => {
   const { userId } = useAuth();
   const router = useRouter();
   // get the file/image when it changes
-  const handleChange = (e) => {
-    const f = e.target.files?.[0];
-    setFile(f);
-    if (fileUrl) {
-      URL.revokeObjectURL(fileUrl);
+
+  const handleFileChange = useCallback((event) => {
+    let dep = "image";
+    // Check if the file is a video
+    const allowedTypes = [
+      "image/png",
+      "image/jpeg",
+      "image/gif",
+      " image / webp",
+    ];
+    fileupload(
+      event,
+      setUrl,
+      toast,
+      allowedTypes,
+      fileUrl,
+      setFileUrl,
+      setIsUploading,
+      dep
+    );
+  }, []);
+  const handleUpload = async (ev) => {
+    ev.preventDefault();
+    if (!fileUrl) {
+      toast.error("Please select an image  to upload.");
+      return;
     }
-    if (f) {
-      const url = URL.createObjectURL(f);
-      setFileUrl(url);
-    } else {
+    try {
+      // update user picture in the database
+      await fetch(`/api/user/updateImage/${user?.user?._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url: imageUrl }),
+      });
+      toast.success("image uploaded successfully!");
       setFileUrl(undefined);
+    } catch (error) {
+      toast.error("Image upload unsuccessful: ");
+      console.error("Error uploading image to database:", error.message);
     }
   };
-
-  console.log(user);
   return (
     <div
       className="flex flex-col items-center gap-4 "
@@ -64,57 +94,31 @@ const RouteProfile = ({ user }) => {
             </label>{" "}
           </>
         )}
-        {fileUrl ||
-          (user && (
-            <Image
-              priority
-              src={!fileUrl ? user?.user?.picture : fileUrl}
-              className="object-cover w-[200px] h-[200px] rounded-full"
-              alt={user?.user?.firstname.split("")[0]}
-              width={200}
-              height={200}
-            />
-          ))}
-        <form
-          onSubmit={async (ev) => {
-            ev.preventDefault();
-            const data = new FormData();
-            data.append("file", file);
-            data.append("upload_preset", "gigmeZach");
-            try {
-              const uploadResponse = await fetch(
-                "https://api.cloudinary.com/v1_1/dsziq73cb/image/upload",
-                {
-                  method: "POST",
-                  body: data,
-                }
-              );
-              const uploadedImageData = await uploadResponse.json();
-              const imageUrl = uploadedImageData.secure_url;
-              setUrl(imageUrl);
-              console.log(imageUrl);
 
-              // update user picture in the database
-              await fetch(`/api/user/updateImage/${user?.user?._id}`, {
-                method: "PUT",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ url: imageUrl }),
-              });
-              router.refresh();
-            } catch (error) {
-              console.error("Error uploading image to database:", error);
-            }
-          }}
-        >
+        <Image
+          priority
+          src={
+            !fileUrl && !user?.user?.picture
+              ? ""
+              : fileUrl
+              ? fileUrl
+              : user?.user?.picture
+          }
+          className="object-cover w-[200px] h-[200px] rounded-full"
+          alt={user?.user?.firstname.split("")[0]}
+          width={200}
+          height={200}
+        />
+
+        <form onSubmit={handleUpload}>
           <Input
             type="file"
             id="imageId"
             className="bg-transparent flex-1 border-none outline-none hidden "
             name="media"
-            accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm"
-            onChange={handleChange}
+            accept="image/jpeg,image/png,image/webp,image/gif,"
+            onChange={handleFileChange}
+            disabled={isUploading}
           />
           {fileUrl && (
             <Button

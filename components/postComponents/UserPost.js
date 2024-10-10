@@ -1,6 +1,6 @@
 "use client";
 import { TextInput } from "flowbite-react";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { HiBell } from "react-icons/hi";
 import { Button } from "../ui/button";
 import {
@@ -24,6 +24,7 @@ import useStore from "@/app/zustand/useStore";
 import ProfileComponent from "../userprofile/ProfileComponent";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { fileupload } from "@/features/fileupload";
 const UserPost = ({ users }) => {
   const { userId } = useAuth();
   const { user } = useCurrentUser(userId);
@@ -83,86 +84,20 @@ const UserPost = ({ users }) => {
     router?.push(`/friends/${otheruser?.username}`);
   };
 
-  const handleFileChange = async (event) => {
-    const file = event.target.files[0];
-    if (fileUrl) {
-      URL.revokeObjectURL(fileUrl);
-    }
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setFileUrl(url);
-    } else {
-      setFileUrl(undefined);
-    }
-
-    if (!file) {
-      return;
-    }
-
-    // Check for file size (e.g., limit to 60MB)
-    const MAX_FILE_SIZE = 60 * 1024 * 1024; // 60MB
-    if (file.size > MAX_FILE_SIZE) {
-      toast.error("File is too large. Maximum size is 50MB.");
-      return;
-    }
-
-    // Check if the file is a video
+  const handleFileChange = useCallback((event) => {
+    let dep = "video";
     const allowedTypes = ["video/mp4", "video/webm", "video/ogg"];
-    if (!allowedTypes.includes(file.type)) {
-      toast.error("Only video files are allowed.");
-      return;
-    }
-
-    setError(null); // Reset error
-    setIsUploading(true);
-
-    try {
-      // Step 1: Get the signed upload URL from your API
-      const response = await fetch("/api/posts/sign-upload", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const { signature, timestamp, upload_preset, cloud_name } =
-        await response.json();
-
-      // Step 2: Upload the video file to Cloudinary
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", upload_preset);
-      formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY);
-      formData.append("signature", signature);
-      formData.append("timestamp", timestamp);
-      formData.append("cloud_name", cloud_name);
-
-      const uploadResponse = await fetch(
-        `https://api.cloudinary.com/v1_1/${cloud_name}/video/upload/`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      const uploadResult = await uploadResponse.json();
-
-      if (uploadResponse.ok) {
-        alert("Upload successful!");
-        console.log(uploadResult); // You can process this result further (e.g., store the URL)
-        setVideoUrl(uploadResult.secure_url);
-
-        toast.success("Video uploaded successfully!");
-      } else {
-        setError("Upload failed, please try again.");
-        console.error(uploadResult);
-      }
-    } catch (error) {
-      setError("An error occurred during upload.");
-      console.error("An error occurred during upload.", error);
-    } finally {
-      setIsUploading(false);
-    }
-  };
+    fileupload(
+      event,
+      setVideoUrl,
+      toast,
+      allowedTypes,
+      fileUrl,
+      setFileUrl,
+      setIsUploading,
+      dep
+    );
+  }, []);
   console.log(fileUrl);
   return (
     <>
@@ -176,8 +111,10 @@ const UserPost = ({ users }) => {
       )} */}
           {!showPosts ? (
             <Box className="flex flex-col mt-3 p-2 shadow-md shadow-slate-800 -z-[1]">
-              <h6 className="text-neutral-400 title">Musicians you may know</h6>
-              <div className="flex  overflow-x-auto space-x-4 p-4">
+              <h6 className="text-neutral-400 title ml-6">
+                Musicians you may know
+              </h6>
+              <div className="flex  overflow-x-auto space-x-4 p-4  ">
                 {users
                   .filter((userd) => userd?.instrument?.length > 0)
                   .map((otheruser, index) => {
@@ -188,16 +125,17 @@ const UserPost = ({ users }) => {
                         whileTap={{ scale: 0.95 }}
                         transition={{ duration: 1, delay: 0.1 }}
                         key={otheruser?._id}
-                        className="min-w-[75px] h-[75px] rounded-full overflow-hidden shadow-lg"
+                        // className="min-w-[75px] h-[75px] rounded-full overflow-hidden  border-4 shadow-lg relative inline-block p-[4px] bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 "
+                        className="min-w-[75px] h-[75px] p-1 bg-gradient-to-r from-purple-500 via-yellow-500 to-red-500 rounded-full flex justify-center items-center"
                         onClick={handleClick}
                       >
                         {otheruser?.picture && (
                           <Image
-                            height={100}
-                            width={100}
+                            height={65}
+                            width={65}
                             src={otheruser?.picture}
                             alt={otheruser?.firstname}
-                            className="w-full h-full object-cover"
+                            className="min-w-[65px] h-[65px]  rounded-full"
                           />
                         )}
                       </motion.div>

@@ -243,7 +243,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
               </div>
             )}
           </div>
-          <div className="h-[10vh]  fixed  w-[95%] ">
+          <div className="h-[13vh]  fixed  w-[95%] ">
             <form
               className=" w-[95%] mx-auto fixed "
               onSubmit={(ev) => handleComment(ev)}
@@ -252,7 +252,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
                 ref={inptref}
                 type="text"
                 placeholder="Add a comment here....."
-                className="text-blue-300 title h-full  w-full   border-zinc-300 focus-within:ring-o outline-none bg-neutral-600 p-2 rounded-sm "
+                className="text-blue-300 title h-full  w-full   border-zinc-300 focus-within:ring-o outline-none bg-neutral-600 p-3 rounded-sm "
                 value={commentInputs[currentpost._id] || ""} // Default to empty string if no comment yet
                 onChange={(e) => handleCommentChange(e, currentpost._id)} // Pass postId to update the correct input
               />

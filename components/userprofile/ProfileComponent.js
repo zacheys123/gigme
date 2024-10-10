@@ -116,7 +116,7 @@ ProfileComponent.propTypes = {
   image: PropTypes.string,
   imageno: PropTypes.number,
   initial: PropTypes.object,
-  whileInView: PropTypes.bool,
+  whileInView: PropTypes.object,
   transition: PropTypes.object,
   onClick: PropTypes.func,
 };
