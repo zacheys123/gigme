@@ -32,12 +32,7 @@ const RouteProfile = ({ user }) => {
   const handleFileChange = useCallback((event) => {
     let dep = "image";
     // Check if the file is a video
-    const allowedTypes = [
-      "image/png",
-      "image/jpeg",
-      "image/gif",
-      " image / webp",
-    ];
+    const allowedTypes = ["image/png", "image/jpeg", "image/gif", "image/webp"];
     fileupload(
       event,
       setUrl,
