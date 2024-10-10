@@ -42,7 +42,7 @@ export async function PUT(req, { params }) {
       );
       return NextResponse.json({
         updateStatus: true,
-        message: "User updated successfully",
+        message: "Update successfull",
         userData: user,
       });
     } catch (error) {

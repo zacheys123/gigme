@@ -116,17 +116,18 @@ const RouteProfile = ({ user }) => {
             accept="image/jpeg,image/png,image/webp,image/gif,"
             onChange={handleFileChange}
           />
-          {fileUrl && !isfile && (
-            <Button
-              type="submit"
-              variant="destructive"
-              className="absolute bottom-[10px] right-[37px] text-[11px] h-[20px]"
-              disabled={isUploading}
-            >
-              Upload Image
-              <Upload size="11px" className=" font-bold" />
-            </Button>
-          )}
+          {fileUrl ||
+            (!isfile && (
+              <Button
+                type="submit"
+                variant="destructive"
+                className="absolute bottom-[10px] right-[37px] text-[11px] h-[20px]"
+                disabled={isUploading}
+              >
+                Upload Image
+                <Upload size="11px" className=" font-bold" />
+              </Button>
+            ))}
         </form>
       </div>
       <div className="flex items-center gap-2">

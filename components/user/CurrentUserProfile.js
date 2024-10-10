@@ -105,9 +105,6 @@ const CurrentUserProfile = ({ user }) => {
         let resdata = await res.json();
         console.log(resdata);
         if (resdata.updateStatus === true) {
-          setTimeout(() => {
-            window.location.reload();
-          }, 3000);
           setMessage((prev) => {
             return { ...prev, success: resdata.message };
           });
