@@ -142,18 +142,18 @@ const UserPost = ({ users }) => {
                           transition={{ duration: 1, delay: 0.1 }}
                           key={otheruser?._id}
                           // className="min-w-[75px] h-[75px] rounded-full overflow-hidden  border-4 shadow-lg relative inline-block p-[4px] bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 "
-                          className="min-w-[75px] h-[75px] p-1 bg-gradient-to-r from-purple-500 via-yellow-500 to-red-500 rounded-full "
+                          className="min-w-[78px] h-[78px] p-1 bg-gradient-to-r from-purple-500 via-yellow-500 to-red-500 rounded-full "
                           onClick={handleClick}
                         >
-                          <div className="flex justify-center items-center min-w-[64px] h-[64px] object-fit  rounded-full bg-zinc-900">
+                          <div className="flex justify-center items-center min-w-[67px] h-[67px] object-fit  rounded-full bg-zinc-900">
                             {" "}
                             {otheruser?.picture && (
                               <Image
-                                height={55}
-                                width={55}
+                                height={58}
+                                width={58}
                                 src={otheruser?.picture}
                                 alt={otheruser?.firstname}
-                                className="min-w-[55px] h-[55px] object-fit  rounded-full"
+                                className="min-w-[58px] h-[58px] object-fit  rounded-full"
                               />
                             )}
                           </div>

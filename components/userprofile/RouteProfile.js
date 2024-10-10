@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { fileupload } from "@/features/fileupload";
 const RouteProfile = ({ user }) => {
   const [isUploading, setIsUploading] = useState(false);
+  const [isfile, setIsfile] = useState(false);
   const [imageUrl, setUrl] = useState("");
   const [fileUrl, setFileUrl] = useState("");
   const {
@@ -60,10 +61,11 @@ const RouteProfile = ({ user }) => {
         body: JSON.stringify({ url: imageUrl }),
       });
       toast.success("image uploaded successfully!");
-      setFileUrl(undefined);
+      setIsfile(false);
     } catch (error) {
       toast.error("Image upload unsuccessful: ");
       console.error("Error uploading image to database:", error.message);
+      setIsfile(false);
     }
   };
   return (
@@ -113,13 +115,13 @@ const RouteProfile = ({ user }) => {
             name="media"
             accept="image/jpeg,image/png,image/webp,image/gif,"
             onChange={handleFileChange}
-            disabled={isUploading}
           />
-          {fileUrl && (
+          {fileUrl && !isfile && (
             <Button
               type="submit"
               variant="destructive"
               className="absolute bottom-[10px] right-[37px] text-[11px] h-[20px]"
+              disabled={isUploading}
             >
               Upload Image
               <Upload size="11px" className=" font-bold" />
