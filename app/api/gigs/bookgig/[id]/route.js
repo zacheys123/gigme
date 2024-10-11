@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 import axios from "axios";
 import { auth } from "@clerk/nextjs";
 import ioClient from "socket.io-client"; // Import Socket.io client
-import { sendPushNotification } from "@/lib/firebase/firebaseAdmin";
+// import { sendPushNotification } from "@/lib/firebase/firebaseAdmin";
 
 const socket = ioClient("http://localhost:8080"); // Connect to the server
 
@@ -53,16 +53,16 @@ export async function PUT(req, { params }) {
     });
     // Notify event owner (optional)
 
-    if (gigCreator && gigCreator.fcmToken) {
-      const payload = {
-        notification: {
-          title: "Gig Booked!",
-          body: `Your gig "${currentgig?.title}" was booked!`,
-        },
-      };
+    // if (gigCreator && gigCreator.fcmToken) {
+    //   const payload = {
+    //     notification: {
+    //       title: "Gig Booked!",
+    //       body: `Your gig "${currentgig?.title}" was booked!`,
+    //     },
+    //   };
 
-      await sendPushNotification(gigCreator.fcmToken, payload);
-    }
+    //   await sendPushNotification(gigCreator.fcmToken, payload);
+    // }
     return NextResponse.json({
       gigstatus: "true",
       message: "Updated Gig successfully",
