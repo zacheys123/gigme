@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase
 import { getMessaging } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAQISfcRLzgdejiT0zRbhlN4ufTec1IPeY",
+  apiKey: process.env.API_KEY,
   authDomain: "nextpush-a1074.firebaseapp.com",
   projectId: "nextpush-a1074",
   storageBucket: "nextpush-a1074.appspot.com",
