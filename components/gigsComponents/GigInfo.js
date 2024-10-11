@@ -421,7 +421,7 @@ const GigInfo = ({ user }) => {
                   autoComplete="off"
                   type="text"
                   placeholder=" Time e.g 10 means 10:00 "
-                  className="mb-2 p-3 focus-within:ring-0 outline-none rounded-xl  px-3 text-black"
+                  className="mb-2 p-3 focus-within:ring-0 outline-none rounded-xl  px-3 text-black w-[120px]"
                   onChange={(ev) =>
                     setGigs((prev) => {
                       return { ...prev, start: ev.target.value };
@@ -438,7 +438,7 @@ const GigInfo = ({ user }) => {
                   }
                   name="durationfrom"
                   value={gigInputs?.durationfrom}
-                  className="mb-2 w-[50px] bg-neutral-300 h-[40px] rounded-full text-[12px] flex justify-center items-center p-2 font-mono"
+                  className="mb-2 w-[55px] bg-neutral-300 h-[40px] rounded-full text-[12px] flex justify-center items-center p-2 font-mono"
                 >
                   <option value="pm">PM</option>
                   <option value="am">AM</option>
@@ -450,7 +450,7 @@ const GigInfo = ({ user }) => {
                   autoComplete="off"
                   type="text"
                   placeholder=" Time e.g 10 means 10:00 "
-                  className="mb-2 p-3 focus-within:ring-0 outline-none rounded-xl  px-3 text-black"
+                  className="mb-2 p-3 focus-within:ring-0 outline-none rounded-xl  px-3 text-black w-[120px]"
                   onChange={(ev) =>
                     setGigs((prev) => {
                       return { ...prev, end: ev.target.value };
@@ -467,7 +467,7 @@ const GigInfo = ({ user }) => {
                   }
                   name="durationto"
                   value={gigInputs?.durationto}
-                  className="mb-2 w-[50px] bg-neutral-300 h-[40px] rounded-full text-[12px] flex justify-center items-center p-2 font-mono"
+                  className="mb-2 w-[55px] bg-neutral-300 h-[40px] rounded-full text-[12px] flex justify-center items-center p-2 font-mono"
                 >
                   <option value="pm">PM</option>
                   <option value="am">AM</option>
@@ -481,7 +481,7 @@ const GigInfo = ({ user }) => {
                 minDate={minDate}
                 maxDate={maxDate}
                 placeholderText="Set Event Date"
-                className="font-mono  h-[35px] text-[12px]  bg-white mb-2  focus-within:ring-0 outline-none rounded-xl  px-3 text-black"
+                className="font-mono  h-[35px] text-[12px]  bg-white mb-2  focus-within:ring-0 outline-none rounded-xl  px-3 text-black w-[300px]"
               />
             </div>{" "}
             <div className="w-full flex justify-center">

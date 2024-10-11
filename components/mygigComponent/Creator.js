@@ -294,18 +294,18 @@ const Creator = ({ myGig }) => {
           </motion.div>
         )} */}
         </div>
-        <div className="w-[80%] mx-auto flex justify-between items-center gap-1">
+        <div className="w-[80%] mx-auto flex justify-between items-center gap-10">
           <Button
             variant="secondary"
             onClick={() => router.back()}
-            className="h-[32px]  w-[90px] link"
+            className="h-[32px]  w-[90px] link flex gap-2"
           >
             {" "}
             <ArrowBack size="21px" sx={{ fontSize: "20px" }} />
-            Go back
+            <span> Go back</span>
           </Button>
           <Button
-            className="h-[32px] w-[190px] text-[13px]  -p-2 mr-6 "
+            className="h-[32px] w-[210px] text-[13px]  p-2 mr-6 "
             variant="secondary"
             onClick={forget}
             disabled={loading}

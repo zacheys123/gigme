@@ -20,7 +20,7 @@ export async function GET(req, { params }) {
       .exec();
 
     gigs = gigs?.filter((gig) => {
-      if (gig?.postedBy.clerkId.includes(params.id)) {
+      if (gig?.postedBy?.clerkId.includes(params.id)) {
         return null;
       }
       return gigs;

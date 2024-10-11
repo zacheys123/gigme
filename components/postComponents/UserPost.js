@@ -19,7 +19,7 @@ import { Input } from "../ui/input";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useAuth } from "@clerk/nextjs";
 import { useCompressVideos } from "@/hooks/useCompressVideos";
-import VideoUploadWidget from "../VideoUploadWidget";
+
 import useStore from "@/app/zustand/useStore";
 import ProfileComponent from "../userprofile/ProfileComponent";
 import { useRouter } from "next/navigation";

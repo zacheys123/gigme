@@ -18,6 +18,15 @@ import useStore from "@/app/zustand/useStore";
 import { PropTypes } from "prop-types";
 
 const Published = ({ user }) => {
+  const {
+    setSearch,
+    pubGigs,
+    setPubGigs,
+    setCreatedGigs,
+    socket,
+    setIsbooked,
+  } = useStore();
+
   const { userId } = useAuth();
   const [typeOfGig, setTypeOfGig] = useState("");
   const [category, setCategory] = useState("all");
@@ -25,12 +34,11 @@ const Published = ({ user }) => {
   const [loadingview, setLoadingView] = useState();
   const [loadingbook, setLoadingBook] = useState();
 
+  const [gigs, setGigs] = useState();
+
   const [location, setLocation] = useState(() =>
     user?.user?.city ? user?.user?.city : "nairobi"
   );
-
-  const { setSearch, pubGigs, setPubGigs, setCreatedGigs, setAllGigs } =
-    useStore();
 
   let gigQuery;
   let currentUser = user?.user?._id;
@@ -60,6 +68,31 @@ const Published = ({ user }) => {
   useEffect(() => {
     getGigs();
   }, []);
+
+  useEffect(() => {
+    setGigs(pubGigs);
+  }, [pubGigs]);
+  useEffect(() => {
+    // Initialize the socket only once
+    if (socket) {
+      // Listen for booking updates
+      socket.on("gig-booked", (updatedGig) => {
+        console.log(updatedGig?.results);
+        setIsbooked(updatedGig?.results?.isPending);
+        setGigs((prevgigs) =>
+          prevgigs.map((gig) =>
+            gig._id === updatedGig?.results?._id ? updatedGig : gig
+          )
+        );
+      });
+    }
+    console.log(gigs);
+    return () => {
+      if (socket) {
+        socket.off("gig-booked"); // Clean up event listeners
+      }
+    };
+  }, [socket]);
   const router = useRouter();
   const [readmore, setReadMore] = useState();
   const [currentGig, setCurrentGig] = useState({});
@@ -83,11 +116,12 @@ const Published = ({ user }) => {
         }),
       });
       const data = await res.json();
-      console.log(data);
+
+      socket.emit("book-gig", data);
       if (data.gigstatus === "true") {
         setLoadingBook(false);
         toast.success("Booked the gig successfully");
-        console.log(data);
+
         router.push(`/gigme/mygig/${gig?._id}/execute`);
         setLoading(false);
       } else {
@@ -100,7 +134,7 @@ const Published = ({ user }) => {
       console.log(error);
     }
   };
-  console.log(category);
+
   // conditionsl styling
   const handleModal = (gig) => {
     setOpen(true);
@@ -143,9 +177,9 @@ const Published = ({ user }) => {
         {!loading && pubGigs?.length > 0 ? (
           <>
             {/* content */}
-            {searchfunc(pubGigs, typeOfGig, category, gigQuery, location)
+            {searchfunc(gigs, typeOfGig, category, gigQuery, location)
               ?.filter((pub) => pub.isTaken === false)
-              .map((gig) => {
+              ?.map((gig) => {
                 return (
                   <div key={gig?.secret} className=" flex w-full my-3 ">
                     <div className="flex ">
@@ -187,18 +221,16 @@ const Published = ({ user }) => {
                           {gig?.location}
                         </span>
                       </div>
-                      {!gig?.postedBy?.clerkId.includes(userId)
-                        ? !gig?.isPending && (
-                            <div className="w-full text-right p-1 -my-2 ">
-                              <ButtonComponent
-                                variant="destructive"
-                                classname=" h-[20px] text-[8px] m-2 font-bold"
-                                onclick={() => handleBook(gig)}
-                                title="Book Gig"
-                              />
-                            </div>
-                          )
-                        : ""}
+                      {!gig?.isPending && (
+                        <div className="w-full text-right p-1 -my-2 ">
+                          <ButtonComponent
+                            variant="destructive"
+                            classname=" h-[20px] text-[8px] m-2 font-bold"
+                            onclick={() => handleBook(gig)}
+                            title="Book Gig"
+                          />
+                        </div>
+                      )}
                       <div className="flex  align-start">
                         {" "}
                         <>

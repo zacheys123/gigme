@@ -12,6 +12,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    deviceToken: {
+      type: String,
+    },
     firstname: {
       type: String,
       lowercase: true,

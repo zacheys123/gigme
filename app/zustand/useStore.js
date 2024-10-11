@@ -54,6 +54,9 @@ const useStore = create((set) => ({
   open: false,
   setOpen: (open) => set({ open }),
 
+  isbooked: false,
+  setIsbooked: (isbooked) => set({ isbooked }),
+
   // user profile
   showComments: false,
   setShowComments: (showComments) => set({ showComments }),
