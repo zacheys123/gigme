@@ -16,7 +16,14 @@ import useStore from "@/app/zustand/useStore";
 import { PropTypes } from "prop-types";
 
 const Created = ({ user }) => {
-  const { setSearch, setCreatedGigs, createdGigs } = useStore();
+  const {
+    setSearch,
+    setCreatedGigs,
+    createdGigs,
+    socket,
+    isbooked,
+    setIsbooked,
+  } = useStore();
   const { userId } = useAuth();
   const [typeOfGig, setTypeOfGig] = useState("");
   const [category, setCategory] = useState("all");
@@ -24,7 +31,7 @@ const Created = ({ user }) => {
   const [location, setLocation] = useState(() =>
     user?.user?.city ? user?.user?.city : "nairobi"
   );
-
+  const [gigs, setGigs] = useState();
   let currentUser = user?.user?._id;
   const getGigs = async () => {
     setLoading(true);
@@ -50,10 +57,12 @@ const Created = ({ user }) => {
   useEffect(() => {
     getGigs();
   }, []);
+  useEffect(() => {
+    setGigs(createdGigs);
+  }, [createdGigs]);
   const router = useRouter();
   const [readmore, setReadMore] = useState();
-  const [ispend, setIsPending] = useState();
-  const [arrow, setArrow] = useState();
+
   const [currentGig, setCurrentGig] = useState({});
   const [gigdesc, setGigdesc] = useState();
   const [open, setOpen] = useState();
@@ -72,7 +81,28 @@ const Created = ({ user }) => {
     setOpen(false);
     console.log("close", gigdesc);
   };
-
+  useEffect(() => {
+    // Initialize the socket only once
+    if (socket) {
+      // Listen for booking updates
+      socket.on("gig-booked", (updatedGig) => {
+        console.log(updatedGig?.results);
+        setIsbooked(updatedGig?.results?.isPending);
+        toast.success(updatedGig?.message);
+        setGigs((prevgigs) =>
+          prevgigs.map((gig) =>
+            gig._id === updatedGig?.results?._id ? updatedGig : gig
+          )
+        );
+      });
+    }
+    console.log(gigs);
+    return () => {
+      if (socket) {
+        socket.off("gig-booked"); // Clean up event listeners
+      }
+    };
+  }, [socket]);
   return (
     <div className=" w-full h-[calc(100vh-260px)] p-2  mt-3 ">
       {gigdesc && (
@@ -113,7 +143,7 @@ const Created = ({ user }) => {
           <>
             {/* content */}
             {searchfunc(createdGigs, typeOfGig, category, gigQuery, location)
-              .map((gig) => {
+              ?.map((gig) => {
                 return (
                   <div key={gig?.secret} className="p-1 flex w-full mt-3 ">
                     <div className="rounded-full w-[30px] h-[30px] bg-green-800"></div>
@@ -125,12 +155,12 @@ const Created = ({ user }) => {
                         </span>
                         <span
                           className={
-                            !gig?.isPending
+                            !gig?.isPending || !isbooked
                               ? "titler text-red-700 font-bold"
                               : "titler font-bold text-yellow-200"
                           }
                         >
-                          {gig?.bussinesscat}
+                          {gig?.bussinesscat || gigs?.bussinesscat}
                         </span>
                       </div>
                       <div className="flex ">
@@ -140,7 +170,7 @@ const Created = ({ user }) => {
                         </span>
                         <span
                           className={
-                            !gig?.isPending
+                            !gig?.isPending || !isbooked
                               ? "titler text-red-700 font-bold"
                               : "titler font-bold text-yellow-200"
                           }
@@ -155,7 +185,7 @@ const Created = ({ user }) => {
                         </span>
                         <span
                           className={
-                            !gig?.isPending
+                            !gig?.isPending || !isbooked
                               ? "titler text-red-700 font-bold"
                               : "titler font-bold text-yellow-200"
                           }
@@ -185,7 +215,7 @@ const Created = ({ user }) => {
                           />
                         </div>
                       )}
-                      {!gig?.isPending && !gig?.isTaken && (
+                      {!gig?.isPending && !isbooked && (
                         <div className="w-full text-right">
                           <ButtonComponent
                             variant="destructive"
@@ -196,12 +226,15 @@ const Created = ({ user }) => {
                         </div>
                       )}
                       <Divider />{" "}
-                      {!gig?.postedBy?.clerkId === userId &&
-                      gig?.isPending === false ? (
+                      {(!gig?.postedBy?.clerkId === userId &&
+                        gig?.isPending === false) ||
+                      isbooked === false ? (
                         <div className="flex justify-between items-center mt-2">
                           <div
                             className={
-                              gig?.isPending ? " flex " : "flex-1 w-[80%]"
+                              gig?.isPending || isbooked
+                                ? " flex "
+                                : "flex-1 w-[80%]"
                             }
                           >
                             {" "}
@@ -213,12 +246,16 @@ const Created = ({ user }) => {
                                 {!gig?.isTaken ? (
                                   <span
                                     className={
-                                      gig?.isPending == false
+                                      gig?.isPending == false &&
+                                      isbooked === false
                                         ? " track-tighter bg-sky-500  p-2 rounded-full text-[11px]  text-white "
                                         : ""
                                     }
                                   >
-                                    {gig?.isPending == false ? "Avaliable" : ""}
+                                    {gig?.isPending == false &&
+                                    isbooked === false
+                                      ? "Avaliable"
+                                      : ""}
                                   </span>
                                 ) : (
                                   <span className=" bg-green-500 p-2 rounded-full text-[11px]  text-white">
@@ -227,11 +264,13 @@ const Created = ({ user }) => {
                                 )}
                               </div>
                             </div>
-                            {gig?.isPending && (
-                              <h6 className="giglink bg-red-700 h-[24px] font-bold whitespace-nowrap text-white rounded-bl-xl p-1 flex">
-                                Not Available for now
-                              </h6>
-                            )}
+                            {gig?.isTaken === false &&
+                              gig?.isPending === true &&
+                              isbooked === true && (
+                                <h6 className="giglink bg-red-700 h-[24px] font-bold whitespace-nowrap text-white rounded-bl-xl p-1 flex">
+                                  Not Available for now
+                                </h6>
+                              )}
                           </div>
                           <div>
                             {" "}
@@ -257,12 +296,14 @@ const Created = ({ user }) => {
                             {!gig?.isTaken ? (
                               <span
                                 className={
-                                  gig?.isPending == false
+                                  gig?.isPending == false || isbooked === false
                                     ? " track-tighter bg-sky-500  p-2 rounded-full text-[11px]  text-white "
                                     : ""
                                 }
                               >
-                                {gig?.isPending == false ? "Avaliable" : ""}
+                                {gig?.isPending == false || isbooked === false
+                                  ? "Avaliable"
+                                  : ""}
                               </span>
                             ) : (
                               <span className=" bg-green-500 p-2 rounded-full text-[11px]  text-white">
@@ -272,37 +313,41 @@ const Created = ({ user }) => {
                           </span>
                         </div>
                       )}
-                      {gig?.isPending === false && gig?.isTaken === true && (
-                        <Box
-                          className="flex item-center  bg-red-300 p-2 max-w-[80%] rounded-xl mt-2 gap-3
+                      {gig?.isPending === false &&
+                        isbooked === false &&
+                        gig?.isTaken === true && (
+                          <Box
+                            className="flex item-center  bg-red-300 p-2 max-w-[80%] rounded-xl mt-2 gap-3
                          whitespace-nowrap md:hover:cursor-pointer  duration-400 md:hover:max-w-[80%] hover:justify-between transition-transform hover:scale-90"
-                          onClick={() => {
-                            router.push(`/friends/${gig?.bookedBy?.username}`);
-                          }}
-                          // onMouseOver={() => setArrow(true)}
-                          // onMouseLeave={() => setArrow(false)}
-                        >
-                          <div className="flex gap-2">
-                            <h6 className="font-mono text-[12px]">
-                              Who Booked?!!{" "}
-                            </h6>
-                            <span className="giglink font-bold text-blue-500">
-                              {gig?.bookedBy?.firstname}
-                            </span>
-                          </div>
+                            onClick={() => {
+                              router.push(
+                                `/friends/${gig?.bookedBy?.username}`
+                              );
+                            }}
+                            // onMouseOver={() => setArrow(true)}
+                            // onMouseLeave={() => setArrow(false)}
+                          >
+                            <div className="flex gap-2">
+                              <h6 className="font-mono text-[12px]">
+                                Who Booked?!!{" "}
+                              </h6>
+                              <span className="giglink font-bold text-blue-500">
+                                {gig?.bookedBy?.firstname}
+                              </span>
+                            </div>
 
-                          <div className="">
-                            <ArrowRight
-                              sx={{
-                                fontSize: "14px",
-                                opacity: 0.5,
-                              }}
-                              color="grey"
-                              size="17px"
-                            />
-                          </div>
-                        </Box>
-                      )}
+                            <div className="">
+                              <ArrowRight
+                                sx={{
+                                  fontSize: "14px",
+                                  opacity: 0.5,
+                                }}
+                                color="grey"
+                                size="17px"
+                              />
+                            </div>
+                          </Box>
+                        )}
                     </div>
                   </div>
                 );

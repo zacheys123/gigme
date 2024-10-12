@@ -86,33 +86,48 @@ const Video = ({ post, myuser, myComments }) => {
         }
       >
         <motion.div
+          initial={{
+            opacity: 0,
+            scale: 0,
+          }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+          }}
+          transition={{ duration: 0.3, delay: 0.1 }}
           whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
           className="w-full mb-10 flex-1 relative overflow-hidden max-h-fit"
           ref={videoContainerRef}
         >
-          {post?.media ? (
-            <ReactPlayer
-              ref={playerRef}
-              url={post?.media}
-              playing={isPlaying}
-              className="object-cover"
-              controls // Show controls
-              width="100%"
-              quality="auto"
-              height="100%"
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-full mb-10 flex-1 relative overflow-hidden max-h-fit"
+            ref={videoContainerRef}
+          >
+            {post?.media ? (
+              <ReactPlayer
+                ref={playerRef}
+                url={post?.media}
+                playing={isPlaying}
+                className="object-cover"
+                controls // Show controls
+                width="100%"
+                quality="auto"
+                height="100%"
 
-              // Show a thumbnail before playing
-            />
-          ) : (
-            <Image
-              src=""
-              alt=" video here"
-              className="profile-image"
-              width={30}
-              height={30}
-            />
-          )}
+                // Show a thumbnail before playing
+              />
+            ) : (
+              <Image
+                src=""
+                alt=" video here"
+                className="profile-image"
+                width={30}
+                height={30}
+              />
+            )}
+          </motion.div>
           <div className="w-full border border-slate-800"></div>
           <div className="flex flex-col gap-4 my-3   rounded-md p-3">
             {" "}

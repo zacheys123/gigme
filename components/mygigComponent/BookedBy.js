@@ -18,8 +18,11 @@ import { useBookGig } from "@/hooks/useBookGig";
 import { useAuth } from "@clerk/nextjs";
 import { FaMessage } from "react-icons/fa6";
 import ClientOnly from "@/app/ClientOnly";
+import useStore from "@/app/zustand/useStore";
+import { toast } from "sonner";
 const Booker = ({ myGig }) => {
   const { userId } = useAuth();
+  const { socket, isbooked, setIsbooked } = useStore();
   const { loading, forgetBookings } = useForgetBookings();
   const { bookloading, bookgig } = useBookGig();
 
@@ -45,7 +48,6 @@ const Booker = ({ myGig }) => {
     fullband: "fullband",
     date: new Date(myGig?.gigs?.date).toLocaleDateString(),
   });
-
   useEffect(() => {
     setCreatorData(() => {
       return {
@@ -109,26 +111,48 @@ const Booker = ({ myGig }) => {
     },
   };
   let className = "";
+
   const [hello, setHello] = useState();
+  useEffect(() => {
+    if (!socket) return; // Ensure socket is initialized
+
+    const handleGigCanceled = (updatedGig) => {
+      setIsbooked(updatedGig?.results?.isPending);
+      toast.error(`${updatedGig?.results?.bookedBy?.firstname} canceled`);
+      console.log(updatedGig);
+    };
+
+    socket.on("gig-canceled", handleGigCanceled);
+
+    return () => {
+      socket.off("gig-canceled", handleGigCanceled);
+    };
+  }, [socket, setIsbooked]);
+
   useEffect(() => {
     setTimeout(() => {
       setHello(true);
     }, 4000);
   }, []);
 
-  console.log(myGig);
+  useEffect(() => {
+    if (isbooked == false) {
+      if (myGig?.gigs?.isPending === false) {
+        router.push(`/gigme/gigs/${userId}`);
+      }
+    }
+  }, [myGig?.gigs?.isPending, router, userId, isbooked]);
+
   const book = () => {
     bookgig(rating, myGig, userId);
   };
   const forget = () => {
-    forgetBookings(userId, myGig);
+    forgetBookings(userId, myGig, socket);
   };
   const onClick = (gig) => {
     router.push(`/gigme/chat/${gig?.bookedBy?.clerkId}/${gig?._id}`);
   };
-  if (myGig?.gigs?.isPending === false) {
-    router.push(`/gigme/gigs/${userId}`);
-  }
+
   return (
     <ClientOnly>
       <div className="container bg-neutral-600 shadow-xl h-screen overflow-hidden w-screen p-2 relative">
@@ -144,14 +168,20 @@ const Booker = ({ myGig }) => {
               type="text"
               className="title p-4  mx-auto mt-4  text-white bg-red-800  md:text-[25px] xl:text-[28px] "
               placeholder="firstname"
-              value={creatorData?.firstname}
+              value={
+                creatorData?.firstname !== undefined
+                  ? creatorData?.firstname
+                  : ""
+              }
             />
             <Input
               disabled
               type="text"
               className=" p-4 title  mx-auto mt-4  text-white bg-red-800   md:text-[25px] xl:text-[28]  "
               placeholder="lastname"
-              value={creatorData?.lastname}
+              value={
+                creatorData?.lastname !== undefined ? creatorData?.lastname : ""
+              }
             />
           </div>
           <div className="flex gap-3 mb-6">
@@ -160,7 +190,7 @@ const Booker = ({ myGig }) => {
               type="text"
               className=" p-4   mx-auto mt-4  text-white bg-red-800   md:text-[25px] xl:text-[28]  "
               placeholder="Email address"
-              value={creatorData?.email}
+              value={creatorData?.email !== undefined ? creatorData?.email : ""}
             />
             <Input
               disabled
@@ -175,7 +205,7 @@ const Booker = ({ myGig }) => {
             type="text"
             className=" p-4 title  mx-auto my-4  text-yellow-200 placeholder-gray-100 bg-red-800   md:text-[25px] xl:text-[28]  "
             placeholder="City"
-            value={creatorData?.city}
+            value={creatorData?.city !== undefined ? creatorData?.city : ""}
           />{" "}
           <div className="flex items-center justify-between w-[75%] mx-auto my-8">
             <div className="flex flex-col items-center  title">

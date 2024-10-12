@@ -92,7 +92,7 @@ const Published = ({ user }) => {
         socket.off("gig-booked"); // Clean up event listeners
       }
     };
-  }, [socket]);
+  }, [socket, setIsbooked, gigs]);
   const router = useRouter();
   const [readmore, setReadMore] = useState();
   const [currentGig, setCurrentGig] = useState({});

@@ -6,7 +6,7 @@ import { toast } from "sonner";
 export function useForgetBookings() {
   const [loading, setLoading] = useState();
   const route = useRouter();
-  const forgetBookings = async (userId, myGig) => {
+  const forgetBookings = async (userId, myGig, socket) => {
     try {
       setLoading(true);
       const response = await fetch(`/api/gigs/cancelgig/${myGig?.gigs?._id}`, {
@@ -22,6 +22,8 @@ export function useForgetBookings() {
         throw new Error("Failed to cancel the gig");
       }
       const data = await response.json();
+      socket.emit("cancel-gig", data);
+
       if (data.gigstatus === "true") {
         toast.success("Cancelled the gig successfully");
         console.log(data);

@@ -374,3 +374,41 @@ input[type="radio"] {
 .upload-popup-active {
   height: 400px;
 }
+
+.typing-effect {
+  font-family: monospace; /* Optional, for a typewriter feel */
+  white-space: nowrap; /* Prevents text from wrapping */
+  overflow: hidden; /* Ensures only the visible part of text is shown */
+  border-right: 2px solid black; /* Cursor effect */
+  width: 0; /* Initial width */
+  animation: typing 3s steps(30) forwards,
+    blink 0.5s step-end infinite alternate;
+}
+
+.cont {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+.dot {
+  height: 10px;
+  width: 10px;
+  margin: 0 5px;
+
+  border-radius: 50%;
+  animation: "typing 1.2s infinite ease-in-out";
+}
+/* Typing animation */
+@keyframes typing {
+  0%,
+  20% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

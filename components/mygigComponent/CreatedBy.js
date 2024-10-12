@@ -1,5 +1,5 @@
 "use client";
-
+// THIS PAGE IS FOR THE ONE WHO BOOKED
 import { Textarea, TextInput } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { Input } from "../ui/input";
@@ -12,9 +12,12 @@ import { motion } from "framer-motion";
 import { useForgetBookings } from "@/hooks/useForgetBookings";
 import { FaMessage } from "react-icons/fa6";
 import ClientOnly from "@/app/ClientOnly";
+import useStore from "@/app/zustand/useStore";
 const Creator = ({ myGig }) => {
   const { userId } = useAuth();
+  const { socket, isbooked, setIsbooked } = useStore();
   const { loading, forgetBookings } = useForgetBookings();
+
   const [creatorData, setCreatorData] = useState({
     firstname: myGig?.gigs?.postedBy?.firstname,
     lastname: myGig?.gigs?.postedBy?.lastname,
@@ -35,9 +38,6 @@ const Creator = ({ myGig }) => {
     date: new Date(myGig?.gigs?.date).toLocaleDateString(),
   });
 
-  const forget = () => {
-    forgetBookings(userId, myGig);
-  };
   useEffect(() => {
     setCreatorData(() => {
       return {
@@ -94,6 +94,24 @@ const Creator = ({ myGig }) => {
     },
   };
 
+  useEffect(() => {
+    // Initialize the socket only once
+    if (socket) {
+      // Listen for booking updates
+      socket.on("gig-canceled", (updatedGig) => {
+        setIsbooked(updatedGig.results?.isPending);
+        toast.error(`${updatedGig?.results?.postedBy?.firstname} canceled`);
+        console.log(updatedGig);
+      });
+    }
+
+    return () => {
+      if (socket) {
+        socket.off("gig-canceled"); // Clean up event listeners
+      }
+    };
+  }, [socket]);
+
   const router = useRouter();
   const [hello, setHello] = useState();
   useEffect(() => {
@@ -102,11 +120,17 @@ const Creator = ({ myGig }) => {
     }, 4000);
   }, []);
 
+  // i booked the gig this is the  page im canceleing the one who booked
+  const forget = () => {
+    forgetBookings(userId, myGig, socket);
+  };
   useEffect(() => {
-    if (myGig?.gigs?.isPending === false) {
-      router.push(`/gigme/gigs/${userId}`);
+    if (isbooked === false) {
+      if (myGig?.gigs?.isPending === false) {
+        router.push(`/gigme/gigs/${userId}`);
+      }
     }
-  }, [myGig?.gigs?.isPending, router, userId]);
+  }, [myGig?.gigs?.isPending, router, userId, isbooked]);
   const onClick = (gig) => {
     router.push(`/gigme/chat/${gig?.postedBy?.clerkId}/${gig?._id}`);
   };

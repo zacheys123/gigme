@@ -1,6 +1,6 @@
 import ClientOnly from "@/app/ClientOnly";
-import Booker from "@/components/mygigComponent/Booker";
-import Creator from "@/components/mygigComponent/Creator";
+import Booker from "@/components/mygigComponent/BookedBy";
+import Creator from "@/components/mygigComponent/CreatedBy";
 import { checkEnvironment } from "@/utils";
 import { auth } from "@clerk/nextjs";
 import React from "react";
