@@ -101,4 +101,5 @@ export default Chat;
 Chat.propTypes = {
   other: PropTypes.object,
   curr: PropTypes.object,
+  getGig: PropTypes.object,
 };

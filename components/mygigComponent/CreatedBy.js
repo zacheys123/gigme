@@ -95,20 +95,31 @@ const Creator = ({ myGig }) => {
   };
 
   useEffect(() => {
-    // Initialize the socket only once
-    if (socket) {
-      // Listen for booking updates
-      socket.on("gig-canceled", (updatedGig) => {
-        setIsbooked(updatedGig.results?.isPending);
-        toast.error(`${updatedGig?.results?.postedBy?.firstname} canceled`);
-        console.log(updatedGig);
-      });
+    if (!socket) {
+      console.log("Socket is not available yet");
+      return; // Exit early if socket is not available
     }
 
+    const handleConnect = () => console.log("Socket connected");
+    const handleDisconnect = () => console.log("Socket disconnected");
+    const handleNewCancel = (updatedGig) => {
+      // Listen for booking updates
+
+      setIsbooked(updatedGig.results?.isPending);
+      toast.error(`${updatedGig?.results?.postedBy?.firstname} canceled`);
+      console.log(updatedGig);
+    };
+    console.log(socket);
+    // Add listeners only after socket is available
+    socket.on("connect", handleConnect);
+    socket.on("disconnect", handleDisconnect);
+    socket.on("gig-canceled", handleNewCancel);
+
+    // Cleanup on unmount
     return () => {
-      if (socket) {
-        socket.off("gig-canceled"); // Clean up event listeners
-      }
+      socket.off("connect", handleConnect);
+      socket.off("disconnect", handleDisconnect);
+      socket.off("gig-canceled", handleNewCancel);
     };
   }, [socket]);
 

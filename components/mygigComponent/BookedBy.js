@@ -114,29 +114,41 @@ const Booker = ({ myGig }) => {
 
   const [hello, setHello] = useState();
   useEffect(() => {
-    if (!socket) return; // Ensure socket is initialized
+    if (!socket) {
+      console.log("Socket is not available yet");
+      return; // Exit early if socket is not available
+    }
 
-    const handleGigCanceled = (updatedGig) => {
-      setIsbooked(updatedGig?.results?.isPending);
+    const handleConnect = () => console.log("Socket connected");
+    const handleDisconnect = () => console.log("Socket disconnected");
+    const handleNewCancel = (updatedGig) => {
+      // Listen for booking updates
+
+      setIsbooked(updatedGig.results?.isPending);
       toast.error(`${updatedGig?.results?.bookedBy?.firstname} canceled`);
       console.log(updatedGig);
     };
+    console.log(socket);
+    // Add listeners only after socket is available
+    socket.on("connect", handleConnect);
+    socket.on("disconnect", handleDisconnect);
+    socket.on("gig-canceled");
 
-    socket.on("gig-canceled", handleGigCanceled);
-
+    // Cleanup on unmount
     return () => {
-      socket.off("gig-canceled", handleGigCanceled);
+      socket.off("connect", handleConnect);
+      socket.off("disconnect", handleDisconnect);
+      socket.off("gig-canceled", handleNewCancel);
     };
-  }, [socket, setIsbooked]);
-
+  }, [socket]);
   useEffect(() => {
     setTimeout(() => {
       setHello(true);
-    }, 4000);
+    }, 2000);
   }, []);
 
   useEffect(() => {
-    if (isbooked == false) {
+    if (isbooked == false || myGig?.gigs?.isPending === false) {
       if (myGig?.gigs?.isPending === false) {
         router.push(`/gigme/gigs/${userId}`);
       }

@@ -12,15 +12,15 @@ export async function POST(req) {
   if (!userId) {
     return NextResponse.redirect(new URL("/sign-in", req.url));
   }
-  const gig = await Gig.findById(gigChat)
-    .populate({ path: "postedBy", model: User })
-    .populate({ path: "bookedBy", model: User });
-  if (!gig || !gig.bookedBy || !gig.postedBy) {
-    return NextResponse.json({
-      message: "Gig or user details not found",
-      status: 400,
-    });
-  }
+  // const gig = await Gig.findById(gigChat)
+  //   .populate({ path: "postedBy", model: User })
+  //   .populate({ path: "bookedBy", model: User });
+  // if (!gig.bookedBy || !gig.postedBy) {
+  //   return NextResponse.json({
+  //     message: "Gig or user details not found",
+  //     status: 400,
+  //   });
+  // }
   try {
     await connectDb();
     // console.log("senders: " + sender);

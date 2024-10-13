@@ -108,5 +108,5 @@ export default ChatInput;
 ChatInput.propTypes = {
   currentId: PropTypes.string.isRequired,
   postedorbookedById: PropTypes.string.isRequired,
-  gigId: PropTypes.string.isRequired,
+  gigId: PropTypes.object,
 };

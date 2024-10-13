@@ -16,7 +16,7 @@ export const send = async (
     sender: currentId,
     text: message.trim(),
     reciever: postedorbookedById,
-    gigChat: gigId,
+    gigChat: gigId?.gigs?._id,
   };
   console.log({ dataInfo: { dataInfo } });
   if (!message || !currentId || !postedorbookedById) {
@@ -32,8 +32,19 @@ export const send = async (
       body: JSON.stringify(dataInfo),
     });
     const data = await response.json();
-    socket?.emit("sendMessage", data.message);
-    setMessages([...messages, data.message]);
+    // Ensure the socket is initialized and available
+    console.log(socket);
+    if (socket && typeof socket.emit === "function") {
+      socket.emit("sendMessage", data.message, (error) => {
+        if (error) {
+          console.log("Message send error:", error);
+        }
+        setMessages([...messages, error]);
+      });
+    } else {
+      console.error("Socket is not initialized or emit is not a function");
+    }
+
     setIsLoaded(true);
     setText("");
     console.log(data);
