@@ -132,7 +132,7 @@ const Booker = ({ myGig }) => {
     // Add listeners only after socket is available
     socket.on("connect", handleConnect);
     socket.on("disconnect", handleDisconnect);
-    socket.on("gig-canceled");
+    socket.on("gig-canceled", handleNewCancel);
 
     // Cleanup on unmount
     return () => {
