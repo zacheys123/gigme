@@ -33,7 +33,7 @@ export function useForgetBookings() {
       socket.emit("book-gig", data);
 
       if (data.gigstatus === "true") {
-        toast.success("Cancelled the gig successfully");
+        toast.success(data.message);
         console.log(data);
         route.back();
         setLoading(false);
@@ -43,7 +43,7 @@ export function useForgetBookings() {
       }
     } catch (error) {
       setLoading(false);
-      console.error("Error canceling the gig:", error.message);
+      console.error("Error canceling the gig:try again later");
     }
   };
   return { loading, forgetBookings };

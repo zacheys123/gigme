@@ -36,7 +36,7 @@ const Published = ({ user }) => {
   const [loadingview, setLoadingView] = useState();
   const [loadingbook, setLoadingBook] = useState();
 
-  const [gigs, setGigs] = useState({});
+  const [gigs, setGigs] = useState([]);
 
   const [socket, setNewSocket] = useState("");
 
@@ -68,10 +68,10 @@ const Published = ({ user }) => {
       setLoading(false);
     }
   };
-
-  // Initialize Socket.IO and handle real-time updates
   useEffect(() => {
-    const newSocket = io("http://localhost:8080");
+    const newSocket = io("http://localhost:8080", {
+      transports: ["websocket"],
+    });
     setNewSocket(newSocket);
 
     newSocket.on("gig-booked", (updatedGig) => {
@@ -85,7 +85,7 @@ const Published = ({ user }) => {
     });
 
     return () => {
-      newSocket.disconnect(); // Clean up the socket on unmount
+      if (newSocket) newSocket.disconnect(); // Clean up on unmount
     };
   }, [setIsbooked]);
 
@@ -98,12 +98,19 @@ const Published = ({ user }) => {
   const [currentGig, setCurrentGig] = useState({});
   const [gigdesc, setGigdesc] = useState();
   const [open, setOpen] = useState();
-
+  const countUserPosts = pubGigs?.filter(
+    (gig) => gig?.bookedBy?._id === user?.user?._id
+  ).length;
+  console.log(countUserPosts);
   // Booking function it updates the isPending state ,only the logged in user access it
   const handleBook = async (gig) => {
     // update the isPending state
     if (!socket) {
       console.error("Socket not connected");
+      return;
+    }
+    if (countUserPosts < 5) {
+      toast.error("You have reached your maximum booking limit");
       return;
     }
     try {
@@ -120,12 +127,9 @@ const Published = ({ user }) => {
       const data = await res.json();
 
       if (data.gigstatus === "true") {
-        setLoadingBook(false);
         toast.success("Booked the gig successfully");
-
-        router.push(`/gigme/mygig/${gig?._id}/execute`);
         socket.emit("book-gig", data);
-        setLoading(false);
+        router.push(`/gigme/mygig/${gig?._id}/execute`);
       } else {
         toast.error(data.message);
         router.push(`/gigme/gigs/${userId}`);
@@ -134,7 +138,7 @@ const Published = ({ user }) => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("An error occurred while booking.", error);
+      toast.error("Failed to book the gig. Please try again.");
     } finally {
       setLoadingBook(false);
     }
@@ -240,10 +244,8 @@ const Published = ({ user }) => {
                       <div className="flex  align-start">
                         {" "}
                         <>
-                          {gig?.isPending === true &&
-                            gig?.bookedBy?.clerkId.includes(userId) &&
-                            gig?.bookedBy?.firstname ===
-                              user?.user?.firstname && (
+                          {gig.isPending === true &&
+                            gig.bookedBy?.clerkId === userId && (
                               <div className="w-full text-right">
                                 <ButtonComponent
                                   variant="secondary"
