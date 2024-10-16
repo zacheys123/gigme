@@ -1,5 +1,5 @@
 import admin from "firebase-admin";
-import serviceAccount from "@/config/serviceWorker.json"; // FCM credentials
+import serviceAccount from "./config/serviceWorker.json"; // FCM credentials
 import User from "@/models/user";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 
