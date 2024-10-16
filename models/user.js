@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    deviceToken: {
+    fcmToken: {
       type: String,
     },
     firstname: {

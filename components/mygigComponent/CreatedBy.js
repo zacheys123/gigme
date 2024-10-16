@@ -136,7 +136,7 @@ const Creator = ({ myGig }) => {
     forgetBookings(userId, myGig, socket);
   };
   useEffect(() => {
-    if (isbooked === false) {
+    if (isbooked == false || myGig?.gigs?.isPending === false) {
       if (myGig?.gigs?.isPending === false) {
         router.push(`/gigme/gigs/${userId}`);
       }

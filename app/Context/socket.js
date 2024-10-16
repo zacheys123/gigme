@@ -5,7 +5,7 @@ import { useAuth } from "@clerk/nextjs";
 import { createContext, useContext, useMemo, useEffect, useState } from "react";
 
 import useStore from "../zustand/useStore";
-import { useSocket } from "@/hooks/useSocket";
+import useSocket from "@/hooks/useSocket";
 
 const SocketContext = createContext();
 

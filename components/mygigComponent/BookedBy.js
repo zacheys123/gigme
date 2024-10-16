@@ -119,14 +119,18 @@ const Booker = ({ myGig }) => {
       return; // Exit early if socket is not available
     }
 
+    console.log("Socket is available, setting up listeners...");
+
     const handleConnect = () => console.log("Socket connected");
     const handleDisconnect = () => console.log("Socket disconnected");
+
     const handleNewCancel = (updatedGig) => {
       // Listen for booking updates
 
       setIsbooked(updatedGig.results?.isPending);
       toast.error(`${updatedGig?.results?.bookedBy?.firstname} canceled`);
       console.log(updatedGig);
+      console.log("New message received:", updatedGig);
     };
     console.log(socket);
     // Add listeners only after socket is available

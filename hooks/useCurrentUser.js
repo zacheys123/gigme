@@ -1,16 +1,30 @@
 "use client";
 
-import { global } from "@/actions";
-import { useGlobalContext } from "@/app/Context/store";
 import { useEffect, useState } from "react";
+
 export function useCurrentUser(userId) {
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUser(() => {
+        // Safely parse user data from localStorage.
+        try {
+          return JSON.parse(window.localStorage.getItem("user")) || {};
+        } catch (e) {
+          console.error("Failed to parse user data from localStorage:", e);
+          return {};
+        }
+      });
+    }
+  }, []);
+
   useEffect(() => {
     if (!userId) {
       setUser({});
       return;
     }
+
     const getUser = async () => {
       try {
         setLoading(true);
@@ -20,21 +34,27 @@ export function useCurrentUser(userId) {
             "Content-Type": "application/json",
           },
         });
-        const meuser = await res.json();
-        if (meuser === null) {
+
+        if (!res.ok) {
+          // Handle non-2xx responses.
+          console.error(`Failed to fetch user: ${res.statusText}`);
           setUser({});
-          console.group("User not found");
-          return {};
+          return;
         }
-        setUser(meuser);
-        console.log(meuser);
+
+        const fetchedUser = await res.json();
+        setUser(fetchedUser);
+        console.log(fetchedUser);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching user:", error);
+        setUser({});
       } finally {
         setLoading(false);
       }
     };
+
     getUser();
   }, [userId]);
+
   return { loading, user, setUser };
 }

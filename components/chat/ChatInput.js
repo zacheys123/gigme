@@ -12,7 +12,7 @@ import useStore from "@/app/zustand/useStore";
 import InputEmoji from "react-input-emoji";
 import { useListenMessage } from "@/hooks/useListenMessage";
 import { useSocketContext } from "@/app/Context/socket";
-import { useSocket } from "@/hooks/useSocket";
+import useSocket from "@/hooks/useSocket";
 const ChatInput = ({
   currentId,
   postedorbookedById,

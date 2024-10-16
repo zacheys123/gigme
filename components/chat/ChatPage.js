@@ -9,10 +9,7 @@ import { useParams } from "next/navigation";
 import useStore from "@/app/zustand/useStore";
 
 import { useSocketContext } from "@/app/Context/socket";
-import { useSocket } from "@/hooks/useSocket";
-import { io } from "socket.io-client";
-
-const socket = io("http://localhost:8080");
+import useSocket from "@/hooks/useSocket";
 
 const ChatPage = ({
   currentId,
@@ -23,11 +20,11 @@ const ChatPage = ({
 }) => {
   const { gigid } = useParams();
 
-  const lastmsg = useRef();
+  const lastmsg = useRef(null);
   const { chat } = useFetchMessages(currentId, postedorbookedById);
   const [loading, setLoading] = useState();
   const url = `/api/chat/fetchchats/${currentId}/${postedorbookedById}`;
-
+  const { socket } = useSocket();
   // Fetch chat messages when component mounts or IDs change
   useEffect(() => {
     async function getMessages() {
@@ -58,6 +55,8 @@ const ChatPage = ({
       return; // Exit early if socket is not available
     }
 
+    console.log("Socket is available, setting up listeners...");
+
     const handleConnect = () => console.log("Socket connected");
     const handleDisconnect = () => console.log("Socket disconnected");
     const handleNewMessage = (data) => {
@@ -65,7 +64,6 @@ const ChatPage = ({
       console.log("New message received:", data);
     };
 
-    // Add listeners only after socket is available
     socket.on("connect", handleConnect);
     socket.on("disconnect", handleDisconnect);
     socket.on("getMessage", handleNewMessage);
@@ -76,7 +74,7 @@ const ChatPage = ({
       socket.off("disconnect", handleDisconnect);
       socket.off("getMessage", handleNewMessage);
     };
-  }, [socket, currentId, postedorbookedById]);
+  }, [socket, messages]);
 
   // let msg = messages?.filter((message) => {
   //   return chat?.gigChat === gigid;

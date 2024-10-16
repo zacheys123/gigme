@@ -21,7 +21,7 @@ import useStore from "@/app/zustand/useStore";
 import { Box } from "@mui/material";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useAuth } from "@clerk/nextjs";
-import { useSocket } from "@/hooks/useSocket";
+import useSocket from "@/hooks/useSocket";
 const LikeDisLikeComponent = ({
   apiroute,
   myuser,
@@ -56,7 +56,14 @@ const LikeDisLikeComponent = ({
   const setPostUnLike = () => {
     handleUnlike(depunlike, myuser?._id, setLikelength, setLike, socket);
   };
+
   useEffect(() => {
+    if (!socket) {
+      console.log("Socket is not available yet");
+      return; // Exit early if socket is not available
+    }
+
+    console.log("Socket is available, setting up listeners...");
     // Listen for 'update_like' event from the server
     socket.on("update_like", (updatedLikeData) => {
       console.log(updatedLikeData);
