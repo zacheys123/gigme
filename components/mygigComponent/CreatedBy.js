@@ -105,7 +105,7 @@ const Creator = ({ myGig }) => {
     const handleNewCancel = (updatedGig) => {
       // Listen for booking updates
 
-      setIsbooked(updatedGig.results?.isPending);
+      setIsbooked(updatedGig?.results?.isPending);
       toast.error(`${updatedGig?.results?.postedBy?.firstname} canceled`);
       console.log(updatedGig);
     };
@@ -122,7 +122,6 @@ const Creator = ({ myGig }) => {
       socket.off("gig-canceled", handleNewCancel);
     };
   }, [socket]);
-
   const router = useRouter();
   const [hello, setHello] = useState();
   useEffect(() => {
@@ -340,7 +339,7 @@ const Creator = ({ myGig }) => {
             <span> Go back</span>
           </Button>
           <Button
-            className="h-[32px] w-[210px] text-[13px]  p-2 mr-6 "
+            className="h-[32px] max-w-[210px] text-[13px]  p-2 mr-6 "
             variant="secondary"
             onClick={forget}
             disabled={loading}

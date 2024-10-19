@@ -9,6 +9,8 @@ const useStore = create((set) => ({
   setAllGigs: (allGigs) => set({ allGigs: allGigs }),
   createdGigs: [],
   setCreatedGigs: (createdGigs) => set({ createdGigs: createdGigs }),
+  bookedGigs: [],
+  setBookedGigs: (bookedGigs) => set({ bookedGigs: bookedGigs }),
   search: false,
   setSearch: (search) => set({ search }),
   friendData: false,

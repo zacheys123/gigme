@@ -31,6 +31,7 @@ const Created = ({ user }) => {
   const [location, setLocation] = useState(() =>
     user?.user?.city ? user?.user?.city : "nairobi"
   );
+  const [loadingPostId, setLoadingPostId] = useState(null);
   const [gigs, setGigs] = useState();
   let currentUser = user?.user?._id;
   const getGigs = async () => {
@@ -210,8 +211,19 @@ const Created = ({ user }) => {
                           <ButtonComponent
                             variant="secondary"
                             classname=" h-[22px] text-[10px] m-2 font-bold"
-                            onclick={() => handleEditBooked(gig?._id)}
-                            title=" View Booked Gig!!!"
+                            onclick={() => {
+                              setLoadingPostId(gig?._id);
+
+                              setTimeout(() => {
+                                handleEditBooked(gig?._id);
+                                setLoadingPostId(null);
+                              }, 2000);
+                            }}
+                            title={
+                              loadingPostId === gig._id
+                                ? "viewing....!!"
+                                : "View Booked Gig Gig!!!!!!"
+                            }
                           />
                         </div>
                       )}
@@ -220,8 +232,19 @@ const Created = ({ user }) => {
                           <ButtonComponent
                             variant="destructive"
                             classname=" h-[22px] text-[10px] m-2 font-bold"
-                            onclick={() => handleEdit(gig?._id)}
-                            title="Edit Gig!!!!"
+                            onclick={() => {
+                              setLoadingPostId(gig?._id);
+
+                              setTimeout(() => {
+                                handleEdit(gig?._id);
+                                setLoadingPostId(null);
+                              }, 2000);
+                            }}
+                            title={
+                              loadingPostId === gig._id
+                                ? "editing gig..."
+                                : "Edit Gig!!!!!!"
+                            }
                           />
                         </div>
                       )}

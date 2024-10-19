@@ -302,7 +302,7 @@ const Booker = ({ myGig }) => {
               </div>
             </div>{" "}
             <Button
-              className="h-[35px] mt-3  w-[100%] sm:text-[8px] sm:h-[32px]  text-[11px] md:text-[13px]   p-2 mx-4  whitespace-nowrap"
+              className="h-[35px] mt-3  max-w-[100%] sm:text-[8px] sm:h-[32px]  text-[11px] md:text-[13px]   p-2 mx-4  whitespace-nowrap"
               variant="destructive"
               onClick={book}
               disabled={bookloading}

@@ -23,6 +23,7 @@ export default authMiddleware({
     "/api/chat/getuserchat/:id",
     "/api/posts/getusersposts",
     "/api/user/getAllmyusers",
+    "/api/updatePending",
   ],
 });
 export const config = {

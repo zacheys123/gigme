@@ -4,6 +4,7 @@ import { auth, ClerkLoaded } from "@clerk/nextjs";
 import { GlobalProvider } from "./Context/store";
 import { Providers } from "./Providers/provider";
 import { SocketContextProvider } from "./Context/socket";
+import "@/lib/cron";
 export const metadata = {
   title: "GigMeApp",
   description: "Connect to Musicians",

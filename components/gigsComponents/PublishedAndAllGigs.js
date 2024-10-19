@@ -17,48 +17,61 @@ import Gigheader from "./Gigheader";
 import useStore from "@/app/zustand/useStore";
 import { PropTypes } from "prop-types";
 
-const BookedGigs = ({ user }) => {
+import { io } from "socket.io-client";
+import { getGigs, handlebook } from "@/features/bookSlice";
+
+const PublishedAndAllGigs = ({ user }) => {
+  const {
+    setSearch,
+    pubGigs,
+    setPubGigs,
+    setCreatedGigs,
+    setIsbooked,
+    isbooked,
+  } = useStore();
+
   const { userId } = useAuth();
   const [typeOfGig, setTypeOfGig] = useState("");
   const [category, setCategory] = useState("all");
   const [loading, setLoading] = useState();
   const [loadingview, setLoadingView] = useState();
-  const [loadingbook, setLoadingBook] = useState();
+  const [loadingPostId, setLoadingPostId] = useState(null);
+
+  const [gigs, setGigs] = useState([]);
+
+  const [socket, setNewSocket] = useState("");
 
   const [location, setLocation] = useState(() =>
     user?.user?.city ? user?.user?.city : "nairobi"
   );
 
-  const { setSearch, setBookedGigs, bookedGigs } = useStore();
-
   let gigQuery;
-  let currentUser = user?.user?._id;
-  const getGigs = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/gigs/allgigs`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await res.json();
-      console.log(data?.gigs);
-      setBookedGigs(data?.gigs);
-      setLoading(false);
-      console.log(data);
-      return data;
-    } catch (error) {
-      setLoading(false);
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
-    getGigs();
+    const newSocket = io("http://localhost:8080", {
+      transports: ["websocket"],
+    });
+    setNewSocket(newSocket);
+
+    newSocket.on("gig-booked", (updatedGig) => {
+      console.log("Gig booked:", updatedGig);
+      setGigs((prevGigs) =>
+        prevGigs.map((gig) =>
+          gig._id === updatedGig.results._id ? updatedGig.results : gig
+        )
+      );
+      setIsbooked(updatedGig.results.isPending);
+    });
+
+    return () => {
+      if (newSocket) newSocket.disconnect(); // Clean up on unmount
+    };
+  }, [setIsbooked]);
+
+  useEffect(() => {
+    getGigs(userId, setPubGigs, setCreatedGigs, setLoading);
   }, []);
+
   const router = useRouter();
   const [readmore, setReadMore] = useState();
   const [currentGig, setCurrentGig] = useState({});
@@ -66,7 +79,9 @@ const BookedGigs = ({ user }) => {
   const [open, setOpen] = useState();
 
   // Booking function it updates the isPending state ,only the logged in user access it
+  const myId = user?.user?._id;
 
+  console.log(gigs);
   // conditionsl styling
   const handleModal = (gig) => {
     setOpen(true);
@@ -77,7 +92,7 @@ const BookedGigs = ({ user }) => {
     setOpen(false);
     console.log("close", gigdesc);
   };
-  console.log(bookedGigs?.filter((pub) => pub?.bookedBy?._id === currentUser));
+
   return (
     <div className="w-full h-[calc(100vh-260px)] p-2 shadow-lg mt-3">
       {" "}
@@ -104,20 +119,14 @@ const BookedGigs = ({ user }) => {
         onClick={() => setSearch(false)}
         className="gigdisplay shadow-lg shadow-yellow-600 w-full h-[100%] p-2 overflow-y-scroll element-with-scroll"
       >
-        {!loading && bookedGigs?.length === 0 && (
-          <div>No BookedGigs to display</div>
-        )}
+        {!loading && pubGigs?.length === 0 && <div>No Gigs to display</div>}
 
-        {!loading && bookedGigs?.length > 0 ? (
+        {!loading && pubGigs?.length > 0 ? (
           <>
             {/* content */}
-            {searchfunc(bookedGigs, typeOfGig, category, gigQuery, location)
-              ?.filter(
-                (pub) =>
-                  pub?.bookedBy?._id === currentUser && pub?.isPending === true
-              )
-
-              .map((gig) => {
+            {searchfunc(pubGigs, typeOfGig, category, gigQuery, location)
+              ?.filter((pub) => pub.isTaken === false)
+              ?.map((gig) => {
                 return (
                   <div key={gig?.secret} className=" flex w-full my-3 ">
                     <div className="flex ">
@@ -136,7 +145,7 @@ const BookedGigs = ({ user }) => {
                         </span>
                         <span
                           className={
-                            !gig?.isPending
+                            Object.keys(gigs).length > 0 || !gig?.isPending
                               ? "titler text-red-700 font-bold"
                               : "titler font-bold text-yellow-200"
                           }
@@ -151,7 +160,7 @@ const BookedGigs = ({ user }) => {
                         </span>
                         <span
                           className={
-                            !gig?.isPending
+                            Object.keys(gigs).length > 0 || !gig?.isPending
                               ? "titler text-red-700 font-bold line-clamp-2"
                               : "titler font-bold text-yellow-200 line-clamp-2"
                           }
@@ -159,39 +168,63 @@ const BookedGigs = ({ user }) => {
                           {gig?.location}
                         </span>
                       </div>
-                      {!gig?.postedBy?.clerkId.includes(userId)
-                        ? !gig?.isPending && (
-                            <div className="w-full text-right p-1 -my-2 ">
-                              <ButtonComponent
-                                variant="destructive"
-                                classname=" h-[20px] text-[8px] m-2 font-bold"
-                                onclick={() => handleBook(gig)}
-                                title="Book Gig"
-                              />
-                            </div>
-                          )
-                        : ""}
+                      {Object.keys(gigs).length > 0 ||
+                        (!gig?.isPending && (
+                          <div className="w-full text-right p-1 -my-2 ">
+                            <ButtonComponent
+                              variant="destructive"
+                              classname=" h-[20px] text-[8px] m-2 font-bold"
+                              onclick={() => {
+                                setLoadingPostId(gig?._id);
+                                setTimeout(() => {
+                                  // After the operation, you can handle the logic for reading the post
+                                  handlebook(
+                                    gig?._id,
+                                    myId,
+                                    socket,
+                                    pubGigs,
+                                    setLoading,
+                                    userId,
+                                    toast,
+                                    router
+                                  );
+
+                                  // Reset the loading state after reading
+                                  setLoadingPostId(null);
+                                }, 2000);
+                              }}
+                              title={
+                                loadingPostId === gig._id
+                                  ? "Booking..."
+                                  : "Book Gig"
+                              }
+                            />
+                          </div>
+                        ))}
                       <div className="flex  align-start">
                         {" "}
                         <>
-                          {gig?.isPending === true &&
-                            gig?.bookedBy?.clerkId.includes(userId) &&
-                            gig?.bookedBy?.firstname ===
-                              user?.user?.firstname && (
+                          {gig.isPending === true &&
+                            gig.bookedBy?.clerkId === userId && (
                               <div className="w-full text-right">
                                 <ButtonComponent
                                   variant="secondary"
                                   classname=" h-[20px] text-[8px] m-2 font-bold"
                                   onclick={() => {
-                                    setLoading(true);
+                                    setLoadingPostId(gig?._id);
+
                                     setTimeout(() => {
-                                      setLoadingView(false);
                                       router.push(
                                         `/gigme/mygig/${gig?._id}/execute`
                                       );
-                                    }, 3000);
+                                      setLoadingPostId(null);
+                                    }, 2000);
                                   }}
-                                  title="View Gig Details!!"
+                                  title={
+                                    loadingPostId === gig._id
+                                      ? "viewing..."
+                                      : "View Gig Details!!"
+                                  }
                                   loading={loadingview}
                                   loadingtitle="viewing..."
                                 />
@@ -210,7 +243,7 @@ const BookedGigs = ({ user }) => {
                           <div className=" w-[80%] flex">
                             <span
                               className={
-                                !gig?.isPending
+                                Object.keys(gigs).length < 0 || !gig?.isPending
                                   ? " tracking-tighter font-bold text-red-400 text-[11px] mr-1"
                                   : " tracking-tighter font-bold text-white text-[11px] mr-1"
                               }
@@ -221,12 +254,16 @@ const BookedGigs = ({ user }) => {
                               {!gig?.isTaken ? (
                                 <span
                                   className={
+                                    Object.keys(gigs).length > 0 ||
                                     gig?.isPending == false
                                       ? " track-tighter bg-sky-500  p-2 rounded-full text-[11px]  text-white "
                                       : ""
                                   }
                                 >
-                                  {gig?.isPending == false ? "Avaliable" : ""}
+                                  {Object.keys(gigs).length < 0 ||
+                                  gig?.isPending == false
+                                    ? "Avaliable"
+                                    : ""}
                                 </span>
                               ) : (
                                 <span className=" bg-green-500 p-2 rounded-full text-[11px]  text-white">
@@ -237,11 +274,12 @@ const BookedGigs = ({ user }) => {
                           </div>
                           {!gig?.bookedBy?.clerkId.includes(userId) && (
                             <>
-                              {gig?.isPending && (
-                                <h6 className="titler bg-red-700 h-[24px] font-bold whitespace-nowrap text-white p-1 flex">
-                                  Not Available for now
-                                </h6>
-                              )}
+                              {Object.keys(gigs).length > 0 ||
+                                (gig?.isPending && (
+                                  <h6 className="titler bg-red-700 h-[24px] font-bold whitespace-nowrap text-white p-1 flex">
+                                    Not Available for now
+                                  </h6>
+                                ))}
                             </>
                           )}
                         </div>
@@ -280,8 +318,8 @@ const BookedGigs = ({ user }) => {
   );
 };
 
-export default BookedGigs;
+export default PublishedAndAllGigs;
 
-BookedGigs.propTypes = {
+PublishedAndAllGigs.propTypes = {
   user: PropTypes.object.isRequired,
 };
