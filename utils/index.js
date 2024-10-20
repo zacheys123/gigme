@@ -303,3 +303,22 @@ export function getFollow(followdata, followersLength) {
     return followersLength || followdata?.followers?.length;
   }
 }
+
+export const searchFunc = (data, searchquery) => {
+  let sortedData = data;
+  console.log(sortedData);
+  if (searchquery) {
+    sortedData = sortedData?.filter((user) => {
+      if (
+        user?.firstname?.toLowerCase().includes(searchquery) ||
+        user?.lastname?.toLowerCase().includes(searchquery) ||
+        // user?.username?.toLowerCase().includes(searchquery) ||
+        user?.email?.toLowerCase().includes(searchquery) ||
+        user?.instrument?.toLowerCase().includes(searchquery)
+      ) {
+        return sortedData;
+      }
+    });
+  }
+  return sortedData;
+};

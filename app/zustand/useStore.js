@@ -22,6 +22,8 @@ const useStore = create((set) => ({
   allGigsData: false,
   setShowAllGigsData: (allGigsData) => set({ allGigsData }),
 
+  searchQuery: "",
+  setSearchQuery: (query) => set({ searchQuery: query }),
   allGigsLarge: false,
   setShowAllGigsLarge: (allGigsLarge) => set({ allGigsLarge }),
   onlineUsers: [],
