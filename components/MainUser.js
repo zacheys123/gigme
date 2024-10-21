@@ -11,7 +11,7 @@ const MainUser = ({ user }) => {
       whileInView={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.4 }}
       onClick={() => router.push(`/friends/${user?.username}`)}
-      className=" bg-gray-700 ml-[40px] text-neutral-400 w-[300px] my-10 rounded-xl p-2 cursor-pointer hover:bg-gray-500/80 transition ease-in-out delay-150 hover:-translate-x-2 hover:scale-20  duration-300"
+      className=" overflow-y-hidden  bg-neutral-800 ml-[40px] text-neutral-400 w-[300px] my-6 rounded-xl p-2 cursor-pointer hover:bg-gray-500/80 transition ease-in-out delay-150 hover:-translate-x-2 hover:scale-20  duration-300"
     >
       <div className="flex gap-4 items-center ">
         {" "}

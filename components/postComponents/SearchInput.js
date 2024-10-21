@@ -8,7 +8,7 @@ const SearchInput = ({ data }) => {
   const { searchQuery, setSearchQuery } = useStore();
 
   const handleInputChange = useCallback(
-    debounce((value) => setSearchQuery(value), 300), // 300ms debounce
+    debounce((value) => setSearchQuery(value), 200), // 300ms debounce
     []
   );
 
