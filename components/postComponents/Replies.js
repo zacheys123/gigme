@@ -21,7 +21,7 @@ const Replies = ({ replies, username, posted, myuser }) => {
       initial={{ opacity: 0, y: ["25px"] }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.1 }}
-      className="bg-zinc-800 shadow-md shadow-zinc-600 h-[95px] rounded-md w-full p-2  my-3 ml-5 "
+      className="bg-zinc-800 shadow-md shadow-zinc-600 h-fit rounded-md w-full p-1  my-3 ml-5 "
     >
       <div className="flex items-center ">
         {replies?.postedBy?.picture && (

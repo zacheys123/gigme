@@ -219,7 +219,13 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
             />
             <h6 className="text-gray-300 title" size="16px">
               {" "}
-              {formatCommentsCount(commentsArray.length || commlength)} comments
+              {formatCommentsCount(commentsArray.length || commlength) > 1
+                ? `${formatCommentsCount(
+                    commentsArray.length || commlength
+                  )} comments`
+                : `${formatCommentsCount(
+                    commentsArray.length || commlength
+                  )}  comment`}
             </h6>
           </div>
           <div className="h-[70vh]  overflow-y-auto  ">

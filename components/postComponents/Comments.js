@@ -80,14 +80,25 @@ const Comments = ({ comment, user, replies }) => {
   };
   //
   console.log(myreplies);
+  // to show a amessage of how many replies there are
   function count() {
-    if (formatReplies(replyarray.length || replyLength) === 0) {
+    if (
+      formatReplies(myreplies.length || replyarray.length || replyLength) === 0
+    ) {
       return "no replies";
     }
-    if (formatReplies(replyarray.length || replyLength) === 1) {
-      return formatReplies(replyarray.length || replyLength) + " reply";
+    if (
+      formatReplies(myreplies.length || replyarray.length || replyLength) === 1
+    ) {
+      return (
+        formatReplies(myreplies.length || replyarray.length || replyLength) +
+        " reply"
+      );
     }
-    return formatReplies(replyarray.length || replyLength) + " replies";
+    return (
+      formatReplies(myreplies.length || replyarray.length || replyLength) +
+      " replies"
+    );
   }
   return (
     <>
