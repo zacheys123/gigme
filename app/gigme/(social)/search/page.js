@@ -14,7 +14,7 @@ const SearchPage = async ({ params }) => {
   const users = await getAllUsers(user?.user?._id);
   return (
     <ClientOnly>
-      <div className=" w-[100vw] h-[calc(100vh-80px)] bg-slate-900 overflow-hidden">
+      <div className=" w-[100vw] h-[calc(100vh-80px)] bg-slate-900 overflow-y-hidden">
         <FormData data={users} />
         <SearchComponent data={users} userd={user} />
 
