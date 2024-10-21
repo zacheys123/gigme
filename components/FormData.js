@@ -8,7 +8,7 @@ import SearchInput from "./postComponents/SearchInput";
 
 const FormData = ({ data }) => {
   return (
-    <form className="w-[100vw] h-[70px]  fixed bg-inherit z-50 ">
+    <form className="w-[100vw] h-[70px]  fixed bg-black z-50 ">
       <div className=" flex justify-center items-center w-[90vw] mx-auto h-[50px] border-2 border-b-neutral-600 border-r-0 border-l-0 border-t-0  ">
         <Search
           size="17px"
