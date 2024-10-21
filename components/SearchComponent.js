@@ -35,7 +35,7 @@ const SearchComponent = ({ userd, data }) => {
 
   return (
     <div className=" bg-black w-[100vw] h-full lg:hidden  ">
-      <div className=" overflow-y-auto h-[100vh] w-[100vw] my-[15px] py-10 z-0 fixed">
+      <div className=" overflow-y-auto h-[100%] w-[100vw] my-[15px] py-10 z-0 fixed">
         {searchQuery &&
           searchFunc &&
           searchFunc(data, searchQuery)?.map((user) => {
