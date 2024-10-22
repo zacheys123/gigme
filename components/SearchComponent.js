@@ -1,119 +1,87 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Input } from "@/components/ui/input";
-
-import { Search, SearchIcon } from "lucide-react";
-import { TextInput, Label } from "flowbite-react";
-
-import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
 import MainUser from "./MainUser";
+import Notification from "./Notification";
 import { useAuth } from "@clerk/nextjs";
 import useStore from "@/app/zustand/useStore";
-import { searchFunc } from "@/utils";
-import Notification from "./Notification";
 import { debounce } from "@/utils/debounce";
 import useSocket from "@/hooks/useSocket";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
-const SearchComponent = ({ userd, data }) => {
-  const { userId } = useAuth();
-  const [usersdata, setData] = useState(data);
+import { searchFunc } from "@/utils";
 
-  // const getAllUsers = async () => {
-  //   const res = await fetch(`/api/user/getAllusers/${userId}`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  //   const { currentuser } = await res.json();
-  //   console.log(currentuser);
-  //   setData(currentuser);
-  //   return currentuser;
-  // };
-  // useEffect(() => {
-  //   getAllUsers();
-  // }, []);
-  const { socket } = useSocket();
-  const { searchQuery } = useStore();
-  // // Use the search function
-  // let otheruser = searchFunc(data, searchQuery) ?? [];
-  // // Map to extract desired properties (e.g., id, name)
-  // let extractedUsers = otheruser.map(({ id, name }) => ({ id, name }));
-  const [notification, setNotification] = useState();
-  const [mymess, setMess] = useState();
-  const [otherId, setUserId] = useState({});
-  const { user } = useCurrentUser(userId);
-  const getUserId = (id) => {
-    setUserId(id);
+const SearchComponent = ({ data }) => {
+  const { userId } = useAuth(); // User's ID from Clerk
+  const { socket } = useSocket(); // Socket instance from custom hook
+  const { searchQuery } = useStore(); // Zustand store for search state
+
+  const [usersData, setUsersData] = useState(data);
+  const [notification, setNotification] = useState(false);
+  const [message, setMessage] = useState("");
+  const [senderId, setSenderId] = useState(null); // Store the sender's ID
+
+  const [selectedUser, setSelectedUser] = useState(null); // Target user for notifications
+
+  const handleJoinRoom = (user) => {
+    setSelectedUser(user);
+    if (socket) {
+      socket.emit("joinRoom", { userId: { _id: user._id } });
+    } else {
+      console.warn("Socket not available");
+    }
   };
-  // @saak1sak2
-  console.log(otherId, socket);
-  const [userInfo, setUserInfo] = useState();
+
   useEffect(() => {
     if (!socket) return;
 
-    if (otherId) {
-      socket.emit("join", otherId); // Join room based on user ID
+    console.log("Socket connected. Listening for notifications...");
 
-      socket.on("notification", (data) => {
-        console.log("Notification received:", data);
+    const handleNotification = (data) => {
+      console.log("Notification received:", data);
+      if (data?.data?.clerkId !== userId) {
+        setMessage(data.message);
+        setSenderId(data.data.clerkId);
+        setNotification(true); // Trigger notification display
+      }
+    };
 
-        if (
-          data?.data?.clerkId !== userId ||
-          data?.data?.clerkId !== user?.user?.username
-        ) {
-          // Ignore if it's for the sender
-          setMess(data?.message);
-          setUserInfo(data?.data?.clerkId);
-          setNotification(true);
-        } else {
-          console.log("Ignored own notification");
-        }
-      });
+    socket.on("notification", handleNotification);
 
-      return () => {
-        socket.off("notification");
-      };
+    return () => {
+      console.log("Cleaning up socket listener...");
+      socket.off("notification", handleNotification);
+    };
+  }, [socket, userId]);
+  const handleSendNotification = () => {
+    if (!socket || !selectedUser) {
+      console.warn("Socket or selectedUser is not available");
+      return;
     }
-  }, [socket, otherId]);
 
-  const handleRequestPermission = () => {
-    if (!socket) return;
-
-    // Check if otherId is valid before sending notification
-    if (otherId && otherId !== undefined) {
-      const message = "A gig is Available, are you on??!!!";
-
-      socket.emit("sendNotification", {
-        otherId,
-        message,
-      });
-    } else {
-      console.warn("otherId is not set.");
-    }
+    const message = "A gig is available, are you on??!!!";
+    socket.emit("sendNotification", {
+      otheruser: selectedUser,
+      message,
+    });
   };
 
-  const debHandlePermission = debounce(handleRequestPermission, 300);
+  const debouncedSendNotification = debounce(handleSendNotification, 300);
+
   return (
-    <div className=" bg-black w-[100vw] h-[calc(100vh-80px)]  lg:hidden overflow-scroll ">
-      {notification && !userInfo && <Notification message={mymess} />}
-      <div className=" overflow-y-auto h-[100%] w-[100vw] my-[15px] py-10 z-0 fixed">
+    <div className="bg-black w-[100vw] h-[calc(100vh-80px)] lg:hidden overflow-scroll">
+      {notification && <Notification message={message} />}{" "}
+      {/* Display notification */}
+      <div className="overflow-y-auto h-full w-full my-4 py-10 fixed">
         {searchQuery &&
-          searchFunc &&
           searchFunc(data, searchQuery)
-            ?.filter((user) => user?.clerkId !== userId)
-            ?.map((user) => {
-              return (
-                <MainUser
-                  user={user}
-                  key={user?._id}
-                  searchquery={searchQuery}
-                  debHandlePermission={debHandlePermission}
-                  getUserId={getUserId}
-                />
-              );
-            })}
+            ?.filter((user) => user.clerkId !== userId)
+            ?.map((user) => (
+              <MainUser
+                key={user._id}
+                user={user}
+                searchquery={searchQuery}
+                debHandlePermission={debouncedSendNotification}
+                getUserId={handleJoinRoom}
+              />
+            ))}
       </div>
     </div>
   );

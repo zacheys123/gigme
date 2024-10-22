@@ -19,64 +19,144 @@ const MainUser = ({ user, debHandlePermission, getUserId }) => {
   const router = useRouter();
   const [loadingPostId, setLoadingPostId] = useState(null);
   const [loadingFriend, setLoadingFriend] = useState(null);
+  const [follow, setFollow] = useState();
+  const updateFollowers = async (data) => {
+    setFollow(true);
 
+    try {
+      const res = await fetch(`/api/user/follower/${data?._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ follower: curr?.user?._id }),
+      });
+
+      const followersData = await res.json();
+      console.log(res);
+
+      if (res.ok) {
+        console.log("followed!!!", followersData);
+        router.refresh();
+      }
+    } catch (error) {
+      setFollow((prev) => !prev);
+      console.log("error updating followers in profile page", error);
+    }
+  };
+  const updateFollowing = async (data) => {
+    try {
+      const res = await fetch(`/api/user/following/${data?._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ following: curr?.user?._id }),
+      });
+      const followingData = await res.json();
+      console.log(followingData);
+      if (res.ok) {
+        console.log("following!!!", followingData);
+        router.refresh();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const unFollower = async (data) => {
+    setFollow(false);
+    try {
+      const res = await fetch(`/api/user/unfollower/${data._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ follower: curr?.user?._id }),
+      });
+      const followersData = await res.json();
+    } catch (error) {
+      setFollow((prev) => !prev);
+
+      console.log(error);
+    }
+  };
+  const unFollowing = async (data) => {
+    try {
+      setFollow(false);
+      const res = await fetch(`/api/user/unfollowing/${data._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ following: curr?.user?._id }),
+      });
+      const followingData = await res.json();
+      console.log(followingData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.8 }}
       whileInView={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.4 }}
-      // onClick={() => router.push(`/friends/${user?.username}`)}
       className="  bg-neutral-800 ml-[40px] text-neutral-400 w-[300px] my-6 rounded-xl p-2 cursor-pointer hover:bg-gray-500/80 transition ease-in-out delay-150 hover:-translate-x-2 hover:scale-20  duration-300"
     >
       <div className="flex gap-4 items-center ">
         {" "}
-        <AvatarComponent
-          usercomm={user}
-          posts="rounded-full w-[34px] h-[34px]"
-        />
-        <div className="w-full flex-col justify-center">
-          <div className="flex items-center gap-2 text-[12px]">
-            {user?.firstname} {user.lastname}
+        <div
+          className=" flex-1 flex items-center gap-1"
+          onClick={() => router.push(`/friends/${user?.username}`)}
+        >
+          <AvatarComponent
+            usercomm={user}
+            posts="rounded-full w-[34px] h-[34px]"
+          />
+          <div className="w-full flex-col justify-center">
+            <div className="flex items-center gap-2 text-[12px]">
+              {user?.firstname} {user.lastname}
+            </div>
+            <div className="text-[11px]">{user?.email}</div>
           </div>
-          <div className="text-[11px]">{user?.email}</div>
         </div>
         <div className="flex flex-col ">
           <ButtonComponent
-            disabled={!loadingPostId === user._id ? false : true}
+            disabled={user ? true : false}
             variant={
               user?.followers.includes(curr?.user?._id)
                 ? "secondary"
                 : "destructive"
             }
             classname=" h-[20px] text-[10px] my-1 font-bold max-w-[55px]"
-            // onclick={() => {
-            //   setLoadingPostId(user?._id);
-            //   getUserId(user);
-            //   setTimeout(() => {
-            //     // After the operation, you can handle the logic for reading the post
-            //     debHandlePermission();
-            //     // Reset the loading state after reading
-            //     setLoadingPostId(null);
-            //   }, 2000);
-            // }}
+            onclick={() => {
+              if (user?.followers.includes(curr?.user?._id)) {
+                unFollower(user);
+                unFollowing(user);
+              }
+              updateFollowers(user);
+              updateFollowing(user);
+            }}
             title={
-              loadingPostId === user._id ? (
-                <span>Loading...</span>
-              ) : (
-                <>
-                  {user?.followers.includes(curr?.user?._id) ? (
-                    <span>following</span>
-                  ) : (
-                    <span>
-                      follow <Add sx={{ fontSize: "16px" }} />
-                    </span>
-                  )}
-                </>
-              )
+              <>
+                {!follow && !user?.followers.includes(curr?.user?._id) ? (
+                  <span>
+                    follow <Add sx={{ fontSize: "16px" }} />
+                  </span>
+                ) : (
+                  <span>following</span>
+                )}
+              </>
             }
           />
           <ButtonComponent
-            variant="outline"
+            disabled={user ? true : false}
+            variant={
+              user?.followers.includes(curr?.user?._id)
+                ? "destructive"
+                : "outline"
+            }
             classname=" h-[20px] text-[10px] my-1 font-bold max-w-[55px]"
             onclick={() => {
               setLoadingFriend(user?._id);

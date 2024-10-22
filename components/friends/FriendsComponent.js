@@ -72,6 +72,9 @@ const FriendsComponent = ({ friend }) => {
     friend?.followers.length > 0 && friend?.followers.length
   );
 
+  const isFollowing = friend?.followers?.includes(id?._id);
+  const showFollow = !follows || !isFollowing;
+
   useEffect(() => {
     setUserdata(() => {
       return {
@@ -90,7 +93,11 @@ const FriendsComponent = ({ friend }) => {
   }, []);
 
   // Force refresh the page
-
+  useEffect(() => {
+    if (friend?.followers.includes(id?._id)) {
+      setFollow((prev) => !prev);
+    }
+  }, [friend, setFollow]);
   const follow = (ev) => {
     ev.preventDefault();
     if (id) {
