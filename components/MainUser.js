@@ -19,7 +19,7 @@ const MainUser = ({ user, debHandlePermission, getUserId }) => {
   const router = useRouter();
   const [loadingPostId, setLoadingPostId] = useState(null);
   const [loadingFriend, setLoadingFriend] = useState(null);
-  const [follow, setFollow] = useState();
+  const { follow, setFollow } = useStore();
   const updateFollowers = async (data) => {
     setFollow(true);
 
@@ -65,7 +65,7 @@ const MainUser = ({ user, debHandlePermission, getUserId }) => {
   };
 
   const unFollower = async (data) => {
-    setFollow(false);
+    setFollow((prev) => !prev);
     try {
       const res = await fetch(`/api/user/unfollower/${data._id}`, {
         method: "PUT",
@@ -82,8 +82,9 @@ const MainUser = ({ user, debHandlePermission, getUserId }) => {
     }
   };
   const unFollowing = async (data) => {
-    setFollow(false);
+    setFollow((prev) => !prev);
     try {
+      setFollow(false);
       const res = await fetch(`/api/user/unfollowing/${data._id}`, {
         method: "PUT",
         headers: {
@@ -125,14 +126,14 @@ const MainUser = ({ user, debHandlePermission, getUserId }) => {
           <ButtonComponent
             // Simplified user check
             variant={
-              user?.followers.includes(curr?.user?._id)
+              follow && user?.followers.includes(curr?.user?._id)
                 ? "secondary"
                 : "destructive"
             }
             classname="h-[20px] text-[10px] my-1 font-bold max-w-[55px]"
             title={
               <>
-                {!follow && !user?.followers.includes(curr?.user?._id) ? (
+                {!follow && user?.followers.includes(curr?.user?._id) ? (
                   <span
                     onClick={() => {
                       updateFollowers(user);

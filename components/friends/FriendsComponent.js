@@ -93,11 +93,7 @@ const FriendsComponent = ({ friend }) => {
   }, []);
 
   // Force refresh the page
-  useEffect(() => {
-    if (friend?.followers.includes(id?._id)) {
-      setFollow((prev) => !prev);
-    }
-  }, [friend, setFollow]);
+
   const follow = (ev) => {
     ev.preventDefault();
     if (id) {
