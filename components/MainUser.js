@@ -133,7 +133,7 @@ const MainUser = ({ user, debHandlePermission, getUserId }) => {
             classname="h-[20px] text-[10px] my-1 font-bold max-w-[55px]"
             title={
               <>
-                {!follow && user?.followers.includes(curr?.user?._id) ? (
+                {!follow && !user?.followers.includes(curr?.user?._id) ? (
                   <span
                     onClick={() => {
                       updateFollowers(user);
