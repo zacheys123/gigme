@@ -82,8 +82,8 @@ const MainUser = ({ user, debHandlePermission, getUserId }) => {
     }
   };
   const unFollowing = async (data) => {
+    setFollow(false);
     try {
-      setFollow(false);
       const res = await fetch(`/api/user/unfollowing/${data._id}`, {
         method: "PUT",
         headers: {
@@ -123,33 +123,38 @@ const MainUser = ({ user, debHandlePermission, getUserId }) => {
         </div>
         <div className="flex flex-col ">
           <ButtonComponent
-            disabled={user ? true : false}
+            // Simplified user check
             variant={
               user?.followers.includes(curr?.user?._id)
                 ? "secondary"
                 : "destructive"
             }
-            classname=" h-[20px] text-[10px] my-1 font-bold max-w-[55px]"
-            onclick={() => {
-              if (user?.followers.includes(curr?.user?._id)) {
-                unFollower(user);
-                unFollowing(user);
-              }
-              updateFollowers(user);
-              updateFollowing(user);
-            }}
+            classname="h-[20px] text-[10px] my-1 font-bold max-w-[55px]"
             title={
               <>
                 {!follow && !user?.followers.includes(curr?.user?._id) ? (
-                  <span>
+                  <span
+                    onClick={() => {
+                      updateFollowers(user);
+                      updateFollowing(user);
+                    }}
+                  >
                     follow <Add sx={{ fontSize: "16px" }} />
                   </span>
                 ) : (
-                  <span>following</span>
+                  <span
+                    onClick={() => {
+                      unFollower(user);
+                      unFollowing(user);
+                    }}
+                  >
+                    following
+                  </span>
                 )}
               </>
             }
           />
+
           <ButtonComponent
             disabled={user ? true : false}
             variant={
