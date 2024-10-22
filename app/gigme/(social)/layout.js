@@ -4,7 +4,6 @@ import useStore from "@/app/zustand/useStore";
 import SocialNav from "@/components/GigmeNav";
 import LogoutComponent from "@/components/LogoutComponent";
 import UserModal from "@/components/modals/UserModal";
-import MyNav from "@/components/MyNav";
 import ToolTip from "@/components/postComponents/ToolTip";
 import LeftBar from "@/components/socials/LeftBar";
 import RightBar from "@/components/socials/RightBar";

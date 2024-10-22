@@ -3,12 +3,12 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase
 import { getMessaging } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging.js";
 
 const firebaseConfig = {
-  apiKey: process.env.API_KEY,
-  authDomain: "nextpush-a1074.firebaseapp.com",
-  projectId: "nextpush-a1074",
-  storageBucket: "nextpush-a1074.appspot.com",
-  messagingSenderId: "414529874488",
-  appId: "1:414529874488:web:f425f767dcf04d3f8394cd",
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: "gigup-4046a.firebaseapp.com",
+  projectId: "gigup-4046a",
+  storageBucket: "gigup-4046a.appspot.com",
+  messagingSenderId: process.env.SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);

@@ -48,7 +48,7 @@ const ErrorPage = () => {
           <li className="text-[11px]">-Reload this Page.</li>
         </ul>{" "}
         <UsersButton
-          title="Reload"
+          title="Reload Page"
           onClick={() => router.back()}
           className="text-right bg-blue-600 text-white font-mono font-semibold p-3 mt-3 rounded-xl"
         />

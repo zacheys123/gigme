@@ -10,9 +10,9 @@ const ErrorPage = () => {
     <div className="w-screen h-screen flex flex-col justify-center items-center">
       <Box className="flex-col h-screen bg-gray-100 flex items-center justify-center">
         <div className="text-center px-6 py-12 max-w-lg">
-          <h1 className="text-5xl font-extrabold text-blue-600 mb-4">404</h1>
+          <h1 className="text-5xl font-extrabold text-blue-600 mb-4">403</h1>
           <p className="text-1xl font-semibold text-gray-800 mb-2">
-            Oops! Page not found
+            Oops! An Error Occured
           </p>
           <p className="text-gray-600 mb-6 text-[11px] ">
             {`The page you're looking for doesn't exist. Maybe you mistyped the
@@ -48,7 +48,7 @@ const ErrorPage = () => {
           <li className="text-[11px]">-Reload this Page.</li>
         </ul>{" "}
         <UsersButton
-          title="Reload"
+          title="Reload Page"
           onClick={() => router.back()}
           className="text-right bg-blue-600 text-white font-mono font-semibold p-3 mt-3 rounded-xl"
         />
