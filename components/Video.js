@@ -63,7 +63,7 @@ const Video = ({ post, myuser, myComments }) => {
     setIsTitle(true);
     setCurrentPost(post);
   };
-  console.log(random());
+
   const handleClose = () => {
     setOpen(false);
     console.log("close", isTitle);

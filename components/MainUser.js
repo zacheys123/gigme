@@ -110,97 +110,94 @@ const MainUser = ({ user, debHandlePermission, getUserId }) => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 }); // Lazy load
 
   return (
-    inView && (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.8 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.4 }}
-        className="  bg-neutral-800 ml-[40px] text-neutral-400 w-[300px] my-6 rounded-xl p-2 cursor-pointer hover:bg-gray-500/80 transition ease-in-out delay-150 hover:-translate-x-2 hover:scale-20  duration-300      animate-fade"
-      >
-        <div className="flex gap-4 items-center ">
-          {" "}
-          <div
-            className=" flex-1 flex items-center gap-1"
-            onClick={() => router.push(`/friends/${user?.username}`)}
-          >
-            <AvatarComponent
-              usercomm={user}
-              posts="rounded-full w-[34px] h-[34px]"
-            />
-            <div className="w-full flex-col justify-center">
-              <div className="flex items-center gap-2 text-[12px] text-input">
-                {user?.firstname} {user.lastname}
-              </div>
-              <div className="text-[11px]">{user?.email}</div>
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.4 }}
+      className="  bg-neutral-800 ml-[40px] text-neutral-400 w-[300px] my-6 rounded-xl p-2 cursor-pointer hover:bg-gray-500/80 transition ease-in-out delay-150 hover:-translate-x-2 hover:scale-20  duration-300      animate-fade"
+    >
+      <div className="flex gap-4 items-center ">
+        {" "}
+        <div
+          className=" flex-1 flex items-center gap-1"
+          onClick={() => router.push(`/friends/${user?.username}`)}
+        >
+          <AvatarComponent
+            usercomm={user}
+            posts="rounded-full w-[34px] h-[34px]"
+          />
+          <div className="w-full flex-col justify-center">
+            <div className="flex items-center gap-2 text-[12px] text-input">
+              {user?.firstname} {user.lastname}
             </div>
+            <div className="text-[11px]">{user?.email}</div>
           </div>
-          {user && (
-            <div className="flex flex-col ">
-              <ButtonComponent
-                // Simplified user check
-                variant={
-                  follow === true || user?.followers.includes(curr?.user?._id)
-                    ? "secondary"
-                    : "destructive"
-                }
-                classname="h-[20px] text-[10px] my-1 font-bold max-w-[55px]"
-                title={
-                  <>
-                    {!follow && !user?.followers.includes(curr?.user?._id) ? (
-                      <span
-                        onClick={() => {
-                          updateFollowers(user);
-                          updateFollowing(user);
-                        }}
-                      >
-                        follow <Add sx={{ fontSize: "16px" }} />
-                      </span>
-                    ) : (
-                      <span
-                        onClick={() => {
-                          unFollower(user);
-                          unFollowing(user);
-                        }}
-                      >
-                        following
-                      </span>
-                    )}
-                  </>
-                }
-              />
-
-              <ButtonComponent
-                disabled={user ? true : false}
-                variant={
-                  user?.followers.includes(curr?.user?._id)
-                    ? "destructive"
-                    : "outline"
-                }
-                classname=" h-[20px] text-[10px] my-1 font-bold max-w-[55px]"
-                onclick={() => {
-                  setLoadingFriend(user?._id);
-                  getUserId(user);
-                  setTimeout(() => {
-                    // After the operation, you can handle the logic for reading the post
-                    debHandlePermission();
-                    // Reset the loading state after reading
-                    setLoadingFriend(null);
-                  }, 2000);
-                }}
-                title={
-                  loadingFriend === user.username ? (
-                    <span>Loading...</span>
-                  ) : (
-                    <span className="text-[11px]">🤝gigup </span>
-                  )
-                }
-              />
-            </div>
-          )}
         </div>
-      </motion.div>
-    )
+        {user && (
+          <div className="flex flex-col ">
+            <ButtonComponent
+              // Simplified user check
+              variant={
+                follow === true || user?.followers.includes(curr?.user?._id)
+                  ? "secondary"
+                  : "destructive"
+              }
+              classname="h-[20px] text-[10px] my-1 font-bold max-w-[55px]"
+              title={
+                <>
+                  {!follow && !user?.followers.includes(curr?.user?._id) ? (
+                    <span
+                      onClick={() => {
+                        updateFollowers(user);
+                        updateFollowing(user);
+                      }}
+                    >
+                      follow <Add sx={{ fontSize: "16px" }} />
+                    </span>
+                  ) : (
+                    <span
+                      onClick={() => {
+                        unFollower(user);
+                        unFollowing(user);
+                      }}
+                    >
+                      following
+                    </span>
+                  )}
+                </>
+              }
+            />
+
+            <ButtonComponent
+              disabled={user ? true : false}
+              variant={
+                user?.followers.includes(curr?.user?._id)
+                  ? "destructive"
+                  : "outline"
+              }
+              classname=" h-[20px] text-[10px] my-1 font-bold max-w-[55px]"
+              onclick={() => {
+                setLoadingFriend(user?._id);
+                getUserId(user);
+                setTimeout(() => {
+                  // After the operation, you can handle the logic for reading the post
+                  debHandlePermission();
+                  // Reset the loading state after reading
+                  setLoadingFriend(null);
+                }, 2000);
+              }}
+              title={
+                loadingFriend === user.username ? (
+                  <span>Loading...</span>
+                ) : (
+                  <span className="text-[11px]">🤝gigup </span>
+                )
+              }
+            />
+          </div>
+        )}
+      </div>
+    </motion.div>
   );
 };
 export default MainUser;

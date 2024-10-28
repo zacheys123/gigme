@@ -82,7 +82,6 @@ const UserPost = ({ users }) => {
   };
   const handleClick = (otheruser) => {
     router?.push(`/friends/${otheruser?.username}`);
-    console.log(otheruser);
   };
 
   const [userloading, setUserLoading] = useState();
@@ -115,7 +114,7 @@ const UserPost = ({ users }) => {
       dep
     );
   }, []);
-  console.log(fileUrl);
+
   return (
     <>
       {!showComments ? (

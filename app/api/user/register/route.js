@@ -27,7 +27,12 @@ export async function POST(req) {
       ],
     });
     const updateUser = await User.findOneAndUpdate(
-      { clerkId: userId, email: user?.emailAddresses[0]?.emailAddress },
+      {
+        $or: [
+          { clerkId: userId },
+          { email: user?.emailAddresses[0]?.emailAddress },
+        ],
+      },
       {
         $set: {
           firstname: user?.firstName,

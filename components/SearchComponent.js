@@ -64,7 +64,7 @@ const SearchComponent = ({ data }) => {
   };
 
   const debouncedSendNotification = debounce(handleSendNotification, 100);
-
+  console.log(data);
   return (
     <div className="bg-black w-[100vw] h-[calc(100vh-80px)] lg:hidden overflow-hidden">
       {notification && <Notification message={message} />}{" "}
