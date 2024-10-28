@@ -12,7 +12,6 @@ const AvatarComponent = ({ usercomm, posts }) => {
   const { user } = useCurrentUser(userId);
   const { setLogout, setName } = useStore();
 
-  console.log(user);
   const showName = () => {
     setName(true);
   };

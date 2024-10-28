@@ -31,9 +31,6 @@ const GigmeLayout = ({ children, modal, chat }) => {
   const { user: id } = useCurrentUser(userId);
   const userid = id?.user?._id;
   const [userd, setuserId] = useState();
-  console.log(userid);
-
-  console.log(user);
 
   const registerUser = useCallback(async () => {
     if (!user) {
@@ -52,7 +49,7 @@ const GigmeLayout = ({ children, modal, chat }) => {
     });
 
     const data = await res.json();
-    console.log(data);
+
     window?.localStorage.setItem("user", JSON.stringify(data?.results));
     if (data?.userstatus === false) {
       return router.push("/gigme/social");

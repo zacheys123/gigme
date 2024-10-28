@@ -17,7 +17,7 @@ export const handlebook = async (
     console.error("Socket not connected");
     return;
   }
-  if (countUserPosts > 3) {
+  if (countUserPosts > 2) {
     toast.error("You have reached your maximum booking limit");
     return;
   }

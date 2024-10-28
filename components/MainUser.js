@@ -15,7 +15,7 @@ import useSocket from "@/hooks/useSocket";
 import useStore from "@/app/zustand/useStore";
 import { useInView } from "react-intersection-observer";
 
-const MainUser = ({ user, debHandlePermission, getUserId }) => {
+const MainUser = ({ user, handleSendNotification, getUserId }) => {
   const { userId } = useAuth();
   const { user: curr } = useCurrentUser(userId);
   const router = useRouter();
@@ -107,13 +107,12 @@ const MainUser = ({ user, debHandlePermission, getUserId }) => {
       console.log(error);
     }
   };
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 }); // Lazy load
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
+      initial={{ opacity: 0, scale: 0.9 }}
       whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.4, delay: 0.2 }}
       className="  bg-neutral-800 ml-[40px] text-neutral-400 w-[300px] my-6 rounded-xl p-2 cursor-pointer hover:bg-gray-500/80 transition ease-in-out delay-150 hover:-translate-x-2 hover:scale-20  duration-300      animate-fade"
     >
       <div className="flex gap-4 items-center ">
@@ -177,14 +176,9 @@ const MainUser = ({ user, debHandlePermission, getUserId }) => {
               }
               classname=" h-[20px] text-[10px] my-1 font-bold max-w-[55px]"
               onclick={() => {
-                setLoadingFriend(user?._id);
                 getUserId(user);
-                setTimeout(() => {
-                  // After the operation, you can handle the logic for reading the post
-                  debHandlePermission();
-                  // Reset the loading state after reading
-                  setLoadingFriend(null);
-                }, 2000);
+                // After the operation, you can handle the logic for reading the post
+                handleSendNotification();
               }}
               title={
                 loadingFriend === user.username ? (

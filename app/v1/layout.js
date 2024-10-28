@@ -27,7 +27,6 @@ const MainLayout = ({ children }) => {
     });
 
     const data = await res.json();
-    console.log(data);
   }, [user]);
 
   useEffect(() => {
