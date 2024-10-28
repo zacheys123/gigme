@@ -4,30 +4,41 @@ import { auth, currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
-  const { userId } = auth();
-  const user = await currentUser();
-  let params = user;
-
   try {
+    const { userId } = auth();
+    const body = await req.json(); // Ensure this resolves correctly
+    const { user } = body;
+
+    console.log("Parsed user from request:", user);
+
+    if (!userId) {
+      return NextResponse.json({
+        userstatus: "error",
+        message: "User ID not found",
+      });
+    }
+
     await connectDb();
+
     const existingUser = await User.findOne({
       $or: [
-        { clerkId: userId, email: params?.emailAddresses[0]?.emailAddress },
+        { clerkId: userId },
+        { email: user?.emailAddresses[0]?.emailAddress },
       ],
     });
     const updateUser = await User.findOneAndUpdate(
-      { clerkId: userId, email: params?.emailAddresses[0]?.emailAddress },
+      { clerkId: userId, email: user?.emailAddresses[0]?.emailAddress },
       {
         $set: {
-          firstname: params?.firstName,
-          lastname: params?.lastName,
-          picture: existingUser.picture
-            ? existingUser.picture
-            : params?.imageUrl,
-          email: params?.emailAddresses[0]?.emailAddress,
-          username: params?.username,
-          phone: params?.phoneNumbers[0]?.phoneNumber,
-          verification: params?.emailAddresses[0]?.verification?.status,
+          firstname: user?.firstName,
+          lastname: user?.lastName,
+          picture: existingUser?.picture
+            ? existingUser?.picture
+            : user?.imageUrl,
+          email: user?.emailAddresses[0]?.emailAddress,
+          username: user?.username,
+          phone: user?.phoneNumbers[0]?.phoneNumber,
+          verification: user?.emailAddresses[0]?.verification?.status,
         },
       }
     );
@@ -41,13 +52,13 @@ export async function POST(req) {
     } else {
       const newUser = new User({
         clerkId: userId,
-        firstname: params?.firstName,
-        lastname: params?.lastName,
-        picture: existingUser.picture ? existingUser.picture : params?.imageUrl,
-        email: params?.emailAddresses[0]?.emailAddress,
-        username: params?.username,
-        phone: params?.phoneNumbers[0]?.phoneNumber,
-        verification: params?.emailAddresses[0]?.verification?.status,
+        firstname: user?.firstName,
+        lastname: user?.lastName,
+        picture: existingUser?.picture ? existingUser?.picture : user?.imageUrl,
+        email: user?.emailAddresses[0]?.emailAddress,
+        username: user?.username,
+        phone: user?.phoneNumbers[0]?.phoneNumber,
+        verification: user?.emailAddresses[0]?.verification?.status,
       });
       const mainUser = await newUser.save();
       return NextResponse.json({

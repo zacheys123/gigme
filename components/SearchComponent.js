@@ -63,25 +63,36 @@ const SearchComponent = ({ data }) => {
     });
   };
 
-  const debouncedSendNotification = debounce(handleSendNotification, 300);
+  const debouncedSendNotification = debounce(handleSendNotification, 100);
 
   return (
-    <div className="bg-black w-[100vw] h-[calc(100vh-80px)] lg:hidden overflow-scroll">
+    <div className="bg-black w-[100vw] h-[calc(100vh-80px)] lg:hidden overflow-hidden">
       {notification && <Notification message={message} />}{" "}
       {/* Display notification */}
-      <div className="overflow-y-auto h-full w-full my-4 py-10 fixed">
-        {searchQuery &&
-          searchFunc(data, searchQuery)
-            ?.filter((user) => user.clerkId !== userId)
-            ?.map((user) => (
-              <MainUser
-                key={user._id}
-                user={user}
-                searchquery={searchQuery}
-                debHandlePermission={debouncedSendNotification}
-                getUserId={handleJoinRoom}
-              />
-            ))}
+      <div className="overflow-y-auto h-full w-full my-4 py-10 space-y-4">
+        {data && searchQuery && searchQuery.length > 0
+          ? searchFunc(data, searchQuery)
+              ?.filter((user) => user.clerkId !== userId)
+              ?.map((user) => (
+                <MainUser
+                  key={user._id}
+                  user={user}
+                  searchquery={searchQuery}
+                  debHandlePermission={debouncedSendNotification}
+                  getUserId={handleJoinRoom}
+                />
+              ))
+          : data
+              ?.filter((user) => user.clerkId !== userId)
+              ?.map((user) => (
+                <MainUser
+                  key={user._id}
+                  user={user}
+                  searchquery={searchQuery}
+                  debHandlePermission={debouncedSendNotification}
+                  getUserId={handleJoinRoom}
+                />
+              ))}
       </div>
     </div>
   );

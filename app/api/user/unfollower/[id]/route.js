@@ -12,10 +12,10 @@ export async function PUT(req, { params }) {
   try {
     await connectDb();
 
-    const newUser = await User.findByIdAndUpdate(params.id, {
+    let newUser = await User.findByIdAndUpdate(params.id, {
       $pull: { followers: follower },
     });
-
+    newUser = await User.findById(params.id);
     return NextResponse.json({ result: newUser, status: 200 });
   } catch (error) {
     console.log(error);

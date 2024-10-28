@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema(
     },
     picture: {
       type: String,
-      required: true,
     },
     fcmToken: {
       type: String,

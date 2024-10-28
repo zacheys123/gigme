@@ -29,7 +29,7 @@ const Created = ({ user }) => {
   const [category, setCategory] = useState("all");
   const [loading, setLoading] = useState();
   const [location, setLocation] = useState(() =>
-    user?.user?.city ? user?.user?.city : "nairobi"
+    user?.user?.city ? user?.user?.city : "all"
   );
   const [loadingPostId, setLoadingPostId] = useState(null);
   const [gigs, setGigs] = useState();

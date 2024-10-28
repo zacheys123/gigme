@@ -12,31 +12,36 @@ const Authenticate = () => {
   const { _, setUserState } = useGlobalContext();
   const { isLoaded, userId } = useAuth();
   const registerUser = useCallback(async () => {
+    if (!user) {
+      console.error("No user data to send.");
+      return;
+    }
+
+    console.log("Sending user to backend:", user);
+
     const res = await fetch("/api/user/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify({ user }),
     });
 
     const data = await res.json();
     console.log(data);
     window?.localStorage.setItem("user", JSON.stringify(data?.results));
-    setUserState({ type: global.GETUSERDATA, payload: data.results });
     if (data?.userstatus === false) {
       return router.push("/gigme/social");
-    } else {
-      router.push(`/v1/profile/${userId}`);
     }
-  }, [user, router, userId]);
+  }, [user, router]);
 
   useEffect(() => {
-    if (!user) {
-      console.log("No user data to send to backend");
+    if (user && isSignedIn) {
+      registerUser();
+    } else {
+      console.log("User data not available or not signed in.");
     }
-    registerUser();
-  }, [user, registerUser]);
+  }, [user, isSignedIn, registerUser]);
   if (!isLoaded) {
     return (
       <div className="flex h-[100vh] flex-col items-center justify-center">

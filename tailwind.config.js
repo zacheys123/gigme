@@ -18,6 +18,15 @@ module.exports = {
       },
     },
     extend: {
+      keyframes: {
+        fade: {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
+        },
+      },
+      animation: {
+        fade: "fade 0.5s ease-in-out",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

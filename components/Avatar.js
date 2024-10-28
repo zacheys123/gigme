@@ -12,6 +12,7 @@ const AvatarComponent = ({ usercomm, posts }) => {
   const { user } = useCurrentUser(userId);
   const { setLogout, setName } = useStore();
 
+  console.log(user);
   const showName = () => {
     setName(true);
   };
@@ -29,7 +30,7 @@ const AvatarComponent = ({ usercomm, posts }) => {
         <AvatarImage
           src={usercomm?.picture}
           className={posts}
-          alt={user?.user?.firstname.split("")[0]}
+          alt={user?.user?.firstname?.split("")[0]}
         />
 
         <AvatarFallback className={posts}>

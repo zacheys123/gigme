@@ -35,8 +35,6 @@ const SinglePost = ({ post, user, comments, replies }) => {
   let myComments = newComm?.filter((com) => {
     return com?.postId?._id === post?._id;
   });
-  console.log(post);
-  console.log(post?.media);
 
   const { userId } = useAuth();
   let username = "text-[11px]   text-blue-300 font-bold";

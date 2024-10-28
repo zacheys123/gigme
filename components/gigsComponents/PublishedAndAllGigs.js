@@ -42,7 +42,7 @@ const PublishedAndAllGigs = ({ user }) => {
   const [socket, setNewSocket] = useState("");
 
   const [location, setLocation] = useState(() =>
-    user?.user?.city ? user?.user?.city : "nairobi"
+    user?.user?.city ? user?.user?.city : "all"
   );
 
   let gigQuery;

@@ -10,15 +10,22 @@ import { useEffect } from "react";
 const SocialLayout = ({ children }) => {
   const router = useRouter();
   const { user, isSignedIn } = useUser();
-
+  console.log(user);
   const { isLoaded, userId, sessionId, getToken } = useAuth();
   const registerUser = useCallback(async () => {
+    if (!user) {
+      console.error("No user data to send.");
+      return;
+    }
+
+    console.log("Sending user to backend:", user);
+
     const res = await fetch("/api/user/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify({ user }),
     });
 
     const data = await res.json();
@@ -30,11 +37,12 @@ const SocialLayout = ({ children }) => {
   }, [user, router]);
 
   useEffect(() => {
-    if (!user) {
-      console.log("No user data to send to backend");
+    if (user && isSignedIn) {
+      registerUser();
+    } else {
+      console.log("User data not available or not signed in.");
     }
-    registerUser();
-  }, [user, registerUser]);
+  }, [user, isSignedIn, registerUser]);
   if (!isLoaded) {
     return (
       <div className="flex h-[100vh] flex-col items-center justify-center">

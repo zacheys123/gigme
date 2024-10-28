@@ -19,7 +19,8 @@ import React, { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { Toaster } from "sonner";
 const GigmeLayout = ({ children, modal, chat }) => {
-  const { user } = useUser();
+  const { user, isSignedIn } = useUser();
+  const router = useRouter();
   const { isLoggedOut } = useStore();
   const { isLoaded, userId } = useAuth();
   const [permissionStatus, setPermissionStatus] = useState(null); // State to track permission status
@@ -31,51 +32,40 @@ const GigmeLayout = ({ children, modal, chat }) => {
   const userid = id?.user?._id;
   const [userd, setuserId] = useState();
   console.log(userid);
-  const router = useRouter();
-  // const handleRequestPermission = async () => {
-  //   setLoading(true); // Start loading
-  //   setError(null); // Reset any previous errorss
-  //   const token = await requestPermission();
-  //   if (token) {
-  //     await fetch("/api/save-token", {
-  //       method: "POST",
-  //       body: JSON.stringify({ token, userid }), // Ensure 'userid' is defined in your component
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-  //   }
-  // };
+
+  console.log(user);
+
   const registerUser = useCallback(async () => {
+    if (!user) {
+      console.error("No user data to send.");
+      return;
+    }
+
+    console.log("Sending user to backend:", user);
+
     const res = await fetch("/api/user/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify({ user }),
     });
 
     const data = await res.json();
     console.log(data);
-    setuserId(data);
+    window?.localStorage.setItem("user", JSON.stringify(data?.results));
     if (data?.userstatus === false) {
-      window?.localStorage.setItem("user", JSON.stringify(data?.results));
-
-      return data;
-    } else {
-      window?.localStorage.setItem("user", JSON.stringify(data?.results));
-
-      return data;
+      return router.push("/gigme/social");
     }
-  }, [user]);
+  }, [user, router]);
 
   useEffect(() => {
-    if (!user) {
-      console.log("No user data to send to backend");
+    if (user && isSignedIn) {
+      registerUser();
+    } else {
+      console.log("User data not available or not signed in.");
     }
-
-    registerUser();
-  }, [user, registerUser]);
+  }, [user, isSignedIn, registerUser]);
 
   useEffect(() => {
     // Load the Cloudinary widget library
