@@ -1,21 +1,18 @@
-// export async function getAllUsers(id) {
-//   console.log(id);
+import connectDb from "@/lib/connectDb";
+import User from "@/models/user";
 
-//   try {
-//     // Create response with no-store cache
-//     const response = await fetch("/api/user/getAllusers", {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       cache: "no-store",
-//     });
+export async function getAllUsers(id) {
+  console.log(id);
+  try {
+    await connectDb();
 
-//     return response;
-//   } catch (error) {
-//     console.log("error getting all users in get All User", error);
-//   }
-// }
+    const users = await User.find({ _id: { $ne: id } });
+
+    return users;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 // export async function GET(request) {
 //   try {

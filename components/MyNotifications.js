@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { Cancel } from "@mui/icons-material";
 import { useNotification } from "@/app/Context/notificationContext";
 
-const MyNotifications = ({ message }) => {
+const MyNotifications = ({ message, setSenderMess }) => {
   const [loading, setLoading] = useState();
   const router = useRouter();
   const { setNotification } = useNotification();
@@ -30,13 +30,14 @@ const MyNotifications = ({ message }) => {
       <div className="w-full flex justify-end">
         <span
           className="text-[11px] font-bold cursor-pointer"
-          onClick={() =>
+          onClick={() => {
             setNotification({
               data: { _id: "" },
               message: "",
               createdAt: new Date(),
-            })
-          }
+            });
+            setSenderMess("");
+          }}
         >
           &times;
         </span>

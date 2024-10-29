@@ -21,7 +21,6 @@ import { getAllUsers } from "@/app/server-actions/getAllUsers";
 //     console.log(error);
 //   }
 // }
-
 const SocialMainPage = async ({ currentuser, comments, replies }) => {
   // Fetching data for all posts
 
