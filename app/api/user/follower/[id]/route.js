@@ -14,6 +14,9 @@ export async function PUT(req, { params }) {
 
     let newUser;
     let friend = await User.findById(params.id);
+    if (friend.followers.includes(follower)) {
+      return NextResponse.json({ result: friend, status: 403 });
+    }
 
     newUser = await friend.updateOne({ $push: { followers: follower } });
     friend = await User.findById(params.id);

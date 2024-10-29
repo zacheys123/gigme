@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 import ioClient from "socket.io-client"; // Import Socket.io client
 // import { sendPushNotification } from "@/lib/firebase/firebaseAdmin";
 
-const socket = ioClient("http://localhost:8080"); // Connect to the server
+const socket = ioClient(process.env.NEXT_PUBLIC_PORT); // Connect to the server
 
 export async function PUT(req, { params }) {
   const { userid } = await req.json();

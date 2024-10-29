@@ -89,10 +89,31 @@ const FollowersModal = ({ friend }) => {
           )}
         </>
       ) : (
-        "loading..."
+        <div className="maindiv bg-gradient-to-b  from-orange-800  rounded-full p-1 via-green-400  to-red-600">
+          <LoadingSpinner />
+        </div>
       )}
     </Dialog>
   );
 };
 
 export default FollowersModal;
+
+import React from "react";
+
+const LoadingSpinner = () => {
+  return (
+    <div
+      className="flex items-center h-[18px] justify-center  !bg-red-600  w-[22px] rounded-r-lg 
+    rounded-ss-full
+    rounded-se-xl
+    animate-spinner
+    main
+    "
+    >
+      <div className="loader">
+        <div className="!animate-spin rounded-full h-[17px] w-[22px] border-t-2 border-b-2 border-gray-900"></div>
+      </div>
+    </div>
+  );
+};

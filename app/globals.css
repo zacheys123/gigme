@@ -412,3 +412,35 @@ input[type="radio"] {
     opacity: 0;
   }
 }
+.loader {
+  display: inline-block;
+}
+
+.loader div {
+  border-radius: 50%;
+  border-width: 4px;
+  border-style: solid;
+  border-color: transparent;
+  border-top-color: #3b82f6; /* Change this to your preferred color */
+  animation: spin 0.5s linear infinite;
+}
+
+.main {
+  animation: spinner 0.5s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes spinner {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

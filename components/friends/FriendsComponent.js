@@ -35,7 +35,11 @@ import { Separator } from "../ui/separator";
 import { getFollow, getFollowing } from "@/utils";
 import ImageModal from "../ImageModal";
 import { motion } from "framer-motion";
+import { useNotification } from "@/app/Context/notificationContext";
+import MyNotifications from "../MyNotifications";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 const FriendsComponent = ({ friend }) => {
+  const { userId } = useAuth();
   console.log(friend);
   const router = useRouter();
   const { setFollowers, follows, setFollow, setRefetch } = useStore();
@@ -43,7 +47,11 @@ const FriendsComponent = ({ friend }) => {
     userState: { loading },
     setUserState,
   } = useGlobalContext();
-  let id = JSON.parse(localStorage.getItem("user"));
+
+  let { user: id } = useCurrentUser(userId);
+  const myid = id?.user?._id;
+
+  const { notification } = useNotification();
   const id_ref = React.useRef(null);
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -71,7 +79,7 @@ const FriendsComponent = ({ friend }) => {
     friend?.followers.length > 0 && friend?.followers.length
   );
 
-  const isFollowing = friend?.followers?.includes(id?._id);
+  const isFollowing = friend?.followers?.includes(myid);
   const showFollow = !follows || !isFollowing;
 
   useEffect(() => {
@@ -98,27 +106,27 @@ const FriendsComponent = ({ friend }) => {
     if (id) {
       updateFollowers(
         friend,
-        id?._id,
+        myid,
         setFollow,
         setUserState,
         setFollowersLength
       );
-      updateFollowing(friend, id?._id, setUserState), setFollowingLength;
+      updateFollowing(friend, myid, setUserState), setFollowingLength;
     }
   };
   const unFollow = async (ev) => {
     ev.preventDefault();
-    unFollower(friend, id?._id, setFollow, setUserState, setFollowersLength);
-    unFollowing(friend, id?._id, setUserState, setFollowingLength);
+    unFollower(friend, myid, setFollow, setUserState, setFollowersLength);
+    unFollowing(friend, myid, setUserState, setFollowingLength);
   };
 
-  const greeting = friend?.followers?.includes(id?._id);
+  const greeting = friend?.followers?.includes(myid);
   useEffect(() => {
-    if (friend?.username === id?.username) {
+    if (friend?.username === id?.user?.username) {
       router.back();
     }
     return;
-  }, [friend?.username, id?.username, router]);
+  }, [friend?.username, id?.user?.username, router]);
 
   const [isTitle, setIsTitle] = useState(false);
   const [open, setOpen] = useState();
@@ -135,6 +143,13 @@ const FriendsComponent = ({ friend }) => {
   };
   return (
     <>
+      {" "}
+      {notification?.data?._id && notification.data._id === myid && (
+        <MyNotifications
+          message={notification.message}
+          senderId={notification.data._id}
+        />
+      )}
       <Modal width="100vw">
         <UserModal />
       </Modal>
@@ -206,9 +221,9 @@ const FriendsComponent = ({ friend }) => {
                   </h3>
                 </div>
 
-                {friend?.followers?.includes(id?._id) ? (
+                {friend?.followers?.includes(myid) ? (
                   <div className="md:hidden flex items-center justify-center">
-                    {!follows || !friend?.followers.includes(id?._id) ? (
+                    {follows === true || !friend?.followers.includes(myid) ? (
                       <Button
                         disabled={loading}
                         variant="primary"

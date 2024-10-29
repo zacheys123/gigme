@@ -11,6 +11,7 @@ export async function PUT(req, { params }) {
 
   try {
     await connectDb();
+    let existing = await User.findById(following);
 
     const newUser = await User.findByIdAndUpdate(following, {
       $pull: { followings: params.id },

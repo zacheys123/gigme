@@ -11,12 +11,18 @@ import { Toaster } from "sonner";
 import React, { useCallback, useEffect, useState } from "react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import ToolTip from "@/components/postComponents/ToolTip";
+import { useNotification } from "../Context/notificationContext";
+import MyNotifications from "@/components/MyNotifications";
 
 const MainLayout = ({ children }) => {
   const { user, isSignedIn } = useUser();
   const { isLoaded, userId } = useAuth();
   const { userdata, setUser } = useState();
   const { loading, user: allmydata } = useCurrentUser(userId);
+
+  const myid = allmydata?.user?._id;
+
+  const { notification } = useNotification();
   const registerUser = useCallback(async () => {
     const res = await fetch("/api/user/register", {
       method: "POST",
@@ -65,18 +71,26 @@ const MainLayout = ({ children }) => {
     );
   }
   return (
-    <Box className="flex bg-black w-[100vw] h-[100vh] justify-center items-center overflow-x-hidden">
-      <ProfileNav user={allmydata} loading={loading} />
-      <MediumProfileNav />
-      <Toaster expand={false} richColors position="top" />
-      <ToolTip id={allmydata} />
-      <div className="flex flex-col  items-center md:w-full xl:w-full">
-        <Transition variant={variant} className={className}>
-          {children}
-        </Transition>
-        <MobileProfileNav />
-      </div>
-    </Box>
+    <>
+      {notification?.data?._id && notification.data._id === myid && (
+        <MyNotifications
+          message={notification.message}
+          senderId={notification.data._id}
+        />
+      )}
+      <Box className="flex bg-black w-[100vw] h-[100vh] justify-center items-center overflow-x-hidden">
+        <ProfileNav user={allmydata} loading={loading} />
+        <MediumProfileNav />
+        <Toaster expand={false} richColors position="top" />
+        <ToolTip id={allmydata} />
+        <div className="flex flex-col  items-center md:w-full xl:w-full">
+          <Transition variant={variant} className={className}>
+            {children}
+          </Transition>
+          <MobileProfileNav />
+        </div>
+      </Box>
+    </>
   );
 };
 

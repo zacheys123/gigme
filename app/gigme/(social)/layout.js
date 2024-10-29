@@ -1,9 +1,11 @@
 "use client";
 import ClientOnly from "@/app/ClientOnly";
+import { useNotification } from "@/app/Context/notificationContext";
 import useStore from "@/app/zustand/useStore";
 import SocialNav from "@/components/GigmeNav";
 import LogoutComponent from "@/components/LogoutComponent";
 import UserModal from "@/components/modals/UserModal";
+import MyNotifications from "@/components/MyNotifications";
 import ToolTip from "@/components/postComponents/ToolTip";
 import LeftBar from "@/components/socials/LeftBar";
 import RightBar from "@/components/socials/RightBar";
@@ -21,7 +23,7 @@ import { Toaster } from "sonner";
 const GigmeLayout = ({ children, modal, chat }) => {
   const { user, isSignedIn } = useUser();
   const router = useRouter();
-  const { notification } = useStore();
+
   const { isLoaded, userId } = useAuth();
   const [permissionStatus, setPermissionStatus] = useState(null); // State to track permission status
   // Replace with your actual logic to get the user ID
@@ -29,8 +31,9 @@ const GigmeLayout = ({ children, modal, chat }) => {
   const [loading, setLoading] = useState(false); // State for loading status
 
   const { user: id } = useCurrentUser(userId);
-  const userid = id?.user?._id;
-  const [userd, setuserId] = useState();
+  const myid = id?.user?._id;
+
+  const { notification } = useNotification();
 
   const registerUser = useCallback(async () => {
     if (!user) {
@@ -87,6 +90,12 @@ const GigmeLayout = ({ children, modal, chat }) => {
   console.log(logout);
   return (
     <ClientOnly>
+      {notification?.data?._id && notification.data._id === myid && (
+        <MyNotifications
+          message={notification.message}
+          senderId={notification.data._id}
+        />
+      )}
       <div className="absolute z-[50]">
         <UserModal open={logout} />
       </div>

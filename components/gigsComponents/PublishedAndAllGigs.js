@@ -48,7 +48,7 @@ const PublishedAndAllGigs = ({ user }) => {
   let gigQuery;
 
   useEffect(() => {
-    const newSocket = io("http://localhost:8080", {
+    const newSocket = io(process.env.NEXT_PUBLIC_PORT, {
       transports: ["websocket"],
     });
     setNewSocket(newSocket);

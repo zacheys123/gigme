@@ -11,7 +11,10 @@ export async function PUT(req, { params }) {
 
   try {
     await connectDb();
-
+    let existing = await User.findById(params.id);
+    if (!existing.followers.includes(follower)) {
+      return NextResponse.json({ result: existing, status: 403 });
+    }
     let newUser = await User.findByIdAndUpdate(params.id, {
       $pull: { followers: follower },
     });

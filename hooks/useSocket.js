@@ -6,7 +6,7 @@ const useSocket = () => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:8080"); // Ensure you're using the correct URL
+    const newSocket = io(process.env.NEXT_PUBLIC_PORT); // Ensure you're using the correct URL
     setSocket(newSocket);
 
     return () => {
