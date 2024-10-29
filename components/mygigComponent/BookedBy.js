@@ -9,7 +9,7 @@ import { Star } from "lucide-react";
 import Image from "next/image";
 import Rating from "./Rating";
 import GigRating from "./GigRating";
-import { ArrowBack } from "@mui/icons-material";
+import { ArrowBack, Chat, Create, Preview } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import Transition from "../Transition";
 import { motion } from "framer-motion";
@@ -168,165 +168,171 @@ const Booker = ({ myGig }) => {
 
   return (
     <ClientOnly>
-      <div className="container bg-neutral-600 shadow-xl h-screen overflow-hidden w-screen p-2 relative">
-        <div className="card m-4">
-          <div className="title text-neutral-200 text-center uppercase underline">
-            <span className="text-red-500 font-bold">Title:</span>{" "}
-            {myGig?.gigs?.title}
-          </div>
-          <h6 className="title text-gray-200">Personal info</h6>
-          <div className="flex gap-3 mb-6">
-            <Input
-              disabled
-              type="text"
-              className="title p-4  mx-auto mt-4  text-white bg-red-800  md:text-[25px] xl:text-[28px] "
-              placeholder="firstname"
-              value={
-                creatorData?.firstname !== undefined
-                  ? creatorData?.firstname
-                  : ""
-              }
-            />
-            <Input
-              disabled
-              type="text"
-              className=" p-4 title  mx-auto mt-4  text-white bg-red-800   md:text-[25px] xl:text-[28]  "
-              placeholder="lastname"
-              value={
-                creatorData?.lastname !== undefined ? creatorData?.lastname : ""
-              }
-            />
-          </div>
-          <div className="flex gap-3 mb-6">
-            <Input
-              disabled
-              type="text"
-              className=" p-4   mx-auto mt-4  text-white bg-red-800   md:text-[25px] xl:text-[28]  "
-              placeholder="Email address"
-              value={creatorData?.email !== undefined ? creatorData?.email : ""}
-            />
-            <Input
-              disabled
-              type="text"
-              className=" p-4   mx-auto mt-4 mb-6  text-white bg-red-800   md:text-[25px] xl:text-[28] "
-              placeholder="username"
-              value={creatorData?.username}
-            />{" "}
-          </div>
-          <Input
-            disabled
-            type="text"
-            className=" p-4 title  mx-auto my-4  text-yellow-200 placeholder-gray-100 bg-red-800   md:text-[25px] xl:text-[28]  "
-            placeholder="City"
-            value={creatorData?.city !== undefined ? creatorData?.city : ""}
-          />{" "}
-          <div className="flex items-center justify-between w-[75%] mx-auto my-8">
-            <div className="flex flex-col items-center  title">
-              <span className="text-purple-500 ">Followers</span>
-              <span className="text-red-500 font-bold">
-                {creatorData?.followers?.length}
-              </span>
+      <Box className="bg-pink-900 h-full  w-full ">
+        <div className="h-full overflow-hidden bg-red-950 z-50">
+          <div className="card m-4">
+            <div className="title text-neutral-200 text-center uppercase underline">
+              <span className="text-red-500 font-bold">Title:</span>{" "}
+              {myGig?.gigs?.title}
             </div>
-            <div className="flex items-center flex-col  title  ">
-              {" "}
-              <span className="text-purple-400">Followings</span>
-              <span className="text-red-500 font-bold">
-                {creatorData?.followings?.length}
-              </span>
-            </div>
-          </div>{" "}
-          <Divider
-            sx={{ backgroundColor: "gray", width: "82%", margin: "auto" }}
-          />
-          <div className="w-full flex  justify-between gap-2 my-8 rounded-xl shadow-red-400 shadow-md p-2 items-center">
-            {!myGig?.gigs?.isTaken ? (
-              <Box className="  flex flex-col p-1 gap-1">
-                <h6 className="title text-neutral-400">Rate!!!!</h6>
-                <Rating rating={rating} setRating={setRating} />
-              </Box>
-            ) : (
-              <Box className="flex flex-col gap-1 p-1">
-                {myGig?.gigs?.gigRating > 0 ? (
-                  <div>
-                    {myGig?.gigs?.gigRating}
-                    <p className="text-neutral-200 title">stars</p>
-                  </div>
-                ) : (
-                  <h6 className="text-[15px] text-neutral-200">No Rating</h6>
-                )}
-                <GigRating rating={myGig.gigs?.gigRating} />
-              </Box>
-            )}
-            {myGig?.gigs?.bookedBy && (
-              <Image
-                width={25}
-                height={25}
-                className="w-[35px] h-[35px] rounded-full "
-                src={myGig?.gigs?.bookedBy?.picture}
-                alt={
-                  myGig?.gigs?.bookedBy?.firstname &&
-                  myGig?.gigs?.bookedBy?.firstname.split("")[0]
+            <h6 className="title text-gray-200">Personal info</h6>
+            <div className="flex gap-3 mb-6">
+              <Input
+                disabled
+                type="text"
+                className="title p-4  mx-auto mt-4  text-white bg-gray-700   md:text-[25px] xl:text-[28px] "
+                placeholder="firstname"
+                value={
+                  creatorData?.firstname !== undefined
+                    ? creatorData?.firstname
+                    : ""
                 }
               />
-            )}{" "}
-          </div>
-        </div>
-        {!myGig?.gigs?.isTaken && (
-          <div className="w-[85%] mx-auto flex flex-col justify-between items-center gap-1 mt-[20px]">
-            <div className="flex ">
-              <Button
-                variant="secondary"
-                onClick={() => router.back()}
-                className="h-[34px]  w-[90px]  sm:text-[8px]  text-[11px] md:text-[13px]"
-              >
+              <Input
+                disabled
+                type="text"
+                className=" p-4 title  mx-auto mt-4  text-white bg-gray-700    md:text-[25px] xl:text-[28]  "
+                placeholder="lastname"
+                value={
+                  creatorData?.lastname !== undefined
+                    ? creatorData?.lastname
+                    : ""
+                }
+              />
+            </div>
+            <div className="flex gap-3 mb-6">
+              <Input
+                disabled
+                type="text"
+                className=" p-4   mx-auto mt-4  text-white bg-gray-700    md:text-[25px] xl:text-[28]  "
+                placeholder="Email address"
+                value={
+                  creatorData?.email !== undefined ? creatorData?.email : ""
+                }
+              />
+              <Input
+                disabled
+                type="text"
+                className=" p-4   mx-auto mt-4 mb-6  text-white bg-gray-700    md:text-[25px] xl:text-[28] "
+                placeholder="username"
+                value={creatorData?.username}
+              />{" "}
+            </div>
+            <Input
+              disabled
+              type="text"
+              className=" p-4 title  mx-auto my-4  text-yellow-200 placeholder-gray-100 bg-gray-700    md:text-[25px] xl:text-[28]  "
+              placeholder="City"
+              value={creatorData?.city !== undefined ? creatorData?.city : ""}
+            />{" "}
+            <div className="flex items-center justify-between w-[75%] mx-auto my-8">
+              <div className="flex flex-col items-center  title">
+                <span className="text-purple-500 ">Followers</span>
+                <span className="text-red-500 font-bold">
+                  {creatorData?.followers?.length}
+                </span>
+              </div>
+              <div className="flex items-center flex-col  title  ">
                 {" "}
-                <ArrowBack size="21px" sx={{ fontSize: "20px" }} />
-                Go back
-              </Button>{" "}
-              <div>
-                <Button
-                  className="h-[35px] w-full  -p-3 mx-6 sm:text-[8px]  text-[11px] md:text-[13px] "
-                  variant="secondary"
-                  onClick={forget}
-                  disabled={loading}
-                >
-                  {!loading ? (
-                    "Cancel Gig"
-                  ) : (
-                    <CircularProgress size="13px" sx={{ color: "red" }} />
-                  )}
-                </Button>
+                <span className="text-purple-400">Followings</span>
+                <span className="text-red-500 font-bold">
+                  {creatorData?.followings?.length}
+                </span>
               </div>
             </div>{" "}
-            <Button
-              className="h-[35px] mt-3  max-w-[100%] sm:text-[8px] sm:h-[32px]  text-[11px] md:text-[13px]   p-2 mx-4  whitespace-nowrap"
-              variant="destructive"
-              onClick={book}
-              disabled={bookloading}
-            >
-              {!bookloading ? (
-                "Book Gig!!/Choose Musician"
+            <Divider
+              sx={{ backgroundColor: "gray", width: "82%", margin: "auto" }}
+            />
+            <div className="w-full flex  justify-between gap-2 my-8 rounded-xl shadow-red-400 shadow-md p-2 items-center">
+              {!myGig?.gigs?.isTaken ? (
+                <Box className="  flex flex-col p-1 gap-1">
+                  <h6 className="title text-neutral-400">Rate!!!!</h6>
+                  <Rating rating={rating} setRating={setRating} />
+                </Box>
               ) : (
-                <CircularProgress size="13px" sx={{ color: "red" }} />
+                <Box className="flex flex-col gap-1 p-1">
+                  {myGig?.gigs?.gigRating > 0 ? (
+                    <div>
+                      {myGig?.gigs?.gigRating}
+                      <p className="text-neutral-200 title">stars</p>
+                    </div>
+                  ) : (
+                    <h6 className="text-[15px] text-neutral-200">No Rating</h6>
+                  )}
+                  <GigRating rating={myGig.gigs?.gigRating} />
+                </Box>
               )}
-            </Button>
+              {myGig?.gigs?.bookedBy && (
+                <Image
+                  width={25}
+                  height={25}
+                  className="w-[35px] h-[35px] rounded-full "
+                  src={myGig?.gigs?.bookedBy?.picture}
+                  alt={
+                    myGig?.gigs?.bookedBy?.firstname &&
+                    myGig?.gigs?.bookedBy?.firstname.split("")[0]
+                  }
+                />
+              )}{" "}
+            </div>
           </div>
-        )}
-        {hello && (
-          <div
-            variant={variant}
-            onClick={() => onClick(myGig?.gigs)}
-            className="absolute top-32  right-5"
-          >
-            <motion.div className=" text-blue-400   md:cursor-pointer flex flex-col">
-              <FaMessage sx={{ fontSize: "40px" }} size="40px" />
-              <span className="title text-yellow-300 items-end justify-end">
-                chat
-              </span>
-            </motion.div>{" "}
-          </div>
-        )}
-      </div>
+          {!myGig?.gigs?.isTaken && (
+            <div className="w-[85%] mx-auto flex flex-col justify-between items-center gap-1 mt-[20px]">
+              <div className="flex ">
+                <Button
+                  variant="secondary"
+                  onClick={() => router.back()}
+                  className="h-[34px]  w-[90px]  sm:text-[8px]  text-[11px] md:text-[13px]"
+                >
+                  {" "}
+                  <ArrowBack size="21px" sx={{ fontSize: "20px" }} />
+                  Go back
+                </Button>{" "}
+                <div>
+                  <Button
+                    className="h-[35px] w-full  -p-3 mx-6 sm:text-[8px]  text-[11px] md:text-[13px] "
+                    variant="secondary"
+                    onClick={forget}
+                    disabled={loading}
+                  >
+                    {!loading ? (
+                      "Cancel Gig"
+                    ) : (
+                      <CircularProgress size="13px" sx={{ color: "red" }} />
+                    )}
+                  </Button>
+                </div>
+              </div>{" "}
+              <Button
+                className="h-[35px] mt-3  max-w-[100%] sm:text-[8px] sm:h-[32px]  text-[11px] md:text-[13px]   p-2 mx-4  whitespace-nowrap"
+                variant="destructive"
+                onClick={book}
+                disabled={bookloading}
+              >
+                {!bookloading ? (
+                  "Book Gig!!/Choose Musician"
+                ) : (
+                  <CircularProgress size="13px" sx={{ color: "red" }} />
+                )}
+              </Button>
+            </div>
+          )}
+          {hello && (
+            <div
+              variant={variant}
+              onClick={() => onClick(myGig?.gigs)}
+              className="absolute top-32  right-5"
+            >
+              <motion.div className=" text-blue-400   md:cursor-pointer flex flex-col">
+                <FaMessage sx={{ fontSize: "40px" }} size="40px" />
+                <span className="title text-yellow-300 items-end justify-end">
+                  chat
+                </span>
+              </motion.div>{" "}
+            </div>
+          )}
+        </div>
+      </Box>
     </ClientOnly>
   );
 };

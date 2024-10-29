@@ -20,7 +20,7 @@ const MyGigPage = async ({ params }) => {
 
   return (
     <ClientOnly>
-      <div className="h-screen w-screen bg-black ">
+      <div className="bg-zinc-800 h-[calc(100vh-80px)] w-[100%] ">
         {myGig?.gigs?.bookedBy?.clerkId.includes(userId) && (
           <Creator myGig={myGig} />
         )}
