@@ -17,7 +17,7 @@ const SearchComponent = ({ data }) => {
   const { socket } = useSocket();
   const { searchQuery } = useStore();
   const { user: curr } = useCurrentUser(userId);
-
+  console.log(data);
   const myid = curr?.user?._id;
 
   const handleSendNotification = useCallback(
@@ -57,7 +57,7 @@ const SearchComponent = ({ data }) => {
                 />
               ))
           : data
-              .filter((user) => user.clerkId !== userId)
+              ?.filter((user) => user.clerkId !== userId)
               .map((user) => (
                 <MainUser
                   key={user._id}
