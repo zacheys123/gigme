@@ -13,6 +13,7 @@ import { useForgetBookings } from "@/hooks/useForgetBookings";
 import { FaMessage } from "react-icons/fa6";
 import ClientOnly from "@/app/ClientOnly";
 import useStore from "@/app/zustand/useStore";
+import { X } from "lucide-react";
 const Creator = ({ myGig }) => {
   const { userId } = useAuth();
   const { socket, isbooked, setIsbooked } = useStore();
@@ -144,7 +145,10 @@ const Creator = ({ myGig }) => {
       <Box className=" h-full  w-full ">
         <div className="bg-slate-300 w-full h-[50px] flex items-center my-auto">
           <div className=" flex items-center gap-4 mr-5">
-            <Create className="size-7 text-gray-400 ml-5" />
+            <X
+              className="size-5 text-gray-400 ml-5"
+              onClick={() => router.back()}
+            />
             <Preview className="size-7 text-gray-400 ml-1" />
           </div>
           <Box className=" flex items-center  flex-1 ">
@@ -161,7 +165,10 @@ const Creator = ({ myGig }) => {
               </h6>
             </div>
           </Box>
-          <Chat className="size-7 text-blue-400 mr-4" />
+          <Chat
+            className="size-7 text-blue-400 mr-4"
+            onClick={() => onClick(myGig?.gigs)}
+          />
         </div>
         <div className="h-full overflow-hidden bg-red-950 z-50">
           <div className="card m-4">
@@ -298,7 +305,7 @@ const Creator = ({ myGig }) => {
                   </span>
                 )}
             </div>
-            {hello && (
+            {/* {hello && (
               <div
                 variant={variant}
                 onClick={() => onClick(myGig?.gigs)}
@@ -311,7 +318,7 @@ const Creator = ({ myGig }) => {
                   </span>
                 </motion.div>{" "}
               </div>
-            )}
+            )} */}
             {/* {hello && (
           <motion.div variant={variant} className={className}>
             <Button
@@ -325,16 +332,7 @@ const Creator = ({ myGig }) => {
           </div>
           <div className="w-[80%] mx-auto flex justify-between items-center gap-10">
             <Button
-              variant="secondary"
-              onClick={() => router.back()}
-              className="h-[32px]  w-[90px] link flex gap-2"
-            >
-              {" "}
-              <ArrowBack size="21px" sx={{ fontSize: "20px" }} />
-              <span> Go back</span>
-            </Button>
-            <Button
-              className="h-[32px] max-w-[210px] text-[13px]  p-2 mr-6 "
+              className="h-[32px] max-w-[80%] text-[13px]  p-2 mr-6 mx-auto "
               variant="secondary"
               onClick={forget}
               disabled={loading}
