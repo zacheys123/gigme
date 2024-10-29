@@ -100,8 +100,6 @@ const Creator = ({ myGig }) => {
       return; // Exit early if socket is not available
     }
 
-    const handleConnect = () => console.log("Socket connected");
-    const handleDisconnect = () => console.log("Socket disconnected");
     const handleNewCancel = (updatedGig) => {
       // Listen for booking updates
 
@@ -110,15 +108,11 @@ const Creator = ({ myGig }) => {
       console.log(updatedGig);
     };
     console.log(socket);
-    // Add listeners only after socket is available
-    socket.on("connect", handleConnect);
-    socket.on("disconnect", handleDisconnect);
+
     socket.on("gig-canceled", handleNewCancel);
 
     // Cleanup on unmount
     return () => {
-      socket.off("connect", handleConnect);
-      socket.off("disconnect", handleDisconnect);
       socket.off("gig-canceled", handleNewCancel);
     };
   }, [socket]);

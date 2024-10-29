@@ -222,7 +222,7 @@ const Created = ({ user }) => {
                             title={
                               loadingPostId === gig._id
                                 ? "viewing....!!"
-                                : "View Booked Gig Gig!!!!!!"
+                                : "View Booked Gig!!!"
                             }
                           />
                         </div>

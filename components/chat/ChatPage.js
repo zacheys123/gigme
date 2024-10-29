@@ -47,7 +47,7 @@ const ChatPage = ({
     }
 
     getMessages();
-  }, [currentId, postedorbookedById]);
+  }, [currentId, postedorbookedById, setMess]);
 
   useEffect(() => {
     if (!socket) {
@@ -57,21 +57,15 @@ const ChatPage = ({
 
     console.log("Socket is available, setting up listeners...");
 
-    const handleConnect = () => console.log("Socket connected");
-    const handleDisconnect = () => console.log("Socket disconnected");
     const handleNewMessage = (data) => {
       setMess((prev) => [...prev, data]);
       console.log("New message received:", data);
     };
 
-    socket.on("connect", handleConnect);
-    socket.on("disconnect", handleDisconnect);
     socket.on("getMessage", handleNewMessage);
 
     // Cleanup on unmount
     return () => {
-      socket.off("connect", handleConnect);
-      socket.off("disconnect", handleDisconnect);
       socket.off("getMessage", handleNewMessage);
     };
   }, [socket, messages]);

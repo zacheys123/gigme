@@ -34,7 +34,7 @@ const SearchComponent = ({ data }) => {
         message,
       });
     },
-    [socket]
+    [socket, myid]
   );
 
   const debouncedSendNotification = useCallback(
