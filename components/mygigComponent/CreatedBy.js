@@ -170,7 +170,7 @@ const Creator = ({ myGig }) => {
               <Input
                 disabled
                 type="text"
-                className="w-full p-4   mx-auto mt-2  text-white bg-red-800   md:text-[25px] xl:text-[28] "
+                className="w-full p-4   mx-auto mt-2  text-amber-100 bg-stone-900  md:text-[25px] xl:text-[28] "
                 placeholder="username"
                 value={creatorData?.username}
               />{" "}
@@ -178,7 +178,7 @@ const Creator = ({ myGig }) => {
             <Input
               disabled
               type="text"
-              className=" p-4 title  mx-auto mt-1  text-white placeholder-gray-100 bg-red-800   md:text-[25px] xl:text-[28]  "
+              className=" p-4 title  mx-auto mt-3  text-white placeholder-gray-100 bg-stone-900 md:text-[25px] xl:text-[28]  "
               placeholder="City"
               value={creatorData?.city}
             />{" "}
@@ -206,14 +206,14 @@ const Creator = ({ myGig }) => {
             <Input
               disabled
               type="text"
-              className=" p-4 title  mx-auto mt-3  text-white bg-red-800   md:text-[25px] xl:text-[28] "
+              className=" p-4 title  mx-auto mt-3  text-amber-100 bg-stone-900  md:text-[25px] xl:text-[28] "
               placeholder="instrument"
               value={creatorData?.title}
             />{" "}
             <Textarea
               name="description"
               style={{ resize: "none", height: "fit-content" }}
-              className="min-h-[110px]  mb-2 w-full p-2  mx-auto mt-3 text-white bg-red-800 md:w-full xl:w-[full] title md:text-[25px] xl:text-[26] "
+              className="min-h-[110px]  mb-2 w-full p-2  mx-auto mt-3 text-amber-100 bg-stone-900md:w-full xl:w-[full] title md:text-[25px] xl:text-[26] "
               disabled
               type="text"
               value={creatorData?.description}
@@ -222,14 +222,14 @@ const Creator = ({ myGig }) => {
               <Input
                 disabled
                 type="text"
-                className=" p-4 title  mx-auto mt-3  text-white bg-red-800   md:text-[25px] xl:text-[28]  "
+                className=" p-4 title  mx-auto mt-3  text-amber-100 bg-stone-900  md:text-[25px] xl:text-[28]  "
                 placeholder="instrument"
                 value={creatorData?.location}
               />{" "}
               <Input
                 disabled
                 type="text"
-                className=" p-4  mx-auto my-4 text-white bg-red-800 title md:text-[25px] xl:text-[27px]  "
+                className=" p-4  mx-auto my-4 text-amber-100 bg-stone-900title md:text-[25px] xl:text-[27px]  "
                 placeholder="experience"
                 value={`${creatorData?.date}
             
@@ -243,14 +243,14 @@ const Creator = ({ myGig }) => {
               <Input
                 disabled
                 type="text"
-                className="p-4 title  text-white bg-red-800 mx-auto my-4 md:text-[25px] xl:text-[27] "
+                className="p-4 title  text-amber-100 bg-stone-900mx-auto my-4 md:text-[25px] xl:text-[27] "
                 placeholder="instrument"
                 value={creatorData?.contact}
               />{" "}
               <Input
                 disabled
                 type="text"
-                className=" p-4 title text-white bg-red-800  mx-auto my-4 md:text-[25px] xl:text-[27]  "
+                className=" p-4 title text-amber-100 bg-stone-900 mx-auto my-4 md:text-[25px] xl:text-[27]  "
                 placeholder="experience"
                 value={creatorData?.price}
               />
