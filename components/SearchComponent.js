@@ -50,6 +50,7 @@ const SearchComponent = ({ data }) => {
           message={mess}
           senderId={notification.data._id}
           setSenderMess={setSenderMess}
+          mess={mess}
         />
       )}
       <div className="overflow-y-auto h-full w-full my-4 py-10 space-y-4">
