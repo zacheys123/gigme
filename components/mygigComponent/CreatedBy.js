@@ -142,7 +142,7 @@ const Creator = ({ myGig }) => {
   return (
     <ClientOnly>
       <Box className=" h-full  w-full ">
-        <div className="bg-slate-300 w-full h-[50px] flex items-center my-auto">
+        <div className="bg-pink-900 w-full h-[50px] flex items-center my-auto">
           <div className=" flex items-center gap-4 mr-5">
             <Create className="size-7 text-gray-400 ml-5" />
             <Preview className="size-7 text-gray-400 ml-1" />
@@ -152,7 +152,7 @@ const Creator = ({ myGig }) => {
               PostedBy:
             </h6>
             <div className="flex flex-col  p-1">
-              <h6 className="text-[12px] text-neutral-600 flex-1">
+              <h6 className="text-[12px] text-neutral-300 flex-1">
                 {`${myGig?.gigs?.postedBy?.firstname} 
               ${myGig?.gigs?.postedBy?.lastname}`}
               </h6>
@@ -170,7 +170,7 @@ const Creator = ({ myGig }) => {
               <Input
                 disabled
                 type="text"
-                className="w-full p-4   mx-auto mt-2  text-amber-100 bg-stone-900  md:text-[25px] xl:text-[28] "
+                className="w-full p-4   mx-auto mt-2  text-amber-100 bg-stone-900    md:text-[25px] xl:text-[28] "
                 placeholder="username"
                 value={creatorData?.username}
               />{" "}
@@ -178,7 +178,7 @@ const Creator = ({ myGig }) => {
             <Input
               disabled
               type="text"
-              className=" p-4 title  mx-auto mt-3  text-white placeholder-gray-100 bg-stone-900 md:text-[25px] xl:text-[28]  "
+              className=" p-4 title  mx-auto mt-1  text-white placeholder-gray-100 bg-stone-900      md:text-[25px] xl:text-[28]  "
               placeholder="City"
               value={creatorData?.city}
             />{" "}
@@ -206,14 +206,14 @@ const Creator = ({ myGig }) => {
             <Input
               disabled
               type="text"
-              className=" p-4 title  mx-auto mt-3  text-amber-100 bg-stone-900  md:text-[25px] xl:text-[28] "
+              className=" p-4 title  mx-auto mt-3  text-amber-100 bg-stone-900    md:text-[25px] xl:text-[28] "
               placeholder="instrument"
               value={creatorData?.title}
             />{" "}
             <Textarea
               name="description"
               style={{ resize: "none", height: "fit-content" }}
-              className="min-h-[110px]  mb-2 w-full p-2  mx-auto mt-3 text-amber-100 bg-stone-900md:w-full xl:w-[full] title md:text-[25px] xl:text-[26] "
+              className="min-h-[110px]  mb-2 w-full p-2  mx-auto mt-3 text-amber-100 bg-stone-900  md:w-full xl:w-[full] title md:text-[25px] xl:text-[26] "
               disabled
               type="text"
               value={creatorData?.description}
@@ -222,14 +222,14 @@ const Creator = ({ myGig }) => {
               <Input
                 disabled
                 type="text"
-                className=" p-4 title  mx-auto mt-3  text-amber-100 bg-stone-900  md:text-[25px] xl:text-[28]  "
+                className=" p-4 title  mx-auto mt-3  text-amber-100 bg-stone-900    md:text-[25px] xl:text-[28]  "
                 placeholder="instrument"
                 value={creatorData?.location}
               />{" "}
               <Input
                 disabled
                 type="text"
-                className=" p-4  mx-auto my-4 text-amber-100 bg-stone-900title md:text-[25px] xl:text-[27px]  "
+                className=" p-4  mx-auto my-4 text-amber-100 bg-stone-900  title md:text-[25px] xl:text-[27px]  "
                 placeholder="experience"
                 value={`${creatorData?.date}
             
@@ -243,14 +243,14 @@ const Creator = ({ myGig }) => {
               <Input
                 disabled
                 type="text"
-                className="p-4 title  text-amber-100 bg-stone-900mx-auto my-4 md:text-[25px] xl:text-[27] "
+                className="p-4 title  text-amber-100 bg-stone-900  mx-auto my-4 md:text-[25px] xl:text-[27] "
                 placeholder="instrument"
                 value={creatorData?.contact}
               />{" "}
               <Input
                 disabled
                 type="text"
-                className=" p-4 title text-amber-100 bg-stone-900 mx-auto my-4 md:text-[25px] xl:text-[27]  "
+                className=" p-4 title text-amber-100 bg-stone-900   mx-auto my-4 md:text-[25px] xl:text-[27]  "
                 placeholder="experience"
                 value={creatorData?.price}
               />
