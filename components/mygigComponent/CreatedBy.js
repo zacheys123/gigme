@@ -141,8 +141,8 @@ const Creator = ({ myGig }) => {
 
   return (
     <ClientOnly>
-      <Box className="bg-pink-900 h-full  w-full ">
-        <div className="w-full h-[50px] flex items-center my-auto">
+      <Box className=" h-full  w-full ">
+        <div className="bg-slate-300 w-full h-[50px] flex items-center my-auto">
           <div className=" flex items-center gap-4 mr-5">
             <Create className="size-7 text-gray-400 ml-5" />
             <Preview className="size-7 text-gray-400 ml-1" />
@@ -152,7 +152,7 @@ const Creator = ({ myGig }) => {
               PostedBy:
             </h6>
             <div className="flex flex-col  p-1">
-              <h6 className="text-[12px] text-neutral-300 flex-1">
+              <h6 className="text-[12px] text-neutral-600 flex-1">
                 {`${myGig?.gigs?.postedBy?.firstname} 
               ${myGig?.gigs?.postedBy?.lastname}`}
               </h6>

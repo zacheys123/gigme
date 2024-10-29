@@ -180,7 +180,7 @@ const Booker = ({ myGig }) => {
               <Input
                 disabled
                 type="text"
-                className="title p-4  mx-auto mt-4  text-white bg-gray-700   md:text-[25px] xl:text-[28px] "
+                className="title p-4  mx-auto mt-4  text-amber-100 bg-stone-900   md:text-[25px] xl:text-[28px] "
                 placeholder="firstname"
                 value={
                   creatorData?.firstname !== undefined
@@ -191,7 +191,7 @@ const Booker = ({ myGig }) => {
               <Input
                 disabled
                 type="text"
-                className=" p-4 title  mx-auto mt-4  text-white bg-gray-700    md:text-[25px] xl:text-[28]  "
+                className=" p-4 title  mx-auto mt-4  text-amber-100 bg-stone-900    md:text-[25px] xl:text-[28]  "
                 placeholder="lastname"
                 value={
                   creatorData?.lastname !== undefined
@@ -204,7 +204,7 @@ const Booker = ({ myGig }) => {
               <Input
                 disabled
                 type="text"
-                className=" p-4   mx-auto mt-4  text-white bg-gray-700    md:text-[25px] xl:text-[28]  "
+                className=" p-4   mx-auto mt-4  text-amber-100 bg-stone-900    md:text-[25px] xl:text-[28]  "
                 placeholder="Email address"
                 value={
                   creatorData?.email !== undefined ? creatorData?.email : ""
@@ -213,7 +213,7 @@ const Booker = ({ myGig }) => {
               <Input
                 disabled
                 type="text"
-                className=" p-4   mx-auto mt-4 mb-6  text-white bg-gray-700    md:text-[25px] xl:text-[28] "
+                className=" p-4   mx-auto mt-4 mb-6  text-amber-100 bg-stone-900    md:text-[25px] xl:text-[28] "
                 placeholder="username"
                 value={creatorData?.username}
               />{" "}
