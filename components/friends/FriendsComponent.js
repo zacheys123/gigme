@@ -20,7 +20,6 @@ import {
 import { useAuth } from "@clerk/nextjs";
 import { Add } from "@mui/icons-material";
 import { Box, CircularProgress, Divider, Input } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
 import { Footer } from "flowbite-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";

@@ -60,6 +60,7 @@ const useStore = create((set) => ({
 
   isbooked: false,
   setIsbooked: (isbooked) => set({ isbooked }),
+  // modals
 
   // user profile
   showComments: false,
@@ -67,6 +68,14 @@ const useStore = create((set) => ({
 
   currentpost: {},
   setCurrentpost: (currentpost) => set({ currentpost }),
+
+  notification: {
+    data: { _id: "" },
+    message: "",
+
+    createdAt: new Date(),
+  },
+  setNotification: (notification) => set({ notification }),
 
   //
   isLoggedOut: false,

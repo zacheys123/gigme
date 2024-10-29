@@ -21,7 +21,7 @@ import { Toaster } from "sonner";
 const GigmeLayout = ({ children, modal, chat }) => {
   const { user, isSignedIn } = useUser();
   const router = useRouter();
-  const { isLoggedOut } = useStore();
+  const { notification } = useStore();
   const { isLoaded, userId } = useAuth();
   const [permissionStatus, setPermissionStatus] = useState(null); // State to track permission status
   // Replace with your actual logic to get the user ID

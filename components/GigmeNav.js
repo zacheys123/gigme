@@ -14,6 +14,8 @@ import { global } from "@/actions";
 import OverlaySearch from "./OverlaySearch";
 import AvatarComponent from "./Avatar";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import useStore from "@/app/zustand/useStore";
+
 const SocialNav = () => {
   const {
     userState: { toggle },
@@ -23,6 +25,7 @@ const SocialNav = () => {
   const { isLoaded, userId, sessionId, getToken } = useAuth();
   const { user } = useCurrentUser(userId);
   const pathname = usePathname();
+
   const [searchquery, setSearchQuery] = useState("");
   const SearchUser = (ev) => {
     if (ev.target.value.length > 0) {
@@ -135,6 +138,7 @@ const SocialNav = () => {
           )}
         </div>
       </nav>
+
       {toggle && <OverlaySearch searchfunc={searchFn()} />}
       <MobileNav />
       {!pathname === "/search" && (

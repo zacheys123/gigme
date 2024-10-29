@@ -9,7 +9,6 @@ import Transition from "@/components/Transition";
 import { Label, Select, TextInput } from "flowbite-react";
 import { instruments, experiences } from "@/data";
 import { UserButton, useAuth } from "@clerk/nextjs";
-import { useQuery } from "@tanstack/react-query";
 import Logo from "@/components/Logo";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";

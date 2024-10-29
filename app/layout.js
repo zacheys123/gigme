@@ -1,10 +1,10 @@
-import QueryProvider from "@/components/provider";
 import "./globals.css";
 import { auth, ClerkLoaded } from "@clerk/nextjs";
 import { GlobalProvider } from "./Context/store";
 import { Providers } from "./Providers/provider";
 import { SocketContextProvider } from "./Context/socket";
 import "@/lib/cron";
+import { NotificationProvider } from "./Context/notificationContext";
 export const metadata = {
   title: "GigMeApp",
   description: "Connect to Musicians",
@@ -13,7 +13,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <Providers>
-      <QueryProvider>
+      <NotificationProvider>
         <GlobalProvider>
           <SocketContextProvider>
             <html lang="en">
@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
             </html>
           </SocketContextProvider>
         </GlobalProvider>
-      </QueryProvider>
+      </NotificationProvider>
     </Providers>
   );
 }
