@@ -20,33 +20,12 @@ export async function PUT(req, { params }) {
   if (!userId) {
     return NextResponse.redirect(new URL("/sign-in", req.url));
   } // Get the start and end of the current day
-  const startOfDay = moment().startOf("day").toDate();
-  const endOfDay = moment().endOf("day").toDate();
+
   try {
     await connectDb();
 
-    // Query to count the number of events the user has booked today
-    const bookingsToday = await Gigs.countDocuments({
-      bookedBy: userid,
-      createdAt: { $gte: startOfDay, $lte: endOfDay },
-    });
-
-    if (bookingsToday >= 4) {
-      return res.status(400).json({
-        gigstatus: "false",
-        message: "Subscribe to a Premium Package to book more gigs",
-      });
-    }
-
     // Find the event and ensure it's not already booked
-    const newGig = await Gigs.findOne({ _id: params.id, isPending: false });
-
-    if (!newGig) {
-      return res.status(404).json({
-        gigstatus: "false",
-        message: "Event not found or already booked.",
-      });
-    }
+    const newGig = await Gigs.findOne({ _id: params.id });
 
     if (newGig?.isPending === true || newGig?.postedBy?.equals(userid)) {
       return NextResponse.json({
@@ -59,6 +38,9 @@ export async function PUT(req, { params }) {
         $set: {
           isPending: true,
           bookedBy: userid,
+        },
+        $push: {
+          viewCount: userid,
         },
       },
       { new: true }

@@ -1,3 +1,5 @@
+import { cache } from "react";
+
 export const handlebook = async (
   gig,
   myId,
@@ -56,22 +58,40 @@ export const getGigs = async (
   userId,
   publishedGigsFunc,
   createdGigsFunc,
-  setLoading
+  setLoading,
+  apiroute
 ) => {
   setLoading(true);
   try {
-    const res = await fetch(`/api/gigs/getpub/${userId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
-    console.log(data?.gigs);
-    publishedGigsFunc(data?.gigs);
-    createdGigsFunc(data?.gigs);
-    setLoading(false);
-    return data;
+    if (apiroute === "getpub") {
+      const res = await fetch(`/api/gigs/getpub/${userId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        cache: "no-store",
+      });
+      const data = await res.json();
+      console.log(data?.gigs);
+      publishedGigsFunc(data?.gigs);
+      createdGigsFunc(data?.gigs);
+      setLoading(false);
+      return data;
+    }
+    if (apiroute === "allgigs") {
+      const res = await fetch(`/api/gigs/allgigs`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      console.log(data?.gigs);
+      publishedGigsFunc(data?.gigs);
+      createdGigsFunc(data?.gigs);
+      setLoading(false);
+      return data;
+    }
   } catch (error) {
     setLoading(false);
     console.log(error);

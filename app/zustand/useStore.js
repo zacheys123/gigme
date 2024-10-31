@@ -22,6 +22,10 @@ const useStore = create((set) => ({
   allGigsData: false,
   setShowAllGigsData: (allGigsData) => set({ allGigsData }),
 
+  // Searched user
+  searchedUser: {},
+  SetSearchedUser: (searchedUser) => set({ searchedUser }),
+
   searchQuery: "",
   setSearchQuery: (query) => set({ searchQuery: query }),
   allGigsLarge: false,
@@ -45,8 +49,18 @@ const useStore = create((set) => ({
   setUrl: (videourl) => set({ videourl }),
   menu: false,
   setMenu: (menu) => set({ menu }),
+
   showPosts: false,
   setShowPosts: (showPosts) => set({ showPosts }),
+  //
+  viewgig: false,
+  setViewGig: (viewgig) => set({ viewgig }),
+
+  //
+  gigid: "",
+  setGigId: (gigid) => set({ gigid }),
+
+  // user details
   currentfollowers: false,
   setCurrentFollowers: (currentfollowers) => set({ currentfollowers }),
   // user details

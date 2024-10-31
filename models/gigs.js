@@ -43,6 +43,7 @@ const gigSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    viewCount: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );

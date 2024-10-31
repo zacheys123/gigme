@@ -11,72 +11,62 @@ import { searchFunc } from "@/utils";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import MyNotifications from "./MyNotifications";
 import { useNotification } from "@/app/Context/notificationContext";
+import GigsModal from "./modals/GigsModal";
 
 const SearchComponent = ({ data }) => {
   const { userId } = useAuth();
-  const { socket } = useSocket();
-  const { searchQuery } = useStore();
+  const { searchQuery, setViewGig, gigid, SetSearchedUser } = useStore();
   const { user: curr } = useCurrentUser(userId);
   console.log(data);
   const { notification } = useNotification();
   const myid = curr?.user?._id;
   const [mess, setSenderMess] = useState("");
+
   const handleSendNotification = useCallback(
     (user) => {
-      if (!socket || !user) return;
-
-      const message = "A gig is available, are you on?Click gigup to view.";
-      console.log(`Sending notification to ${user.firstname}`);
-      setSenderMess(`Sending notification to ${user.firstname}`);
-      socket.emit("sendNotification", {
-        myid,
-        recipient: user,
-        recipientId: user._id,
-        message,
-      });
+      SetSearchedUser(user);
+      setViewGig(true);
     },
-    [socket, myid]
-  );
-
-  const debouncedSendNotification = useCallback(
-    debounce(handleSendNotification, 100),
-    [handleSendNotification]
+    [setViewGig, SetSearchedUser]
   );
 
   return (
-    <div className="bg-black w-[100vw] h-[calc(100vh-80px)] lg:hidden overflow-hidden">
-      {mess && notification.data._id !== myid && (
-        <MyNotifications
-          message={mess}
-          senderId={notification.data._id}
-          setSenderMess={setSenderMess}
-          mess={mess}
-        />
-      )}
-      <div className="overflow-y-auto h-full w-full my-4 py-10 space-y-4">
-        {data && searchQuery
-          ? searchFunc(data, searchQuery)
-              .filter((user) => user.clerkId !== userId)
-              .map((user) => (
-                <MainUser
-                  key={user._id}
-                  user={user}
-                  searchquery={searchQuery}
-                  handleSendNotification={() => debouncedSendNotification(user)}
-                />
-              ))
-          : data
-              ?.filter((user) => user.clerkId !== userId)
-              .map((user) => (
-                <MainUser
-                  key={user._id}
-                  user={user}
-                  searchquery={searchQuery}
-                  handleSendNotification={() => debouncedSendNotification(user)}
-                />
-              ))}
+    <>
+      <GigsModal />
+      <div className="bg-black w-[100vw] h-[calc(100vh-80px)] lg:hidden overflow-hidden">
+        {gigid && mess && notification.data._id !== myid && (
+          <MyNotifications
+            message={mess}
+            senderId={notification.data._id}
+            setSenderMess={setSenderMess}
+            mess={mess}
+          />
+        )}
+        <div className="overflow-y-auto h-full w-full my-4 py-10 space-y-4">
+          {data && searchQuery
+            ? searchFunc(data, searchQuery)
+                .filter((user) => user.clerkId !== userId)
+                .map((user) => (
+                  <MainUser
+                    key={user._id}
+                    user={user}
+                    searchquery={searchQuery}
+                    handleSendNotification={() => handleSendNotification(user)}
+                  />
+                ))
+            : data
+                ?.filter((user) => user.clerkId !== userId)
+                .map((user) => (
+                  <MainUser
+                    key={user._id}
+                    user={user}
+                    searchquery={searchQuery}
+                    handleSendNotification={() => handleSendNotification(user)}
+                  />
+                ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

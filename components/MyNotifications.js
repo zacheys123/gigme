@@ -40,6 +40,8 @@ const MyNotifications = ({ message, setSenderMess, mess }) => {
               setSenderMess("");
             }
             setNotification({
+              postedBy: "",
+              gigid: "",
               data: { _id: "" },
               message: "",
               createdAt: new Date(),
@@ -58,9 +60,15 @@ const MyNotifications = ({ message, setSenderMess, mess }) => {
             onclick={() => {
               setLoading(true);
 
-              if (notification?.data?._id && notification.postedBy) {
+              if (
+                notification?.gigid &&
+                notification?.data?._id &&
+                notification.postedBy
+              ) {
                 setTimeout(() => {
                   setNotification({
+                    postedBy: "",
+                    gigid: "",
                     data: { _id: "" },
                     message: "",
                     createdAt: new Date(),
@@ -68,7 +76,7 @@ const MyNotifications = ({ message, setSenderMess, mess }) => {
                   // After the operation, you can handle the logic for reading the post
                   setTimeout(() => {
                     router.push(
-                      `/gigme/customgig/${notification?.data?._id}/${notification.postedBy}`
+                      `/gigme/customgig/${notification?.data?._id}/${notification.postedBy}/${notification?.gigId}`
                     );
                   }, 1000);
 

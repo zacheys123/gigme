@@ -4,9 +4,10 @@ import { Box } from "@mui/material";
 import { View, Watch } from "lucide-react";
 import React from "react";
 
-const CustomGigComponent = ({ booker, postedBy }) => {
+const CustomGigComponent = ({ booker, postedBy, gig }) => {
   console.log("booker:", booker);
   console.log("postedby:", postedBy);
+  console.log("My gig:", gig);
   return (
     <div className="h-[100%] w-full animate-in ">
       <div className="bg-pink-900 h-[50px] w-full z-50">

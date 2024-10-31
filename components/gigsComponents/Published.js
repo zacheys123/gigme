@@ -2,7 +2,7 @@ import PublishedAndAllGigs from "./PublishedAndAllGigs";
 import { PropTypes } from "prop-types";
 
 const Published = ({ user }) => {
-  return <PublishedAndAllGigs user={user} />;
+  return <PublishedAndAllGigs user={user} apiroute="getpub" />;
 };
 
 export default Published;

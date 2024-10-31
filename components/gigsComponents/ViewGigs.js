@@ -10,9 +10,7 @@ import useStore from "@/app/zustand/useStore";
 import BookedGigs from "./BookedGigs";
 const ViewGigs = ({ user }) => {
   const [typeOfGig, setTypeOfGig] = useState("published");
-  const [created, setCreated] = useState();
-  const [published, setPublished] = useState();
-  const [allGigs, setAllGigs] = useState();
+
   const handleVal = (ev) => {
     setTypeOfGig(ev.target.value);
   };
