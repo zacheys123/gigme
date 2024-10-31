@@ -13,14 +13,25 @@ import { Eye, View } from "lucide-react";
 import { debounce } from "@/utils/debounce";
 import useSocket from "@/hooks/useSocket";
 import LoadingSpinner from "../LoadingSpinner";
+import { useNotification } from "@/app/Context/notificationContext";
+import MyNotifications from "../MyNotifications";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
+import ioClient from "socket.io-client"; // Import Socket.io client
+// import { sendPushNotification } from "@/lib/firebase/firebaseAdmin";
+
+const socket = ioClient(process.env.NEXT_PUBLIC_PORT);
 const GigsModal = ({}) => {
-  const { socket } = useSocket();
   const { userId } = useAuth();
   const { viewgig, setViewGig, searchedUser } = useStore();
   const [gigs, setGigs] = useState([]);
   const [expandedDescription, setExpandedDescription] = useState({});
   const [loadingPostId, setLoadingPostId] = useState(null);
+  const { user: curr } = useCurrentUser(userId);
+
+  const { notification } = useNotification();
+  const myid = curr?.user?._id;
+  const [mess, setSenderMess] = useState("");
   const router = useRouter();
   const [loading, setLoading] = useState();
   const [loadingdata, setLoadingdata] = useState();
@@ -42,151 +53,169 @@ const GigsModal = ({}) => {
   };
 
   const handleNotificationAndGigs = useCallback((gig) => {
-    if (!socket || !gig?._id) return;
-    setViewGig(false);
-    console.log("first debug");
-    const message = "A gig is available, are you on? Click gigup to view.";
-    console.log(`Sending notification to ${searchedUser?.firstname}`);
-    setSenderMess(
-      `Sending notification to ${searchedUser?.firstname},for the gig titled: ${gig?.title}`
-    );
-    socket.emit("sendNotification", {
-      gigid: gig?._id,
-      myid,
-      recipient: user,
-      recipientId: user._id,
-      message,
-    });
+    if (!socket || !gig) {
+      console.log("socket: ", socket);
+      console.log("Gig id: ", gig);
+      console.log("No socket or gigid");
+      console.log(typeof setSenderMess);
+    } else {
+      console.log("first debug");
+      const message = "A gig is available, are you on? Click gigup to view.";
+      console.log(`Sending notification to ${searchedUser?.firstname}`);
+      setSenderMess(
+        `Sending notification to ${searchedUser?.firstname},for the gig titled: ${gig?.title}`
+      );
+      socket.emit("sendNotification", {
+        gigid: gig?._id,
+        myid,
+        recipient: searchedUser,
+        recipientId: searchedUser._id,
+        message,
+      });
+    }
   }, []);
   const debouncedSendNotification = useCallback(() => {
     debounce(handleNotificationAndGigs, 100);
   }, [handleNotificationAndGigs]);
 
   return (
-    <div
-      className={
-        !viewgig
-          ? " inset-0 flex items-center justify-center bg-black bg-opacity-60"
-          : "fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-60"
-      }
-    >
-      {loading ? (
-        <CircularProgress size="20px" sx={{ color: "white" }} />
-      ) : (
-        <Dialog
-          open={viewgig}
-          onClose={handleClose}
-          PaperProps={{
-            style: {
-              backgroundColor: "#333",
-              maxHeight: "550px",
-              width: "100%",
-              maxWidth: "600px",
-            },
-          }}
-        >
-          <DialogContent>
-            <h6 className="text-center underline text-neutral-400 flex justify-between items-center">
-              <span className="title text-neutral-400">
-                {
-                  gigs?.filter(
+    <>
+      {" "}
+      {mess && notification.data._id !== myid && (
+        <MyNotifications
+          message={mess}
+          senderId={notification.data._id}
+          setSenderMess={setSenderMess}
+          mess={mess}
+        />
+      )}
+      <div
+        className={
+          !viewgig
+            ? " inset-0 flex items-center justify-center bg-black bg-opacity-60"
+            : "fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-60"
+        }
+      >
+        {loading ? (
+          <CircularProgress size="20px" sx={{ color: "white" }} />
+        ) : (
+          <Dialog
+            open={viewgig}
+            onClose={handleClose}
+            PaperProps={{
+              style: {
+                backgroundColor: "#333",
+                maxHeight: "550px",
+                width: "100%",
+                maxWidth: "600px",
+              },
+            }}
+          >
+            <DialogContent>
+              <h6 className="text-center underline text-neutral-400 flex justify-between items-center">
+                <span className="title text-neutral-400">
+                  {
+                    gigs?.filter(
+                      (gig) =>
+                        gig?.postedBy?.clerkId.includes(userId) &&
+                        gig?.isTaken === false
+                    ).length
+                  }{" "}
+                  gigs
+                </span>
+                <span className="title text-neutral-400">
+                  {" "}
+                  Choose A gig to post
+                </span>
+              </h6>
+              {/* Scrollable container for mapped data */}
+              <div className="max-h-[400px] overflow-y-auto">
+                {gigs
+                  ?.filter(
                     (gig) =>
                       gig?.postedBy?.clerkId.includes(userId) &&
                       gig?.isTaken === false
-                  ).length
-                }{" "}
-                gigs
-              </span>
-              <span className="title text-neutral-400">
-                {" "}
-                Choose A gig to post
-              </span>
-            </h6>
-            {/* Scrollable container for mapped data */}
-            <div className="max-h-[400px] overflow-y-auto">
-              {gigs
-                ?.filter(
-                  (gig) =>
-                    gig?.postedBy?.clerkId.includes(userId) &&
-                    gig?.isTaken === false
-                )
-                ?.map((gig) => (
-                  <Box
-                    key={gig._id}
-                    onClick={(ev) => {
-                      // After the operation, you can handle the logic for reading the post
+                  )
+                  ?.map((gig) => (
+                    <Box
+                      key={gig._id}
+                      // onClick={(ev) => {
+                      //   // After the operation, you can handle the logic for reading the post
 
-                      setLoadingPostId(gig?._id);
-                      setTimeout(() => {
-                        setLoadingPostId(null);
-                        debouncedSendNotification(gig);
-                      }, 2000);
-                    }}
-                    className="flex flex-col  cursor-pointer hover:bg-gray-800 my-3 bg-neutral-600 px-3 py-1 rounded-xl"
-                  >
-                    <div className="flex gap-3 items-center p-2 cursor-pointer hover:bg-gray-800">
-                      <AvatarComponent
-                        usercomm={gig?.postedBy}
-                        posts="w-[33px] h-[33px] rounded-full object-fit"
-                      />
-                      <div className="flex-1 -ml-3">
-                        <div className="text-gray-400 text-[12px] capitalize">
-                          {gig.title}
+                      //   setLoadingPostId(gig?._id);
+                      //   setTimeout(() => {
+                      //     setLoadingPostId(null);
+                      //     debouncedSendNotification(gig);
+                      //     setViewGig(false);
+                      //   }, 2000);
+                      // }}
+                      className="flex flex-col  cursor-pointer hover:bg-gray-800 my-3 bg-neutral-600 px-3 py-1 rounded-xl"
+                    >
+                      <div className="flex gap-3 items-center p-2 cursor-pointer hover:bg-gray-800">
+                        <AvatarComponent
+                          usercomm={gig?.postedBy}
+                          posts="w-[33px] h-[33px] rounded-full object-fit"
+                        />
+                        <div className="flex-1 -ml-3">
+                          <div className="text-gray-400 text-[12px] capitalize">
+                            {gig.title}
+                          </div>
+                          <div
+                            className={`text-gray-300 text-[11px] cursor-pointer break-words ${
+                              expandedDescription[gig._id]
+                                ? "whitespace-normal"
+                                : "truncate line-clamp-2"
+                            }`}
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent parent div click
+                              toggleDescription(gig._id);
+                            }}
+                          >
+                            {gig.description}
+                          </div>
                         </div>
-                        <div
-                          className={`text-gray-300 text-[11px] cursor-pointer break-words ${
-                            expandedDescription[gig._id]
-                              ? "whitespace-normal"
-                              : "truncate line-clamp-2"
-                          }`}
-                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent parent div click
-                            toggleDescription(gig._id);
+                      </div>
+                      <div className="w-full flex items-center justify-between">
+                        <div className="flex gap-1 items-center mx-2">
+                          <span className="gigtitle text-neutral-300">
+                            {gig?.viewCount?.length}
+                          </span>
+                          <Eye className="size-4 text-neutral-400" />
+                        </div>
+                        <ButtonComponent
+                          //   disabled={user ? true : false}
+                          variant={"destructive"}
+                          classname=" h-[18px] text-[9px] my-1 font-bold max-w-[52px] "
+                          onclick={(ev) => {
+                            // After the operation, you can handle the logic for reading the post
+                            ev.preventDefault();
+                            ev.stopPropagation();
+                            setLoadingPostId(gig?._id);
+                            setTimeout(() => {
+                              setLoadingPostId(null);
+                              handleNotificationAndGigs(gig);
+                            }, 2000);
                           }}
-                        >
-                          {gig.description}
-                        </div>
+                          title={
+                            loadingPostId === gig?._id ? (
+                              <CircularProgress
+                                size="10px"
+                                sx={{ color: "white", fontWeight: "bold" }}
+                              />
+                            ) : (
+                              <span className="text-[11px]">😎Pick </span>
+                            )
+                          }
+                        />
                       </div>
-                    </div>
-                    <div className="w-full flex items-center justify-between">
-                      <div className="flex gap-1 items-center mx-2">
-                        <span className="gigtitle text-neutral-300">
-                          {gig?.viewCount?.length}
-                        </span>
-                        <Eye className="size-4 text-neutral-400" />
-                      </div>
-                      <ButtonComponent
-                        //   disabled={user ? true : false}
-                        variant={"destructive"}
-                        classname=" h-[18px] text-[9px] my-1 font-bold max-w-[52px] "
-                        onclick={(ev) => {
-                          // After the operation, you can handle the logic for reading the post
-                          ev.preventDefault();
-                          setLoadingPostId(gig?._id);
-                          setTimeout(() => {
-                            setLoadingPostId(null);
-                            debouncedSendNotification(gig);
-                          }, 2000);
-                        }}
-                        title={
-                          loadingPostId === gig?._id ? (
-                            <CircularProgress
-                              size="10px"
-                              sx={{ color: "white", fontWeight: "bold" }}
-                            />
-                          ) : (
-                            <span className="text-[11px]">😎Pick </span>
-                          )
-                        }
-                      />
-                    </div>
-                  </Box>
-                ))}
-            </div>
-          </DialogContent>
-        </Dialog>
-      )}
-    </div>
+                    </Box>
+                  ))}
+              </div>
+            </DialogContent>
+          </Dialog>
+        )}
+      </div>
+    </>
   );
 };
 

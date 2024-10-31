@@ -77,7 +77,6 @@ const PublishedAndAllGigs = ({ user, apiroute }) => {
   const [readmore, setReadMore] = useState();
   const [currentGig, setCurrentGig] = useState({});
   const [gigdesc, setGigdesc] = useState();
-  const [loadinggig, setLoadingGig] = useState();
   const [open, setOpen] = useState();
 
   // Booking function it updates the isPending state ,only the logged in user access it

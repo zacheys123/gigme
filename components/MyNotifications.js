@@ -11,6 +11,7 @@ const MyNotifications = ({ message, setSenderMess, mess }) => {
   const [loading, setLoading] = useState();
   const router = useRouter();
   const { notification, setNotification } = useNotification();
+  const { setViewGig } = useStore();
   console.log(notification);
   return (
     <motion.div
@@ -46,6 +47,7 @@ const MyNotifications = ({ message, setSenderMess, mess }) => {
               message: "",
               createdAt: new Date(),
             });
+            setViewGig(false);
           }}
         >
           &times;
@@ -73,6 +75,7 @@ const MyNotifications = ({ message, setSenderMess, mess }) => {
                     message: "",
                     createdAt: new Date(),
                   });
+                  setViewGig(false);
                   // After the operation, you can handle the logic for reading the post
                   setTimeout(() => {
                     router.push(
