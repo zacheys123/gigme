@@ -10,7 +10,7 @@ const LoadingSpinner = () => {
           <span className="text-neutral-500"> loading gigs...</span>
           <CircularProgress
             sx={{ color: "inherit" }}
-            size="20px"
+            size="10px"
             className="text-white  bg-gradient-to-r 
       from-red-400 to-yellow-400 via-orange-900 rounded-ss-xl rounded-es-full rounded-r-full
       "

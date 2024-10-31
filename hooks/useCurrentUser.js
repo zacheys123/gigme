@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { cache, useEffect, useState } from "react";
 
 export function useCurrentUser(userId) {
+  let url = `/api/user/getuser/${userId}`;
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
   useEffect(() => {
@@ -25,10 +26,10 @@ export function useCurrentUser(userId) {
       return;
     }
 
-    const getUser = async () => {
+    const getUser = cache(async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/user/getuser/${userId}`, {
+        const res = await fetch(url, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -51,10 +52,10 @@ export function useCurrentUser(userId) {
       } finally {
         setLoading(false);
       }
-    };
+    });
 
     getUser();
-  }, [userId]);
+  }, [userId, url]);
 
   return { loading, user, setUser };
 }

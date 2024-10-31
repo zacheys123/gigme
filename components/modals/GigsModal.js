@@ -20,6 +20,7 @@ const GigsModal = ({}) => {
   const { viewgig, setViewGig, searchedUser } = useStore();
   const [gigs, setGigs] = useState([]);
   const [expandedDescription, setExpandedDescription] = useState({});
+  const [loadingPostId, setLoadingPostId] = useState(null);
   const router = useRouter();
   const [loading, setLoading] = useState();
   const [loadingdata, setLoadingdata] = useState();
@@ -43,10 +44,11 @@ const GigsModal = ({}) => {
   const handleNotificationAndGigs = useCallback((gig) => {
     if (!socket || !gig?._id) return;
     setViewGig(false);
+    console.log("first debug");
     const message = "A gig is available, are you on? Click gigup to view.";
     console.log(`Sending notification to ${searchedUser?.firstname}`);
     setSenderMess(
-      `Sending notification to ${searchedUser?.firstname},for the gig titled ${gig?.title}`
+      `Sending notification to ${searchedUser?.firstname},for the gig titled: ${gig?.title}`
     );
     socket.emit("sendNotification", {
       gigid: gig?._id,
@@ -59,7 +61,7 @@ const GigsModal = ({}) => {
   const debouncedSendNotification = useCallback(() => {
     debounce(handleNotificationAndGigs, 100);
   }, [handleNotificationAndGigs]);
-  console.log(gigs);
+
   return (
     <div
       className={
@@ -111,7 +113,15 @@ const GigsModal = ({}) => {
                 ?.map((gig) => (
                   <Box
                     key={gig._id}
-                    onClick={() => router.push(`/gig/${gig._id}`)}
+                    onClick={(ev) => {
+                      // After the operation, you can handle the logic for reading the post
+
+                      setLoadingPostId(gig?._id);
+                      setTimeout(() => {
+                        setLoadingPostId(null);
+                        debouncedSendNotification(gig);
+                      }, 2000);
+                    }}
                     className="flex flex-col  cursor-pointer hover:bg-gray-800 my-3 bg-neutral-600 px-3 py-1 rounded-xl"
                   >
                     <div className="flex gap-3 items-center p-2 cursor-pointer hover:bg-gray-800">
@@ -149,17 +159,21 @@ const GigsModal = ({}) => {
                         //   disabled={user ? true : false}
                         variant={"destructive"}
                         classname=" h-[18px] text-[9px] my-1 font-bold max-w-[52px] "
-                        onclick={() => {
+                        onclick={(ev) => {
                           // After the operation, you can handle the logic for reading the post
-                          setLoadingdata(true);
+                          ev.preventDefault();
+                          setLoadingPostId(gig?._id);
                           setTimeout(() => {
-                            setLoadingdata(false);
+                            setLoadingPostId(null);
                             debouncedSendNotification(gig);
                           }, 2000);
                         }}
                         title={
-                          loadingdata ? (
-                            <LoadingSpinner />
+                          loadingPostId === gig?._id ? (
+                            <CircularProgress
+                              size="10px"
+                              sx={{ color: "white", fontWeight: "bold" }}
+                            />
                           ) : (
                             <span className="text-[11px]">😎Pick </span>
                           )

@@ -15,9 +15,9 @@ import GigsModal from "./modals/GigsModal";
 
 const SearchComponent = ({ data }) => {
   const { userId } = useAuth();
-  const { searchQuery, setViewGig, gigid, SetSearchedUser } = useStore();
+  const { searchQuery, setViewGig, SetSearchedUser } = useStore();
   const { user: curr } = useCurrentUser(userId);
-  console.log(data);
+
   const { notification } = useNotification();
   const myid = curr?.user?._id;
   const [mess, setSenderMess] = useState("");
@@ -34,7 +34,7 @@ const SearchComponent = ({ data }) => {
     <>
       <GigsModal />
       <div className="bg-black w-[100vw] h-[calc(100vh-80px)] lg:hidden overflow-hidden">
-        {gigid && mess && notification.data._id !== myid && (
+        {mess && notification.data._id !== myid && (
           <MyNotifications
             message={mess}
             senderId={notification.data._id}
