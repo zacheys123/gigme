@@ -140,15 +140,15 @@ const GigsModal = ({}) => {
                     </div>
                     <div className="w-full flex items-center justify-between">
                       <div className="flex gap-1 items-center mx-2">
-                        <span className="title text-neutral-300">
+                        <span className="gigtitle text-neutral-300">
                           {gig?.viewCount?.length}
                         </span>
-                        <Eye className="size-5 text-neutral-400" />
+                        <Eye className="size-4 text-neutral-400" />
                       </div>
                       <ButtonComponent
                         //   disabled={user ? true : false}
                         variant={"destructive"}
-                        classname=" h-[20px] text-[10px] my-1 font-bold max-w-[55px] "
+                        classname=" h-[18px] text-[9px] my-1 font-bold max-w-[52px] "
                         onclick={() => {
                           // After the operation, you can handle the logic for reading the post
                           setLoadingdata(true);

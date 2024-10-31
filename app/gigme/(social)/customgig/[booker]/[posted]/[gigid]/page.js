@@ -1,5 +1,4 @@
-import { getBookedPosted } from "@/app/server-actions/customGig";
-import { getGig } from "@/app/server-actions/getBookedPosted";
+import { getBookedPosted, getGig } from "@/app/server-actions/customGig";
 import CustomGigComponent from "@/components/mygigComponent/CustomGigComponent";
 import React from "react";
 
