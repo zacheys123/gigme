@@ -1,48 +1,26 @@
 "use client";
-import { Box, CircularProgress } from "@mui/material";
+import { Box } from "@mui/material";
 import moment from "moment";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ButtonComponent from "../ButtonComponent";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useAuth } from "@clerk/nextjs";
 
 const GigData = ({ booker, posted, gig }) => {
   const { userId } = useAuth();
-  const [loadingPostId, setLoadingPostId] = useState(null);
-  const { user } = useCurrentUser(userId);
-
+  console.log(gig?.gigs);
   const options = {
     year: "numeric",
     month: "long",
     day: "numeric",
     timeZone: "UTC",
   };
-  const [showOffer, setShowOffer] = useState(false);
-
-  useEffect(() => {
-    // Show the div after 4000ms
-    const showTimeout = setTimeout(() => setShowOffer(true), 4000);
-
-    // Hide the div after 3000ms from showing
-    const hideTimeout = setTimeout(() => setShowOffer(false), 7000);
-
-    return () => {
-      clearTimeout(showTimeout);
-      clearTimeout(hideTimeout);
-    };
-  }, []);
+  const [loadingPostId, setLoadingPostId] = useState(null);
+  const { user } = useCurrentUser(userId);
 
   const bookGig = () => {};
-
   return (
-    <div className="relative w-[90vw] max-w-[1000px] p-6 rounded-2xl bg-transparent-900 shadow-lg mx-auto -mt-8 overflow-y-auto">
-      {/* One-Time Offer Message */}
-      {showOffer && (
-        <div className="fixed top-8 left-1/2 transform -translate-x-1/2 px-6 py-3 bg-amber-700 text-white text-center rounded-lg shadow-lg animate-slide-in-down transition-opacity duration-1000 ease-in-out fade-out">
-          This is a one-time offer, so choose wisely!
-        </div>
-      )}
-
+    <div className="w-[90vw] max-w-[900px] p-6 rounded-2xl bg-transparent-900 shadow-lg mx-auto -mt-8 overflow-y-auto">
       {/* Booker Details */}
       <div className="flex flex-col bg-black bg-opacity-20 p-6 my-4 rounded-lg shadow-inner">
         <h6 className="text-neutral-200 underline mt-3 gigtitle bg-amber-700 p-2 mb-3 rounded-md">
@@ -117,7 +95,7 @@ const GigData = ({ booker, posted, gig }) => {
             <span className="text-neutral-400 title">Gig Title</span>
             <span className="text-neutral-300  gigtitle">{gig?.title}</span>
           </div>
-          <div className="flex flex-col my-2 border-t border-neutral-600 pt-4">
+          <div className="flex flex-col my-2 border-t border-neutral-600">
             <span className="text-neutral-400 title">Description</span>
             <span className="text-neutral-300  gigtitle">
               {gig?.description}
@@ -211,5 +189,3 @@ const GigData = ({ booker, posted, gig }) => {
 };
 
 export default GigData;
-
-console.log(gig?.gigs);
