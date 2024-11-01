@@ -10,15 +10,13 @@ import { useEffect } from "react";
 const SocialLayout = ({ children }) => {
   const router = useRouter();
   const { user, isSignedIn } = useUser();
-  console.log(user);
+
   const { isLoaded, userId, sessionId, getToken } = useAuth();
   const registerUser = useCallback(async () => {
     if (!user) {
       console.error("No user data to send.");
       return;
     }
-
-    console.log("Sending user to backend:", user);
 
     const res = await fetch("/api/user/register", {
       method: "POST",
@@ -29,7 +27,7 @@ const SocialLayout = ({ children }) => {
     });
 
     const data = await res.json();
-    console.log(data);
+
     window?.localStorage.setItem("user", JSON.stringify(data?.results));
     if (data?.userstatus === false) {
       return router.push("/gigme/social");

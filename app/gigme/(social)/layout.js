@@ -87,7 +87,7 @@ const GigmeLayout = ({ children, modal, chat }) => {
       </div>
     );
   }
-  console.log(logout);
+
   return (
     <ClientOnly>
       {notification?.data?._id && notification.data._id === myid && (

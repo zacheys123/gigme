@@ -19,6 +19,7 @@ const SearchComponent = ({ data }) => {
 
   const handleSendNotification = useCallback(
     (user) => {
+      if (!user) return;
       SetSearchedUser(user);
       setViewGig(true);
     },

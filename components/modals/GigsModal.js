@@ -53,11 +53,26 @@ const GigsModal = ({}) => {
   };
 
   const handleNotificationAndGigs = useCallback((gig) => {
-    if (!socket || !gig) {
+    if (!socket) {
       console.log("socket: ", socket);
-      console.log("Gig id: ", gig);
-      console.log("No socket or gigid");
+
+      console.log("No socket");
       console.log(typeof setSenderMess);
+    }
+    if (!gig) {
+      console.log("gig: ", gig);
+
+      console.log("No gig");
+    }
+    if (!searchedUser) {
+      console.log("searchedUser: ", searchedUser);
+
+      console.log("No searchedUser");
+    }
+    if (!myid) {
+      console.log("myid: ", myid);
+
+      console.log("No myid");
     } else {
       console.log("first debug");
       const message = "A gig is available, are you on? Click gigup to view.";
@@ -65,6 +80,7 @@ const GigsModal = ({}) => {
       setSenderMess(
         `Sending notification to ${searchedUser?.firstname},for the gig titled: ${gig?.title}`
       );
+      console.log(gig);
       socket.emit("sendNotification", {
         gigid: gig?._id,
         myid,

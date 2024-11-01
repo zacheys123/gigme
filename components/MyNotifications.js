@@ -79,7 +79,7 @@ const MyNotifications = ({ message, setSenderMess, mess }) => {
                   // After the operation, you can handle the logic for reading the post
                   setTimeout(() => {
                     router.push(
-                      `/gigme/customgig/${notification?.data?._id}/${notification.postedBy}/${notification?.gigId}`
+                      `/gigme/customgig/${notification?.data?._id}/${notification.postedBy}/${notification?.gigid}`
                     );
                   }, 1000);
 
