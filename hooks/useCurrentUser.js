@@ -26,7 +26,7 @@ export function useCurrentUser(userId) {
       return;
     }
 
-    const getUser = cache(async () => {
+    const getUser = async () => {
       try {
         setLoading(true);
         const res = await fetch(url, {
@@ -52,7 +52,7 @@ export function useCurrentUser(userId) {
       } finally {
         setLoading(false);
       }
-    });
+    };
 
     getUser();
   }, [userId, url]);

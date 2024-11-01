@@ -27,16 +27,16 @@ const GigsModal = ({}) => {
   const [gigs, setGigs] = useState([]);
   const [expandedDescription, setExpandedDescription] = useState({});
   const [loadingPostId, setLoadingPostId] = useState(null);
-  const { user: curr } = useCurrentUser(userId);
+  const { user } = useCurrentUser(userId);
 
   const { notification } = useNotification();
-  const myid = curr?.user?._id;
+  const myid = user?.user?._id;
   const [mess, setSenderMess] = useState("");
   const router = useRouter();
   const [loading, setLoading] = useState();
   const [loadingdata, setLoadingdata] = useState();
-  let createdGigsFunc;
-  console.log(searchedUser?.firstname);
+  let createdGigsFunc = [];
+  console.log(user);
   useEffect(() => {
     getGigs(userId, setGigs, createdGigsFunc, setLoading, "allgigs");
   }, []);
@@ -52,44 +52,47 @@ const GigsModal = ({}) => {
     }));
   };
 
-  const handleNotificationAndGigs = useCallback((gig) => {
-    if (!socket) {
-      console.log("socket: ", socket);
+  const handleNotificationAndGigs = useCallback(
+    (gig) => {
+      if (!socket) {
+        console.log("socket: ", socket);
 
-      console.log("No socket");
-      console.log(typeof setSenderMess);
-    }
-    if (!gig) {
-      console.log("gig: ", gig);
+        console.log("No socket");
+        console.log(typeof setSenderMess);
+      }
+      if (!gig) {
+        console.log("gig: ", gig);
 
-      console.log("No gig");
-    }
-    if (!searchedUser) {
-      console.log("searchedUser: ", searchedUser);
+        console.log("No gig");
+      }
+      if (!searchedUser) {
+        console.log("searchedUser: ", searchedUser);
 
-      console.log("No searchedUser");
-    }
-    if (!myid) {
-      console.log("myid: ", myid);
+        console.log("No searchedUser");
+      }
+      if (!myid) {
+        console.log("myid: ", myid);
 
-      console.log("No myid");
-    } else {
-      console.log("first debug");
-      const message = "A gig is available, are you on? Click gigup to view.";
-      console.log(`Sending notification to ${searchedUser?.firstname}`);
-      setSenderMess(
-        `Sending notification to ${searchedUser?.firstname},for the gig titled: ${gig?.title}`
-      );
-      console.log(gig);
-      socket.emit("sendNotification", {
-        gigid: gig?._id,
-        myid,
-        recipient: searchedUser,
-        recipientId: searchedUser._id,
-        message,
-      });
-    }
-  }, []);
+        console.log("No myid");
+      } else {
+        console.log("first debug");
+        const message = "A gig is available, are you on? Click gigup to view.";
+        console.log(`Sending notification to ${searchedUser?.firstname}`);
+        setSenderMess(
+          `Sending notification to ${searchedUser?.firstname},for the gig titled: ${gig?.title}`
+        );
+        console.log(gig);
+        socket.emit("sendNotification", {
+          gigid: gig?._id,
+          myid,
+          recipient: searchedUser,
+          recipientId: searchedUser._id,
+          message,
+        });
+      }
+    },
+    [user]
+  );
   const debouncedSendNotification = useCallback(() => {
     debounce(handleNotificationAndGigs, 100);
   }, [handleNotificationAndGigs]);
@@ -206,6 +209,10 @@ const GigsModal = ({}) => {
                             // After the operation, you can handle the logic for reading the post
                             ev.preventDefault();
                             ev.stopPropagation();
+                            if (!user) {
+                              console.log("User data is not available yet.");
+                              return;
+                            }
                             setLoadingPostId(gig?._id);
                             setTimeout(() => {
                               setLoadingPostId(null);
