@@ -144,7 +144,7 @@ const GigsModal = ({}) => {
                 </span>
                 <span className="title text-neutral-700">
                   {" "}
-                  Choose A gig to post
+                  Choose a gig to gift a friend
                 </span>
               </h6>
               {/* Scrollable container for mapped data */}
