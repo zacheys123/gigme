@@ -123,7 +123,7 @@ const GigsModal = ({}) => {
             onClose={handleClose}
             PaperProps={{
               style: {
-                backgroundColor: "#b8b8b8   ",
+                backgroundColor: "#e4edf1    ",
                 maxHeight: "550px",
                 width: "100%",
                 maxWidth: "600px",
@@ -169,7 +169,7 @@ const GigsModal = ({}) => {
                       //     setViewGig(false);
                       //   }, 2000);
                       // }}
-                      className="flex flex-col  cursor-pointer hover:bg-gray-800 my-3 bg-slate-800 px-3 py-1 rounded-xl overflow-x-hidden"
+                      className="flex flex-col  cursor-pointer hover:bg-gray-800 my-3 bg-slate-800 px-3 py-1 rounded-xl overflow-x-hidden max-w-[400px]"
                     >
                       <div className="flex gap-3 items-center p-2 cursor-pointer hover:bg-gray-800">
                         <AvatarComponent
@@ -181,9 +181,9 @@ const GigsModal = ({}) => {
                             {gig.title}
                           </div>
                           <div
-                            className={`text-gray-300 text-[11px] cursor-pointer break-words ${
+                            className={`text-gray-300 text-[11px] cursor-pointer break-words  ${
                               expandedDescription[gig._id]
-                                ? "whitespace-normal"
+                                ? "whitespace-normal "
                                 : "truncate line-clamp-2"
                             }`}
                             onClick={(e) => {
