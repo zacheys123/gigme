@@ -18,6 +18,7 @@ import MyNotifications from "../MyNotifications";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 import ioClient from "socket.io-client"; // Import Socket.io client
+import { motion } from "framer-motion";
 // import { sendPushNotification } from "@/lib/firebase/firebaseAdmin";
 
 const socket = ioClient(process.env.NEXT_PUBLIC_PORT);
@@ -108,7 +109,10 @@ const GigsModal = ({}) => {
           mess={mess}
         />
       )}
-      <div
+      <motion.div
+        initial={{ opacity: 0, y: "-1500px" }}
+        animate={{ opacity: 1, y: "500px" }}
+        transition={{ duration: 0.8, delay: 1 }}
         className={
           !viewgig
             ? " inset-0 flex items-center justify-center bg-gray-900 bg-opacity-70"
@@ -210,7 +214,7 @@ const GigsModal = ({}) => {
                             // After the operation, you can handle the logic for reading the post
                             ev.preventDefault();
                             ev.stopPropagation();
-                            if (!user || searchedUser) {
+                            if (!user || !searchedUser) {
                               console.log("User data is not available yet.");
                               return;
                             }
@@ -238,7 +242,7 @@ const GigsModal = ({}) => {
             </DialogContent>
           </Dialog>
         )}
-      </div>
+      </motion.div>
     </>
   );
 };
