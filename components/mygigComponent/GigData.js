@@ -1,9 +1,18 @@
 import { Box } from "@mui/material";
 import moment from "moment";
 import React from "react";
-
+import { format } from "date-fns";
 const GigData = ({ booker, posted, gig }) => {
   console.log(gig?.gigs);
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+  };
+
   return (
     <div className="w-[90vw] p-3 rounded-xl pt-2 max-h-full overflow-y-auto">
       {/* begining */}
@@ -137,7 +146,9 @@ const GigData = ({ booker, posted, gig }) => {
         <Box className="flex flex-col justify-between  w-full h-[80px]  border-1  mt-4 border-b-neutral-300">
           <div className="flex flex-col ">
             <span className="title text-neutral-400">Gig Date</span>
-            <span className="title text-neutral-400">{gig?.date}</span>
+            <span className="title text-neutral-400">
+              {new Date(gig?.date).toLocaleString("en-Us", options)}
+            </span>
           </div>
           <div className="flex flex-col ">
             <span className="title text-neutral-400">Gig Time</span>
