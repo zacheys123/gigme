@@ -29,7 +29,7 @@ const SearchComponent = ({ data }) => {
     [setViewGig, SetSearchedUser, searchedUser]
   );
 
-  return (        
+  return (
     <>
       <GigsModal />
       <div className="bg-black w-[100vw] h-[calc(100vh-80px)] lg:hidden overflow-hidden">

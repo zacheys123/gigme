@@ -111,8 +111,8 @@ const GigsModal = ({}) => {
       <div
         className={
           !viewgig
-            ? " inset-0 flex items-center justify-center bg-black bg-opacity-80"
-            : "fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-60"
+            ? " inset-0 flex items-center justify-center bg-gray-900 bg-opacity-70"
+            : "fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-60"
         }
       >
         {loading ? (
@@ -123,7 +123,7 @@ const GigsModal = ({}) => {
             onClose={handleClose}
             PaperProps={{
               style: {
-                backgroundColor: "#333",
+                backgroundColor: "#b8b8b8   ",
                 maxHeight: "550px",
                 width: "100%",
                 maxWidth: "600px",
@@ -132,7 +132,7 @@ const GigsModal = ({}) => {
           >
             <DialogContent>
               <h6 className="text-center underline text-neutral-400 flex justify-between items-center">
-                <span className="title text-neutral-400">
+                <span className="title text-neutral-700">
                   {
                     gigs?.filter(
                       (gig) =>
@@ -142,7 +142,7 @@ const GigsModal = ({}) => {
                   }{" "}
                   gigs
                 </span>
-                <span className="title text-neutral-400">
+                <span className="title text-neutral-700">
                   {" "}
                   Choose A gig to post
                 </span>
