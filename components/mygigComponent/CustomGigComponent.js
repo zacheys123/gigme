@@ -30,7 +30,7 @@ const CustomGigComponent = ({ booker, postedBy, gig }) => {
           <Chat className="size-7 text-blue-400 mr-4" />
         </div>
       </div>
-      <div className="w-full max-h-[calc(100vh-50px)] overflow-y-auto bg-gradient-to-br to-pink-950 via-gray-900 from-amber-800">
+      <div className="w-full min-h-[calc(100vh-50px)] overflow-y-auto bg-gradient-to-b from-amber-200 via-gray-700 to-amber-900 animate-gradient-flow">
         <h6 className="text-[15px] text-gray-400 ml-4 mt-3">
           <GigData booker={booker} posted={postedBy} gig={gig?.gigs} />
         </h6>
