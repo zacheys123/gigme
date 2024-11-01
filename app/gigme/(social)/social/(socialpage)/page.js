@@ -1,4 +1,5 @@
 import ClientOnly from "@/app/ClientOnly";
+import { getAllPosts } from "@/app/server-actions/getAllPosts";
 import SocialMainPage from "@/components/SocialMainPage";
 import LeftBar from "@/components/socials/LeftBar";
 import connectDb from "@/lib/connectDb";
@@ -21,6 +22,7 @@ async function getUser() {
         headers: {
           "Content-Type": "application/json",
         },
+        cache: "force-cache",
       }
     );
     return res.json();
@@ -36,6 +38,7 @@ async function getPosts() {
       headers: {
         "Content-Type": "application/json",
       },
+      cache: "force-cache",
     });
     const posts = await res.json();
 
@@ -52,6 +55,7 @@ async function getComments() {
       headers: {
         "Content-Type": "application/json",
       },
+      cache: "force-cache",
     });
     const comments = await res.json();
 
@@ -67,6 +71,7 @@ async function getReplies() {
       headers: {
         "Content-Type": "application/json",
       },
+      cache: "force-cache",
     });
     const replies = await res.json();
 
@@ -76,10 +81,12 @@ async function getReplies() {
   }
 }
 const SocialPage = async () => {
-  const user = await getUser();
-  const posts = await getPosts();
-  const comments = await getComments();
-  const replies = await getReplies();
+  const [user, posts, comments, replies] = await Promise.all([
+    getUser(),
+    getAllPosts(),
+    getComments(),
+    getReplies(),
+  ]);
   console.log(posts);
   return (
     <div className="w-screen h-screen  bg-gray-900 overflow-x-hidden">
@@ -89,6 +96,7 @@ const SocialPage = async () => {
           currentuser={user}
           comments={comments}
           replies={replies}
+          posts={posts}
         />
       </ClientOnly>
     </div>

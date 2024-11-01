@@ -6,25 +6,8 @@ import { auth } from "@clerk/nextjs";
 import { getAllPosts } from "@/app/server-actions/getAllPosts";
 import { getAllUsers } from "@/app/server-actions/getAllUsers";
 
-// async function getUsersPosts() {
-//   try {
-//     const res = await fetch(`${checkEnvironment()}/api/posts/getusersposts`, {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     });
-//     const posts = await res.json();
-
-//     return posts;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-const SocialMainPage = async ({ currentuser, comments, replies }) => {
+const SocialMainPage = async ({ currentuser, posts, comments, replies }) => {
   // Fetching data for all posts
-
-  const posts = await getAllPosts();
 
   const allUsers = await getAllUsers(currentuser?.user?._id);
 

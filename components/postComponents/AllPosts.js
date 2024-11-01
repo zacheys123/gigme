@@ -28,7 +28,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
   } = useStore();
 
   //   current comment
-
+  console.log(userposts);
   let newComm = comments?.comments;
   let myComments = newComm.filter((com) => {
     return com?.postId?._id === currentpost?._id;
