@@ -9,6 +9,7 @@ async function getMyGig(gigId) {
     headers: {
       "Content-Type": "application/json",
     },
+    cache: "force-cache",
   });
   return res.json();
 }
