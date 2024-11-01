@@ -78,32 +78,37 @@ const GigData = ({ booker, posted, gig }) => {
             Gig details here
           </h6>
           <div className="flex flex-col ">
-            <span className="title text-neutral-400">Gig Title</span>
-            <span className="title text-neutral-400">{gig?.title}</span>
+            <span className="title text-neutral-400"> Gig Title </span>
+            <span className="title text-neutral-500 ">{gig?.title}</span>
           </div>
 
-          <div className="flex flex-col ">
+          <div className="flex flex-col h-fit">
             <span className="title text-neutral-400">Gig Description</span>
-            <span className="title text-neutral-400">{gig?.description}</span>
+            <span className="title text-neutral-500">{gig?.description}</span>
           </div>
         </Box>
         <Box className="flex justify-between items-center w-full h-[80px] my-4 border-1 border-b-neutral-300">
           <div className="flex flex-col ">
             <span className="title text-neutral-400">Gig Pay</span>
-            <span className="title text-neutral-400">{gig?.price}</span>
+            <span className="title text-neutral-500">{gig?.price}</span>
           </div>
 
           <div className="flex flex-col ">
             <span className="title text-neutral-400">Gig Location</span>
-            <span className="title text-neutral-400">{gig?.location}</span>
+            <span className="title text-neutral-500">{gig?.location}</span>
           </div>
         </Box>
-        <Box className="flex justify-between items-center w-full h-[80px] my-4 border-1 border-b-neutral-300">
+        <Box className="flex justify-between items-center w-full h-[120px] mt-3 border-1 border-b-neutral-300">
           <div className="flex flex-col ">
-            <span className="title text-neutral-400">Gig Prefference</span>
-            <span className="title text-neutral-400">{gig?.bussinesscat}</span>
+            <span className="title text-neutral-400">Gig Type</span>
+            <span className="title text-neutral-500">
+              {gig?.bussinesscat === "personal" && "Individual Gig"}
+              {gig?.bussinesscat === "fullband" && "Fullband Gig"}
+              {gig?.bussinesscat === "other" && "Selected Gig"}
+            </span>
           </div>
-
+        </Box>{" "}
+        <Box className="flex justify-between items-center w-full h-[80px]  border-1 border-b-neutral-300">
           <div className="flex flex-col ">
             <span className="title text-neutral-400">Gig Date</span>
             <span className="title text-neutral-400">{gig?.price}</span>

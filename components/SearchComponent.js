@@ -15,18 +15,21 @@ import GigsModal from "./modals/GigsModal";
 
 const SearchComponent = ({ data }) => {
   const { userId } = useAuth();
-  const { searchQuery, setViewGig, SetSearchedUser } = useStore();
+  const { searchedUser, searchQuery, setViewGig, SetSearchedUser } = useStore();
 
   const handleSendNotification = useCallback(
     (user) => {
-      if (!user) return;
-      SetSearchedUser(user);
-      setViewGig(true);
+      if (!user) {
+        console.log("User not found");
+      } else {
+        SetSearchedUser(user);
+        setViewGig(true);
+      }
     },
-    [setViewGig, SetSearchedUser]
+    [setViewGig, SetSearchedUser, searchedUser]
   );
 
-  return (
+  return (        
     <>
       <GigsModal />
       <div className="bg-black w-[100vw] h-[calc(100vh-80px)] lg:hidden overflow-hidden">

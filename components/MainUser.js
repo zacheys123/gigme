@@ -176,6 +176,10 @@ const MainUser = ({ user, handleSendNotification, getUserId }) => {
               }
               classname=" h-[20px] text-[10px] my-1 font-bold max-w-[55px]"
               onclick={() => {
+                if (!user) {
+                  console.log("Other Userdata is not available yet.");
+                  return;
+                }
                 // After the operation, you can handle the logic for reading the post
                 handleSendNotification(user);
               }}

@@ -91,7 +91,7 @@ const GigsModal = ({}) => {
         });
       }
     },
-    [user]
+    [user, searchedUser]
   );
   const debouncedSendNotification = useCallback(() => {
     debounce(handleNotificationAndGigs, 100);
@@ -111,7 +111,7 @@ const GigsModal = ({}) => {
       <div
         className={
           !viewgig
-            ? " inset-0 flex items-center justify-center bg-black bg-opacity-60"
+            ? " inset-0 flex items-center justify-center bg-black bg-opacity-80"
             : "fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-60"
         }
       >
@@ -148,12 +148,13 @@ const GigsModal = ({}) => {
                 </span>
               </h6>
               {/* Scrollable container for mapped data */}
-              <div className="max-h-[400px] overflow-y-auto">
+              <div className="max-h-[400px] overflow-y-auto overflow-x-hidden">
                 {gigs
                   ?.filter(
                     (gig) =>
                       gig?.postedBy?.clerkId.includes(userId) &&
-                      gig?.isTaken === false
+                      gig?.isTaken === false &&
+                      gig?.isPending === false
                   )
                   ?.map((gig) => (
                     <Box
@@ -168,7 +169,7 @@ const GigsModal = ({}) => {
                       //     setViewGig(false);
                       //   }, 2000);
                       // }}
-                      className="flex flex-col  cursor-pointer hover:bg-gray-800 my-3 bg-neutral-600 px-3 py-1 rounded-xl"
+                      className="flex flex-col  cursor-pointer hover:bg-gray-800 my-3 bg-slate-800 px-3 py-1 rounded-xl overflow-x-hidden"
                     >
                       <div className="flex gap-3 items-center p-2 cursor-pointer hover:bg-gray-800">
                         <AvatarComponent
@@ -209,7 +210,7 @@ const GigsModal = ({}) => {
                             // After the operation, you can handle the logic for reading the post
                             ev.preventDefault();
                             ev.stopPropagation();
-                            if (!user) {
+                            if (!user || searchedUser) {
                               console.log("User data is not available yet.");
                               return;
                             }
