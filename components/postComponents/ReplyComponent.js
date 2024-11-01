@@ -23,33 +23,14 @@ import LikeDisLikeComponent from "./LikeDisLikeComponent";
 import moment from "moment";
 import useStore from "@/app/zustand/useStore";
 import ReplyModal from "./ReplyModal";
-const ReplyComponent = ({ comment, user }) => {
+const ReplyComponent = ({ comment, user, replies }) => {
   const { userId } = useAuth();
   const { open, setOpen } = useStore();
-  const [replies, setReplies] = useState();
-  async function getReplies() {
-    try {
-      const res = await fetch(`/api/reply/getReplies`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
 
-          sort: "desc",
-        },
-      });
-      const replies = await res.json();
-      setReplies(replies);
-      return replies;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  useEffect(() => {
-    getReplies();
-  }, []);
   const newRep = replies?.replies;
   const myuser = user?.user;
   const router = useRouter();
+  //
   function formatReplies(count) {
     if (count < 1000) return count;
     if (count >= 1000 && count < 1000000) {

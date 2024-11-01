@@ -11,6 +11,9 @@ async function getMyGig(gigId) {
     headers: {
       "Content-Type": "application/json",
     },
+    next: {
+      revalidate: 60,
+    },
   });
   return res.json();
 }
@@ -19,16 +22,14 @@ const MyGigPage = async ({ params }) => {
   const myGig = await getMyGig(params.id);
 
   return (
-    <ClientOnly>
-      <div className="bg-zinc-800 h-[calc(100vh-80px)] w-[100%] ">
-        {myGig?.gigs?.bookedBy?.clerkId.includes(userId) && (
-          <Creator myGig={myGig} />
-        )}
-        {myGig?.gigs?.postedBy?.clerkId.includes(userId) && (
-          <Booker myGig={myGig} />
-        )}
-      </div>
-    </ClientOnly>
+    <div className="bg-zinc-800 h-[calc(100vh-80px)] w-[100%] ">
+      {myGig?.gigs?.bookedBy?.clerkId.includes(userId) && (
+        <Creator myGig={myGig} />
+      )}
+      {myGig?.gigs?.postedBy?.clerkId.includes(userId) && (
+        <Booker myGig={myGig} />
+      )}
+    </div>
   );
 };
 

@@ -68,16 +68,13 @@ const ChatPage = async ({ params }) => {
 
   let par = params.gigid;
   return (
-    <ClientOnly>
-      <Chat
-        other={otherUser}
-        curr={currentUser}
-        getGig={par}
+    <Chat
+      other={otherUser}
+      curr={currentUser}
+      getGig={par}
 
-        // add online users to props to pass to the chat component, which will be fetched in the chat component's useEffect hook.
-      />
-      ;
-    </ClientOnly>
+      // add online users to props to pass to the chat component, which will be fetched in the chat component's useEffect hook.
+    />
   );
 };
 

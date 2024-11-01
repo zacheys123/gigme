@@ -69,7 +69,7 @@ export const getGigs = async (
         headers: {
           "Content-Type": "application/json",
         },
-        cache: "no-cache",
+        cache: "no-store",
       });
       const data = await res.json();
       console.log(data?.gigs);

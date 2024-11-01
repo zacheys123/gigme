@@ -20,6 +20,7 @@ async function getComments(params) {
         headers: {
           "Content-Type": "application/json",
         },
+        cache: "no-store",
       }
     );
     const comment = await res.json();
@@ -35,8 +36,8 @@ async function getReplies() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Cache-Control": "no-store", //
       },
+      cache: "no-store",
     });
     const replies = await res.json();
 
@@ -53,9 +54,7 @@ const ReplyPage = async ({ params }) => {
 
   return (
     <div className="h-fit w-screen bg-neutral-900 overflow-hidden">
-      <ClientOnly>
-        <ReplyComponent comment={comment} replies={replies} user={user} />
-      </ClientOnly>
+      <ReplyComponent comment={comment} replies={replies} user={user} />
     </div>
   );
 };

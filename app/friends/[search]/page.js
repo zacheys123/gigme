@@ -27,10 +27,10 @@ const FriendsProfilePage = async ({ params }) => {
     );
   }
   return (
-    <ClientOnly>
+    <>
       <UserModal />
       <FriendsComponent friend={friend} />
-    </ClientOnly>
+    </>
   );
 };
 

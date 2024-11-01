@@ -91,14 +91,12 @@ const SocialPage = async () => {
   return (
     <div className="w-screen h-screen  bg-gray-900 overflow-x-hidden">
       {" "}
-      <ClientOnly>
-        <SocialMainPage
-          currentuser={user}
-          comments={comments}
-          replies={replies}
-          posts={posts}
-        />
-      </ClientOnly>
+      <SocialMainPage
+        currentuser={user}
+        comments={comments}
+        replies={replies}
+        posts={posts}
+      />
     </div>
   );
 };

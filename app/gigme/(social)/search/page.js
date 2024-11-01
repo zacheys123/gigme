@@ -34,14 +34,12 @@ const SearchPage = async ({ params }) => {
   const users = await getAllUsers(userId);
   console.log(users);
   return (
-    <ClientOnly>
-      <div className=" w-[100vw] h-[calc(100vh-80px)] bg-slate-900 overflow-y-hidden">
-        <FormData data={users} />
-        <SearchComponent data={users} userd={user} />
+    <div className=" w-[100vw] h-[calc(100vh-80px)] bg-slate-900 overflow-y-hidden">
+      <FormData data={users} />
+      <SearchComponent data={users} userd={user} />
 
-        <OverlaySearch />
-      </div>{" "}
-    </ClientOnly>
+      <OverlaySearch />
+    </div>
   );
 };
 

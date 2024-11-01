@@ -98,6 +98,13 @@ const GigsModal = ({}) => {
     debounce(handleNotificationAndGigs, 100);
   }, [handleNotificationAndGigs]);
 
+  function formatReplies(count) {
+    if (count < 1000) return count;
+    if (count >= 1000 && count < 1000000) {
+      return (count / 1000).toFixed(1).replace(/\.0$/, "") + "K"; // Formats as "1K", "2.5K", etc.
+    }
+    return (count / 1000000).toFixed(1).replace(/\.0$/, "") + "M"; // For million comments
+  }
   return (
     <>
       {" "}
@@ -137,13 +144,13 @@ const GigsModal = ({}) => {
             <DialogContent>
               <h6 className="text-center underline text-neutral-400 flex justify-between items-center">
                 <span className="title text-neutral-700">
-                  {
+                  {formatReplies(
                     gigs?.filter(
                       (gig) =>
                         gig?.postedBy?.clerkId.includes(userId) &&
                         gig?.isTaken === false
                     ).length
-                  }{" "}
+                  )}{" "}
                   gigs
                 </span>
                 <span className="title text-neutral-700">
@@ -173,7 +180,7 @@ const GigsModal = ({}) => {
                       //     setViewGig(false);
                       //   }, 2000);
                       // }}
-                      className="flex flex-col  cursor-pointer hover:bg-gray-800 my-3 bg-slate-800 px-3 py-1 rounded-xl overflow-x-hidden max-w-[400px]"
+                      className="flex flex-col  cursor-pointer hover:bg-gray-800 my-3 bg-slate-800 px-3 py-3 rounded-xl overflow-x-hidden max-w-[400px]"
                     >
                       <div className="flex gap-3 items-center p-2 cursor-pointer hover:bg-gray-800">
                         <AvatarComponent
@@ -202,14 +209,14 @@ const GigsModal = ({}) => {
                       <div className="w-full flex items-center justify-between">
                         <div className="flex gap-1 items-center mx-2">
                           <span className="gigtitle text-neutral-300">
-                            {gig?.viewCount?.length}
+                            {formatReplies(gig?.viewCount?.length)}
                           </span>
                           <Eye className="size-4 text-neutral-400" />
                         </div>
                         <ButtonComponent
                           //   disabled={user ? true : false}
                           variant={"destructive"}
-                          classname=" h-[18px] text-[9px] my-1 font-bold max-w-[52px] "
+                          classname=" h-[20px] text-[9px] my-1 font-bold max-w-[52px] "
                           onclick={(ev) => {
                             // After the operation, you can handle the logic for reading the post
                             ev.preventDefault();
@@ -231,7 +238,7 @@ const GigsModal = ({}) => {
                                 sx={{ color: "white", fontWeight: "bold" }}
                               />
                             ) : (
-                              <span className="text-[11px]">😎Pick </span>
+                              <span className="text-[11px]">😜Gift </span>
                             )
                           }
                         />

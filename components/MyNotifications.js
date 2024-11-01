@@ -35,7 +35,7 @@ const MyNotifications = ({ message, setSenderMess, mess }) => {
     >
       <div className="w-full flex justify-end">
         <span
-          className="text-[13px] font-extrabold cursor-pointer"
+          className="text-[16px] font-extrabold cursor-pointer"
           onClick={() => {
             if (mess) {
               setSenderMess("");
