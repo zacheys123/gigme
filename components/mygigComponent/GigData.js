@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import moment from "moment";
 import React from "react";
-import { format } from "date-fns";
+
 const GigData = ({ booker, posted, gig }) => {
   console.log(gig?.gigs);
   const options = {
