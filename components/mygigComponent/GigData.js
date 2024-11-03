@@ -27,7 +27,7 @@ const GigData = ({ booker, posted, gig }) => {
   const [showOffer, setShowOffer] = useState(false);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    if (gig?.isPending === false) {
+    if (gig?.isPending === true) {
       router.push(`/gigme/gigs/${userId}`);
     }
   }, [gig.isPending, router, userId]);
