@@ -21,7 +21,7 @@ const ErrorPage = () => {
           <div className="flex justify-center space-x-4">
             <Link
               href="/"
-              className="px-5 text-[11px] py-2 rounded-lg bg-blue-600 text-white text-md hover:bg-blue-700 transition"
+              className="px-5 text-[17px] py-2 rounded-lg bg-blue-600 text-white text-md hover:bg-blue-700 transition"
             >
               Go Home
             </Link>
@@ -38,7 +38,7 @@ const ErrorPage = () => {
         </div>
         <ul type="" className="flex flex-col gap-2 mt-3  p-3 text-neutral-900 ">
           <li className="text-[11px]">
-            {`The page you're looking for doesn't exist. Maybe you mistyped the
+            {`Check The page you're looking for exists. Maybe you mistyped the
             URL?`}
           </li>
           <li className="text-[11px]">
