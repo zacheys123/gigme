@@ -1,353 +1,189 @@
 "use client";
-// THIS PAGE IS FOR THE ONE WHO BOOKED
-import { Textarea, TextInput } from "flowbite-react";
+import { Textarea } from "flowbite-react";
 import React, { useEffect, useState } from "react";
-import { Input } from "../ui/input";
 import { Box, CircularProgress, Divider } from "@mui/material";
 import { Button } from "../ui/button";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { ArrowBack, Chat, Create, Message, Preview } from "@mui/icons-material";
+import { Chat, Preview } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import { useForgetBookings } from "@/hooks/useForgetBookings";
-import { FaMessage } from "react-icons/fa6";
 import ClientOnly from "@/app/ClientOnly";
 import useStore from "@/app/zustand/useStore";
 import { X } from "lucide-react";
+
 const Creator = ({ myGig }) => {
   const { userId } = useAuth();
-  const { socket, isbooked, setIsbooked } = useStore();
+  const { socket } = useStore();
   const { loading, forgetBookings } = useForgetBookings();
+  const router = useRouter();
 
-  const [creatorData, setCreatorData] = useState({
-    firstname: myGig?.gigs?.postedBy?.firstname,
-    lastname: myGig?.gigs?.postedBy?.lastname,
-    email: myGig?.gigs?.postedBy?.email,
-    username: myGig?.gigs?.postedBy?.username,
-    city: myGig?.gigs?.postedBy?.city,
-    followers: myGig?.gigs?.postedBy?.followers,
-    location: myGig?.gigs?.location,
-    followings: myGig?.gigs?.postedBy?.followings,
-    title: myGig?.gigs?.title,
-    description: myGig?.gigs?.description,
-    contact: myGig?.gigs?.phone,
-    price: myGig?.gigs?.price,
-    category: myGig?.gigs?.bussinesscat,
-    band: myGig?.gigs?.bandCategory,
-    personal: myGig?.gigs?.category,
-    fullband: "fullband",
-    date: new Date(myGig?.gigs?.date).toLocaleDateString(),
-  });
-
-  useEffect(() => {
-    setCreatorData(() => {
-      return {
-        firstname: myGig?.gigs?.postedBy?.firstname,
-        lastname: myGig?.gigs?.postedBy?.lastname,
-        email: myGig?.gigs?.postedBy?.email,
-        username: myGig?.gigs?.postedBy?.username,
-        city: myGig?.gigs?.postedBy?.city,
-        followers: myGig?.gigs?.postedBy?.followers,
-        location: myGig?.gigs?.location,
-        followings: myGig?.gigs?.postedBy?.followings,
-        title: myGig?.gigs?.title,
-        description: myGig?.gigs?.description,
-        contact: myGig?.gigs?.phone,
-        price: myGig?.gigs?.price,
-        category: myGig?.gigs?.bussinesscat,
-        band: myGig?.gigs?.bandCategory,
-        personal: myGig?.gigs?.category,
-        fullband: "fullband",
-        date: new Date(myGig?.gigs?.date).toLocaleDateString(),
-      };
-    });
-  }, [
-    myGig?.gigs?.bandCategory,
-    myGig?.gigs?.bussinesscat,
-    myGig?.gigs?.category,
-    myGig?.gigs?.date,
-    myGig?.gigs?.description,
-    myGig?.gigs?.location,
-    myGig?.gigs?.phone,
-    myGig?.gigs?.postedBy?.city,
-    myGig?.gigs?.postedBy?.email,
-    myGig?.gigs?.postedBy?.firstname,
-    myGig?.gigs?.postedBy?.followers,
-    myGig?.gigs?.postedBy?.followings,
-    myGig?.gigs?.postedBy?.lastname,
-    myGig?.gigs?.postedBy?.username,
-    myGig?.gigs?.price,
-    myGig?.gigs?.title,
-  ]);
-
-  let variant = {
-    initial: {
-      x: ["-100px", "-50px", "-20px", "0px", "20px", "40px", "0px"],
-      opacity: [-10, -7, 0],
-    },
-    animate: {
-      x: 0,
-      opacity: [-10, -7, -5, -3, 1],
-    },
-    transition: {
-      ease: "easeInOut",
-      duration: 5,
-    },
+  const variant = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
   useEffect(() => {
-    if (!socket) {
-      console.log("Socket is not available yet");
-      return; // Exit early if socket is not available
-    }
+    if (!socket) return;
 
     const handleNewCancel = (updatedGig) => {
-      // Listen for booking updates
-
-      setIsbooked(updatedGig?.results?.isPending);
       toast.error(`${updatedGig?.results?.postedBy?.firstname} canceled`);
-      console.log(updatedGig);
     };
-    console.log(socket);
 
     socket.on("gig-canceled", handleNewCancel);
-
-    // Cleanup on unmount
     return () => {
       socket.off("gig-canceled", handleNewCancel);
     };
   }, [socket]);
-  const router = useRouter();
-  const [hello, setHello] = useState();
+
+  const [hello, setHello] = useState(false);
   useEffect(() => {
-    setTimeout(() => {
-      setHello(true);
-    }, 4000);
+    const timer = setTimeout(() => setHello(true), 4000);
+    return () => clearTimeout(timer);
   }, []);
 
-  // i booked the gig this is the  page im canceleing the one who booked
-  const forget = () => {
-    forgetBookings(userId, myGig, socket);
-  };
+  const forget = () => forgetBookings(userId, myGig, socket);
+
   useEffect(() => {
-    if (isbooked == false || myGig?.gigs?.isPending === false) {
-      if (myGig?.gigs?.isPending === false) {
-        router.push(`/gigme/gigs/${userId}`);
-      }
+    if (myGig?.gigs?.isPending === false) {
+      router.push(`/gigme/gigs/${userId}`);
     }
-  }, [myGig?.gigs?.isPending, router, userId, isbooked]);
-  const onClick = (gig) => {
+  }, [myGig?.gigs?.isPending, router, userId]);
+
+  const onClickChat = (gig) => {
     router.push(`/gigme/chat/${gig?.postedBy?.clerkId}/${gig?._id}`);
+  };
+
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
   };
 
   return (
     <ClientOnly>
-      <Box className=" h-full  w-full ">
-        <div className="bg-slate-300 w-full h-[50px] flex items-center my-auto">
-          <div className=" flex items-center gap-4 mr-5">
+      <Box className="h-screen w-full overflow-auto bg-gray-900 p-4">
+        <div className="sticky top-0 bg-slate-300 w-full h-16 flex items-center px-4 shadow-lg">
+          <div className="flex items-center gap-4">
             <X
-              className="size-5 text-gray-400 ml-5"
+              className="text-gray-500 hover:text-gray-700 cursor-pointer"
               onClick={() => router.back()}
             />
-            <Preview className="size-7 text-gray-400 ml-1" />
+            <Preview className="text-gray-500" />
           </div>
-          <Box className=" flex items-center  flex-1 ">
-            <h6 className="text-[12px] font-bold  text-neutral-400 ">
-              PostedBy:
-            </h6>
-            <div className="flex flex-col  p-1">
-              <h6 className="text-[12px] text-neutral-600 flex-1">
-                {`${myGig?.gigs?.postedBy?.firstname} 
-              ${myGig?.gigs?.postedBy?.lastname}`}
+          <Box className="flex flex-1 items-center justify-center">
+            <h6 className="text-sm font-bold text-neutral-600">Posted By:</h6>
+            <div className="ml-2">
+              <h6 className="text-sm text-neutral-700">
+                {`${myGig?.gigs?.postedBy?.firstname} ${myGig?.gigs?.postedBy?.lastname}`}
               </h6>
-              <h6 className="text-[12px] text-neutral-400 flex-1">
+              <h6 className="text-xs text-neutral-500">
                 {myGig?.gigs?.postedBy?.email}
               </h6>
             </div>
           </Box>
           <Chat
-            className="size-7 text-blue-400 mr-4"
-            onClick={() => onClick(myGig?.gigs)}
+            className="text-blue-400 cursor-pointer"
+            onClick={() => onClickChat(myGig?.gigs)}
           />
         </div>
-        <div className="h-full overflow-hidden bg-red-950 z-50">
-          <div className="card m-4">
-            <h6 className="title text-gray-200">Personal info</h6>
-            <div className="flex gap-3">
-              <Input
-                disabled
-                type="text"
-                className="w-full p-4   mx-auto mt-2  text-amber-100 bg-stone-900    md:text-[25px] xl:text-[28] "
-                placeholder="username"
-                value={creatorData?.username}
-              />{" "}
-            </div>
-            <Input
-              disabled
-              type="text"
-              className=" p-4 title  mx-auto mt-1  text-white placeholder-gray-100 bg-stone-900      md:text-[25px] xl:text-[28]  "
-              placeholder="City"
-              value={creatorData?.city}
-            />{" "}
-            <div className="flex items-center justify-between w-[75%] mx-auto mt-3">
-              <div className="flex flex-col items-center  title">
-                <span className="text-purple-500 ">Followers</span>
-                <span className="text-red-500 font-bold">
-                  {creatorData?.followers?.length}
-                </span>
+
+        <motion.div
+          initial="initial"
+          animate="animate"
+          variants={variant}
+          className="bg-gray-900 text-white p-6 rounded-lg mt-6 shadow-lg"
+        >
+          <motion.div
+            className="bg-gray-800 bg-opacity-30 p-6 rounded-lg shadow-md"
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.2 }}
+          >
+            <h6 className="text-lg font-semibold mb-4">Creator Info</h6>
+            <div className="space-y-3">
+              <div className="text-sm">
+                <span className="font-bold text-neutral-400">Username:</span>{" "}
+                {myGig?.gigs?.postedBy?.username}
               </div>
-              <div className="flex items-center flex-col  title  ">
-                {" "}
-                <span className="text-purple-400">Followings</span>
-                <span className="text-red-500 font-bold">
-                  {creatorData?.followings?.length}
-                </span>
+              <div className="text-sm font-bold text-neutral-400">
+                Email: {myGig?.gigs?.postedBy?.email}
+              </div>
+              <div className="text-sm">
+                <span className="font-bold text-neutral-400">Tel No:</span>{" "}
+                {myGig?.gigs?.contact}
               </div>
             </div>
-          </div>{" "}
-          <Divider
-            sx={{ backgroundColor: "gray", width: "82%", margin: "auto" }}
-          />
-          <div className="card m-4">
-            <h6 className="title text-gray-200">Gig info</h6>
-            <Input
-              disabled
-              type="text"
-              className=" p-4 title  mx-auto mt-3  text-amber-100 bg-stone-900    md:text-[25px] xl:text-[28] "
-              placeholder="instrument"
-              value={creatorData?.title}
-            />{" "}
-            <Textarea
-              name="description"
-              style={{ resize: "none", height: "fit-content" }}
-              className="min-h-[110px]  mb-2 w-full p-2  mx-auto mt-3 text-amber-100 bg-stone-900  md:w-full xl:w-[full] title md:text-[25px] xl:text-[26] "
-              disabled
-              type="text"
-              value={creatorData?.description}
-            />{" "}
-            <div className="flex gap-3">
-              <Input
-                disabled
-                type="text"
-                className=" p-4 title  mx-auto mt-3  text-amber-100 bg-stone-900    md:text-[25px] xl:text-[28]  "
-                placeholder="instrument"
-                value={creatorData?.location}
-              />{" "}
-              <Input
-                disabled
-                type="text"
-                className=" p-4  mx-auto my-4 text-amber-100 bg-stone-900  title md:text-[25px] xl:text-[27px]  "
-                placeholder="experience"
-                value={`${creatorData?.date}
-            
-          `}
-              />
-            </div>
-          </div>
-          <div className="card m-4">
-            <h6 className="title text-gray-200">Bussiness info</h6>
-            <div className="flex gap-3">
-              <Input
-                disabled
-                type="text"
-                className="p-4 title  text-amber-100 bg-stone-900  mx-auto my-4 md:text-[25px] xl:text-[27] "
-                placeholder="instrument"
-                value={creatorData?.contact}
-              />{" "}
-              <Input
-                disabled
-                type="text"
-                className=" p-4 title text-amber-100 bg-stone-900   mx-auto my-4 md:text-[25px] xl:text-[27]  "
-                placeholder="experience"
-                value={creatorData?.price}
-              />
-            </div>
-            <div>
-              {/* <span>{creatorData?.category}</span> */}
-              {creatorData?.personal &&
-                creatorData?.category === "personal" && (
-                  <span className="flex">
-                    <span className="title text-[13px] text-neutral-400">
-                      Instrument:{" "}
-                    </span>
-                    {creatorData?.personal &&
-                      creatorData?.personal !== null && (
-                        <h6 className="title text-yellow-300 font-bold text-[14px]">
-                          {creatorData?.personal}
-                        </h6>
-                      )}
-                  </span>
-                )}
-              {!creatorData?.fullband && creatorData?.category === "full" && (
-                <span className="flex">
-                  <span className="title text-purple-700 font-bold">
-                    FullBand(vocalist,instrumentalists etc){" "}
-                  </span>
+            <div className="flex justify-center space-x-10 w-3/4 mx-auto mt-6 border-t border-neutral-700 pt-6">
+              <div className="text-center flex flex-col items-center bg-gray-800 bg-opacity-20 px-6 py-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                <span className="text-purple-500 text-sm font-medium">
+                  Followers
                 </span>
-              )}
-              {myGig?.gigs?.bandCategory?.length > 1 &&
-                myGig?.gigs?.bussinesscat === "other" && (
-                  <span className="  rounded-xl">
-                    {" "}
-                    <span className="title text-center underline font-bold text-gray-200 ">
-                      Band Selection
-                    </span>
-                    {myGig?.gigs?.bandCategory &&
-                      myGig?.gigs?.bussinesscat === "other" &&
-                      creatorData?.band !== null &&
-                      myGig?.gigs?.bandCategory.map((band, idx) => {
-                        return (
-                          <ul className="flex link text-neutral-200" key={idx}>
-                            <li> {band}</li>
-                          </ul>
-                        );
-                      })}
-                  </span>
-                )}
-            </div>
-            {/* {hello && (
-              <div
-                variant={variant}
-                onClick={() => onClick(myGig?.gigs)}
-                className="absolute top-34  right-5"
-              >
-                <motion.div className=" text-blue-400   md:cursor-pointer flex flex-col">
-                  <FaMessage sx={{ fontSize: "40px" }} size="40px" />
-                  <span className="title text-yellow-300 items-end justify-end">
-                    chat
-                  </span>
-                </motion.div>{" "}
+                <span className="text-2xl font-bold text-red-500 mt-1">
+                  {myGig?.gigs?.postedBy?.followers?.length || 0}
+                </span>
               </div>
-            )} */}
-            {/* {hello && (
-          <motion.div variant={variant} className={className}>
-            <Button
-              onClick={() => onClick(myGig?.gigs)}
-              className=" top-[350px] right-10 rounded-tl-xl rounded-br-full rounded-bl-xl"
-            >
-              Say Hello👋😁
-            </Button>
+
+              <div className="text-center flex flex-col items-center bg-gray-800 bg-opacity-20 px-6 py-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                <span className="text-purple-400 text-sm font-medium">
+                  Followings
+                </span>
+                <span className="text-2xl font-bold text-red-500 mt-1">
+                  {myGig?.gigs?.postedBy?.followings?.length || 0}
+                </span>
+              </div>
+            </div>
           </motion.div>
-        )} */}
-          </div>
-          <div className="w-[80%] mx-auto flex justify-between items-center gap-10">
+
+          <Divider className="my-6 border-neutral-700" />
+
+          <motion.div
+            className="bg-gray-800 bg-opacity-30 p-6 rounded-lg shadow-md"
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.2 }}
+          >
+            <h6 className="text-lg font-semibold mb-4">Gig Info</h6>
+            <div>
+              <div className="font-bold text-neutral-400 mb-2">
+                {myGig?.gigs?.title}
+              </div>
+              <Textarea
+                name="description"
+                className="min-h-[110px] w-full mt-3 p-3 text-gray-100 bg-gray-900 rounded-lg"
+                disabled
+                value={myGig?.gigs?.description}
+              />
+              <div className="flex gap-6 mt-3 text-sm text-neutral-400">
+                <div>{myGig?.gigs?.location}</div>
+                <div>
+                  {new Date(myGig?.gigs?.date).toLocaleString("en-US", options)}
+                </div>
+              </div>
+              <div className="flex gap-6 mt-3 text-sm text-neutral-400">
+                {myGig?.gigs?.time?.from} to
+                {myGig?.gigs?.time?.to}
+              </div>{" "}
+            </div>
+          </motion.div>
+
+          <div className="flex justify-center mt-8">
             <Button
-              className="h-[32px] max-w-[80%] text-[13px]  p-2 mr-6 mx-auto "
+              className="h-10 w-48 text-sm"
               variant="secondary"
               onClick={forget}
               disabled={loading}
             >
               {loading ? (
-                <CircularProgress size={"16px"} sx={{ color: "blue" }} />
+                <CircularProgress size="16px" sx={{ color: "blue" }} />
               ) : (
-                "Undo Booking/Don't Book?"
+                "Undo Booking"
               )}
             </Button>
           </div>
-        </div>
+        </motion.div>
       </Box>
     </ClientOnly>
   );
 };
-// 669a8392f01b574a0bf63255
+
 export default Creator;

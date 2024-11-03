@@ -1,6 +1,6 @@
 import { Chat, Create, Preview } from "@mui/icons-material";
 import { Box } from "@mui/material";
-import { View, Watch } from "lucide-react";
+import { View, Watch, X } from "lucide-react";
 import React from "react";
 import GigData from "./GigData";
 import Link from "next/link";
@@ -14,7 +14,9 @@ const CustomGigComponent = ({ booker, postedBy, gig }) => {
       <div className="bg-pink-900 h-[50px] w-full ">
         <div className="w-full h-full flex items-center my-auto">
           <div className="flex items-center gap-4 mr-5">
-            <Create className="size-7 text-gray-400 ml-5" />
+            <Link href={`/gigme/social`}>
+              <X className="size-7 text-gray-400 ml-5" />
+            </Link>
             <Preview className="size-7 text-gray-400 ml-1" />
           </div>
           <Box className="flex items-center flex-1">

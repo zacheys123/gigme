@@ -48,36 +48,40 @@ const GigData = ({ booker, posted, gig }) => {
       clearTimeout(showTimeout);
     };
   }, []);
-  const myId = user?.user?.id;
+  const myId = user?.user?._id;
+
   const bookGig = async () => {
-    try {
-      setLoading(true);
-      const res = await fetch(`/api/gigs/bookgig/${gig?._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userid: myId,
-        }),
-      });
-      const data = await res.json();
+    if (myId) {
+      try {
+        setLoading(true);
+        const res = await fetch(`/api/gigs/bookgig/${gig?._id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userid: myId,
+          }),
+        });
+        const data = await res.json();
 
-      if (data.gigstatus === "true") {
-        toast.success("Booked the gig successfully");
-
-        router.back();
-      } else {
-        toast.error(data.message);
-        router.push(`/gigme/gigs/${userId}`);
-        router.refresh();
+        if (data.gigstatus === "true") {
+          toast.success("Booked the gig successfully");
+          router.refresh();
+          router.back();
+          console.log(data);
+        } else {
+          toast.error(data.message);
+          router.push(`/gigme/gigs/${userId}`);
+          router.refresh();
+          setLoading(false);
+        }
+      } catch (error) {
+        console.log("Failed to book the gig. Please try again.", error);
+        toast.error("Failed to book the gig. Please try again.");
+      } finally {
         setLoading(false);
       }
-    } catch (error) {
-      console.log("Failed to book the gig. Please try again.", error);
-      toast.error("Failed to book the gig. Please try again.");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -291,6 +295,7 @@ const GigData = ({ booker, posted, gig }) => {
               </div>
             </Box>
             <ButtonComponent
+              disabled={loading}
               variant={"destructive"}
               classname={`h-[27px] text-[9px] my-3 font-bold max-w-[252px] transition-colors duration-200 ${
                 loadingPostId
