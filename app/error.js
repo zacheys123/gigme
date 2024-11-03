@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import UsersButton from "@/components/UsersButton";
 import Link from "next/link";
 import { Box } from "@mui/material";
+import { Refresh } from "@mui/icons-material";
 const ErrorPage = () => {
   const router = useRouter();
   return (
@@ -12,23 +13,24 @@ const ErrorPage = () => {
         <div className="text-center px-6 py-12 max-w-lg">
           <h1 className="text-5xl font-extrabold text-blue-600 mb-4">403</h1>
           <p className="text-1xl font-semibold text-gray-800 mb-2">
-            Oops! An Error Occured
+            Oops! An Error Occured,Site not found
           </p>
           <p className="text-gray-600 mb-6 text-[11px] ">
-            {`The page you're looking for doesn't exist. Maybe you mistyped the
-            URL?`}
+            Network problems,check that you are connected to the internet.
           </p>
           <div className="flex justify-center space-x-4">
             <Link
               href="/"
-              className="px-5 text-[13px] py-2 rounded-lg bg-blue-600 text-white text-lg hover:bg-blue-700 transition"
+              className="px-5 text-[11px] py-2 rounded-lg bg-blue-600 text-white text-md hover:bg-blue-700 transition"
             >
               Go Home
             </Link>
             <Link
-              href="/contact"
+              href="/gigme/contact"
               className="px-5 py-2 rounded-lg border border-blue-600 text-blue-600 text-lg hover:bg-blue-100 transition"
-            ></Link>
+            >
+              Contact Us
+            </Link>
           </div>
         </div>
         <div className="flex justify-center">
@@ -36,7 +38,8 @@ const ErrorPage = () => {
         </div>
         <ul type="" className="flex flex-col gap-2 mt-3  p-3 text-neutral-900 ">
           <li className="text-[11px]">
-            -Network problems,check that you are connected to the internet.
+            {`The page you're looking for doesn't exist. Maybe you mistyped the
+            URL?`}
           </li>
           <li className="text-[11px]">
             -Check your Time And Date settings,make sure they are correct.

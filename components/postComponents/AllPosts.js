@@ -18,6 +18,7 @@ import useStore from "@/app/zustand/useStore";
 import { motion } from "framer-motion";
 
 import Comments from "./Comments";
+import { CircularProgress } from "@mui/material";
 const AllPosts = ({ userposts, comments, replies, user }) => {
   const {
     showPosts,
@@ -136,69 +137,98 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
   //   handleUndislike(depunlike, user?.user?._id, setLikelength, setLike);
   // };
   // get a random comment after every 30secs
-
+  console.log(userposts);
   return (
-    <>
+    <div className="h-[calc(100vh-100px)] w-full">
       {!showComments ? (
         <div id="top">
-          {!showPosts && (
-            <div className="text-white  h-full scroll-smooth shadow-md shadow-stone-700 ">
-              {userposts?.map((post, index) => {
-                return (
-                  <SinglePost
-                    key={post?._id}
-                    post={post}
-                    user={user}
-                    replies={replies}
-                    comments={comments}
-                  />
-                );
-              })}
+          {userposts?.length > 1 || userposts !== undefined ? (
+            <>
+              {!showPosts && (
+                <div className="text-white h-full scroll-smooth shadow-md shadow-stone-700">
+                  {userposts?.map((post, index) => {
+                    return (
+                      <SinglePost
+                        key={post?._id}
+                        post={post}
+                        user={user}
+                        replies={replies}
+                        comments={comments}
+                      />
+                    );
+                  })}
 
-              <div
-                style={{
-                  position: "fixed",
-                  bottom: "130px",
-                  right: "20px",
-                  backgroundColor: "#007bff",
-                  color: "#fff",
-                  borderRadius: "50%",
-                  padding: "10px",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-                className="z-50  absolute bg-blue-700 text-white bottom-[130px] right-10 opacity-85 "
-                onClick={handleScrollToTop}
-              >
-                {" "}
-                {/* <ScrollToTopButton />
-            <> */}
-                <ArrowCircleUpRounded onClick={handleScrollToTop} size="30px" />
-              </div>
-              <div
-                initial={{ opacity: 0, y: ["15px"] }}
-                whileinview={{ opacity: 1, y: 0, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                style={{
-                  position: "fixed",
-                  bottom: "200px",
-                  right: "20px",
-                  color: "#fff",
-                  borderRadius: "50%",
-                  padding: "10px",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-                className="z-50  absolute bg-neutral-300 text-white bottom-[200px] right-10 opacity-85 "
-              >
-                <AddAPhoto
-                  sx={{ color: "blue" }}
-                  size="44px"
-                  onClick={() => setShowPosts(true)}
+                  <div
+                    style={{
+                      position: "fixed",
+                      bottom: "130px",
+                      right: "20px",
+                      backgroundColor: "#007bff",
+                      color: "#fff",
+                      borderRadius: "50%",
+                      padding: "10px",
+                      border: "none",
+                      cursor: "pointer",
+                    }}
+                    className="z-50 absolute bg-blue-700 text-white bottom-[130px] right-10 opacity-85"
+                    onClick={handleScrollToTop}
+                  >
+                    <ArrowCircleUpRounded
+                      onClick={handleScrollToTop}
+                      size="30px"
+                    />
+                  </div>
+                  <div
+                    initial={{ opacity: 0, y: ["15px"] }}
+                    whileinview={{ opacity: 1, y: 0, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.1 }}
+                    style={{
+                      position: "fixed",
+                      bottom: "200px",
+                      right: "20px",
+                      color: "#fff",
+                      borderRadius: "50%",
+                      padding: "10px",
+                      border: "none",
+                      cursor: "pointer",
+                    }}
+                    className="z-50 absolute bg-neutral-300 text-white bottom-[200px] right-10 opacity-85"
+                  >
+                    <AddAPhoto
+                      sx={{ color: "blue" }}
+                      size="44px"
+                      onClick={() => setShowPosts(true)}
+                    />
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="relative h-[100vh] w-full flex flex-col justify-center items-center">
+              <div className="flex flex-col items-center gap-4">
+                {/* <CircularProgress
+                  sx={{
+                    color: "inherit",
+                    animation: "spin 1.5s linear infinite",
+                  }}
+                  size="30px"
+                  className="text-white"
                 />
+                 */}
+                <CircularProgress
+                  sx={{ color: "white" }}
+                  size="20px"
+                  className="text-white  bg-gradient-to-r 
+      from-red-400 to-purple-400 via-white-900 rounded-ss-xl rounded-es-full rounded-r-full
+      "
+                />
+                <h6 className="text-[16px] font-bold font-mono text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-yellow-400 via-white-900 animate-pulse">
+                  Posts not Loaded Yet!!!!
+                </h6>
               </div>
             </div>
-          )}{" "}
+          )}
+
           <motion.footer
             initial={{ opacity: 0, y: ["25px"] }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -266,7 +296,7 @@ const AllPosts = ({ userposts, comments, replies, user }) => {
           </div>
         </div>
       )}{" "}
-    </>
+    </div>
   );
 };
 

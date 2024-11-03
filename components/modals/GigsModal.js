@@ -36,10 +36,11 @@ const GigsModal = ({}) => {
   const router = useRouter();
   const [loading, setLoading] = useState();
   const [loadingdata, setLoadingdata] = useState();
-  let createdGigsFunc = [];
+
+  const [createdGigsFunc, setCreatedGigsFunc] = useState([]);
   console.log(user);
   useEffect(() => {
-    getGigs(userId, setGigs, createdGigsFunc, setLoading, "allgigs");
+    getGigs(userId, setGigs, setCreatedGigsFunc, setLoading, "allgigs");
   }, []);
 
   const handleClose = () => {
