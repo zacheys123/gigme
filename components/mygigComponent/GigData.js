@@ -80,8 +80,9 @@ const GigData = ({ booker, posted, gig }) => {
   return (
     <div className="w-[90vw] max-w-[900px] p-6 rounded-2xl bg-transparent-900 shadow-lg mx-auto -mt-8 overflow-y-auto">
       {/* One-Time Offer Message */}
+      {/* One-Time Offer Message */}
       {!showOffer && (
-        <div className="fixed font-mono mt-[170px] mx-auto left-1/2 transform -translate-x-1/2 px-6 py-3 bg-purple-700 text-white text-center rounded-lg shadow-lg animate-slide-in-down animate-bounce transition-opacity duration-1000 ease-in-out fade-out opacity-90">
+        <div className="fixed font-mono top-1/2 left-[87px] h-[150px]  max-w-[200px] transform -translate-x-1/2 -translate-y-1/2 px-6 py-3 bg-purple-700 text-white text-center rounded-lg shadow-lg animate-slide-in-down animate-bounce transition-opacity duration-1000 ease-in-out fade-out opacity-67">
           Offer!!!! offer!!! This is a one-time offer, so choose wisely!
         </div>
       )}
