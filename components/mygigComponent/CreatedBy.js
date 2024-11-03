@@ -102,14 +102,15 @@ const Creator = ({ myGig }) => {
           >
             <h6 className="text-lg font-semibold mb-4">Creator Info</h6>
             <div className="space-y-3">
-              <div className="text-sm">
+              <div className="text-sm font-bold text-neutral-300">
                 <span className="font-bold text-neutral-400">Username:</span>{" "}
                 {myGig?.gigs?.postedBy?.username}
               </div>
-              <div className="text-sm font-bold text-neutral-400">
-                Email: {myGig?.gigs?.postedBy?.email}
+              <div className="text-sm font-bold text-neutral-300">
+                <span className="font-bold text-neutral-400">Email:</span>{" "}
+                {myGig?.gigs?.postedBy?.email}
               </div>
-              <div className="text-sm">
+              <div className="text-sm text-neutral-300">
                 <span className="font-bold text-neutral-400">Tel No:</span>{" "}
                 {myGig?.gigs?.contact}
               </div>

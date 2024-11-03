@@ -38,7 +38,7 @@ export const handlebook = async (
 
     if (data.gigstatus === "true") {
       toast.success("Booked the gig successfully");
-      socket.emit("book-gig", data);
+      // socket.emit("book-gig", data);
       router.push(`/gigme/mygig/${gig}/execute`);
     } else {
       toast.error(data.message);

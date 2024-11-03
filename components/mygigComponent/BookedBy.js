@@ -45,119 +45,126 @@ const Booker = ({ myGig }) => {
     if (myGig?.gigs?.isPending === false) {
       router.push(`/gigme/gigs/${userId}`);
     }
-  }, [isbooked, myGig, router, userId]);
+  }, [myGig, router, userId]);
 
   const book = () => bookgig(rating, myGig, userId);
   const forget = () => forgetBookings(userId, myGig, socket);
   const onClick = () =>
     router.push(`/gigme/chat/${myGig?.gigs?.bookedBy?.clerkId}/${myGig?._id}`);
 
+  const variant = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+
   return (
     <ClientOnly>
-      <Box className="h-full w-full bg-gray-900">
-        <div className="h-full overflow-hidden p-6 bg-gray-800">
-          <div className="card m-4 p-4 bg-gray-700 rounded-xl shadow-lg">
-            <h3 className="text-center text-xl font-bold text-purple-500 mb-2">
-              Gig Details
-            </h3>
-            <motion.div
-              className="bg-gray-900 p-6 rounded-lg shadow-md mb-4"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.2 }}
-            >
-              <h6 className="text-lg font-semibold mb-4 text-neutral-200">
-                Personal Info
-              </h6>
-              <div className="space-y-3 text-sm text-neutral-300">
-                <div>
-                  <span className="font-bold">Username:</span>{" "}
-                  {myGig?.gigs?.bookedBy?.username}
-                </div>
-                <div>
-                  <span className="font-bold">FullName:</span>{" "}
-                  {myGig?.gigs?.bookedBy?.firstname}{" "}
-                  {myGig?.gigs?.bookedBy?.lastname}
-                </div>
-                <div>
-                  <span className="font-bold">Tel no:</span>{" "}
-                  {myGig?.gigs?.phoneNo}
-                </div>
-                <div>
-                  <span className="font-bold">City/State/Town:</span>{" "}
-                  {myGig?.gigs?.bookedBy?.city}
-                </div>
+      <Box className="h-screen w-full overflow-auto bg-gray-900 p-4">
+        <motion.div
+          className="bg-gray-900 text-white p-8 rounded-lg shadow-lg"
+          initial="initial"
+          animate="animate"
+          variants={variant}
+        >
+          {" "}
+          <h6 className="text-lg font-semibold text-neutral-200 mb-2 bg-amber-800 w-full py-1 px-2 rounded-md">
+            Personal Info
+          </h6>
+          <motion.div
+            className="bg-gray-800 bg-opacity-30 p-6 rounded-lg shadow-md"
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.2 }}
+          >
+            {" "}
+            <div className="text-sm text-neutral-300 space-y-3">
+              <div>
+                <span className="font-bold text-neutral-400">Username:</span>{" "}
+                {myGig?.gigs?.bookedBy?.username}
               </div>
+              <div>
+                <span className="font-bold text-neutral-400">Full Name:</span>{" "}
+                {myGig?.gigs?.bookedBy?.firstname}{" "}
+                {myGig?.gigs?.bookedBy?.lastname}
+              </div>
+              <div>
+                <span className="font-bold text-neutral-400">Tel No:</span>{" "}
+                {myGig?.gigs?.phoneNo}
+              </div>
+              <div>
+                <span className="font-bold text-neutral-400">City:</span>{" "}
+                {myGig?.gigs?.bookedBy?.city}
+              </div>
+            </div>
+          </motion.div>
+          <Divider className="my-6 border-neutral-700" />
+          <div className="flex justify-center space-x-10 w-3/4 mx-auto mt-6 border-t border-neutral-700 pt-6">
+            <motion.div className="text-center" whileHover={{ scale: 1.1 }}>
+              <span className="text-purple-400 font-medium title">
+                Followers
+              </span>
+              <p className="text-sm font-bold text-red-500 mt-1 choice">
+                {myGig?.gigs?.bookedBy?.followers?.length || 0}
+              </p>
             </motion.div>
-            <div className="flex justify-around items-center py-4 text-neutral-300">
-              <div className="text-center">
-                <span className="text-purple-400 font-semibold">Followers</span>
-                <p className="text-lg text-red-500">
-                  {myGig?.gigs?.bookedBy?.followers?.length}
-                </p>
-              </div>
-              <div className="text-center">
-                <span className="text-purple-400 font-semibold">Following</span>
-                <p className="text-lg text-red-500">
-                  {myGig?.gigs?.bookedBy?.followings?.length}
-                </p>
-              </div>
-            </div>
-            <Divider
-              sx={{ backgroundColor: "gray", width: "82%", margin: "auto" }}
-            />
-            <div className="w-full flex justify-between gap-2 my-8 rounded-xl shadow-md p-2 items-center">
-              {!myGig?.gigs?.isTaken ? (
-                <Box className="flex flex-col p-2">
-                  <h6 className="text-neutral-400 font-semibold">Rate</h6>
-                  <Rating rating={rating} setRating={setRating} />
-                </Box>
-              ) : (
-                <Box className="flex flex-col items-center p-2">
-                  <h6 className="text-neutral-400 font-semibold">Gig Rating</h6>
-                  <GigRating rating={myGig.gigs?.gigRating} />
-                </Box>
-              )}
-              {myGig?.gigs?.bookedBy && (
-                <Image
-                  width={50}
-                  height={50}
-                  className="w-[40px] h-[40px] rounded-full"
-                  src={myGig?.gigs?.bookedBy?.picture}
-                  alt="Booker profile"
-                />
-              )}
-            </div>
+            <motion.div className="text-center" whileHover={{ scale: 1.1 }}>
+              <span className="text-purple-400 font-medium title">
+                Following
+              </span>
+              <p className="text-sm font-bold text-red-500 mt-1 font-mono ">
+                {myGig?.gigs?.bookedBy?.followings?.length || 0}
+              </p>
+            </motion.div>
           </div>
-          <div className="flex flex-col items-center gap-4 mt-6">
-            <Button
-              variant="secondary"
-              onClick={() => router.back()}
-              className="w-[90%] mb-2"
-            >
-              Go back
-            </Button>
+          <Divider className="my-6 border-neutral-700" />
+          <Divider
+            sx={{ backgroundColor: "gray", width: "82%", margin: "auto" }}
+          />
+          <div className="w-full flex justify-between gap-4 my-8 p-2 rounded-lg shadow-md shadow-amber-600">
+            {!myGig?.gigs?.isTaken ? (
+              <Box className="flex flex-col p-2">
+                <h6 className="text-neutral-400 font-semibold">Rate</h6>
+                <Rating rating={rating} setRating={setRating} />
+              </Box>
+            ) : (
+              <Box className="flex flex-col items-center p-2">
+                <h6 className="text-neutral-400 font-semibold">Gig Rating</h6>
+                <GigRating rating={myGig.gigs?.gigRating} />
+              </Box>
+            )}
+            {myGig?.gigs?.bookedBy && (
+              <Image
+                width={50}
+                height={50}
+                className="w-12 h-12 rounded-full shadow-sm"
+                src={myGig?.gigs?.bookedBy?.picture}
+                alt="Booker profile"
+              />
+            )}
+          </div>
+          <div className="flex justify-center mt-8 space-x-6">
             <Button
               variant="secondary"
               onClick={forget}
               disabled={loading}
-              className="w-[90%]"
+              sabled={bookloading}
+              className="w-48 h-[30px] mt-8 choice"
             >
-              {!loading ? (
-                "Cancel Gig"
+              {loading ? (
+                <CircularProgress size="20px" sx={{ color: "blue" }} />
               ) : (
-                <CircularProgress size="20px" color="secondary" />
+                "Cancel Booking"
               )}
             </Button>
             <Button
-              variant="primary"
+              variant="destructive"
               onClick={book}
               disabled={bookloading}
-              className="w-[90%] mt-2"
+              className="w-48 h-[30px] mt-8 choice"
             >
-              {!bookloading ? (
-                "Book Gig / Choose Musician"
-              ) : (
+              {bookloading ? (
                 <CircularProgress size="20px" color="primary" />
+              ) : (
+                "Choose/Book Musician"
               )}
             </Button>
           </div>
@@ -165,12 +172,15 @@ const Booker = ({ myGig }) => {
             <motion.div
               onClick={onClick}
               className="fixed bottom-12 right-6 text-blue-400 flex flex-col items-center cursor-pointer"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5 }}
             >
-              <FaMessage size="30px" />
-              <span className="text-yellow-300">Chat</span>
+              <FaMessage size="40px" />
+              <span className="text-yellow-300 title">Chat</span>
             </motion.div>
           )}
-        </div>
+        </motion.div>
       </Box>
     </ClientOnly>
   );
