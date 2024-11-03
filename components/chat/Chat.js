@@ -29,24 +29,24 @@ const Chat = ({ other, curr, getGig }) => {
     reciever.current = postedorbookedById;
   }, [currentId, postedorbookedById]);
 
-  const [postedOther, setOther] = useState({});
-  useEffect(() => {
-    const getReciever = async () => {
-      try {
-        const res = await fetch(`/api/chat/getuserchat/${postedorbookedById}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const gigs = await res.json();
-        setOther(gigs);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getReciever();
-  }, [other, setOther, postedorbookedById]);
+  // const [postedOther, setOther] = useState({});
+  // useEffect(() => {
+  //   const getReciever = async () => {
+  //     try {
+  //       const res = await fetch(`/api/chat/getuserchat/${postedorbookedById}`, {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       });
+  //       const gigs = await res.json();
+  //       setOther(gigs);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getReciever();
+  // }, [other, setOther, postedorbookedById]);
   return (
     <ClientOnly>
       <Dialog
@@ -65,11 +65,7 @@ const Chat = ({ other, curr, getGig }) => {
           </DialogHeader>
           <div className=" w-full flex flex-col gap-1 h-[470px]">
             {/* header */}
-            <ChatHeader
-              myUser={other}
-              id={curr?.user?._id}
-              otherUser={postedOther}
-            />
+            <ChatHeader myUser={other} id={curr?.user?._id} />
             {/*  messages*/}
             <ClientOnly>
               <ChatPage

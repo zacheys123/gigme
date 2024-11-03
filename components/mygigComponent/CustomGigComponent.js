@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import { View, Watch } from "lucide-react";
 import React from "react";
 import GigData from "./GigData";
+import Link from "next/link";
 
 const CustomGigComponent = ({ booker, postedBy, gig }) => {
   console.log("booker:", booker);
@@ -27,7 +28,9 @@ const CustomGigComponent = ({ booker, postedBy, gig }) => {
               </h6>
             </div>
           </Box>
-          <Chat className="size-7 text-blue-400 mr-4" />
+          <Link href={`/gigme/chat/${postedBy?.clerkId}/${gig?._id}`}>
+            <Chat className="size-7 text-blue-400 mr-4" />
+          </Link>
         </div>
       </div>
       <div className="w-full min-h-[calc(100vh-50px)] overflow-y-auto bg-gradient-to-b from-amber-200 via-gray-700 to-amber-900 animate-gradient-flow">

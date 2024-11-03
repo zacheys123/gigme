@@ -4,79 +4,39 @@ import connectDb from "@/lib/connectDb";
 import User from "@/models/user";
 import { checkEnvironment } from "@/utils";
 import { auth } from "@clerk/nextjs";
-const getUser = async (params) => {
+
+const fetchData = async (endpoint) => {
   try {
-    const res = await fetch(
-      `${checkEnvironment()}/api/user/getuser/${params.usersearch}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data = await res.json();
-    console.log(data);
-    return data;
+    const res = await fetch(`${checkEnvironment()}${endpoint}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+    return await res.json();
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
-const getCurrentUser = async (userId) => {
-  try {
-    const res = await fetch(
-      `${checkEnvironment()}/api/user/getuser/${userId}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data = await res.json();
-    console.log(data);
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-const getGig = async (params) => {
-  try {
-    const res = await fetch(
-      `${checkEnvironment()}/api/gigs/getgig/${params.gigid}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data = await res.json();
-    console.log(data);
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
 const ChatPage = async ({ params }) => {
   await connectDb();
 
   const onlineUsers = await User.find({ isOnline: true });
-
   const { userId } = auth();
-  const otherUser = await getUser(params);
-  const currentUser = await getCurrentUser(userId);
-  const myGig = await getGig(params);
+
+  const [otherUser, currentUser, myGig] = await Promise.all([
+    fetchData(`/api/user/getuser/${params.usersearch}`),
+    fetchData(`/api/user/getuser/${userId}`),
+    fetchData(`/api/gigs/getgig/${params.gigid}`),
+  ]);
+
   return (
     <ClientOnly>
       <Chat
         other={otherUser}
         curr={currentUser}
         getGig={myGig}
-        onlineUsers={onlineUsers} // add online users to props to pass to the chat component
+        onlineUsers={onlineUsers}
       />
-      ;
     </ClientOnly>
   );
 };
