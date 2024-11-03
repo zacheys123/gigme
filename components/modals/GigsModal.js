@@ -38,7 +38,7 @@ const GigsModal = ({}) => {
   const [loadingdata, setLoadingdata] = useState();
 
   const [createdGigsFunc, setCreatedGigsFunc] = useState([]);
-  console.log(user);
+
   useEffect(() => {
     getGigs(userId, setGigs, setCreatedGigsFunc, setLoading, "allgigs");
   }, [userId]);
@@ -93,12 +93,20 @@ const GigsModal = ({}) => {
         });
       }
     },
-    [user, searchedUser]
+    [searchedUser, myid]
   );
   const debouncedSendNotification = useCallback(() => {
     debounce(handleNotificationAndGigs, 100);
   }, [handleNotificationAndGigs]);
 
+  console.log(
+    gigs.filter(
+      (gig) =>
+        gig?.postedBy?.clerkId.includes(userId) &&
+        gig?.isTaken === false &&
+        gig?.isPending === false
+    )
+  );
   function formatReplies(count) {
     if (count < 1000) return count;
     if (count >= 1000 && count < 1000000) {
@@ -149,7 +157,8 @@ const GigsModal = ({}) => {
                     gigs?.filter(
                       (gig) =>
                         gig?.postedBy?.clerkId.includes(userId) &&
-                        gig.isPending === true
+                        gig?.isTaken === false &&
+                        gig.isPending === false
                     ).length
                   )}{" "}
                   gigs

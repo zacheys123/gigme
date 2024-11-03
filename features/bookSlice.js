@@ -63,37 +63,29 @@ export const getGigs = async (
 ) => {
   setLoading(true);
   try {
+    let url = "";
     if (apiroute === "getpub") {
-      const res = await fetch(`/api/gigs/getpub/${userId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cache: "no-store",
-      });
-      const data = await res.json();
-      console.log(data?.gigs);
-      publishedGigsFunc(data?.gigs);
-      createdGigsFunc(data?.gigs);
-      setLoading(false);
-      return data;
+      url = `/api/gigs/getpub/${userId}`;
+    } else if (apiroute === "allgigs") {
+      url = `/api/gigs/allgigs`;
     }
-    if (apiroute === "allgigs") {
-      const res = await fetch(`/api/gigs/allgigs`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await res.json();
-      console.log(data?.gigs);
-      publishedGigsFunc(data?.gigs);
-      createdGigsFunc(data?.gigs);
-      setLoading(false);
-      return data;
-    }
-  } catch (error) {
+
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "no-cache, no-store, must-revalidate", // Avoid caching
+      },
+      cache: "no-store", // Avoid caching
+    });
+
+    const data = await res.json();
+    console.log(data?.gigs);
+    publishedGigsFunc(data?.gigs);
+    createdGigsFunc(data?.gigs);
     setLoading(false);
+    return data;
+  } catch (error) {
     console.log(error);
   } finally {
     setLoading(false);
