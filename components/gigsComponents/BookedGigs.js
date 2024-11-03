@@ -114,7 +114,7 @@ const BookedGigs = ({ user }) => {
             {searchfunc(bookedGigs, typeOfGig, category, gigQuery, location)
               ?.filter(
                 (pub) =>
-                  pub?.bookedBy?._id === currentUser && pub?.isPending === true
+                  pub?.isPending === true && pub?.bookedBy?._id === currentUser
               )
 
               .map((gig) => {

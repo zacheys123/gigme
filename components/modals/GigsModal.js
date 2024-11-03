@@ -41,7 +41,7 @@ const GigsModal = ({}) => {
   console.log(user);
   useEffect(() => {
     getGigs(userId, setGigs, setCreatedGigsFunc, setLoading, "allgigs");
-  }, []);
+  }, [userId]);
 
   const handleClose = () => {
     setViewGig(false);
@@ -149,7 +149,7 @@ const GigsModal = ({}) => {
                     gigs?.filter(
                       (gig) =>
                         gig?.postedBy?.clerkId.includes(userId) &&
-                        gig?.isTaken === false
+                        gig.isPending === true
                     ).length
                   )}{" "}
                   gigs
