@@ -42,9 +42,12 @@ const Booker = ({ myGig }) => {
   }, []);
 
   useEffect(() => {
-    if (myGig?.gigs?.isPending === false) {
-      router.push(`/gigme/gigs/${userId}`);
+    if (!myGig?.gigs?.isPending && !myGig?.gigs?.isTaken) {
+      // Navigate to the execute page if both conditions are true
+      router.push(`/gigme/gigs/${userId}`); // Early return to avoid the next push
     }
+
+    // If the conditions are not met, navigate to the gigs page
   }, [myGig, router, userId]);
 
   const book = () => bookgig(rating, myGig, userId);
@@ -119,54 +122,75 @@ const Booker = ({ myGig }) => {
           <Divider
             sx={{ backgroundColor: "gray", width: "82%", margin: "auto" }}
           />
-          <div className="w-full flex justify-between gap-4 my-8 p-2 rounded-lg shadow-md shadow-amber-600">
-            {!myGig?.gigs?.isTaken ? (
-              <Box className="flex flex-col p-2">
-                <h6 className="text-neutral-400 font-semibold">Rate</h6>
-                <Rating rating={rating} setRating={setRating} />
-              </Box>
-            ) : (
-              <Box className="flex flex-col items-center p-2">
-                <h6 className="text-neutral-400 font-semibold">Gig Rating</h6>
-                <GigRating rating={myGig.gigs?.gigRating} />
-              </Box>
-            )}
-            {myGig?.gigs?.bookedBy && (
-              <Image
-                width={50}
-                height={50}
-                className="w-12 h-12 rounded-full shadow-sm"
-                src={myGig?.gigs?.bookedBy?.picture}
-                alt="Booker profile"
-              />
-            )}
-          </div>
+          {myGig.gigs?.isTaken && (
+            <div className="w-full flex justify-between gap-4 my-8 p-2 rounded-lg shadow-md shadow-amber-600">
+              {!myGig?.gigs?.isTaken ? (
+                <Box className="flex flex-col p-2">
+                  <h6 className="text-neutral-400 font-semibold">Rate</h6>
+                  <Rating rating={rating} setRating={setRating} />
+                </Box>
+              ) : (
+                <Box className="flex flex-col items-center p-2">
+                  <h6 className="text-neutral-400 font-semibold mb-3">
+                    Gig Rating
+                  </h6>
+                  <GigRating rating={myGig.gigs?.gigRating} />
+                </Box>
+              )}
+              {myGig?.gigs?.bookedBy && (
+                <Image
+                  width={50}
+                  height={50}
+                  className="w-12 h-12 rounded-full shadow-sm"
+                  src={myGig?.gigs?.bookedBy?.picture}
+                  alt="Booker profile"
+                />
+              )}
+            </div>
+          )}
           <div className="flex justify-center mt-8 space-x-6">
-            <Button
-              variant="secondary"
-              onClick={forget}
-              disabled={loading}
-              sabled={bookloading}
-              className="w-48 h-[30px] mt-8 choice"
-            >
-              {loading ? (
-                <CircularProgress size="20px" sx={{ color: "blue" }} />
-              ) : (
-                "Cancel Booking"
-              )}
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={book}
-              disabled={bookloading}
-              className="w-48 h-[30px] mt-8 choice"
-            >
-              {bookloading ? (
-                <CircularProgress size="20px" color="primary" />
-              ) : (
-                "Choose/Book Musician"
-              )}
-            </Button>
+            {!myGig.gigs?.isTaken ? (
+              <>
+                <Button
+                  variant="secondary"
+                  onClick={forget}
+                  disabled={loading}
+                  sabled={bookloading}
+                  className="w-48 h-[30px] mt-8 choice"
+                >
+                  {loading ? (
+                    <CircularProgress size="20px" sx={{ color: "blue" }} />
+                  ) : (
+                    "Cancel Booking"
+                  )}
+                </Button>
+                <Button
+                  variant="destructive"
+                  onClick={book}
+                  disabled={bookloading}
+                  className="w-48 h-[30px] mt-8 choice"
+                >
+                  {bookloading ? (
+                    <CircularProgress size="20px" color="primary" />
+                  ) : (
+                    "Choose/Book Musician"
+                  )}
+                </Button>
+              </>
+            ) : (
+              <Button
+                variant="destructive"
+                onClick={book}
+                disabled={bookloading}
+                className="w-48 h-[30px] mt-8 choice"
+              >
+                {bookloading ? (
+                  <CircularProgress size="20px" color="primary" />
+                ) : (
+                  "Review"
+                )}
+              </Button>
+            )}
           </div>
           {hello && (
             <motion.div

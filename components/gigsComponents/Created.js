@@ -227,7 +227,7 @@ const Created = ({ user }) => {
                           />
                         </div>
                       )}
-                      {!gig?.isPending && !isbooked && (
+                      {!gig?.isPending && !gig?.isTaken && (
                         <div className="w-full text-right">
                           <ButtonComponent
                             variant="destructive"
@@ -343,16 +343,14 @@ const Created = ({ user }) => {
                             className="flex item-center  bg-red-300 p-2 max-w-[80%] rounded-xl mt-2 gap-3
                          whitespace-nowrap md:hover:cursor-pointer  duration-400 md:hover:max-w-[80%] hover:justify-between transition-transform hover:scale-90"
                             onClick={() => {
-                              router.push(
-                                `/friends/${gig?.bookedBy?.username}`
-                              );
+                              router.push(`/gigme/mygig/${gig?._id}/execute`);
                             }}
                             // onMouseOver={() => setArrow(true)}
                             // onMouseLeave={() => setArrow(false)}
                           >
                             <div className="flex gap-2">
                               <h6 className="font-mono text-[12px]">
-                                Who Booked?!!{" "}
+                                Who Booked?!!Rate{" "}
                               </h6>
                               <span className="giglink font-bold text-blue-500">
                                 {gig?.bookedBy?.firstname}

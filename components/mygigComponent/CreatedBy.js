@@ -48,7 +48,7 @@ const Creator = ({ myGig }) => {
     if (myGig?.gigs?.isPending === false) {
       router.push(`/gigme/gigs/${userId}`);
     }
-  }, [myGig?.gigs?.isPending, router, userId]);
+  }, [myGig, router, userId]);
 
   const onClickChat = (gig) => {
     router.push(`/gigme/chat/${gig?.postedBy?.clerkId}/${gig?._id}`);
