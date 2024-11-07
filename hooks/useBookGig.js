@@ -3,7 +3,7 @@ import { useState } from "react";
 export function useBookGig() {
   const [bookloading, setLoading] = useState();
   // logic for useBookGig hook goes here
-  const bookgig = async (rating, myGig, userId) => {
+  const bookgig = async (rating, myGig, userId, route) => {
     try {
       setLoading(true);
       const response = await fetch(`/api/gigs/book/${myGig?.gigs?._id}`, {

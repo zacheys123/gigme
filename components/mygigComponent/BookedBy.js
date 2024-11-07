@@ -42,7 +42,7 @@ const Booker = ({ myGig }) => {
   }, []);
 
   useEffect(() => {
-    if (!myGig?.gigs?.isPending && !myGig?.gigs?.isTaken) {
+    if (!myGig?.gigs?.isPending || !myGig?.gigs?.isTaken) {
       // Navigate to the execute page if both conditions are true
       router.push(`/gigme/gigs/${userId}`); // Early return to avoid the next push
     }
@@ -50,7 +50,7 @@ const Booker = ({ myGig }) => {
     // If the conditions are not met, navigate to the gigs page
   }, [myGig, router, userId]);
 
-  const book = () => bookgig(rating, myGig, userId);
+  const book = () => bookgig(rating, myGig, userId, router);
   const forget = () => forgetBookings(userId, myGig, socket);
   const onClick = () =>
     router.push(`/gigme/chat/${myGig?.gigs?.bookedBy?.clerkId}/${myGig?._id}`);
@@ -149,34 +149,37 @@ const Booker = ({ myGig }) => {
             </div>
           )}
           <div className="flex justify-center mt-8 space-x-6">
-            {!myGig.gigs?.isTaken ? (
-              <>
-                <Button
-                  variant="secondary"
-                  onClick={forget}
-                  disabled={loading}
-                  sabled={bookloading}
-                  className="w-48 h-[30px] mt-8 choice"
-                >
-                  {loading ? (
-                    <CircularProgress size="20px" sx={{ color: "blue" }} />
-                  ) : (
-                    "Cancel Booking"
-                  )}
-                </Button>
-                <Button
-                  variant="destructive"
-                  onClick={book}
-                  disabled={bookloading}
-                  className="w-48 h-[30px] mt-8 choice"
-                >
-                  {bookloading ? (
-                    <CircularProgress size="20px" color="primary" />
-                  ) : (
-                    "Choose/Book Musician"
-                  )}
-                </Button>
-              </>
+            {myGig.gigs?.isTaken === false ? (
+              myGig.gigs?.isPending ===
+              false(
+                <>
+                  <Button
+                    variant="secondary"
+                    onClick={forget}
+                    disabled={loading}
+                    sabled={bookloading}
+                    className="w-48 h-[30px] mt-8 choice"
+                  >
+                    {loading ? (
+                      <CircularProgress size="20px" sx={{ color: "blue" }} />
+                    ) : (
+                      "Cancel Booking"
+                    )}
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    onClick={book}
+                    disabled={bookloading}
+                    className="w-48 h-[30px] mt-8 choice"
+                  >
+                    {bookloading ? (
+                      <CircularProgress size="20px" color="primary" />
+                    ) : (
+                      "Choose/Book Musician"
+                    )}
+                  </Button>
+                </>
+              )
             ) : (
               <Button
                 variant="destructive"
