@@ -343,10 +343,10 @@ const Created = ({ user }) => {
                             <div className="">
                               <ArrowRight
                                 sx={{
-                                  fontSize: "14px",
+                                  fontSize: "13px",
                                   opacity: 0.5,
                                 }}
-                                color="grey"
+                                color="lightgrey"
                                 size="17px"
                               />
                             </div>

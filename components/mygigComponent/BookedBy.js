@@ -194,7 +194,7 @@ const Booker = ({ myGig }) => {
                   variant="destructive"
                   onClick={book}
                   disabled={bookloading}
-                  className="w-48 h-[30px] mt-8 choice"
+                  className="w-48 h-[30px] mt-8 choice mx-auto"
                 >
                   {bookloading ? (
                     <CircularProgress size="20px" color="primary" />
