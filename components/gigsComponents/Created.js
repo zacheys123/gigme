@@ -156,7 +156,7 @@ const Created = ({ user }) => {
                         </span>
                         <span
                           className={
-                            !gig?.isPending || !isbooked
+                            !gig?.isPending
                               ? "titler text-red-700 font-bold"
                               : "titler font-bold text-yellow-200"
                           }
@@ -171,7 +171,7 @@ const Created = ({ user }) => {
                         </span>
                         <span
                           className={
-                            !gig?.isPending || !isbooked
+                            !gig?.isPending
                               ? "titler text-red-700 font-bold"
                               : "titler font-bold text-yellow-200"
                           }
@@ -186,7 +186,7 @@ const Created = ({ user }) => {
                         </span>
                         <span
                           className={
-                            !gig?.isPending || !isbooked
+                            !gig?.isPending
                               ? "titler text-red-700 font-bold"
                               : "titler font-bold text-yellow-200"
                           }
@@ -194,18 +194,6 @@ const Created = ({ user }) => {
                           {gig?.location}
                         </span>
                       </div>
-                      {/* you cannot book your own gigs yet */}
-                      {/* {!gig?.isPending && (
-                        <div className="w-full text-right">
-                          <Button
-                            variant="primary"
-                            className="p-1 h-[25px] text-[10px] m-2 "
-                            onClick={() => handleBook(gig?._id)}
-                          >
-                            Book Now!!!
-                          </Button>
-                        </div>
-                      )} */}
                       {gig?.isPending && (
                         <div className="w-full text-right">
                           <ButtonComponent
@@ -269,16 +257,12 @@ const Created = ({ user }) => {
                                 {!gig?.isTaken ? (
                                   <span
                                     className={
-                                      gig?.isPending == false &&
-                                      isbooked === false
+                                      gig?.isPending == false
                                         ? " track-tighter bg-sky-500  p-2 rounded-full text-[11px]  text-white "
                                         : ""
                                     }
                                   >
-                                    {gig?.isPending == false &&
-                                    isbooked === false
-                                      ? "Avaliable"
-                                      : ""}
+                                    {gig?.isPending == false ? "Avaliable" : ""}
                                   </span>
                                 ) : (
                                   <span className=" bg-green-500 p-2 rounded-full text-[11px]  text-white">
@@ -288,8 +272,7 @@ const Created = ({ user }) => {
                               </div>
                             </div>
                             {gig?.isTaken === false &&
-                              gig?.isPending === true &&
-                              isbooked === true && (
+                              gig?.isPending === true && (
                                 <h6 className="giglink bg-red-700 h-[24px] font-bold whitespace-nowrap text-white rounded-bl-xl p-1 flex">
                                   Not Available for now
                                 </h6>
@@ -340,7 +323,7 @@ const Created = ({ user }) => {
                         isbooked === false &&
                         gig?.isTaken === true && (
                           <Box
-                            className="flex item-center  bg-red-300 p-2 max-w-[80%] rounded-xl mt-2 gap-3
+                            className="flex item-center  bg-amber-600 p-2 max-w-[95%] rounded-xl mt-2 gap-3
                          whitespace-nowrap md:hover:cursor-pointer  duration-400 md:hover:max-w-[80%] hover:justify-between transition-transform hover:scale-90"
                             onClick={() => {
                               router.push(`/gigme/mygig/${gig?._id}/execute`);
@@ -352,7 +335,7 @@ const Created = ({ user }) => {
                               <h6 className="font-mono text-[12px]">
                                 Who Booked?!!Rate{" "}
                               </h6>
-                              <span className="giglink font-bold text-blue-500">
+                              <span className="choice  text-amber-200">
                                 {gig?.bookedBy?.firstname}
                               </span>
                             </div>

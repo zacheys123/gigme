@@ -42,7 +42,7 @@ const Booker = ({ myGig }) => {
   }, []);
 
   useEffect(() => {
-    if (!myGig?.gigs?.isPending || !myGig?.gigs?.isTaken) {
+    if (myGig?.gigs?.isPending === false && myGig?.gigs?.isTaken === false) {
       // Navigate to the execute page if both conditions are true
       router.push(`/gigme/gigs/${userId}`); // Early return to avoid the next push
     }
@@ -59,7 +59,7 @@ const Booker = ({ myGig }) => {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
-
+  const [comment, setComment] = useState("");
   return (
     <ClientOnly>
       <Box className="h-screen w-full overflow-auto bg-gray-900 p-4">
@@ -181,18 +181,28 @@ const Booker = ({ myGig }) => {
                 </>
               )
             ) : (
-              <Button
-                variant="destructive"
-                onClick={book}
-                disabled={bookloading}
-                className="w-48 h-[30px] mt-8 choice"
-              >
-                {bookloading ? (
-                  <CircularProgress size="20px" color="primary" />
-                ) : (
-                  "Review"
-                )}
-              </Button>
+              <div className="flex flex-col gap-2 w-full">
+                <Textarea
+                  placeholder="
+                  Write a review here...
+              "
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  className="w-full h-[80px] py-2 px-3 rounded-md shadow-md focus-within:ring-0 outline-none"
+                />
+                <Button
+                  variant="destructive"
+                  onClick={book}
+                  disabled={bookloading}
+                  className="w-48 h-[30px] mt-8 choice"
+                >
+                  {bookloading ? (
+                    <CircularProgress size="20px" color="primary" />
+                  ) : (
+                    "Review"
+                  )}
+                </Button>
+              </div>
             )}
           </div>
           {hello && (
