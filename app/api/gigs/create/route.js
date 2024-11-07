@@ -1,6 +1,5 @@
 import connectDb from "@/lib/connectDb";
 import Gigs from "@/models/gigs";
-import User from "@/models/user";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
@@ -33,8 +32,7 @@ export async function POST(req) {
       });
     }
 
-    let gigId = existingSecret?._id;
-    const newGig = await Gigs.create({
+    await Gigs.create({
       title: data?.dataInfo?.title,
       description: data?.dataInfo?.description,
       phone: data?.dataInfo?.phoneNo,

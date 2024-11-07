@@ -1,7 +1,8 @@
-import { getBookedPosted, getGig } from "@/app/server-actions/customGig";
+import { getBookedPosted } from "@/app/server-actions/customGig";
 import CustomGigComponent from "@/components/mygigComponent/CustomGigComponent";
 import { checkEnvironment } from "@/utils";
 import React from "react";
+import PropTypes from "prop-types"; // Import PropTypes
 
 async function getMyGig(gigId) {
   const res = await fetch(`${checkEnvironment()}/api/gigs/getgig/${gigId}`, {
@@ -34,3 +35,7 @@ const CustomGig = async ({ params }) => {
 };
 
 export default CustomGig;
+// PropTypes validation for the children prop
+CustomGig.propTypes = {
+  params: PropTypes.node.isRequired, // Children must be a valid React node
+};

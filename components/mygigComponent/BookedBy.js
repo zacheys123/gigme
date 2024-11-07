@@ -25,6 +25,7 @@ const Booker = ({ myGig }) => {
   const router = useRouter();
   const [rating, setRating] = useState(0);
   const [hello, setHello] = useState(false);
+  const [loadingreview, setLoadingreview] = useState(false);
 
   useEffect(() => {
     if (socket) {
@@ -123,18 +124,13 @@ const Booker = ({ myGig }) => {
             sx={{ backgroundColor: "gray", width: "82%", margin: "auto" }}
           />
           {myGig.gigs?.isTaken && (
-            <div className="w-full flex justify-between gap-4 my-8 p-2 rounded-lg shadow-md shadow-amber-600">
-              {!myGig?.gigs?.isTaken ? (
-                <Box className="flex flex-col p-2">
-                  <h6 className="text-neutral-400 font-semibold">Rate</h6>
-                  <Rating rating={rating} setRating={setRating} />
-                </Box>
-              ) : (
-                <Box className="flex flex-col items-center p-2">
-                  <h6 className="text-neutral-400 font-semibold mb-3">
-                    Gig Rating
+            <div className="w-full flex justify-between gap-4 my-8 items-center p-2 rounded-lg shadow-md shadow-amber-600">
+              {myGig?.gigs?.isTaken && (
+                <Box className="flex flex-col p-2 gap-2">
+                  <h6 className="text-neutral-400 font-semibold title">
+                    {`Rate ${myGig?.gigs?.bookedBy?.firstname} 's Performance`}
                   </h6>
-                  <GigRating rating={myGig.gigs?.gigRating} />
+                  <Rating rating={rating} setRating={setRating} />
                 </Box>
               )}
               {myGig?.gigs?.bookedBy && (
@@ -192,11 +188,61 @@ const Booker = ({ myGig }) => {
                 />
                 <Button
                   variant="destructive"
-                  onClick={book}
-                  disabled={bookloading}
+                  onClick={async (ev) => {
+                    ev.preventDefault();
+
+                    try {
+                      setLoadingreview(true);
+
+                      if (comment && comment.length > 200) {
+                        toast.error("Comment should not exceed 200 characters");
+                        return;
+                      }
+
+                      const res = await fetch(
+                        `/api/gigs/addview/${myGig?.gigs?._id}`,
+                        {
+                          method: "PUT",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({ rating, comment }),
+                        }
+                      );
+
+                      if (!res.ok) {
+                        throw new Error("Failed to submit the rating");
+                      }
+
+                      const data = await res.json();
+
+                      if (data?.gigstatus === "true") {
+                        toast.success(
+                          data?.message || "Review submitted successfully"
+                        );
+                        setRating(0);
+                        setComment("");
+                        setTimeout(() => {
+                          router.push("/gigme/gigs/${userId]");
+                        }, 2000);
+                      } else {
+                        toast.error(
+                          data?.message ||
+                            "There was an issue submitting the review"
+                        );
+                      }
+                    } catch (error) {
+                      toast.error(
+                        error.message || "An unexpected error occurred"
+                      );
+                    } finally {
+                      setLoadingreview(false);
+                    }
+                  }}
+                  disabled={loadingreview}
                   className="w-48 h-[30px] mt-8 choice mx-auto"
                 >
-                  {bookloading ? (
+                  {loadingreview ? (
                     <CircularProgress size="20px" color="primary" />
                   ) : (
                     "Review"

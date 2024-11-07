@@ -1,4 +1,6 @@
 "use client";
+import React from "react";
+import PropTypes from "prop-types"; // Import PropTypes
 import { authReducer } from "@/reducers/authReducers";
 import { createContext, useContext, useMemo, useReducer } from "react";
 
@@ -25,3 +27,7 @@ export const GlobalProvider = ({ children }) => {
   );
 };
 export const useGlobalContext = () => useContext(GlobalContext);
+// PropTypes validation for the children prop
+GlobalProvider.propTypes = {
+  children: PropTypes.node.isRequired, // Children must be a valid React node
+};

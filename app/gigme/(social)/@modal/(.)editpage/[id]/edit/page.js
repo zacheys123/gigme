@@ -14,18 +14,32 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "flowbite-react";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@clerk/nextjs";
+
+// submit gig
+const isTimeValid = (gigInputs) => {
+  return (
+    gigInputs.end &&
+    gigInputs.start &&
+    gigInputs.durationfrom &&
+    gigInputs.durationto
+  );
+};
+
+const isBusinessCatValid = (gigInputs, userinfo) => {
+  return !(
+    gigInputs.bussinesscat === "other" && userinfo.prefferences.length < 0
+  );
+};
 const EditPage = () => {
   const router = useRouter();
   const params = useParams();
-  const { userId } = useAuth();
+
   const [userposts, setGig] = useState([]);
   console.log(params);
 
-  async function getGig() {
+  const getGig = async () => {
     try {
       const res = await fetch(`/api/gigs/getgig/${params?.id}`, {
         method: "GET",
@@ -35,11 +49,11 @@ const EditPage = () => {
       });
       const gigs = await res.json();
       setGig(gigs);
-      return gigs;
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching gig:", error);
     }
-  }
+  };
+
   useEffect(() => {
     getGig();
   }, [getGig]);
@@ -105,7 +119,9 @@ const EditPage = () => {
     bandCategory: userinfo?.prefferences,
     location: gigInputs?.location || userposts?.gigs?.location,
     secret: gigInputs?.secret || userposts?.gigs?.secret,
-    date: new Date(selectedDate) || userposts?.gigs?.date,
+    date: userposts?.gigs?.date
+      ? userposts?.gigs?.date
+      : new Date(selectedDate),
     to: toduration,
     from: fromduration,
 
@@ -115,57 +131,66 @@ const EditPage = () => {
     setSelectedDate(date);
   };
 
-  console.log(userposts);
+  const addPreference = (value) => {
+    setUserInfo((prev) => ({
+      prefferences: [...prev.prefferences, value],
+    }));
+  };
+
+  const removePreference = (value) => {
+    setUserInfo((prev) => ({
+      prefferences: prev.prefferences.filter((item) => item !== value),
+    }));
+  };
   const handleChange = (e) => {
     const { value, checked } = e.target;
-    const { prefferences } = userinfo;
-
-    // Case 1 : The user checks the box
     if (checked) {
-      setUserInfo({
-        prefferences: [...prefferences, value],
-      });
-    }
-
-    // Case 2  : The user unchecks the box
-    else {
-      setUserInfo({
-        prefferences: prefferences.filter((e) => e !== value),
-      });
+      addPreference(value);
+    } else {
+      removePreference(value);
     }
   };
   console.log(dataInfo);
-  // submit gig
+
+  const isCategoryValid = () => {
+    return gigInputs.category || userinfo.prefferences.length >= 0;
+  };
+
+  const isCategoryConflict = () => {
+    return (
+      gigInputs?.category?.length > 0 && userinfo?.prefferences?.length > 0
+    );
+  };
+
+  const validateForm = () => {
+    if (!isTimeValid(gigInputs, userinfo)) {
+      alert("Please check time and business categories");
+      return false;
+    }
+
+    if (!isBusinessCatValid(gigInputs, userinfo)) {
+      alert("Please check the band category, might be empty");
+      return false;
+    }
+
+    if (!isCategoryValid()) {
+      alert("Please fill all required fields");
+      return false;
+    }
+
+    if (isCategoryConflict()) {
+      alert("Can't use individual and other categories at the same time");
+      return false;
+    }
+
+    return true;
+  };
+
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    // This gig we want cool and calm music. We dont want to focus on one of the audience.So try to make it old school and vybyy too.This gig we want cool and calm music. We dont want
-    // to focus on one of the audience.So try to make it old school and vybyy too.
-    if (
-      !gigInputs.end ||
-      !gigInputs.start ||
-      !gigInputs.durationfrom ||
-      !gigInputs.durationto
-    ) {
-      console.log(dataInfo);
-      alert("Please check time and bussiness categories");
-      return;
-    }
-    if (
-      gigInputs.bussinesscat === "other" &&
-      userinfo.prefferences.length < 0
-    ) {
-      alert("Please check the band category ,might be empty");
-      return;
-    }
-    if (!gigInputs.category && userinfo.prefferences.length < 0) {
-      alert("Please filla all required fields");
-      return;
-    }
-    if (gigInputs?.category?.length > 0 && userinfo?.prefferences?.length > 0) {
-      alert("Cant use individual and other categories at the same time");
-      return;
-    }
+    // Validate form
+    if (!validateForm()) return;
 
     try {
       setLoading(true);
@@ -178,42 +203,47 @@ const EditPage = () => {
           dataInfo,
         }),
       });
+
       const data = await res.json();
       console.log(data);
+
       if (data.gigstatus === "false") {
         setSecretReturn(data?.message);
         setLoading(false);
+        return;
       }
+
       if (data.gigstatus === "true") {
         toast.success(data?.message);
-
         setSecretReturn("");
-        setGigs({
-          title: "",
-          description: "",
-          phoneNo: "",
-          price: "",
-          category: "",
-          location: "",
-          secret: "",
-          end: "",
-          start: "",
-          durationto: "pm",
-          durationfrom: "am",
-          secret: "",
-          bussinesscat: "personal",
-        });
-        setUserInfo({ prefferences: [] });
+        resetForm();
         router.back();
-        // router.push(`/gigme/gigs/${userId}`);
-
-        setLoading(true);
       }
     } catch (error) {
       setLoading(false);
       console.log(error);
     }
   };
+
+  const resetForm = () => {
+    setGigs({
+      title: "",
+      description: "",
+      phoneNo: "",
+      price: "",
+      category: "",
+      location: "",
+      secret: "",
+      end: "",
+      start: "",
+      durationto: "pm",
+      durationfrom: "am",
+      bussinesscat: "personal",
+    });
+
+    setUserInfo({ prefferences: [] });
+  };
+
   return (
     <Dialog
       open
@@ -347,7 +377,7 @@ const EditPage = () => {
                 placeholder="Enter location  "
                 className="mb-2 border-1 shadow-sm mt-1 text-gray-300 border-slate-900 shadow-purple-200 p-2 rounded-xl w-[100%] title focus-visible:ring-0 outline-0 placeholder-[8px]"
                 size="10px"
-                sx={{ height: "10px" }}
+                style={{ height: "10px" }}
                 onChange={(ev) =>
                   setGigs((prev) => {
                     return { ...prev, location: ev.target.value };
@@ -551,7 +581,7 @@ const EditPage = () => {
               {!loading ? (
                 "Edit Gig"
               ) : (
-                <CircularProgress size="14px" sx={{ color: "white" }} />
+                <CircularProgress size="14px" style={{ color: "white" }} />
               )}
             </Button>
           </form>

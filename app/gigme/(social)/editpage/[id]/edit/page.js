@@ -8,15 +8,13 @@ import { EyeIcon, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { useParams, useRouter } from "next/navigation";
 
-import { Input } from "@/components/ui/input";
 import { Card, Textarea } from "flowbite-react";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@clerk/nextjs";
 import ClientOnly from "@/app/ClientOnly";
 const EditPage = () => {
   const router = useRouter();
   const params = useParams();
-  const { userId } = useAuth();
+
   const [userposts, setGig] = useState([]);
   console.log(params);
 
@@ -100,7 +98,9 @@ const EditPage = () => {
     bandCategory: userinfo?.prefferences,
     location: gigInputs?.location || userposts?.gigs?.location,
     secret: gigInputs?.secret || userposts?.gigs?.secret,
-    date: new Date(selectedDate) || userposts?.gigs?.date,
+    date: userposts?.gigs?.date
+      ? userposts?.gigs?.date
+      : new Date(selectedDate),
     to: toduration,
     from: fromduration,
 
@@ -195,7 +195,7 @@ const EditPage = () => {
           start: "",
           durationto: "pm",
           durationfrom: "am",
-          secret: "",
+
           bussinesscat: "personal",
         });
         setUserInfo({ prefferences: [] });
@@ -330,7 +330,7 @@ const EditPage = () => {
                 placeholder="Enter location  "
                 className="mb-2 border-1 shadow-sm mt-1 border-slate-900 shadow-purple-200 p-1 rounded-xl w-[100%] title focus-visible:ring-0 outline-0 placeholder-[8px]"
                 size="10px"
-                sx={{ height: "10px" }}
+                style={{ height: "10px" }}
                 onChange={(ev) =>
                   setGigs((prev) => {
                     return { ...prev, location: ev.target.value };

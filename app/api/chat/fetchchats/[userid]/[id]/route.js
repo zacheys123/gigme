@@ -1,8 +1,8 @@
 import connectDb from "@/lib/connectDb";
 import Chat from "@/models/chat";
-import User from "@/models/user";
+
 import Message from "@/models/messages";
-import { auth } from "@clerk/nextjs";
+
 import { NextResponse } from "next/server";
 
 export async function GET(req, { params }) {

@@ -1,9 +1,9 @@
 "use client";
+import React from "react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { authReducer } from "@/reducers/authReducers";
 import { useAuth } from "@clerk/nextjs";
-import { createContext, useContext, useMemo, useEffect, useState } from "react";
-
+import { createContext, useContext, useEffect } from "react";
+import PropTypes from "prop-types"; // Import PropTypes
 import useStore from "../zustand/useStore";
 import useSocket from "@/hooks/useSocket";
 
@@ -36,3 +36,7 @@ export const SocketContextProvider = ({ children }) => {
   );
 };
 export const useSocketContext = () => useContext(SocketContext);
+// PropTypes validation for the children prop
+SocketContextProvider.propTypes = {
+  children: PropTypes.node.isRequired, // Children must be a valid React node
+};

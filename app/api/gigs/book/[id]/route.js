@@ -4,15 +4,14 @@ import User from "@/models/user";
 import { NextResponse } from "next/server";
 
 export async function PUT(req, { params }) {
-  const { rating } = await req.json();
   try {
+    connectDb();
     const newGig = await Gigs.findById(params.id);
     await newGig.updateOne(
       {
         $set: {
           isTaken: true,
-          isPending: false,
-          gigRating: rating,
+          isPending: true,
         },
       },
       { new: true }

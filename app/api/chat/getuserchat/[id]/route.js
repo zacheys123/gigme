@@ -1,5 +1,4 @@
 import User from "@/models/user";
-import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import connectDb from "@/lib/connectDb";
 export async function GET(req, { params }) {

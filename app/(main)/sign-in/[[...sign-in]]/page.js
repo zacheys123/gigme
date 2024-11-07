@@ -1,5 +1,6 @@
 import { SignIn } from "@clerk/nextjs";
-
+import React from "react";
+import PropTypes from "prop-types";
 export default async function Page({ searchParams }) {
   const { redirectUrl } = searchParams;
   return (
@@ -10,3 +11,8 @@ export default async function Page({ searchParams }) {
     </div>
   );
 }
+Page.propTypes = {
+  searchParams: PropTypes.shape({
+    redirectUrl: PropTypes.string,
+  }).isRequired,
+};

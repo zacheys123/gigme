@@ -1,15 +1,13 @@
 "use client";
-import { global } from "@/actions";
-import { useGlobalContext } from "@/app/Context/store";
+
 import { useAuth, useUser } from "@clerk/nextjs";
 
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect } from "react";
 const Authenticate = () => {
   const router = useRouter();
   const { user, isSignedIn } = useUser();
-  const { _, setUserState } = useGlobalContext();
+
   const { isLoaded, userId } = useAuth();
   const registerUser = useCallback(async () => {
     if (!user) {

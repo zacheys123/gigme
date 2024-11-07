@@ -1,38 +1,39 @@
-import { getCurrentUser } from "@/app/server-actions/getCurrentUser";
 import connectDb from "@/lib/connectDb";
 import Post from "@/models/post";
 import User from "@/models/user";
-import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
-export async function GET(req) {
+export async function GET() {
   try {
     await connectDb();
 
-    try {
-      const lastPosts = await Post.aggregate([
-        {
-          $sort: { createdAt: -1 }, // Sort posts by creation date in descending order
+    const lastPosts = await Post.aggregate([
+      {
+        $sort: { createdAt: -1 }, // Sort posts by creation date in descending order
+      },
+      {
+        $group: {
+          _id: "$postedBy", // Group by userId
+          lastPost: { $first: "$$ROOT" }, // Get the first (latest) post of each group
         },
-        {
-          $group: {
-            _id: "$postedBy", // Group by userId
-            lastPost: { $first: "$$ROOT" }, // Get the first (latest) post of each group
-          },
-        },
-        {
-          $replaceRoot: { newRoot: "$lastPost" }, // Replace the root with the last post object
-        },
-      ]).populate({
-        path: "postedBy",
-        model: User,
-      });
-      res.status(200).json(lastPosts);
-    } catch (error) {
-      res.status(500).json({ message: "Error fetching last posts", error });
-    }
-    return NextResponse.json({ latestPosts }, { status: 200 });
+      },
+      {
+        $replaceRoot: { newRoot: "$lastPost" }, // Replace the root with the last post object
+      },
+    ]);
+
+    // Populate postedBy field with User data
+    const populatedPosts = await User.populate(lastPosts, {
+      path: "postedBy",
+      model: User,
+    });
+
+    return NextResponse.json(populatedPosts, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ message: error }, { status: 500 });
+    console.error("Error fetching last posts:", error);
+    return NextResponse.json(
+      { message: "Error fetching last posts", error: error.message },
+      { status: 500 }
+    );
   }
 }

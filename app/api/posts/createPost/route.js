@@ -1,6 +1,6 @@
 import connectDb from "@/lib/connectDb";
 import Post from "@/models/post";
-import { auth, currentUser } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {

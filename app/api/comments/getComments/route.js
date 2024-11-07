@@ -4,7 +4,7 @@ import Comment from "@/models/comments";
 import User from "@/models/user";
 import { NextResponse } from "next/server";
 
-export async function GET(req) {
+export async function GET() {
   try {
     await connectDb();
     let comments = await Comment.find()

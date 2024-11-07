@@ -1,9 +1,8 @@
 "use client";
+import React from "react";
 import Image from "next/image";
 import bgImage from "@/public/assets/png/logo-black.png";
-import { Card } from "@/components/ui/card";
 
-import { Footer, TextInput } from "flowbite-react";
 import postimage from "@/public/assets/post.jpg";
 
 import postimag from "@/public/assets/left-image.jpg";
@@ -15,9 +14,9 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import ImageComponent from "@/components/ImageComponent";
 import UsersButton from "@/components/UsersButton";
-import { Input } from "@/components/ui/input";
+
 import { useRouter } from "next/navigation";
-import Head from "next/head";
+
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useNotification } from "../Context/notificationContext";
 import MyNotifications from "@/components/MyNotifications";
@@ -27,10 +26,10 @@ export default function Home() {
   //   setAuthState,
   // } = useGlobalContext();
   const router = useRouter();
-  const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const { isLoaded, userId } = useAuth();
   const { user: id } = useCurrentUser(userId);
   const myid = id?.user?._id;
-  const { isSignedIn, user } = useUser();
+  const { user } = useUser();
   const { notification } = useNotification();
   if (!isLoaded && !userId) {
     localStorage.removeItem("user");

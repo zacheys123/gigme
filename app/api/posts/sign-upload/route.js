@@ -1,6 +1,14 @@
-// app/api/upload/route.js
 import { NextResponse } from "next/server";
 import cloudinary from "cloudinary";
+
+if (
+  !process.env.CLOUDINARY_CLOUD_NAME ||
+  !process.env.CLOUDINARY_API_KEY ||
+  !process.env.CLOUDINARY_API_SECRET ||
+  !process.env.CLOUDINARY_UPLOAD_PRESET
+) {
+  console.warn("Missing Cloudinary environment variables.");
+}
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -10,17 +18,18 @@ cloudinary.config({
 
 export async function GET() {
   try {
+    const timestamp = Math.floor(Date.now() / 1000);
     const signature = cloudinary.utils.api_sign_request(
       {
-        timestamp: Math.floor(Date.now() / 1000),
-        upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET, // Set to your signed preset
+        timestamp,
+        upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET,
       },
       process.env.CLOUDINARY_API_SECRET
     );
 
     return NextResponse.json({
       signature,
-      timestamp: Math.floor(Date.now() / 1000),
+      timestamp,
       upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET,
       cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     });

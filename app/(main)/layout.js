@@ -2,6 +2,7 @@ import Nav from "@/components/Nav";
 
 import React from "react";
 import UserModal from "@/components/modals/UserModal";
+import PropTypes from "prop-types";
 
 import { checkEnvironment } from "@/utils";
 import { auth } from "@clerk/nextjs";
@@ -40,3 +41,6 @@ const MainLayout = async ({ children }) => {
 };
 
 export default MainLayout;
+MainLayout.propTypes = {
+  children: PropTypes.node.isRequired,
+};

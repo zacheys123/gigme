@@ -1,8 +1,6 @@
-import { getCurrentUser } from "@/app/server-actions/getCurrentUser";
 import connectDb from "@/lib/connectDb";
 import Gigs from "@/models/gigs";
 import User from "@/models/user";
-import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 export async function GET(req, { params }) {

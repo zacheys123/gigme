@@ -7,6 +7,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import PropTypes from "prop-types"; // Import PropTypes
 import { useAuth } from "@clerk/nextjs";
 import useSocket from "@/hooks/useSocket";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
@@ -62,3 +63,8 @@ export const NotificationProvider = ({ children }) => {
 };
 
 export const useNotification = () => useContext(NotificationContext);
+// proptypes
+// PropTypes validation for the children prop
+NotificationProvider.propTypes = {
+  children: PropTypes.node.isRequired, // Children must be a valid React node
+};

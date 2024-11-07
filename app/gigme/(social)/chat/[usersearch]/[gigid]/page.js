@@ -4,7 +4,8 @@ import connectDb from "@/lib/connectDb";
 import User from "@/models/user";
 import { checkEnvironment } from "@/utils";
 import { auth } from "@clerk/nextjs";
-
+import React from "react";
+import PropTypes from "prop-types"; // Import PropTypes
 const fetchData = async (endpoint) => {
   try {
     const res = await fetch(`${checkEnvironment()}${endpoint}`, {
@@ -42,3 +43,7 @@ const ChatPage = async ({ params }) => {
 };
 
 export default ChatPage;
+// PropTypes validation for the children prop
+ChatPage.propTypes = {
+  params: PropTypes.node.isRequired, // Children must be a valid React node
+};

@@ -4,7 +4,6 @@ import User from "@/models/user";
 import Message from "@/models/messages";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
-import Gig from "@/models/gigs";
 
 export async function POST(req) {
   const { userId } = auth();

@@ -1,5 +1,6 @@
 import { UserProfile } from "@clerk/nextjs";
-import { dark, neobrutalism } from "@clerk/themes";
+import { dark } from "@clerk/themes";
+import React from "react";
 const UserProfilePage = () => {
   return (
     <div>

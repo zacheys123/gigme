@@ -7,8 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "node": "node server.js"
-  },
+    "node": "node server.js",
+    "test": "jest"
+}, 
   "dependencies": {
     "@clerk/nextjs": "^4.29.12",
     "@clerk/themes": "^2.1.12",
@@ -68,10 +69,15 @@
     "zustand": "^4.5.5"
   },
   "devDependencies": {
+    "@eslint/js": "^9.14.0",
     "autoprefixer": "^10.0.1",
     "daisyui": "^4.12.10",
-    "eslint": "^8",
+    "eslint": "^8.57.1",
     "eslint-config-next": "14.1.4",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "globals": "^15.12.0",
+    "jest": "^29.7.0",
     "postcss": "^8",
     "tailwindcss": "^3.3.0"
   }
